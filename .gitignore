@@ -1,0 +1,29 @@
+# System-specific files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE specific files
+.vscode/
+.idea/
+*.sublime-*
+*.swp
+*~
+
+# Node modules (if you use Node.js in your project)
+node_modules/
+
+# Build output (if you have a build process for your docs)
+/build/
+/dist/
+
+# Dependency directories (e.g., if using Python, Ruby, etc.)
+__pycache__/
+*.pyc
+venv/
+.env
+
+# Log files
+*.log
+
+# Other files that should not be version-controlled
+secrets.yml
