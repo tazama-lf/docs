@@ -1,3 +1,5 @@
+![Tazama](/images/Tazama-logo-banner.png)
+
 # Welcome to the Tazama Project!
 
 The sections below provide a brief overview of the Tazama system, with links to pages that contain more detailed information.
@@ -59,7 +61,7 @@ Submitted message contents are validated to ensure that only valid messages are 
 
 The message history is saved and the various transaction network graphs are updated before the transaction is sent on to the Channel Router and Setup Processor (CRSP) to commence the transaction evaluation.
 
-Further information on the role of the TMS API is available on the Transaction Monitoring Service API page.
+Further information on the role of the TMS API is available on the [Transaction Monitoring Service API](/Product/transaction-monitoring-service-api.md) page.
 
 ###  3.2. <a name='ChannelRouterandSetupProcessorCRSP'></a>Channel Router and Setup Processor (CRSP)
 
@@ -67,7 +69,7 @@ The Channel Router & Setup Processor (CRSP) is responsible for determining which
 
 Transaction routing is configurable through a network map that is interpreted in the Channel Router and Setup Processor to invoke rules and typologies. Rules and typologies can be updated, or new versions added to the system, through configuration by only making changes to the network map.
 
-Further information on the role of the Channel Router and Setup Processor (CRSP) is available on the Channel Router and Setup Processor (CRSP) page.
+Further information on the role of the Channel Router and Setup Processor (CRSP) is available on the [Channel Router and Setup Processor (CRSP)](/Product/channel-router-and-setup-processor.md) page.
 
 ###  3.3. <a name='RuleProcessors'></a>Rule Processors
 
@@ -79,7 +81,7 @@ Rule processors are templated so that logging, data input, determined outcomes, 
 
 Once the rule has completed its evaluation, the output is forwarded to the Typology Processor.
 
-Further information on the role of the Rules Processor is available on the Rule Processor Overview page.
+Further information on the role of the Rules Processor is available on the [Rule Processor Overview](/Product/rule-processor-overview.md) page.
 
 ###  3.4. <a name='TypologyProcessor'></a>Typology Processor
 
@@ -99,7 +101,7 @@ If a suspicious transaction is identified, there are a number of actions that ca
  - **Moderate** - an investigation alert to a case management platform can be created once the evaluation of all the typologies are complete;
  - **Low** - the transaction will pass without intervention, but the evaluation outcome will be stored for future retrieval.
 
-Further information on the role of the Typology Processor is available on the Typology Processing page.
+Further information on the role of the Typology Processor is available on the [Typology Processing](/Product/typology-processing.md) page.
 
 ###  3.5. <a name='TransactionAggregationandDecisioningProcessorTADProc'></a>Transaction Aggregation and Decisioning Processor (TADProc)
 
@@ -107,4 +109,4 @@ The final assessment step is to consolidate all the results from all the typolog
 
 The Tazama system does not currently integrate with an existing Case Management System, but does have the capability to submit the transaction evaluation results in JSON format to an external platform. An implementer will be able to use this JSON output to pass an alert to their existing Case Management or Ticket Management systems.
 
-Further information on the role of the Transaction Aggregator and Decision Processor (TADProc) is available on the Transaction Aggregation and Decisioning Processor (TADProc) page.
+Further information on the role of the Transaction Aggregator and Decision Processor (TADProc) is available on the [Transaction Aggregation and Decisioning Processor (TADProc)](/Product/transaction-aggregation-and-decisioning-processor.md) page.
