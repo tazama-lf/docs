@@ -166,9 +166,10 @@ Follow these step-by-step instructions to get your local machine ready to work o
       docker pull arangodb:3.11.7
       ```
    - Start the ArangoDB server in a Docker container:
-     - In a Windows Command Prompt:
+
+      In a Windows Command Prompt:
       ```
-      docker run -p 8529:8529 -e ARANGO_NO_AUTH=1 -d --name arangodb-instance arangodb:3.11.7
+      docker run -p 8529:8529 -e ARANGO_NO_AUTH=1 --name arangodb-instance -d arangodb:3.11.7
       ```
       **Note**: This command will start an ArangoDB instance that does not require any user authentication - this is useful for testing, but should never be used in a production setting. See [here](https://docs.arangodb.com/stable/deploy/single-instance/manual-start/#authentication) for alternative options.
    - The ArangoDB web interface can now be accessed at <http://localhost:8529>.
@@ -176,7 +177,8 @@ Follow these step-by-step instructions to get your local machine ready to work o
     - The specific collection you need for the database configuration is <https://github.com/frmscoe/postman/blob/main/ArangoDB%20Setup.json> - we will only need the contents of the `/1-ArangoDB-setup` and `/3-ArangoDB-Default-Configuration` folders in this collection for now.
     - You will also need the environment file for interacting with a local instance of ArangoDB via Postman/Newman: <https://github.com/frmscoe/postman/blob/main/environments/Tazama-LOCAL.postman_environment.json>
      - You can import these files (or the entire Postman repository) into your installed Postman application to run, or you can run the collection with Newman.
-       - Both methods assume that you have cloned the Postman repository onto your local machine. You can do that with the following command from the folder where you want the repository to be located:
+
+       Both methods assume that you have cloned the Postman repository onto your local machine. You can do that with the following command from the folder where you want the repository to be located:
        ```
        git clone https://github.com/frmscoe/postman
        ```
@@ -217,7 +219,7 @@ Follow these step-by-step instructions to get your local machine ready to work o
    - Start the redis server in a Docker container:
      - In a Windows Command Prompt:
       ```
-      docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:latest
+      docker run -p 6379:6379 --name redis-stack-server -d redis/redis-stack-server:latest
       ```
 
  - **Tazama NATS REST Proxy**:
@@ -240,11 +242,9 @@ Follow these step-by-step instructions to get your local machine ready to work o
       docker run -d --name nats-utilities -p 3000:3000 -e NODE_ENV='dev' ghcr.io/frmscoe/nats-utilities:latest
       ```
 
-    Nats-rest-proxy is set up the same way as other processors so you can follow this document to set it up
-
 ##### B. Setting Up a Microservice Processor to Work On
 
-Let's pick an easy one to use as an example. The Channel Router and Setup Processor (CRSP) receives an incoming message from the TMS API and then determines how to route the message to rule processors for evaluation based on the message's transaction type (`TxTp`) attribute.
+Let's pick an easy microservice processor to use as an example. The Channel Router and Setup Processor (CRSP) receives an incoming message from the TMS API and then determines how to route the message to rule processors for evaluation based on the message's transaction type (`TxTp`) attribute.
 
 Follow the steps below to get the CRSP on your operating table:
 
@@ -303,8 +303,24 @@ Follow the steps below to get the CRSP on your operating table:
     npm run start
     ```
     This command starts the CRSP application from the built code. Once the processor is up and running, you can start sending requests to the processor via the NATS REST Proxy.
+    
+    The `npm run start` command will keep on running until you exit the application by pressing `ctrl-c`.
 
 8. Sending messages to the microservice processor via the NATS REST Proxy
+
+    Let's try to send a test message to our locally running CRSP via the NATS REST Proxy using a pre-fabricated Postman test. If you previously cloned the Postman repository, the `3.1. CRSP Quick-Check.postman_collection.json` test will be located in the Postman repository folder.
+    
+    Because the application is running in our previous Windows Command Prompt, we'll need to open a new one and then, using the following Newman command in the new Command Prompt, we can execute the test on our running processor:
+
+        ```
+        newman run collection-file -e environment-file --timeout-request 10200
+        ```
+    
+      - Replace `collection-file` with the full location path and filename of the `3.1. CRSP Quick-Check.postman_collection.json` file in your cloned Postman repository
+      - Replace `environment-file` with the full location path and filename of the `environments/Tazama-LOCAL.postman_environment.json` file in your cloned Postman repository
+      - If the path contains spaces, wrap the string in double-quotes.
+
+    
 
 9. Run the Built-In Jest Tests
 
