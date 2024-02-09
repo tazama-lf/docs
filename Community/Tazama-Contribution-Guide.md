@@ -158,6 +158,15 @@ Follow these step-by-step instructions to get your local machine ready to work o
 
 <u>**Step 2**: *Set up core services*</u>
 
+ - **Set up a Docker network**:
+   - Before you start creating Docker containers to host all the service containers, you will need to create a bridge network so that the containers will be able to talk to each other. To set up a bridge, open a Windows Command Prompt and execute the following command:
+
+      ```
+      docker network create --driver bridge tazama-net 
+      ```
+      This command will create a local user-defined bridge network called `tazama-net` that we can use to network our containers together.
+
+
  - **ArangoDB**:
    - Follow the installation instructions for ArangoDB from the official [ArangoDB website](https://docs.arangodb.com/stable/operations/installation/). We recommend that you install the official ArangoDB Docker image for `v3.11.7` via [Docker Hub](https://hub.docker.com/_/arangodb/).
      - Start the Docker Desktop in Windows
@@ -169,7 +178,7 @@ Follow these step-by-step instructions to get your local machine ready to work o
 
       In a Windows Command Prompt:
       ```
-      docker run -p 8529:8529 -e ARANGO_NO_AUTH=1 --name arangodb-instance -d arangodb:3.11.7
+      docker run -p 8529:8529 --network=tazama-net -e ARANGO_NO_AUTH=1 --name arangodb-instance -d arangodb:3.11.7
       ```
       **Note**: This command will start an ArangoDB instance that does not require any user authentication - this is useful for testing, but should never be used in a production setting. See [here](https://docs.arangodb.com/stable/deploy/single-instance/manual-start/#authentication) for alternative options.
    - The ArangoDB web interface can now be accessed at <http://localhost:8529>.
@@ -206,7 +215,7 @@ Follow these step-by-step instructions to get your local machine ready to work o
    - Start the NATS server in a Docker container:
      - In a Windows Command Prompt:
       ```
-      docker run -p 4222:4222 -p 8222:8222 -p 6222:6222 --name nats-server -dti nats:latest
+      docker run -p 4222:4222 -p 8222:8222 -p 6222:6222 --network=tazama-net --name nats-server -dti nats:latest
       ```
 
  - **redis**:
@@ -219,7 +228,7 @@ Follow these step-by-step instructions to get your local machine ready to work o
    - Start the redis server in a Docker container:
      - In a Windows Command Prompt:
       ```
-      docker run -p 6379:6379 --name redis-stack-server -d redis/redis-stack-server:latest
+      docker run -p 6379:6379 --network=tazama-net --name redis-stack-server -d redis/redis-stack-server:latest
       ```
 
  - **Tazama NATS REST Proxy**:
@@ -239,21 +248,22 @@ Follow these step-by-step instructions to get your local machine ready to work o
    - Start the redis server in a Docker container:
      - In a Windows Command Prompt:
       ```
-      docker run -d --name nats-utilities -p 3000:3000 -e NODE_ENV='dev' ghcr.io/frmscoe/nats-utilities:latest
+      docker run -p 3000:3000 --network=tazama-net -e NODE_ENV=dev -e SERVER_URL=nats-server:4222 -d --name nats-utilities ghcr.io/frmscoe/nats-utilities:latest
       ```
 
 ##### B. Setting Up a Microservice Processor to Work On
 
-Let's pick an easy microservice processor to use as an example. The Channel Router and Setup Processor (CRSP) receives an incoming message from the TMS API and then determines how to route the message to rule processors for evaluation based on the message's transaction type (`TxTp`) attribute.
+Let's pick an easy microservice processor to use as an example. Tazama is designed to run a number of rule processors to evaluate incoming transactions. By default, the sample rule processor, `Rule 901`, is configured in this development environment through the ArangoDB Postman scripts above. All the rule processors run inside the `Rule Executer` wrapper function, which is itself configured to contain `Rule 901` by default. To run `Rule 901`, we need to run the `Rule Executer`.
 
-Follow the steps below to get the CRSP on your operating table:
+Follow the steps below to get the `Rule Executer` on your operating table:
 
 1. Clone the GitHub Repository
 
-    - Open a Windows Cmmand Prompt and navigate to the folder where you want to store your code.
-    - The following `git` command will clone the CRSP's code to your local machine:
+    - Open a Windows Command Prompt and navigate to the folder where you want to store your code.
+    - The following `git` command will clone Rule 901's code to your local machine:
+
         ```
-        git clone https://github.com/frmscoe/channel-router-setup-processor
+        git clone https://github.com/frmscoe/rule-executer
         ```
         As you can probably guess, this command will also let you clone any of the repositories in the `frmscoe` that you have access to by specifying their specific URL after the `git clone` command.
 
@@ -261,19 +271,19 @@ Follow the steps below to get the CRSP on your operating table:
 
     Using the Windows `cd` or `chgdir` command, navigate to the newly cloned repository folder:
     ```
-    cd channel-router-setup-processor
+    cd rule-executer
     ```
 
 3. Install Dependencies
 
-    Using `npm`, you can install all the dependencies for the processor as specified in the `package.json` file in the folder:
+    Using `npm`, you can install all the dependencies for the processor as specified in the `package.json` file in the repository folder:
     ```
     npm install
     ```
 
 4. Configure Environment Variables:
 
-    Each microservice processor's configuration is specified as environment variables that are located in a dot env (`.env`) file. Your cloned repository does not have one yet: we'll have to create it from the `.env.template` file that is in your folder. You can copy this file with:
+    Each microservice processor's configuration is specified as environment variables that are located in a dot env (`.env`) file. Your cloned repository does not have one yet: we'll have to create it from the `.env.template` file that is already in your folder. You can copy this file with from your Windows Command Prompt:
     ```
     copy .env.template .env
     ```
@@ -291,7 +301,7 @@ Follow the steps below to get the CRSP on your operating table:
 
 6. Open the Folder in VS Code
 
-    To start getting ready for development you can open VS Code in the repository folder with the following command in a Windows Command Prompt from the repository folder:
+    To start development you can open VS Code in the repository folder with the following command in a Windows Command Prompt from the repository folder:
     ```
     code .
     ```
@@ -302,25 +312,23 @@ Follow the steps below to get the CRSP on your operating table:
     ```
     npm run start
     ```
-    This command starts the CRSP application from the built code. Once the processor is up and running, you can start sending requests to the processor via the NATS REST Proxy.
+    This command starts the Rule Executer application, with Rule 901 inside it, from the built code. Once the processor is up and running, you can start sending requests to the processor via the NATS REST Proxy.
     
     The `npm run start` command will keep on running until you exit the application by pressing `ctrl-c`.
 
 8. Sending messages to the microservice processor via the NATS REST Proxy
 
-    Let's try to send a test message to our locally running CRSP via the NATS REST Proxy using a pre-fabricated Postman test. If you previously cloned the Postman repository, the `3.1. CRSP Quick-Check.postman_collection.json` test will be located in the Postman repository folder.
+    Let's try to send a test message to our locally running CRSP via the NATS REST Proxy using a pre-fabricated Postman test. If you previously cloned the Postman repository, the `Rule-901-Quick-Check.postman_collection.json` test will be located in the Postman repository folder.
     
     Because the application is running in our previous Windows Command Prompt, we'll need to open a new one and then, using the following Newman command in the new Command Prompt, we can execute the test on our running processor:
 
-        ```
-        newman run collection-file -e environment-file --timeout-request 10200
-        ```
+    ```
+    newman run collection-file -e environment-file --timeout-request 10200
+    ```
     
-      - Replace `collection-file` with the full location path and filename of the `3.1. CRSP Quick-Check.postman_collection.json` file in your cloned Postman repository
+      - Replace `collection-file` with the full location path and filename of the `Rule-901-Quick-Check.postman_collection.json` file in your cloned Postman repository
       - Replace `environment-file` with the full location path and filename of the `environments/Tazama-LOCAL.postman_environment.json` file in your cloned Postman repository
       - If the path contains spaces, wrap the string in double-quotes.
-
-    
 
 9. Run the Built-In Jest Tests
 
@@ -329,13 +337,13 @@ Follow the steps below to get the CRSP on your operating table:
     npm run test
     ```
 
-Additional Configuration (if needed):
+##### Additional Configuration (if needed):
 
 Different microservice processors may need to be set up in slightly different ways. Refer to the project documentation or processor README for any additional configuration instructions.
 
 Check for specific database setup, API keys, or other dependencies.
 
-Troubleshooting:
+#### Troubleshooting:
  - If you encounter issues during the setup process, refer to the project's issue tracker on GitHub or the documentation for troubleshooting steps.
  - Ensure that your system meets the specified requirements
  - If a shell command fails at firts, try running your shell in administrator mode.
