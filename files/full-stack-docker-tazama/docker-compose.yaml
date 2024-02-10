@@ -1,0 +1,553 @@
+services:
+  # Cache
+  redis:
+    image: "redis:latest"
+    hostname: redis
+    ports:
+      - 16379:6379
+
+  # Database
+  arango:
+    image: "arangodb/arangodb:latest"
+    environment:
+      - ARANGO_NO_AUTH=1
+    command:
+      - arangod
+      - --server.endpoint=tcp://0.0.0.0:8529
+    volumes:
+      - ./arango/init:/docker-entrypoint-initdb.d:consistent
+    ports:
+      - "18529:8529"
+
+  # NATS
+  nats:
+    image: docker.io/bitnami/nats:2
+    restart: always
+    ports:
+      - '14222:4222'
+      - '16222:6222'
+      - '18222:8222'
+
+  # Rule 001
+  rule-001:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-001
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule001.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 002
+  rule-002:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-002
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule002.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 003
+  rule-003:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-003
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule003.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 004
+  rule-004:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-004
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule004.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 006
+  rule-006:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-006
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule006.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 007
+  rule-007:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-007
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule007.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 008
+  rule-008:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-008
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule008.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 010
+  rule-010:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-010
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule010.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 011
+  rule-011:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-011
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule011.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 016
+  rule-016:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-016
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule016.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 017
+  rule-017:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-017
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule017.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 018
+  rule-018:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-018
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule018.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 020
+  rule-020:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-020
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule020.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 021
+  rule-021:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-021
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule021.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 024
+  rule-024:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-024
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule024.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 025
+  rule-025:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-025
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule025.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 026
+  rule-026:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-026
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule026.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 027
+  rule-027:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-027
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule027.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 028
+  rule-028:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-028
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule028.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 030
+  rule-030:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-030
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule030.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 044
+  rule-044:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-044
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule044.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 045
+  rule-045:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-045
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule045.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 048
+  rule-048:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-048
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule048.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 054
+  rule-054:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-054
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule054.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 063
+  rule-063:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-063
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule063.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 074
+  rule-074:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-074
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule074.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 075
+  rule-075:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-075
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule075.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 076
+  rule-076:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-076
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule076.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 078
+  rule-078:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-078
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule078.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 083
+  rule-083:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-083
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule083.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 084
+  rule-084:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-084
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule084.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 090
+  rule-090:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-090
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule090.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # Rule 091
+  rule-091:
+    build:
+      context: D:\DevTools\GitHub\rule-executer-091
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule091.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+
+  # TMS
+  tms:
+    build:
+      context: https://github.com/frmscoe/tms-service.git#${TMS_BRANCH}
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/tms.env
+      - .env
+    restart: always
+    ports:
+      - ${TMS_PORT}:3000
+    depends_on:
+      - redis
+      - arango
+      - nats
+
+  # CRSP
+  crsp:
+    build:
+      context: https://github.com/frmscoe/channel-router-setup-processor.git#${CRSP_BRANCH}
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/crsp.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+      - nats
+
+  # Typology Processor
+  tp:
+    build:
+      context: https://github.com/frmscoe/typology-processor.git#${TP_BRANCH}
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/tp.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+      - nats
+
+  # TADP
+  tadp:
+    build:
+      context: https://github.com/frmscoe/transaction-aggregation-decisioning-processor.git#${TADP_BRANCH}
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/tadp.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
+      - nats
