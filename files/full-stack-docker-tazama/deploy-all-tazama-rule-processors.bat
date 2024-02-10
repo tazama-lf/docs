@@ -2,8 +2,9 @@
 @echo ===================================
 @echo 1. Duplicating Rule Executer folder
 @echo ===================================
-
+@echo off
 pause
+@echo on
 
 xcopy rule-executer rule-executer-001 /E /I /H
 powershell -Command "(Get-Content %1\rule-executer-001\package.json) -replace 'rule-901@\^1.0.6', 'rule-001@latest' | Set-Content %1\rule-executer-001\package.json"
@@ -108,8 +109,9 @@ powershell -Command "(Get-Content %1\rule-executer-091\Dockerfile) -replace '901
 @echo =========================
 @echo 2. Building rule packages
 @echo =========================
-
+@echo off
 pause
+@echo on
 
 cd rule-executer-001
 call npm install
@@ -213,8 +215,9 @@ call npm install
 @echo ========================================
 @echo 3. Deploying rule processors into Docker
 @echo ========================================
-
+@echo off
 pause
+@echo on
 
 cd %1
 
