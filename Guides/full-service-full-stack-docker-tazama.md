@@ -314,7 +314,7 @@ xcopy rule-executer rule-executer-001 /E /I /H
 
 ##### 4. Update the package.json file
 
-Navigate to the new `rule-executer-001` folder and start CS Code from there.
+Navigate to the new `rule-executer-001` folder and start VS Code from there.
 
 **Output:**
 
