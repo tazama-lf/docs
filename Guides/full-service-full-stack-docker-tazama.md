@@ -192,7 +192,12 @@ If your machine is open to your local area network, you will also be able to acc
 
 Tazama is configured by loading the network map, rules and typology configurations required to evaluate a transaction via the ArangoDB API. As with the rules themselves, the configuration information is hidden in a private repository. If you are a member of the Tazama Organization on GitHub, you'll be able to clone this repository onto your local machine with the following command:
 
-Change the current folder back to your root source code folder and clone the `tms-configuration` repository:
+Change the current folder back to your root source code folder:
+```
+cd ..
+```
+
+Clone the `tms-configuration` repository:
 
 ```
 git clone https://github.com/frmscoe/tms-configuration
