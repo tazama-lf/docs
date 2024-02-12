@@ -22,6 +22,8 @@ The pre-requisites that are essential to be able to follow this guide to the let
  - A code editor (this guide will assume you are using VS Code)
  - Member access to the Tazama GitHub Organization
  - A GitHub personal access token with `packages:read` permissions
+   - Ensure that your GitHub Personal Access Token is added as a Windows Environment Variable called "`GH_TOKEN`".
+   - Instructions for creating the GH_TOKEN environment variable can be found in the [Tazama Contribution Guide (A. Preparation)](https://github.com/frmscoe/docs/blob/main/Community/Tazama-Contribution-Guide.md#a-preparation)
 
      - We will be referencing your GitHub Personal Access Token throughout the installation process as your `GH_TOKEN`. It is not possible to retrieve the token from GitHub after you initially created it, but if the token had been set in Windows as an environment variable, you can retrieve it with the following command from a Windows Command Prompt:
 
@@ -57,55 +59,22 @@ Navigate to the Full-Stack-Docker-Tazama folder and launch VS Code:
 
 In VS Code, open the .env file in the Full-Stack-Docker-Tazama folder and update the `.env` file as follows:
 
- - Add your GH_TOKEN at the top next to the GH_TOKEN key
+ - If your GitHub Personal Access Token had not been added as a Windows Environment Variable, you would need to specify the token at the top of the file next to the GH_TOKEN key. If you had specified the GH_TOKEN as an environment variable, you can leave the `${GH_TOKEN}` shell variable in place to retrieve it automatically.
  - Remove the `RULE_901_BRANCH=main` environment variable for the default "sample" rule processor
- - Add environment variables for all the private rule processors
  - (Optional) If you prefer an alternative port for the Transaction Monitoring Service API, you can update the `TMS_PORT` environment variable.
 
 Once complete, your `.env` file should look as follows (if you like, you can copy the contents below to replace the current contents of your `.env` file):
 
 ```javascript
 # Authentication
-GH_TOKEN=your-github-token
+GH_TOKEN=${GH_TOKEN}
 
 # Branches
 TMS_BRANCH=main
 CRSP_BRANCH=main
 TP_BRANCH=main
 TADP_BRANCH=main
-RULE_001_BRANCH=main
-RULE_002_BRANCH=main
-RULE_003_BRANCH=main
-RULE_004_BRANCH=main
-RULE_006_BRANCH=main
-RULE_007_BRANCH=main
-RULE_008_BRANCH=main
-RULE_010_BRANCH=main
-RULE_011_BRANCH=main
-RULE_016_BRANCH=main
-RULE_017_BRANCH=main
-RULE_018_BRANCH=main
-RULE_020_BRANCH=main
-RULE_021_BRANCH=main
-RULE_024_BRANCH=main
-RULE_025_BRANCH=main
-RULE_026_BRANCH=main
-RULE_027_BRANCH=main
-RULE_028_BRANCH=main
-RULE_030_BRANCH=main
-RULE_044_BRANCH=main
-RULE_045_BRANCH=main
-RULE_048_BRANCH=main
-RULE_054_BRANCH=main
-RULE_063_BRANCH=main
-RULE_074_BRANCH=main
-RULE_075_BRANCH=main
-RULE_076_BRANCH=main
-RULE_078_BRANCH=main
-RULE_083_BRANCH=main
-RULE_084_BRANCH=main
-RULE_090_BRANCH=main
-RULE_091_BRANCH=main
+RULE_901_BRANCH=main
 
 # Ports
 TMS_PORT=5000
@@ -127,8 +96,6 @@ RULE_NAME="999"
 
 Filename: `rule999.env`
 
-For reference, the available rule processor numbers are listed in the `Full-Stack-Docker-Tazama/.env` file shown above.
-
 Setting up individual `rule.env` files is rather tedious and instead you can copy the `rulexxx.env` files from the following location into the `Full-Stack-Docker-Tazama/env` to save some time:
 
 <https://github.com/frmscoe/docs/blob/main/files/full-stack-docker-tazama/rulexxx.zip>
@@ -145,7 +112,7 @@ For each private rule processor, create a copy of the `# Rule 901` environment v
   # Rule 999
   rule-999:
     build:
-      context: https://github.com/frmscoe/rule-executer.git#${RULE_999_BRANCH}
+      context: ..\rule-executer-999
       args:
         - GH_TOKEN
     env_file:
@@ -157,9 +124,7 @@ For each private rule processor, create a copy of the `# Rule 901` environment v
       - arango
 ```
 
-The `RULE_999_BRANCH` string in each environment variable block must match the corresponding key from the `Full-Stack-Docker-Tazama/.env` file updated above.
-
-Once again, copy-pasting and string-replacing can be rather tedious and you are welcome to just download this pre-prepared `docker-compose.yaml` file into your `Full-Stack-Docker-Tazama` folder from:
+Once again, copy-pasting and string-replacing can be rather tedious, and you are welcome to just download this pre-prepared `docker-compose.yaml` file into your `Full-Stack-Docker-Tazama` folder from:
 
 <https://github.com/frmscoe/docs/blob/main/files/full-stack-docker-tazama/docker-compose.yaml>
 
@@ -287,13 +252,17 @@ First we need to prepare the rule-executer with the following updates:
 
 #### 1. Update the .npmrc file
 
+**NOTE: Only perform this step if you do not have a `GH_TOKEN` environment variable in Windows**
+
 Navigate to the rule-executer folder and start VS Code from there.
 
 **Output:**
 
 ![clone-rule-executer](../images/full-stack-docker-tazama-clone-rule-executer.png)
 
-In VS Code, open the .npmrc file in the rule-executer root folder and replace the `${GH_TOKEN}` string with your GitHub Personal Access Token. Remember that you can retrieve it from the Windows environment variables with the `set GH_TOKEN` command if you had stashed it there.
+If your GitHub Personal Access Token had not been added as a Windows Environment Variable, you would need to specify the token in the `.npmrc` file. If you had specified the GH_TOKEN as an environment variable, you can leave the `${GH_TOKEN}` shell variable in place to retrieve it automatically.
+
+To update the `GH_TOKEN`: in VS Code, open the `.npmrc` file in the rule-executer root folder and replace the `${GH_TOKEN}` string with your GitHub Personal Access Token.
 
 **Output:**
 
