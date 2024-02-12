@@ -231,7 +231,12 @@ newman run collection-file -e environment-file --timeout-request 10200
 
 Now that the platform is configured, we can deploy our core processors. The main reason the configuration needs to preceed the deployment of the processors is that the processors read the network map at startup to set up the NATS pub/sub routes for the evaluation flow. If the core processors were deployed first, they would have to be restarted once the configuration was eventually uploaded.
 
-Navigate back to the `full-stack-docker-tazama` folder and execute the following command to deploy the core processors:
+Navigate back to the `full-stack-docker-tazama` folder:
+```
+cd Full-Stack-Docker-Tazama
+```
+
+Execute the following command to deploy the core processors:
 
 ```
 docker compose up -d tms crsp tp tadp
@@ -281,6 +286,8 @@ By default, the rule executer is configured to build rule 901, the public sample
 #### Set Up the Rule Executer for a Specific Rule
 
 We'll first walk through the process to prepare the rule-executer to deploy a single processor, such as Rule 001, but then we'll use a DOS batch file to automate the whole process instead of deploying each rule processor one at a time.
+
+To skip ahead to the batch process, click: [batch process alternative](#batch-process-alternative)
 
 ##### 1. Update the .npmrc file
 
