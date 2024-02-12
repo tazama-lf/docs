@@ -219,8 +219,8 @@ Now that these two repositories are cloned, we can perform the following Newman 
 newman run collection-file -e environment-file --timeout-request 10200
 ```
 
- - The `collection-file` is the full path to the location on your local machine where the `tms-configuration/default/tms-config.postman_collection.json` file is located.
- - The `environment-file` is the full path to the location on your local machine where the `postman/environments/Tazama-Docker-Compose-LOCAL.postman_environment.json` file is located.
+ - The `collection-file` is the full path to the location on your local machine where the `tms-configuration\default\tms-config.postman_collection.json` file is located.
+ - The `environment-file` is the full path to the location on your local machine where the `postman\environments\Tazama-Docker-Compose-LOCAL.postman_environment.json` file is located.
  - If the path contains spaces, wrap the string in double-quotes.
 
 **Output:**
@@ -402,8 +402,8 @@ Now, if everything went according to plan, you'll be able to submit a test trans
 newman run collection-file -e environment-file --timeout-request 10200
 ```
 
- - The `collection-file` is the full path to the location on your local machine where the `tms-configuration/default/tms-config-test.postman_collection.json` file is located.
- - The `environment-file` is the full path to the location on your local machine where the `postman/environments/Tazama-Docker-Compose-LOCAL.postman_environment.json` file is located.
+ - The `collection-file` is the full path to the location on your local machine where the `tms-configuration\default\tms-config-test.postman_collection.json` file is located.
+ - The `environment-file` is the full path to the location on your local machine where the `postman\environments\Tazama-Docker-Compose-LOCAL.postman_environment.json` file is located.
  - If the path contains spaces, wrap the string in double-quotes.
 
 **Output:**
