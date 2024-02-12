@@ -206,7 +206,7 @@ git clone https://github.com/frmscoe/tms-configuration
 In addition to cloning the configuration repository, we also need to clone the Tazama `Postman` repository so that we can utilise the Postman environment file that is hosted there:
 
 ```
-git clone https://github.com/frmscoe/tms-configuration
+git clone https://github.com/frmscoe/postman
 ```
 
 **Output:**
