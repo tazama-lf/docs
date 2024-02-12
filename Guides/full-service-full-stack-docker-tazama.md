@@ -33,9 +33,9 @@ The pre-requisites that are essential to be able to follow this guide to the let
 
 ## Installation steps
 
-## 1. Clone the Full-Stack-Docker-Tazama to your local machine
+## 1. Clone the Full-Stack-Docker-Tazama Repository to Your Local Machine
 
-In a Windows Command Prompt, navigate to the folder where you want to store a copy of the source code. The clone the repository with the following command:
+In a Windows Command Prompt, navigate to the folder where you want to store a copy of the source code. Then clone the repository with the following command:
 
 ```
 git clone https://github.com/frmscoe/Full-Stack-Docker-Tazama
