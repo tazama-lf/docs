@@ -59,11 +59,10 @@ Navigate to the Full-Stack-Docker-Tazama folder and launch VS Code:
 
 In VS Code, open the .env file in the Full-Stack-Docker-Tazama folder and update the `.env` file as follows:
 
- - If your GitHub Personal Access Token had not been added as a Windows Environment Variable, you would need to specify the token at the top of the file next to the GH_TOKEN key. If you had specified the GH_TOKEN as an environment variable, you can leave the `${GH_TOKEN}` shell variable in place to retrieve it automatically.
- - Remove the `RULE_901_BRANCH=main` environment variable for the default "sample" rule processor
+ - (Optional) If your GitHub Personal Access Token had not been added as a Windows Environment Variable, you would need to specify the token at the top of the file next to the GH_TOKEN key. If you had specified the GH_TOKEN as an environment variable, you can leave the `${GH_TOKEN}` shell variable in place to retrieve it automatically.
  - (Optional) If you prefer an alternative port for the Transaction Monitoring Service API, you can update the `TMS_PORT` environment variable.
 
-Once complete, your `.env` file should look as follows (if you like, you can copy the contents below to replace the current contents of your `.env` file):
+The current unaltered `.env` file will look as follows:
 
 ```javascript
 # Authentication
