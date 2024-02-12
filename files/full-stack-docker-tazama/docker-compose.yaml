@@ -31,7 +31,7 @@ services:
   # Rule 001
   rule-001:
     build:
-      context: D:\DevTools\GitHub\rule-executer-001
+      context: ..\rule-executer-001
       args:
         - GH_TOKEN
     env_file:
@@ -45,7 +45,7 @@ services:
   # Rule 002
   rule-002:
     build:
-      context: D:\DevTools\GitHub\rule-executer-002
+      context: ..\rule-executer-002
       args:
         - GH_TOKEN
     env_file:
@@ -59,7 +59,7 @@ services:
   # Rule 003
   rule-003:
     build:
-      context: D:\DevTools\GitHub\rule-executer-003
+      context: ..\rule-executer-003
       args:
         - GH_TOKEN
     env_file:
@@ -73,7 +73,7 @@ services:
   # Rule 004
   rule-004:
     build:
-      context: D:\DevTools\GitHub\rule-executer-004
+      context: ..\rule-executer-004
       args:
         - GH_TOKEN
     env_file:
@@ -87,7 +87,7 @@ services:
   # Rule 006
   rule-006:
     build:
-      context: D:\DevTools\GitHub\rule-executer-006
+      context: ..\rule-executer-006
       args:
         - GH_TOKEN
     env_file:
@@ -101,7 +101,7 @@ services:
   # Rule 007
   rule-007:
     build:
-      context: D:\DevTools\GitHub\rule-executer-007
+      context: ..\rule-executer-007
       args:
         - GH_TOKEN
     env_file:
@@ -115,7 +115,7 @@ services:
   # Rule 008
   rule-008:
     build:
-      context: D:\DevTools\GitHub\rule-executer-008
+      context: ..\rule-executer-008
       args:
         - GH_TOKEN
     env_file:
@@ -129,7 +129,7 @@ services:
   # Rule 010
   rule-010:
     build:
-      context: D:\DevTools\GitHub\rule-executer-010
+      context: ..\rule-executer-010
       args:
         - GH_TOKEN
     env_file:
@@ -143,7 +143,7 @@ services:
   # Rule 011
   rule-011:
     build:
-      context: D:\DevTools\GitHub\rule-executer-011
+      context: ..\rule-executer-011
       args:
         - GH_TOKEN
     env_file:
@@ -157,7 +157,7 @@ services:
   # Rule 016
   rule-016:
     build:
-      context: D:\DevTools\GitHub\rule-executer-016
+      context: ..\rule-executer-016
       args:
         - GH_TOKEN
     env_file:
@@ -171,7 +171,7 @@ services:
   # Rule 017
   rule-017:
     build:
-      context: D:\DevTools\GitHub\rule-executer-017
+      context: ..\rule-executer-017
       args:
         - GH_TOKEN
     env_file:
@@ -185,7 +185,7 @@ services:
   # Rule 018
   rule-018:
     build:
-      context: D:\DevTools\GitHub\rule-executer-018
+      context: ..\rule-executer-018
       args:
         - GH_TOKEN
     env_file:
@@ -199,7 +199,7 @@ services:
   # Rule 020
   rule-020:
     build:
-      context: D:\DevTools\GitHub\rule-executer-020
+      context: ..\rule-executer-020
       args:
         - GH_TOKEN
     env_file:
@@ -213,7 +213,7 @@ services:
   # Rule 021
   rule-021:
     build:
-      context: D:\DevTools\GitHub\rule-executer-021
+      context: ..\rule-executer-021
       args:
         - GH_TOKEN
     env_file:
@@ -227,7 +227,7 @@ services:
   # Rule 024
   rule-024:
     build:
-      context: D:\DevTools\GitHub\rule-executer-024
+      context: ..\rule-executer-024
       args:
         - GH_TOKEN
     env_file:
@@ -241,7 +241,7 @@ services:
   # Rule 025
   rule-025:
     build:
-      context: D:\DevTools\GitHub\rule-executer-025
+      context: ..\rule-executer-025
       args:
         - GH_TOKEN
     env_file:
@@ -255,7 +255,7 @@ services:
   # Rule 026
   rule-026:
     build:
-      context: D:\DevTools\GitHub\rule-executer-026
+      context: ..\rule-executer-026
       args:
         - GH_TOKEN
     env_file:
@@ -269,7 +269,7 @@ services:
   # Rule 027
   rule-027:
     build:
-      context: D:\DevTools\GitHub\rule-executer-027
+      context: ..\rule-executer-027
       args:
         - GH_TOKEN
     env_file:
@@ -283,7 +283,7 @@ services:
   # Rule 028
   rule-028:
     build:
-      context: D:\DevTools\GitHub\rule-executer-028
+      context: ..\rule-executer-028
       args:
         - GH_TOKEN
     env_file:
@@ -297,7 +297,7 @@ services:
   # Rule 030
   rule-030:
     build:
-      context: D:\DevTools\GitHub\rule-executer-030
+      context: ..\rule-executer-030
       args:
         - GH_TOKEN
     env_file:
@@ -311,7 +311,7 @@ services:
   # Rule 044
   rule-044:
     build:
-      context: D:\DevTools\GitHub\rule-executer-044
+      context: ..\rule-executer-044
       args:
         - GH_TOKEN
     env_file:
@@ -325,7 +325,7 @@ services:
   # Rule 045
   rule-045:
     build:
-      context: D:\DevTools\GitHub\rule-executer-045
+      context: ..\rule-executer-045
       args:
         - GH_TOKEN
     env_file:
@@ -339,7 +339,7 @@ services:
   # Rule 048
   rule-048:
     build:
-      context: D:\DevTools\GitHub\rule-executer-048
+      context: ..\rule-executer-048
       args:
         - GH_TOKEN
     env_file:
@@ -353,7 +353,7 @@ services:
   # Rule 054
   rule-054:
     build:
-      context: D:\DevTools\GitHub\rule-executer-054
+      context: ..\rule-executer-054
       args:
         - GH_TOKEN
     env_file:
@@ -367,7 +367,7 @@ services:
   # Rule 063
   rule-063:
     build:
-      context: D:\DevTools\GitHub\rule-executer-063
+      context: ..\rule-executer-063
       args:
         - GH_TOKEN
     env_file:
@@ -381,7 +381,7 @@ services:
   # Rule 074
   rule-074:
     build:
-      context: D:\DevTools\GitHub\rule-executer-074
+      context: ..\rule-executer-074
       args:
         - GH_TOKEN
     env_file:
@@ -395,7 +395,7 @@ services:
   # Rule 075
   rule-075:
     build:
-      context: D:\DevTools\GitHub\rule-executer-075
+      context: ..\rule-executer-075
       args:
         - GH_TOKEN
     env_file:
@@ -409,7 +409,7 @@ services:
   # Rule 076
   rule-076:
     build:
-      context: D:\DevTools\GitHub\rule-executer-076
+      context: ..\rule-executer-076
       args:
         - GH_TOKEN
     env_file:
@@ -423,7 +423,7 @@ services:
   # Rule 078
   rule-078:
     build:
-      context: D:\DevTools\GitHub\rule-executer-078
+      context: ..\rule-executer-078
       args:
         - GH_TOKEN
     env_file:
@@ -437,7 +437,7 @@ services:
   # Rule 083
   rule-083:
     build:
-      context: D:\DevTools\GitHub\rule-executer-083
+      context: ..\rule-executer-083
       args:
         - GH_TOKEN
     env_file:
@@ -451,7 +451,7 @@ services:
   # Rule 084
   rule-084:
     build:
-      context: D:\DevTools\GitHub\rule-executer-084
+      context: ..\rule-executer-084
       args:
         - GH_TOKEN
     env_file:
@@ -465,7 +465,7 @@ services:
   # Rule 090
   rule-090:
     build:
-      context: D:\DevTools\GitHub\rule-executer-090
+      context: ..\rule-executer-090
       args:
         - GH_TOKEN
     env_file:
@@ -479,7 +479,7 @@ services:
   # Rule 091
   rule-091:
     build:
-      context: D:\DevTools\GitHub\rule-executer-091
+      context: ..\rule-executer-091
       args:
         - GH_TOKEN
     env_file:
