@@ -387,7 +387,7 @@ deploy-all-tazama-rule-processors.bat "source-code-root-folder-path"
 
  - The `source-code-root-folder-path` is the full path to the location on your local machine where you have been cloning the GitHub repositories from.
 
-Depending on the performance of your local machine, this process make take quite a while. The batch process is divided into three parts:
+Depending on the performance of your local machine, this process may take quite a while. The batch process is divided into three parts:
 
 1. Creating and modifying all the rule-executor-xxx folders from the `rule-executer` folder
 2. Running `npm install` from within each rule-executer-xxx folder
