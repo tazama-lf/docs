@@ -329,10 +329,6 @@ xcopy rule-executer rule-executer-001 /E /I /H
 
 Navigate to the new `rule-executer-001` folder and start VS Code from there.
 
-**Output:**
-
-![copy-rule-executer](../images/full-stack-docker-tazama-copy-rule-executer.png)
-
 In VS Code, open the `package.json` file and update the `dependencies.rule` value from `"npm:@frmscoe/rule-901@^1.0.6"` to `"npm:@frmscoe/rule-001@latest"`.
 
 **Output:**
