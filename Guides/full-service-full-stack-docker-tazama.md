@@ -18,7 +18,6 @@ The pre-requisites that are essential to be able to follow this guide to the let
  - Windows 10
  - Docker Desktop for Windows (and WSL)
  - Git
- - Visual Studio Code
  - Newman
  - A code editor (this guide will assume you are using VS Code)
  - Member access to the Tazama GitHub Organization
