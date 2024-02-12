@@ -283,11 +283,7 @@ git clone https://github.com/frmscoe/rule-executer
 
 By default, the rule executer is configured to build rule 901, the public sample rule processor, but we want it to build each private rule processor instead.
 
-#### Set Up the Rule Executer for a Specific Rule
-
-We'll first walk through the process to prepare the rule-executer to deploy a single processor, such as Rule 001, but then we'll use a DOS batch file to automate the whole process instead of deploying each rule processor one at a time.
-
-To skip ahead to the batch process, click: [batch process alternative](#batch-process-alternative)
+First we need to prepare the rule-executer with the following updates:
 
 ##### 1. Update the .npmrc file
 
@@ -311,7 +307,13 @@ In your windows Command Prompt, while in the `rule-executer` root folder, delete
 del package-lock.json
 ```
 
-##### 3. Copy the rule-executer folder
+#### Set Up the Rule Executer for a Specific Rule
+
+Once the rule executer is updated, we can create a rule executer for each of the rule processors. We'll first walk through the process to prepare the rule-executer to deploy a single processor, such as Rule 001, but then we'll show you how you can use a DOS batch file to automate the whole process instead of deploying each rule processor one at a time.
+
+To skip ahead to the batch process, click: [batch process alternative](#batch-process-alternative)
+
+##### 1. Copy the rule-executer folder
 
 Navigate one folder up to your source code folder and copy the entire `rule-executer` folder to a new folder called `rule-executer-001`:
 
@@ -323,7 +325,7 @@ xcopy rule-executer rule-executer-001 /E /I /H
 
 ![copy-rule-executer](../images/full-stack-docker-tazama-copy-rule-executer.png)
 
-##### 4. Update the package.json file
+##### 2. Update the package.json file
 
 Navigate to the new `rule-executer-001` folder and start VS Code from there.
 
@@ -337,7 +339,7 @@ In VS Code, open the `package.json` file and update the `dependencies.rule` valu
 
 ![package-json](../images/full-stack-docker-tazama-update-package-json.png)
 
-##### 5. Update the Dockerfile
+##### 3. Update the Dockerfile
 
 In VS Code, open the `Dockerfile` file and update the `RULE_NAME` environment variable value from `"901"` to `"001"`.
 
@@ -345,7 +347,7 @@ In VS Code, open the `Dockerfile` file and update the `RULE_NAME` environment va
 
 ![dockerfile](../images/full-stack-docker-tazama-update-dockerfile.png)
 
-##### 6. Install software dependencies
+##### 4. Install software dependencies
 
 Back in your Windows Command Prompt, from your `rule-executor-001` folder, execute the following command to install all the software dependencies for the processor:
 
@@ -357,7 +359,7 @@ npm install
 
 ![rule-dependencies](../images/full-stack-docker-tazama-rule-dependencies-install.png)
 
-##### 6. Deploy the processor
+##### 5. Deploy the processor
 
 And, finally, we can deploy the processor into Docker! Navigate back to the `Full-Stack-Docker-Tazama` folder, and run the command:
 
@@ -369,9 +371,9 @@ docker compose up -d rule-001
 
 ![compose-rule-001](../images/full-stack-docker-tazama-compose-rule-001.png)
 
-##### 7. Repeat steps 1 to 6 for the other rule processors as well
+##### 6. Repeat steps 1 to 5 for the other rule processors as well
 
-The steps 1 to 6 above must be performed for each private rule processor to deploy them all.
+The steps 1 to 5 above must be performed for each private rule processor to deploy them all.
 
 #### Batch process alternative
 
