@@ -4,20 +4,29 @@
 
 The sections below provide a brief overview of the Tazama system, with links to pages that contain more detailed information.
 
-1. [What is Tazama?](#1-what-is-tazama)
-2. [Understanding Typologies and Rules](#2-understanding-typologies-and-rules)
-3. [Core Components](#3-core-components)<br>
-	3.1. [Transaction Monitoring Service API](#31-transaction-monitoring-service-api)<br>
-	3.2. [Channel Router and Setup Processor (CRSP)](#32-channel-router-and-setup-processor-crsp)<br>
-	3.3. [Rule Processors](#33-rule-processors)<br>
-	3.4. [Typology Processor](#34-typology-processor)<br>
-	3.5. [Transaction Aggregation and Decisioning Processor (TADProc)](#35-transaction-aggregation-and-decisioning-processor-tadproc)<br>
+- [Welcome to the Tazama Project!](#welcome-to-the-tazama-project)
+  - [1. What is Tazama?](#1-what-is-tazama)
+  - [2. Understanding Typologies and Rules](#2-understanding-typologies-and-rules)
+  - [3. Core Components](#3-core-components)
+    - [3.1. Transaction Monitoring Service API](#31-transaction-monitoring-service-api)
+    - [3.2. Channel Router and Setup Processor (CRSP)](#32-channel-router-and-setup-processor-crsp)
+    - [3.3. Rule Processors](#33-rule-processors)
+    - [3.4. Typology Processor](#34-typology-processor)
+    - [3.5. Transaction Aggregation and Decisioning Processor (TADProc)](#35-transaction-aggregation-and-decisioning-processor-tadproc)
 
 ##  1. <a name='1-what-is-tazama'></a>What is Tazama?
 
 Tazama is Open Source Real-Time Transaction Monitoring Software built to support any Digital Financial Services Provider (DFSP) that requires Transaction Monitoring for Fraud and Money Laundering detection. Whether that DFSP is a small provider running one or 2 transactions per day or a national payment switch running at over 3,000 Transactions per second. With Tazama they can implement simple or complex rules, implement Fraud Detection controls or support Anti-Money Laundering activities.
 
-In the following pages, we intend to give you a clear understanding of the Product, and how all the components of the Architecture work together.
+![tazama context](images/tazama-context.png)
+
+Tazama is designed to ingest transaction data in real-time through its Transaction Monitoring Service API. Data can be received from multiple participants in a financial ecosystem, including customer-facing financial service providers such as banks, remitters or mobile money operators, and also the intermediaries involved in facilitates transfers and payments across the ecosystem, such as clearing houses or payment switches. The Tazama API is designed to be ISO20022 compliant, but non-ISO20022 systems can still communicate with the platform via a Payment Platform Adapter that will transform message traffic into an ISO20022 equivalent.
+
+Ingested transactions are stored in the Tazama database from where it will be used to support real-time modelling of participant behaviour through a number of rule processors that will evaluate the transaction and its participants to look for suspicious behaviour. Rule results will be summarized into fraud and money-laundering scenarios, called typologies.
+
+If the rules and typologies show sufficient evidence of suspicious behaviour, an investigation alert will be issued to an external case management system and in extreme cases, the transaction can also be blocked to prevent the transfer of funds.
+
+In the following pages, we intend to give you a clear understanding of the Tazama Transaction Monitoring System, and how all the components of the system work together to detect fraud and money laundering.
 
 <div style="text-align: right"><a href="#top">Top</a></div>
 
