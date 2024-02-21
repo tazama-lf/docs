@@ -77,15 +77,15 @@ The following information is currently contained in the `DataCache` object:
 
 ```json
 {
-  cdtrId: "<creditor identifier>",
-  dbtrId: "<debtor identifier>",
-  cdtrAcctId: "<creditor account identifier>",
-  dbtrAcctId: "<debtor account identifier>",
-  creDtTm: "<timestamp of the earliest message in the chain>",
-  amt: {
-    amt: "<the transaction amount>",
-    ccy: "<the transaction currency>",
-    }
+  "cdtrId": "<creditor identifier>",
+  "dbtrId": "<debtor identifier>",
+  "cdtrAcctId": "<creditor account identifier>",
+  "dbtrAcctId": "<debtor account identifier>",
+  "creDtTm": "<timestamp of the earliest message in the chain>",
+  "amt": {
+    "amt": "<the transaction amount>",
+    "ccy": "<the transaction currency>"
+  }
 }
 ```
 
