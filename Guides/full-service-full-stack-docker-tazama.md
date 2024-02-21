@@ -375,12 +375,13 @@ You will be prompted to "Press any key to continue..." between each of the stage
 Now, if everything went according to plan, you'll be able to submit a test transaction to the Transaction Monitoring Service API and then be able to see the result of a complete end-to-end evaluation in the database. We can run the following Postman test via Newman to see if our deployment was successful:
 
 ```
-newman run collection-file -e environment-file --timeout-request 10200
+newman run collection-file -e environment-file --timeout-request 10200 --delay-request 500
 ```
 
  - The `collection-file` is the full path to the location on your local machine where the `tms-configuration\default\tms-config-test.postman_collection.json` file is located.
  - The `environment-file` is the full path to the location on your local machine where the `postman\environments\Tazama-Docker-Compose-LOCAL.postman_environment.json` file is located.
  - If the path contains spaces, wrap the string in double-quotes.
+ - We add the `--delay-request` option to delay each individual test by 500 milliseconds to give them evaluation time to complete before we look for the result in the database.
 
 **Output:**
 
