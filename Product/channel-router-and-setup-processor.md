@@ -2,7 +2,7 @@
 
 ![tazama-context-crsp](../images/tazama-context-crsp.png)
 
-The foundation of the Tazama Transaction Monitoring service is its ability to evaluate incoming transactions for financial crime risk through the execution of a number of conditional statements (rules) that are then combined into typologies that describe the nature of the financial crime that the system is trying to detect. Typologies can be arranged into themed channels, according to the operational needs of the operator. For instance, if an operator requires a distinction between fraud and money laundering typologies, fraud typologies can be hosted in a fraud-specific channel and money-laundering typologies can be hosted in another:
+The foundation of the Tazama Transaction Monitoring service is its ability to evaluate incoming transactions for financial crime behaviours through the execution of a number of conditional statements (rules) that are then combined into typologies that describe the nature of the financial crime that the system is trying to detect. Typologies can be arranged into themed channels, according to the operational needs of the operator. For instance, if an operator requires a distinction between fraud and money laundering typologies, fraud typologies can be hosted in a fraud-specific channel and money-laundering typologies can be hosted in another:
 
 ![tazama-channel-example](../images/tazama-channel-example.png)
 
