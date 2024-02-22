@@ -1,5 +1,7 @@
 # The Transaction Monitoring Service API
 
+![tazama-context-tmsapi](../images/tazama-context-tmsapi.png)
+
 The purpose of Transaction Monitoring Service (TMS) API is to facilitate the submission of a transaction to the Tazama platform so that the transaction can be evaluated for behaviour that may indicate financial crime, including fraud and money laundering.
 
 The Tazama platform is designed to be able to take on transaction messages from customer platforms, evaluate these messages for specific behaviours, and deliver an assessment of the evidence of financial crime inherent in the transaction.
