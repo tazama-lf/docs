@@ -16,7 +16,7 @@ The sections below provide a brief overview of the Tazama system, with links to 
 
 ##  1. <a name='1-what-is-tazama'></a>What is Tazama?
 
-Tazama is Open Source Real-Time Transaction Monitoring Software built to support any Digital Financial Services Provider (DFSP) that requires Transaction Monitoring for Fraud and Money Laundering detection. Whether that DFSP is a small provider running one or 2 transactions per day or a national payment switch running at over 3,000 Transactions per second. With Tazama they can implement simple or complex rules, implement Fraud Detection controls or support Anti-Money Laundering activities.
+Tazama is an Open Source Real-Time Transaction Monitoring Software built to support any Digital Financial Services Provider (DFSP) that requires Transaction Monitoring for Fraud and Money Laundering detection. Whether that DFSP is a small provider running one or 2 transactions per day or a national payment switch running at over 3,000 Transactions per second. With Tazama they can implement simple or complex rules, implement Fraud Detection controls or support Anti-Money Laundering activities.
 
 ![tazama context](images/tazama-context.png)
 
