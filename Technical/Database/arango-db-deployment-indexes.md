@@ -1,4 +1,12 @@
 # Tazama Database Indexes
+
+This document provides indexes that are to be created in the database deployment to improve query performance. The following content is grouped by databases (main heading), the collection (sub-heading), and the list of indexes along with their various properties (the contents of tables).
+
+> [!NOTE]  
+> Some indexes can contain multiple fields, in that case, the tables will represent them as `[field_one, field_two]`. 
+
+For convenience, a [`Postman`](https://www.postman.com/) collection is [available](https://github.com/frmscoe/postman/blob/main/ArangoDB%20Setup.json) to automatically create these indexes. You would need to import this collection and in there, there are sub-collections representing databases, and each subcollection, you will find requests you can send to create the indexes listed below. If you prefer a more manual approach, this document will help you get setup.
+
 ## transactionHistory
 #### transactionHistoryPacs002
 | Name | Field(s) | Unique | Sparse | Type |
