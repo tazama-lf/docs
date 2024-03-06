@@ -12,3 +12,5 @@ Once a rule has completed its execution, it will pass its result, along with the
 
 Tazama is preconfigured with a number of rule processors, but these rule processors are not publicly accessible to hide them from prying, unscrupulous eyes. Uncontrolled access to rule processors, and the typologies they belong to, may allow fraudsters to reverse engineer the detection mechanisms that are designed to stop them. Tazama has provided one rule processor as publicly available example of a rule processor, and we will use this rule processor as a reference rule in our documentation.
 
+
+
