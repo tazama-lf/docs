@@ -104,4 +104,3 @@ The CRSP will remove all duplicate rules for the unique combination of these fie
 ### 3. Evaluate Transaction
 
 Using the list of unique rules from step 2.4, the CRSP invokes all the unique rule processors and passes the transaction message and network sub-map to each rule processor for processing.
-
