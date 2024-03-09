@@ -28,6 +28,10 @@ sequenceDiagram
 
 Once all the data preparation work in the TMS API is complete, the TMS API will route the incoming transaction message to the Channel Router & Setup Processor (CRSP) to commence the evaluation of the transaction.
 
+#### Payload:
+ - Transaction data (the original, submitted transaction message)
+ - Metadata (process information picked up in the TMS API)
+
 ### 2.1. Read Network Map
 
 The network map defines the configuration according to which a transaction will be routed to typologies and their associated rule processors. The network map is a polynomial tree that contains the associations between a message type (at the root) and channels, typologies and rules:
@@ -104,3 +108,10 @@ The CRSP will remove all duplicate rules for the unique combination of these fie
 ### 3. Evaluate Transaction
 
 Using the list of unique rules from step 2.4, the CRSP invokes all the unique rule processors and passes the transaction message and network sub-map to each rule processor for processing.
+
+#### Payload:
+ - Transaction data (the original, submitted transaction message)
+ - Metadata (process information picked up in the TMS API and CRSP)
+ - Network sub-map (the portion of the network map that defines the in-scope rules and typologies)
+
+See the page on [processor results propagation](https://github.com/frmscoe/docs/blob/main/Product/processor-results-propagation.md) for more information on the payload composition and propagation from one processor to the next.
