@@ -123,7 +123,7 @@ Further information on the role of the Typology Processor is available on the [T
 
 The final assessment step is to consolidate all the results from all the typologies and persist the results by writing the transaction evaluation results to the database. If any typologies are breached, the completed evaluation results can be routed to a Case Management System for investigation.
 
-The Tazama system does not currently integrate with an existing Case Management System, but does have the capability to submit the transaction evaluation results in JSON format to an external platform. An implementer will be able to use this JSON output to pass an alert to the DFSP's existing Case Management or Ticket Management systems.
+The Tazama system does not currently integrate with an existing Case Management System, but does have the capability to submit the transaction evaluation results in JSON format to an external platform. An implementer will be able to use this JSON output to pass an alert to the FSP's existing Case Management or Ticket Management systems.
 
 Further information on the role of the Transaction Aggregator and Decision Processor (TADProc) is available on the [Transaction Aggregation and Decisioning Processor (TADProc)](/Product/transaction-aggregation-and-decisioning-processor.md) page.
 
