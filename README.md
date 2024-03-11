@@ -20,7 +20,7 @@ Tazama is an Open Source Real-Time Transaction Monitoring Software built to supp
 
 ![tazama context](images/tazama-context.png)
 
-Tazama is designed to ingest transaction data in real-time through its Transaction Monitoring Service API. Data can be received from multiple participants in a financial ecosystem, including customer-facing financial service providers such as banks, remitters or mobile money operators, and also the intermediaries involved in facilitates transfers and payments across the ecosystem, such as clearing houses or payment switches. The Tazama API is designed to be ISO20022 compliant, but non-ISO20022 systems can still communicate with the platform via a Payment Platform Adapter that will transform message traffic into an ISO20022 equivalent.
+Tazama is designed to ingest transaction data in real-time through its Transaction Monitoring Service API. Data can be received from multiple participants in a financial ecosystem, including customer-facing Financial Service Providers (FSP) such as banks, remitters or mobile money operators, and also the intermediaries involved in facilitates transfers and payments across the ecosystem, such as clearing houses or payment switches. The Tazama API is designed to be ISO20022 compliant, but non-ISO20022 systems can still communicate with the platform via a Payment Platform Adapter (PPA) that will transform message traffic into an ISO20022 equivalent.
 
 Ingested transactions are stored in the Tazama database from where it will be used to support real-time modelling of participant behaviour through a number of rule processors that will evaluate the transaction and its participants to look for suspicious behaviour. Rule results will be summarized into fraud and money-laundering scenarios, called typologies.
 
@@ -49,7 +49,7 @@ In the creation of a typology, it is worth highlighting that our phishing exampl
 ##  3. <a name='3-core-components'></a>Core Components
 The Tazama software has a number of key components that have been selected and architected to allow maximum flexibility, ensure data protection, and reduced operational costs for high performance at scale. They are the:
 
- - Transaction Monitoring Service API
+ - Transaction Monitoring Service (TMS) API
  - Channel Router and Setup Processor (CRSP)
  - Rules Processor
  - Typology Processor
@@ -75,7 +75,7 @@ Further information on the role of the TMS API is available on the [Transaction 
 
 ###  3.2. <a name='#32-channel-router-and-setup-processor-crsp'></a>Channel Router and Setup Processor (CRSP)
 
-The Channel Router & Setup Processor (CRSP) is responsible for determining which typologies a transaction must be submitted to for the transaction to be evaluated. As part of this process, the CRSP determines which rules must receive the transaction and then which typologies are to be scored. The CRSP routes the transaction to the individual rule processors.
+The Channel Router & Setup Processor (CRSP) is responsible for determining which typologies a transaction must be submitted to, for the transaction to be evaluated. As part of this process, the CRSP determines which rules must receive the transaction and then which typologies are to be scored. The CRSP routes the transaction to the individual rule processors.
 
 Transaction routing is configurable through a network map that is interpreted in the Channel Router and Setup Processor to invoke rules and typologies. Rules and typologies can be updated, or new versions added to the system, through configuration by only making changes to the network map.
 
@@ -87,7 +87,7 @@ Further information on the role of the Channel Router and Setup Processor (CRSP)
 
 A rule processor is designed to address a singular scenario, but its output might be used by multiple typologies. For example a check on the age of the account, when the risk of having accepted a rogue actor as a customer is higher, will be used in more than one typology. This approach reduces the overall impact of combining a rule and typology into a singular function as each typology risks repeating the requests (in this example the age of the account) for the same transaction.
 
-A rule can be used to assess more than one outcome, such as age bands if needed, as the same source data is used the only variable in the calculation.
+A rule can be used to assess more than one outcome, such as age bands if needed, as the same source data is used as the only variable in the calculation.
 
 Rule processors are templated so that logging, data input, determined outcomes, data output and telemetry are consistently applied by all rule processors. It is just the specific rule’s logic, including the queries that retrieve transaction history according to the rule requirements, that changes between rules. Rules must be developed individually, but the parameters used in the calculation of a rule and its outcomes are contained in a configuration file. The rule behaviour can be configured independent of the rule code, reducing the operational burden for modifying a rule to a mere configuration process.
 
@@ -123,7 +123,7 @@ Further information on the role of the Typology Processor is available on the [T
 
 The final assessment step is to consolidate all the results from all the typologies and persist the results by writing the transaction evaluation results to the database. If any typologies are breached, the completed evaluation results can be routed to a Case Management System for investigation.
 
-The Tazama system does not currently integrate with an existing Case Management System, but does have the capability to submit the transaction evaluation results in JSON format to an external platform. An implementer will be able to use this JSON output to pass an alert to their existing Case Management or Ticket Management systems.
+The Tazama system does not currently integrate with an existing Case Management System, but does have the capability to submit the transaction evaluation results in JSON format to an external platform. An implementer will be able to use this JSON output to pass an alert to the DFSP's existing Case Management or Ticket Management systems.
 
 Further information on the role of the Transaction Aggregator and Decision Processor (TADProc) is available on the [Transaction Aggregation and Decisioning Processor (TADProc)](/Product/transaction-aggregation-and-decisioning-processor.md) page.
 
