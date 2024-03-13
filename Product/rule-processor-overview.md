@@ -69,7 +69,7 @@ See the documentation for the rule executer in the [rule executer repository rea
 
 Once the setup is complete, the rule executer invokes the rule-specific `handleTransaction` to initiate the behavioural assessment of the transaction.
 
-### 3.2 Handle request
+### 3.2 Execute request
 
 The rule-specific portion of the rule processor receives the request from the rule executer and performs the following functions to complete the behavioural assessment:
 
@@ -158,7 +158,7 @@ Once the rule processor has completed its work and updated the outgoing payload,
 Outgoing payload:
 
  - Transaction data (the original, submitted transaction message)
- - Metadata (process information picked up in the TMS API and CRSP)
+ - Metadata (process information picked up in the TMS API, CRSP and rule processor)
  - Network sub-map (the portion of the network map that defines the in-scope rules and typologies)
  - The rule processor evaluation result
 

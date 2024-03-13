@@ -95,7 +95,7 @@ The following information is currently contained in the `DataCache` object:
 
 There are two additional pieces of information added to the transaction message payload that is worth mentioning. The outgoing transaction message will contain a new `metaData` object that will contain some additional information that is generated during the Data Preparation process.
 
-Firstly, we create a `traceParent` attribute that will generate an over-arching identifier that we use to link logging across all the processors together into a single waterfall view in Elastic APM.
+Firstly, we create a `traceParent` attribute that will generate an over-arching identifier that we use to link logging across all the processors together into a single waterfall view in Elastic Application Performance Monitoring (APM).
 
 Secondly, we record the time it took to process the transaction inside the TMS API and Data Preparation into a `prcgTmDP` attribute.
 
