@@ -158,7 +158,7 @@ Once the rule processor has completed its work and updated the outgoing payload,
 Outgoing payload:
 
  - Transaction data (the original, submitted transaction message)
- - Metadata (process information picked up in the TMS API and CRSP)
+ - Metadata (process information picked up in the TMS API, CRSP and rule processor)
  - Network sub-map (the portion of the network map that defines the in-scope rules and typologies)
  - The rule processor evaluation result
 
