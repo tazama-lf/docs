@@ -69,7 +69,7 @@ See the documentation for the rule executer in the [rule executer repository rea
 
 Once the setup is complete, the rule executer invokes the rule-specific `handleTransaction` to initiate the behavioural assessment of the transaction.
 
-### 3.2 Handle request
+### 3.2 Execute request
 
 The rule-specific portion of the rule processor receives the request from the rule executer and performs the following functions to complete the behavioural assessment:
 
