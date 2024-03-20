@@ -9,6 +9,9 @@ Thumbs.db
 *.swp
 *~
 
+# Draw.io backup files
+*.bkp
+
 # Node modules (if you use Node.js in your project)
 node_modules/
 
