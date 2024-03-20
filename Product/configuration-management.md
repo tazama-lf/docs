@@ -1,40 +1,5 @@
 # Configuration management
 
-*   [TL;DR](#tldr)
-*   [1\. Overview of the detection methodology](#1-overview-of-the-detection-methodology)
-*   [2\. Configuration Management](#2-configuration-management)
-    *   [2.1. Rule Processor Configuration](#21-rule-processor-configuration)
-        *   [Introduction](#introduction)
-        *   [Rule configuration metadata](#rule-configuration-metadata)
-        *   [The configuration object - parameters](#the-configuration-object-parameters)
-        *   [The configuration object - exit conditions](#the-configuration-object-exit-conditions)
-            *   [The .err exit condition](#the-err-exit-condition)
-        *   [The configuration object - rule results](#the-configuration-object-rule-results)
-            *   [Rule results - banded results](#rule-results-banded-results)
-            *   [Rule results - cased results](#rule-results-cased-results)
-        *   [Complete example of a rule processor configuration](#complete-example-of-a-rule-processor-configuration)
-    *   [2.2. Typology Configuration](#22-typology-configuration)
-        *   [Introduction](#introduction)
-        *   [Typology configuration metadata](#typology-configuration-metadata)
-        *   [The Rules object](#the-rules-object)
-        *   [The expression object](#the-expression-object)
-        *   [The workflow object](#the-workflow-object)
-        *   [Complete example of a typology configuration](#complete-example-of-a-typology-configuration)
-    *   [2.3. The Network Map](#23-the-network-map)
-        *   [Introduction](#introduction)
-        *   [Network map metadata](#network-map-metadata)
-        *   [The messages object](#the-messages-object)
-        *   [The channels object](#the-channels-object)
-        *   [The typology object](#the-typology-object)
-        *   [The rules object](#the-rules-object)
-        *   [Complete network map example](#complete-network-map-example)
-    *   [2.4. Updating configurations via the ArangoDB API](#24-updating-configurations-via-the-arangodb-api)
-*   [3\. Version Management](#3-version-management)
-    *   [3.1. Introduction and Basics](#31-introduction-and-basics)
-    *   [3.2. Configuration version management of processors](#32-configuration-version-management-of-processors)
-    *   [3.3. The Network Map](#33-the-network-map)
-*   [References](#references)
-
 # TL;DR
 
 Platform configuration is managed through a number of configuration files, each containing a JSON document that configures a specific processor type (CRSP, rules and typologies) and specific processor instance identified by a processor identifier (id@version) and a configuration version.
@@ -55,19 +20,21 @@ Configuration documents can be uploaded to the platform using the ArangoDB API d
 
 The core detection capability within the platform is distributed across three distinct steps in the end-to-end evaluation flow.
 
-![](./attachments/image-20230929-110134.png)
+![Tazama context end to end](../images/tazama-context-end-to-end.png)
 
-Once data is ingested into the transaction history by the TMS API, the Channel Router and Setup Processor (CRSP) performs an initial “triage” step to determine if the transaction should be inspected by the platform, and in what way. At the moment this is a very simple decision based on the transaction type only (i.e. pain.001, pain.013, pacs.008 and pacs.002), though we envisage that the decision-making here can be more complex in the future by inspecting attributes contained in the message. For now, the CRSP uses the transaction type[1](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/76906497/Configuration+management#References) to select the typologies that are to be evaluated and triggers the rules required by the typologies. The CRSP routing is configured via a network map that defines the hierarchy of typologies and rules. While not directly influenced by a calibration process at present, the behavior of existing rules and typologies may result in changes to the scope of the evaluation defined in the network map. Some rules or typologies may be deemed to be ineffective in the current configuration and removed or recomposed, and new rules or typologies may be added as new behaviors emerge.
+Once data is ingested into the transaction history by the TMS API, the Channel Router and Setup Processor (CRSP) performs an initial “triage” step to determine if the transaction should be inspected by the platform, and in what way. At the moment this is a very simple decision based on the transaction type only (i.e. pain.001, pain.013, pacs.008 and pacs.002), though we envisage that the decision-making here can be more complex in the future by inspecting attributes contained in the message. For now, the CRSP uses the transaction type to select the typologies that are to be evaluated and triggers the rules required by the typologies.The default configuration of the platform only evaluates the pacs.002 as the trigger payload for the rule processors and typologies. The CRSP routing is configured via a network map that defines the hierarchy of typologies and rules. While not directly influenced by a calibration process at present, the behavior of existing rules and typologies may result in changes to the scope of the evaluation defined in the network map. Some rules or typologies may be deemed to be ineffective in the current configuration and removed or recomposed, and new rules or typologies may be added as new behaviors emerge.
 
-![](./attachments/image-20230929-110404.png)
+![Tazama rule and typology plane](../images/tazama-rule-and-typology-plane.png)
+
 
 Each rule processor that receives the trigger payload from the CRSP evaluates the transaction and the historical behavior of its participants according to its specification and configuration. Rule processors are driven by a combination of parameters and result specifications to determine only one of a number of related outcomes. The rule outcome is then submitted to the typology processor for scoring.
 
-The typology processor assigns a weighting to each rule outcome as it is received based on the rule’s parent typologies’ configurations. Once all the rule results for a specific typology has been received, the typology adds all the weighted scores together into the typology score. The typology score can be evaluated against an “interdiction” threshold to determine if the client system should be instructed to block a transaction “in flight” and also an investigation threshold to trigger a review process at the end of the transaction evaluation.[2](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/76906497/Configuration+management#References%3A)
+The typology processor assigns a weighting to each rule outcome as it is received based on the rule’s parent typologies’ configurations. Once all the rule results for a specific typology has been received, the typology adds all the weighted scores together into the typology score. The typology score can be evaluated against an “interdiction” threshold to determine if the client system should be instructed to block a transaction “in flight” and also an investigation threshold to trigger a review process at the end of the transaction evaluation. The typology processor is not currently configured to interdict the transaction when the threshold is breached; only investigations are commissioned once the evaluation of all the typologies are complete.
 
-![](./attachments/image-20231109-131207.png)
 
-Once these three steps are complete, the evaluation of the transaction is wrapped up in the Channel and Transaction Aggregation and Decisioning Processor where the results from typologies are aggregated and reviewed to determine if an investigation alert should be sent to the Case Management System. If any typology had breached either its investigation or interdiction threshold, the transaction will trigger an alert.
+![Tazama rule and typology processor](../images/tazama-rule-and-typology-processor2.drawio.svg)
+
+Once these three steps are complete, the evaluation of the transaction is wrapped up in the Transaction Aggregation and Decisioning Processor where the results from typologies are aggregated and reviewed to determine if an investigation alert should be sent to the Case Management System. If any typology had breached either its investigation or interdiction threshold, the transaction will trigger an alert.
 
 The evaluation process accommodates a number of different calibration levers that can be manipulated to alter the evaluation outcome.
 
@@ -841,24 +808,23 @@ The active network map ultimately defines the scope of a particular evaluation, 
 
 # References
 
-1.  In its current configuration, the platform only evaluates the pacs.002 as the trigger payload for the rule processors and typologies have only been defined with the final status of a payment transaction in mind.
     
-2.  The typology processor is not currently configured to interdict the transaction when the threshold is breached; only investigations are commissioned once the evaluation of all the typologies are complete.
+
     
-3.  [https://semver.org/](https://semver.org/)
+1.  [https://semver.org/](https://semver.org/)
     
-4.  [https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/6586489/Rule+Processor+Overview#4.1.-Read-rule-config](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/6586489/Rule+Processor+Overview#4.1.-Read-rule-config)
+2.  [https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/6586489/Rule+Processor+Overview#4.1.-Read-rule-config](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/6586489/Rule+Processor+Overview#4.1.-Read-rule-config)
     
-5.  [https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/1740494/Typology+Processing#5.5.-Read-typology-configuration](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/1740494/Typology+Processing#5.5.-Read-typology-configuration)
+3.  [https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/1740494/Typology+Processing#5.5.-Read-typology-configuration](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/1740494/Typology+Processing#5.5.-Read-typology-configuration)
     
-6.  [https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/6259944/Transaction+Aggregation+and+Decisioning+Processor+TADProc#7.4.2.-Read-transaction-configuration](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/6259944/Transaction+Aggregation+and+Decisioning+Processor+TADProc#7.4.2.-Read-transaction-configuration)
+4.  [https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/6259944/Transaction+Aggregation+and+Decisioning+Processor+TADProc#7.4.2.-Read-transaction-configuration](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/6259944/Transaction+Aggregation+and+Decisioning+Processor+TADProc#7.4.2.-Read-transaction-configuration)
     
-7.  [https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/6520927/Channel+Router+and+Setup+Processor+CRSP#3.1.-Read-Network-Map](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/6520927/Channel+Router+and+Setup+Processor+CRSP#3.1.-Read-Network-Map)
+5.  [https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/6520927/Channel+Router+and+Setup+Processor+CRSP#3.1.-Read-Network-Map](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/6520927/Channel+Router+and+Setup+Processor+CRSP#3.1.-Read-Network-Map)
     
-8.  An explicit version reference has been planned for development to make it easier for an operator to link an evaluation result to the specific originating network map.
+6.  An explicit version reference has been planned for development to make it easier for an operator to link an evaluation result to the specific originating network map.
     
-9.  We have found during our performance testing that the text-based descriptions in our processor results undermines the performance gains we achieved with our ProtoBuff implementation. We will be removing the unabridged reason and processor descriptions from the configuration documents in favor of shorter look-up codes that will then also be used to introduce regionalized/language-specific descriptions.
+7.  We have found during our performance testing that the text-based descriptions in our processor results undermines the performance gains we achieved with our ProtoBuff implementation. We will be removing the unabridged reason and processor descriptions from the configuration documents in favor of shorter look-up codes that will then also be used to introduce regionalized/language-specific descriptions.
     
-10.  In its default deployment, the platform contains a single version of the “core” platform processors (the typology processor and TADProc) at a time. Though it is possible to deploy and maintain multiple parallel versions of these processors and manage routing to these processors through the network map, this guide will only focus on singular core processors for now.
+8.   In its default deployment, the platform contains a single version of the “core” platform processors (the typology processor and TADProc) at a time. Though it is possible to deploy and maintain multiple parallel versions of these processors and manage routing to these processors through the network map, this guide will only focus on singular core processors for now.
     
-11.  Before our implementation of NATS, Tazama processors were implemented as RESTful micro-services. The `host` attributes in the network map contained the URL where the processors could be addressed. With our initial implementation of NATS, the routing information was moved into environment variables that were read into the processors when they were deployed, or restarted in the event of a processor failure. We have now removed the need to specify the host property for a processor - the routing is automatically determined from the network map at processor startup - see [https://github.com/frmscoe/General-Issues/issues/310](https://github.com/frmscoe/General-Issues/issues/310) for details.
+9.   Before our implementation of NATS, Tazama processors were implemented as RESTful micro-services. The `host` attributes in the network map contained the URL where the processors could be addressed. With our initial implementation of NATS, the routing information was moved into environment variables that were read into the processors when they were deployed, or restarted in the event of a processor failure. We have now removed the need to specify the host property for a processor - the routing is automatically determined from the network map at processor startup - see [https://github.com/frmscoe/General-Issues/issues/310](https://github.com/frmscoe/General-Issues/issues/310) for details.
