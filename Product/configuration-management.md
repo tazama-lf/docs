@@ -1,4 +1,43 @@
 # Configuration management
+ [TL;DR](#tldr)
+- [Configuration management](#configuration-management)
+- [TL;DR](#tldr)
+- [1. Overview of the detection methodology](#1-overview-of-the-detection-methodology)
+- [2. Configuration Management](#2-configuration-management)
+  - [2.1. Rule Processor Configuration](#21-rule-processor-configuration)
+    - [Introduction](#introduction)
+    - [Rule configuration metadata](#rule-configuration-metadata)
+    - [The configuration object - parameters](#the-configuration-object---parameters)
+    - [The configuration object - exit conditions](#the-configuration-object---exit-conditions)
+      - [The `.err` exit condition](#the-err-exit-condition)
+    - [The configuration object - rule results](#the-configuration-object---rule-results)
+      - [Rule results - banded results](#rule-results---banded-results)
+      - [Rule results - cased results](#rule-results---cased-results)
+    - [Complete example of a rule processor configuration](#complete-example-of-a-rule-processor-configuration)
+  - [2.2. Typology Configuration](#22-typology-configuration)
+    - [Introduction](#introduction-1)
+    - [Typology configuration metadata](#typology-configuration-metadata)
+    - [The Rules object](#the-rules-object)
+    - [The expression object](#the-expression-object)
+    - [The workflow object](#the-workflow-object)
+    - [Complete example of a typology configuration](#complete-example-of-a-typology-configuration)
+  - [2.3. The Network Map](#23-the-network-map)
+    - [Introduction](#introduction-2)
+    - [Network map metadata](#network-map-metadata)
+    - [The messages object](#the-messages-object)
+    - [The channels object](#the-channels-object)
+    - [The typology object](#the-typology-object)
+    - [The rules object](#the-rules-object-1)
+    - [Complete network map example](#complete-network-map-example)
+  - [2.4. Updating configurations via the ArangoDB API](#24-updating-configurations-via-the-arangodb-api)
+- [3. Version Management](#3-version-management)
+  - [3.1. Introduction and Basics](#31-introduction-and-basics)
+  - [3.2. Configuration version management of processors](#32-configuration-version-management-of-processors)
+  - [3.3. The Network Map](#33-the-network-map)
+- [References](#references)
+
+
+
 
 # TL;DR
 
@@ -16,6 +55,8 @@ In a test or PoC environment, it may sometimes be simpler to just overwrite exis
 
 Configuration documents can be uploaded to the platform using the ArangoDB API deployed with the platform.
 
+[Top](#configuration-management)
+
 # 1\. Overview of the detection methodology
 
 The core detection capability within the platform is distributed across three distinct steps in the end-to-end evaluation flow.
@@ -32,13 +73,13 @@ Each rule processor that receives the trigger payload from the CRSP evaluates th
 The typology processor assigns a weighting to each rule outcome as it is received based on the rule’s parent typologies’ configurations. Once all the rule results for a specific typology has been received, the typology adds all the weighted scores together into the typology score. The typology score can be evaluated against an “interdiction” threshold to determine if the client system should be instructed to block a transaction “in flight” and also an investigation threshold to trigger a review process at the end of the transaction evaluation. The typology processor is not currently configured to interdict the transaction when the threshold is breached; only investigations are commissioned once the evaluation of all the typologies are complete.
 
 
-![Tazama rule and typology processor](../images/tazama-rule-and-typology-processor3.drawio.svg)
+![Tazama rule and typology processor](../images/tazama-rule-and-typology-processor.drawio.svg)
 
 Once these three steps are complete, the evaluation of the transaction is wrapped up in the Transaction Aggregation and Decisioning Processor where the results from typologies are aggregated and reviewed to determine if an investigation alert should be sent to the Case Management System. If any typology had breached either its investigation or interdiction threshold, the transaction will trigger an alert.
 
 The evaluation process accommodates a number of different calibration levers that can be manipulated to alter the evaluation outcome.
 
-![](./attachments/image-20231109-132855.png)
+![Tazama core components and config](../images/tazama-core-components-config.drawio.svg)
 
 In the CRSP:
 
@@ -61,13 +102,15 @@ In the typology processor:
 
 In this document, we will discuss how the various configuration documents are expected to be updated to influence evaluation behavior.
 
+[Top](#configuration-management)
+
 # 2\. Configuration Management
 
 Configuration documents are essentially files that contain a processor-specific configuration object in JSON format. The recommended way to upload the configuration file to the appropriate configuration database (`networkMap` or `configuration`) and collection is via Arango DB’s HTTP API that is deployed as standard during platform deployment.
 
 The platform processes configurations in a specific order to evaluate an incoming transaction. Starting with the Channel Router & Setup Processor (CRSP) that interprets the network map for routing, then following with the rule processors that interpret their individual rule configurations to determine how to evaluate the transaction, and then concluding with the typology processor that uses a variety of typology configurations to summarize rule results into typologies (fraud or money laundering scenarios).
 
-![](./attachments/image-20231109-135101.png)
+![Tazama config rule processor](../images/tazama-config-rule-processor.drawio.svg)
 
 The development cycle for the platform processors and their associated configurations follow a slightly different flow. The development and configuration process follows somewhat loosely cascading dependencies amongst the configuration documents: typologies rely on rules, and the network map that defines routing relies on typology-and-rule structures.
 
@@ -78,6 +121,8 @@ Rule results roll up into typologies through a typology configuration. One would
 Finally, the typologies and rules are bound together into the network map and attached to the specific transaction type for which the rules and typologies are intended. The network map defines the rules that should receive the transaction for evaluation, and also the routing to the typologies composed out of the rules.
 
 ![](./attachments/image-20231012-113112.png)
+
+[Top](#configuration-management)
 
 ## 2.1. Rule Processor Configuration
 
@@ -330,6 +375,8 @@ Each rule result case contains the same information:
 ### Complete example of a rule processor configuration
 
 [Complete example of a rule processor configuration](./configuration-management/complete-example-of-a-rule-processor-configuration.md)
+
+[Top](#configuration-management)
 
 ## 2.2. Typology Configuration
 
@@ -591,6 +638,8 @@ The thresholds are located in a workflow object in the typology configuration. I
 
 [Complete example of a typology processor configuration](./configuration-management/complete-example-of-a-typology-processor-configuration.md)
 
+[Top](#configuration-management)
+
 ## 2.3. The Network Map
 
 ### Introduction
@@ -726,6 +775,8 @@ The rules object array contains the following attributes:
 ### Complete network map example
 
 [Complete example of a network map](./configuration-management/complete-example-of-a-network-map.md)
+
+[Top](#configuration-management)
 
 ## 2.4. Updating configurations via the ArangoDB API
 
