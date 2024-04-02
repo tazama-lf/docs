@@ -167,7 +167,7 @@ Clone the `tms-configuration` repository:
 git clone https://github.com/frmscoe/tms-configuration
 ```
 
-In addition to cloning the configuration repository, we also need to clone the Tazama `Postman` repository so that we can utilise the Postman environment file that is hosted there:
+In addition to cloning the configuration repository, we also need to clone the Tazama `Postman` repository so that we can utilize the Postman environment file that is hosted there:
 
 ```
 git clone https://github.com/frmscoe/postman
@@ -225,7 +225,7 @@ curl localhost:5000
 
 ## 6. Private Rule Processors
 
-Now for the final depoyment step.
+Now for the final deployment step.
 
 ### Background
 
@@ -233,7 +233,7 @@ Individual rule processors are wrapped in a rule executer shell that handles com
 
 ![rule-executer-design](../images/tazama-rule-executer.png)
 
-Each rule processor must be wrapped in its own rule-executer. The rule executer source code is centralised in the public `rule-executer` repository, and each rule processor's unique source code is hosted in its own private repository.
+Each rule processor must be wrapped in its own rule-executer. The rule executer source code is centralized in the public `rule-executer` repository, and each rule processor's unique source code is hosted in its own private repository.
 
 ![rule-executer-design](../images/tazama-rule-executer-plane.png)
 
@@ -297,7 +297,7 @@ xcopy rule-executer rule-executer-001 /E /I /H
 
 Navigate to the new `rule-executer-001` folder and start VS Code from there.
 
-In VS Code, open the `package.json` file and update the `dependencies.rule` value from `"npm:@frmscoe/rule-901@^1.1.0"` to `"npm:@frmscoe/rule-001@latest"`.
+In VS Code, open the `package.json` file and update the `dependencies.rule` value from `"npm:@frmscoe/rule-901@latest"` to `"npm:@frmscoe/rule-001@latest"`.
 
 **Output:**
 
