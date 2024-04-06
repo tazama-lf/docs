@@ -82,7 +82,7 @@ TMS_PORT=5000
 NODE_TLS_REJECT_UNAUTHORIZED='0'
 ```
 
-### ./env/rule\*.env
+### ./env/rule*.env
 
 Using the `rule.env` file as a template, we want to create a separate rule.env file for each private rule processor. In VS Code, navigate to the `Full-Stack-Docker-Tazama/env` folder and open the `rule.env` file. In each separate `rule.env` file, update the following environment variables to match the rule number, and then save the file with that rule number in the filename:
 
