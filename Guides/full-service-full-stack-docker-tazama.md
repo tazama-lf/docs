@@ -82,7 +82,7 @@ TMS_PORT=5000
 NODE_TLS_REJECT_UNAUTHORIZED='0'
 ```
 
-### ./env/rule*.env
+### ./env/rule\*.env
 
 Using the `rule.env` file as a template, we want to create a separate rule.env file for each private rule processor. In VS Code, navigate to the `Full-Stack-Docker-Tazama/env` folder and open the `rule.env` file. In each separate `rule.env` file, update the following environment variables to match the rule number, and then save the file with that rule number in the filename:
 
@@ -343,7 +343,23 @@ The steps 1 to 5 above must be performed for each private rule processor to depl
 
 Instead of deploying all the private rule processors by hand, you can run the following batch file to automate the steps above for all the rule processors.
 
-Download the Windows batch file `deploy-all-tazama-rule-processors.bat` file into your source code root folder from:
+For MacOS download the MacOS batch file into your source code root folder from [MacOS-deploy-all-tazama-rule-processors](../files/full-stack-docker-tazama/macos-deploy-all-tazama-rule-processors.sh).
+
+> **Note:** The source code root folder is the folder where you have been cloning the GitHub repositories from.
+
+From a Command Prompt, from the source code root folder, execute the following command:
+
+```shell
+# Grant execution rights to the script by running the following command in your terminal:
+chmod +x ./deploy-rule-processors.sh​
+
+# You can run the script with:
+./deploy-rule-processors.sh
+
+# Then, follow the prompts in the terminal to complete the deployment process.
+```
+
+For Windows download the Windows batch file `deploy-all-tazama-rule-processors.bat` file into your source code root folder from:
 
 <https://github.com/frmscoe/docs/blob/main/files/full-stack-docker-tazama/deploy-all-tazama-rule-processors.bat>
 
