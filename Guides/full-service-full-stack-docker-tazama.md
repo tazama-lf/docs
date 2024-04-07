@@ -341,7 +341,26 @@ The steps 1 to 5 above must be performed for each private rule processor to depl
 
 ## Batch process alternative
 
-Instead of deploying all the private rule processors by hand, you can run the following batch file to automate the steps above for all the rule processors.
+Instead of deploying all the private rule processors by hand, you can run the one of the following batch scripts to automate the steps above for all the rule processors.
+
+### Microsoft Windows batch file
+
+For Windows download the Windows batch file `deploy-all-tazama-rule-processors.bat` file into your source code root folder from:
+
+<https://github.com/frmscoe/docs/blob/main/files/full-stack-docker-tazama/deploy-all-tazama-rule-processors.bat>
+
+From a Command Prompt, from the source code root folder, execute the batch file as follows:
+
+```
+deploy-all-tazama-rule-processors.bat "source-code-root-folder-path"
+```
+
+ - The `source-code-root-folder-path` is the full path to the location on your local machine where you have been cloning the GitHub repositories from.
+ - For example, the source code root folder path I have been using the compiled this guide is `D:\DevTools\GitHub`:
+
+ ![source-root](../images/full-stack-docker-tazama-source-root.png)
+
+### MacOS shell script
 
 For MacOS download the MacOS batch file into your source code root folder from [MacOS-deploy-all-tazama-rule-processors](../files/full-stack-docker-tazama/macos-deploy-all-tazama-rule-processors.sh).
 
@@ -359,20 +378,7 @@ chmod +x ./deploy-rule-processors.sh​
 # Then, follow the prompts in the terminal to complete the deployment process.
 ```
 
-For Windows download the Windows batch file `deploy-all-tazama-rule-processors.bat` file into your source code root folder from:
-
-<https://github.com/frmscoe/docs/blob/main/files/full-stack-docker-tazama/deploy-all-tazama-rule-processors.bat>
-
-From a Command Prompt, from the source code root folder, execute the batch file as follows:
-
-```
-deploy-all-tazama-rule-processors.bat "source-code-root-folder-path"
-```
-
- - The `source-code-root-folder-path` is the full path to the location on your local machine where you have been cloning the GitHub repositories from.
- - For example, the source code root folder path I have been using the compiled this guide is `D:\DevTools\GitHub`:
-
- ![source-root](../images/full-stack-docker-tazama-source-root.png)
+### Execution
 
 Depending on the performance of your local machine, this process may take quite a while. The batch process is divided into three parts:
 
