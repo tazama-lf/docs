@@ -341,9 +341,11 @@ The steps 1 to 5 above must be performed for each private rule processor to depl
 
 ## Batch process alternative
 
-Instead of deploying all the private rule processors by hand, you can run the following batch file to automate the steps above for all the rule processors.
+Instead of deploying all the private rule processors by hand, you can run the one of the following batch scripts to automate the steps above for all the rule processors.
 
-Download the Windows batch file `deploy-all-tazama-rule-processors.bat` file into your source code root folder from:
+### Microsoft Windows batch file
+
+For Windows download the Windows batch file `deploy-all-tazama-rule-processors.bat` file into your source code root folder from:
 
 <https://github.com/frmscoe/docs/blob/main/files/full-stack-docker-tazama/deploy-all-tazama-rule-processors.bat>
 
@@ -357,6 +359,26 @@ deploy-all-tazama-rule-processors.bat "source-code-root-folder-path"
  - For example, the source code root folder path I have been using the compiled this guide is `D:\DevTools\GitHub`:
 
  ![source-root](../images/full-stack-docker-tazama-source-root.png)
+
+### MacOS shell script
+
+For MacOS download the MacOS batch file into your source code root folder from [MacOS-deploy-all-tazama-rule-processors](../files/full-stack-docker-tazama/macos-deploy-all-tazama-rule-processors.sh).
+
+> **Note:** The source code root folder is the folder where you have been cloning the GitHub repositories from.
+
+From a Command Prompt, from the source code root folder, execute the following command:
+
+```shell
+# Grant execution rights to the script by running the following command in your terminal:
+chmod +x ./deploy-rule-processors.sh​
+
+# You can run the script with:
+./deploy-rule-processors.sh
+
+# Then, follow the prompts in the terminal to complete the deployment process.
+```
+
+### Execution
 
 Depending on the performance of your local machine, this process may take quite a while. The batch process is divided into three parts:
 
