@@ -119,7 +119,7 @@ Rule results roll up into typologies through a typology configuration. One would
 
 Finally, the typologies and rules are bound together into the network map and attached to the specific transaction type for which the rules and typologies are intended. The network map defines the rules that should receive the transaction for evaluation, and also the routing to the typologies composed out of the rules.
 
-![Tazama typology config](../images/Tazama-config-typology-config.drawio.svg)
+![Tazama typology config](../images/tazama-config-typology-config.drawio.svg)
 
 [Top](#configuration-management)
 
@@ -250,21 +250,21 @@ While the parameters and exit conditions may be optional for a specific rule pro
 
 **Banded results**, where the result from the rule processor is categorized into one out of a number of discrete bands that partition a contiguous range of possible results.
 
-![Tazama banded rule processor](../images/Tazama-config-rule-processor-banded.drawio.svg)
+![Tazama banded rule processor](../images/tazama-config-rule-processor-banded.drawio.svg)
 
 **Cased results**, where the result from the rule processor is an explicit value from a list of discrete and explicit values.
 
-![Tazama case rule processor](../images/Tazama-config-rule-processor-cases.drawio.svg)
+![Tazama case rule processor](../images/tazama-config-rule-processor-cases.drawio.svg)
 
 The rule processor’s core purpose is to produce a definitive deterministic result based on its programmed behavioral analysis of historical data. The rule configuration defines the bands or values for which rule results can be provided.
 
-![NB](../images/Exclamation.png) It is extremely important that the configuration of a rule processor does not leave any gaps in the results, whether banded or cased. Every possible outcome of a rule result must be accounted for, otherwise the rule processor may deliver a result that the typology processor cannot interpret. In the event that a rule processor result misses the configured results, the rule processor will issue an error (`.err`) result with a reason description of `Value provided undefined, so cannot determine rule outcome`.
+![NB](../images/exclamation.png) It is extremely important that the configuration of a rule processor does not leave any gaps in the results, whether banded or cased. Every possible outcome of a rule result must be accounted for, otherwise the rule processor may deliver a result that the typology processor cannot interpret. In the event that a rule processor result misses the configured results, the rule processor will issue an error (`.err`) result with a reason description of `Value provided undefined, so cannot determine rule outcome`.
 
 #### Rule results - banded results
 
 Banded results are partitions in a contiguous range of results, effectively from -∞ to +∞. When a target value is evaluated against a result band the lower limit of a band is *always* evaluated with the `>=` operator and the upper limit is *always* evaluated with the `<` operator. This way, we can configure the upper limit of one band and the lower limit of the next band with the exact same value to make sure there is no overlap between bands and also no gap.
 
-![Tazama banded rule processor](../images/Tazama-config-rule-processor-band-limits.drawio.svg)
+![Tazama banded rule processor](../images/tazama-config-rule-processor-band-limits.drawio.svg)
 
 Where a lower limit is not provided, the rule processor will assume the intended target lower limit is -∞.
 
