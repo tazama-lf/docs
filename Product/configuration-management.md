@@ -127,7 +127,7 @@ Finally, the typologies and rules are bound together into the network map and at
 
 ### Introduction
 
-A rule processor is a custom-built module that evaluates an incoming message according to its code. When a new rule processor is developed, the rule designer will specify both the input parameters for the rule, as well as the output results. Changes to these attributes can alter a rule processor’s behavior and it is expected that these attributes are hosted in the rule configuration so that the rule processor behavior can be altered by updating the configuration instead of changing the rule processor code.
+A rule processor is a custom-built module that evaluates an incoming message according to its code. When a new rule processor is developed, the rule designer will specify both the input parameters for the rule, as well as the output results. Changes to these attributes can alter a rule processor’s behavior, and it is expected that these attributes are hosted in the rule configuration so that the rule processor behavior can be altered by updating the configuration instead of changing the rule processor code.
 
 A rule processor configuration document typically contains the following information:
 
@@ -139,7 +139,7 @@ A rule processor configuration document typically contains the following informa
         
     *   may contain a number of exit conditions
         
-    *   will contains either result bands
+    *   will contain either result bands
         
     *   or alternatively will contain result cases
        
@@ -172,10 +172,10 @@ A rule processor’s parameters are used to define how a rule processor will ope
 
 | **Parameter** | **Description** |
 | --- | --- |
-| `evaluationIntervalTime` | The time-frame that defines the intervals into which a histogram is partitioned. Some rules perform a statistical analysis of behaviour over time and partitions the historical data into a histogram. This parameter defines, in milliseconds, the time-frame of each interval. |
+| `evaluationIntervalTime` | The time-frame that defines the intervals into which a histogram is partitioned. Some rules perform a statistical analysis of behavior over time and partitions the historical data into a histogram. This parameter defines, in milliseconds, the time-frame of each interval. |
 | `maxQueryLimit` | The maximum number of records to return in the query. This parameter limits the number of results that can be returned from the database. |
 | `maxQueryRange` | A time (in milliseconds) that limits the maximum extent of a historical query. A query with a value of 86400000 would only look up messages received within the last 24 hours. |
-| `minimumNumberOfTransactions` | The least number of transactions required for the rule processor to produce a result. Some statistical algorithms required at least a certain number of data-points to be able to render a useful result. If the minimum number of transactions cannot be retrieved, the rule processor will raised a non-deterministic exit condition. |
+| `minimumNumberOfTransactions` | The least number of transactions required for the rule processor to produce a result. Some statistical algorithms required at least a certain number of data-points to be able to render a useful result. If the minimum number of transactions cannot be retrieved, the rule processor will raise a non-deterministic exit condition. |
 | `tolerance` | A margin of error for an evaluation against a threshold. With a tolerance of 0 (zero) the match against a target value would have to be exact, but with a tolerance value of 0.1, the match could be in a range either 10% below or above the threshold value. |
 
 Example of the `parameters` object:
@@ -210,7 +210,7 @@ Exit conditions cover a number of different exception conditions for rule proces
 | `.x01` | For certain rules, a specific minimum number of historical transactions are required for the rule processor to produce an effective result. This exit condition will be reported if the minimum number of historical records cannot be retrieved in the rule processor. | `Insufficient transaction history`<br><br>`At least 50 historical transactions are required` |
 | `.x02` | Currently unused. |     |
 | `.x03` | The statistical analyses employed in some rule processors evaluate trends in behavior over a number of transactions over a period of time. While the trend itself can be categorized and reported by the regular rule results, some results are not part of an automatable scaled result. This exception provides an outcome when the historical period does not show a clear trend, but the most recent period shows an upturn. | `No variance in transaction history and the volume of recent incoming transactions shows an increase` |
-| `.x04` | Similar to `.x03`, but this exception provides an outcome when the historical period does not show a clear trend, but the most recent period shows an downturn. | `No variance in transaction history and the volume of recent incoming transactions is less than or equal to the historical average` |
+| `.x04` | Similar to `.x03`, but this exception provides an outcome when the historical period does not show a clear trend, but the most recent period shows a downturn. | `No variance in transaction history and the volume of recent incoming transactions is less than or equal to the historical average` |
 
 Example of the `exitConditions` object:
 
@@ -234,15 +234,15 @@ Each exit condition contains the same attributes:
 
 | **Attribute** | **Description** |
 | --- | --- |
-| `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br>By convention, the exit condition sub-rule references are prefaced with an 'x'. |
-| `outcome` | The configuration file defines whether the result delivered by the rule processor is flagged as either `true` or `false`. The flag is somewhat arbitrary, but by convention we choose to assign a `true` flag to deterministic results that will have a weighting impact on the typology score and we assign a `false` flag to non-deterministic results that will not have a weighting impact on the typology score.<br><br>Exit conditions are usually non-deterministic. |
+| `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br> By convention, the exit condition sub-rule references are prefaced with an 'x'. |
+| `outcome` | The configuration file defines whether the result delivered by the rule processor is flagged as either `true` or `false`. The flag is somewhat arbitrary, but by convention we choose to assign a `true` flag to deterministic results that will have a weighting impact on the typology score, and we assign a `false` flag to non-deterministic results that will not have a weighting impact on the typology score.<br><br> Exit conditions are usually non-deterministic. |
 | `reason` | The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. [Reason descriptions will be refined during future enhancements](#reason-description-refinements) |
 
 #### The `.err` exit condition
 
 All rule processors are encoded with an error condition outcome that accounts for exceptions that do not fall into any of the exit conditions above, or the rule results below. These error conditions reflect a fatal error that occurred during the execution of the rule processor, such as, for example, if the database is inaccessible or if some expected data dependency had not been met due to an error during data ingestion or transformation.
 
-Rule processor error conditions are too numerous and diverse to explicitly define and their definition is not required for the rule configuration anyway. The error conditions are handled exclusively in the rule code; however the error condition outcome will still be produced as a rule result to ensure continuity and end-to-end robustness in the platform. If an error occurs, a rule processor will deliver a rule result with a very unique `.err` sub-rule reference and with a specific reason that describes the error. In rare instances, where an error condition was not anticipated during development, the reason might be a generic `Unhandled rule result outcome` message.
+Rule processor error conditions are too numerous and diverse to explicitly define, and their definition is not required for the rule configuration anyway. The error conditions are handled exclusively in the rule code; however the error condition outcome will still be produced as a rule result to ensure continuity and end-to-end robustness in the platform. If an error occurs, a rule processor will deliver a rule result with a very unique `.err` sub-rule reference and with a specific reason that describes the error. In rare instances, where an error condition was not anticipated during development, the reason might be a generic `Unhandled rule result outcome` message.
 
 ### The configuration object - rule results
 
@@ -304,8 +304,8 @@ Each rule result band contains the same information:
 
 | **Attribute** | **Description** |
 | --- | --- |
-| `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br>We have elected to assign a numeric sequence to the sub-rule references for result bands, prefaced with a dot (“.”) separator, but this format is not mandatory for the sub-rule reference string. Any descriptive and unique string would be an acceptable sub-rule reference. |
-| `lowerLimit` | This attribute defines the lower limit of the band range and is evaluated inclusively (`>=`).<br><br>Where a lower limit is not provided, the rule processor will assume the intended target lower limit is -∞. Unless the very first result band in a configuration has a clear and unambiguous lower limit, it is often omitted. |
+| `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br> We have elected to assign a numeric sequence to the sub-rule references for result bands, prefaced with a dot (“.”) separator, but this format is not mandatory for the sub-rule reference string. Any descriptive and unique string would be an acceptable sub-rule reference. |
+| `lowerLimit` | This attribute defines the lower limit of the band range and is evaluated inclusively (`>=`).<br><br> Where a lower limit is not provided, the rule processor will assume the intended target lower limit is -∞. Unless the very first result band in a configuration has a clear and unambiguous lower limit, it is often omitted. |
 | `upperLimit` | This attribute defines the upper limit of the band range and is evaluated exclusively (`<`).<br><br>Where an upper limit is not provided, the rule processor will assume the intended target upper limit is +∞. Unless the very last result band in a configuration has a clear and unambiguous upper limit, it is often omitted. |
 | `outcome` | The configuration file defines whether the result delivered by the rule processor is flagged as either `true` or `false`. The flag is somewhat arbitrary, but by convention we choose to assign a `true` flag to deterministic results that will have a weighting impact on the typology score and we assign a `false` flag to non-deterministic results that will not have a weighting impact on the typology score. |
 | `reason`| The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. [Reason descriptions will be refined during future enhancements](#reason-description-refinements)|
@@ -326,7 +326,7 @@ One of the most frequent limit values in use in the platform is based on time-fr
 
 In contrast to the partitioning of a result range as in banded results, cased results are a collection of discrete and explicit outcomes for a rule processor out of which the rule processor will determine the specific result applicable to the evaluation it performed.
 
-Case results do not have upper or lower limits to define a range of values within which a rule result is placed. Instead every case result is simply evaluated with an `=` operator. The rule result is either that specific case value, or a different one.
+Case results do not have upper or lower limits to define a range of values within which a rule result is placed. Instead every case result is simply evaluated with a `=` operator. The rule result is either that specific case value, or a different one.
 
 It is extremely important that every case-based rule configuration contains a catch-all “else” outcome that defines an outcome for the rule processor if none of the listed case results can be matched. By convention, this “else” outcome is attached to the `.00` sub-rule reference outcome and rule developers and configurers should reserve this sub-rule reference exclusively for this purpose.
 
@@ -434,7 +434,7 @@ Each rule result element in the rules array contains the same attributes:
 | --- | --- |
 | `id` | The rule processor that was used to determine the rule result is uniquely identified by this identifier attribute. |
 | `cfg` | The configuration version attribute specifies the unique version of the rule configuration that was used by the processor to determine this result. |
-| `ref` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each unique outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others<br><br>The unique combination of `id`, `cfg` and `ref` attributes references a unique outcome from each rule processor and allows the typology processor to apply a unique weighting to that specific outcome. |
+| `ref` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each unique outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others.<br><br>The unique combination of `id`, `cfg` and `ref` attributes references a unique outcome from each rule processor and allows the typology processor to apply a unique weighting to that specific outcome. |
 | `true` | The outcome of the rule result will be either true or false, depending if the configurer expected the result to deterministic or not. If the outcome is true, the rule result will be assigned the weighting associated with the `true` attribute in the configuration. By convention, deterministic (true) outcomes are assigned a positive number as a weighting. |
 | `false` | The outcome of the rule result will be either true or false, depending if the configurer expected the result to deterministic or not. If the outcome is false, the rule result will be assigned the weighting associated with the `false` attribute in the configuration. By convention, deterministic (false) outcomes are usually assigned a weighting of 0 (zero). |
 
@@ -549,7 +549,7 @@ In the platform the terms a and b would be represented by their unique `id` and 
 
 We don’t have to also supply a specific sub-rule reference: each rule processor only submits one of its possible rule results at a time.
 
-If, for example, we wanted to apply an additional multiplier to the formula (e.g. `(a + b) * c`, the resulting expression would be structured as follows:
+If, for example, we wanted to apply an additional multiplier to the formula e.g. `(a + b) * c`, the resulting expression would be structured as follows:
 
 ```
 "expression": {
@@ -561,7 +561,7 @@ If, for example, we wanted to apply an additional multiplier to the formula (e.g
 }
 ```
 
-By example, a complete expression for a typology that relies on 4 rule results and calculates the typology score as a sum of the rule result weightings would be composed as follows:
+For example, a complete expression for a typology that relies on 4 rule results and calculates the typology score as a sum of the rule result weightings would be composed as follows:
 
 ```
 "expression": {
@@ -605,7 +605,7 @@ The workflow object determines the thresholds according to which the typology pr
 
 A threshold breach occurs when the calculated typology score is greater or equal to the threshold (`>=`).
 
-Alerts are intended to trigger the investigation of a transaction; either because the transaction was blocked by interdiction, or perhaps because there was not sufficient evidence to outright block a transaction, but enough evidence was accumulated to arouse suspicion.  
+Alerts are intended to trigger the investigation of a transaction; either because the transaction was blocked by interdiction, or perhaps because there was insufficient evidence to outright block a transaction, but enough evidence was accumulated to arouse suspicion.  
 A typology may be configured with alert threshold, but without an interdiction threshold, usually when the typology is focused on money laundering and the intention of the alert is to trigger surveillance processes without tipping the participants off that their criminal behavior had been noticed.
 
 The platform also allows for separate thresholds for alerts and interdictions so that the platform can generate an alert for a lower and more sensitive threshold than an interdiction. The platform may also omit the alert threshold altogether since the interdiction threshold will generate an alert anyway if the interdiction threshold is breached. (And even though it is possible to specify an alert threshold greater or equal to an interdiction threshold, this alert threshold would be redundant.)
@@ -874,4 +874,4 @@ We have found during our performance testing that the text-based descriptions in
 In its default deployment, the platform contains a single version of the “core” platform processors (the typology processor and TADProc) at a time. Though it is possible to deploy and maintain multiple parallel versions of these processors and manage routing to these processors through the network map, this guide will only focus on singular core processors for now.
     
 # Ref 11
-Before our implementation of NATS, Tazama processors were implemented as RESTful micro-services. The `host` attributes in the network map contained the URL where the processors could be addressed. With our initial implementation of NATS, the routing information was moved into environment variables that were read into the processors when they were deployed, or restarted in the event of a processor failure. We have now removed the need to specify the host property for a processor - the routing is automatically determined from the network map at processor startup - see [https://github.com/frmscoe/General-Issues/issues/310](https://github.com/frmscoe/General-Issues/issues/310) for details.
+Before our implementation of NATS, Tazama processors were implemented as RESTful microservices. The `host` attributes in the network map contained the URL where the processors could be addressed. With our initial implementation of NATS, the routing information was moved into environment variables that were read into the processors when they were deployed, or restarted in the event of a processor failure. We have now removed the need to specify the host property for a processor - the routing is automatically determined from the network map at processor startup - see [https://github.com/frmscoe/General-Issues/issues/310](https://github.com/frmscoe/General-Issues/issues/310) for details.
