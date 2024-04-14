@@ -39,8 +39,6 @@
 - [Ref 10](#ref-10)
 - [Ref 11](#ref-11)
 
-Test un-do of commit
-
 # TL;DR
 
 Platform configuration is managed through a number of configuration files, each containing a JSON document that configures a specific processor type (CRSP, rules and typologies) and specific processor instance identified by a processor identifier (id@version) and a configuration version.
