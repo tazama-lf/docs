@@ -35,9 +35,10 @@
   - [3.2. Configuration version management of processors](#32-configuration-version-management-of-processors)
   - [3.3. The Network Map](#33-the-network-map)
 - [References](#references)
-- [Reason description refinements](#reason-description-refinements)
-- [Ref 10](#ref-10)
-- [Ref 11](#ref-11)
+- [Ref 1](#ref-1)
+- [Ref 2](#ref-2)
+- [Ref 3](#ref-3)
+- [Ref 4](#ref-4)
 
 # TL;DR
 
@@ -235,7 +236,7 @@ Each exit condition contains the same attributes:
 | --- | --- |
 | `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br> By convention, the exit condition sub-rule references are prefaced with an 'x'. |
 | `outcome` | The configuration file defines whether the result delivered by the rule processor is flagged as either `true` or `false`. The flag is somewhat arbitrary, but by convention we choose to assign a `true` flag to deterministic results that will have a weighting impact on the typology score, and we assign a `false` flag to non-deterministic results that will not have a weighting impact on the typology score.<br><br> Exit conditions are usually non-deterministic. |
-| `reason` | The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. [Reason descriptions will be refined during future enhancements](#reason-description-refinements) |
+| `reason` | The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. [Reason descriptions will be refined during future enhancements](#Ref 1) |
 
 #### The `.err` exit condition
 
@@ -307,7 +308,7 @@ Each rule result band contains the same information:
 | `lowerLimit` | This attribute defines the lower limit of the band range and is evaluated inclusively (`>=`).<br><br> Where a lower limit is not provided, the rule processor will assume the intended target lower limit is -∞. Unless the very first result band in a configuration has a clear and unambiguous lower limit, it is often omitted. |
 | `upperLimit` | This attribute defines the upper limit of the band range and is evaluated exclusively (`<`).<br><br>Where an upper limit is not provided, the rule processor will assume the intended target upper limit is +∞. Unless the very last result band in a configuration has a clear and unambiguous upper limit, it is often omitted. |
 | `outcome` | The configuration file defines whether the result delivered by the rule processor is flagged as either `true` or `false`. The flag is somewhat arbitrary, but by convention we choose to assign a `true` flag to deterministic results that will have a weighting impact on the typology score and we assign a `false` flag to non-deterministic results that will not have a weighting impact on the typology score. |
-| `reason`| The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. [Reason descriptions will be refined during future enhancements](#reason-description-refinements)|
+| `reason`| The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. [Reason descriptions will be refined during future enhancements](#Ref 1)|
 
 One of the most frequent limit values in use in the platform is based on time-frames. In the platform, all time-frames and associated limits are represented in milliseconds. The following table reflects the conventional milliseconds for different time terms in our configurations:
 
@@ -364,7 +365,7 @@ Each rule result case contains the same information:
 | `value` | This attribute defines the specific value that will be matched in the rule processor (`=`).<br><br>Every case contains a value, with the exception of the default “else” case.<br><br>Values can be either strings, encapsulated in quotes, or numbers, without quotes. |
 | `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br>We have elected to assign a numeric sequence to the sub-rule references for result cases, prefaced with a dot (“.”) separator, but this format is not mandatory for the sub-rule reference string. Any descriptive and unique string would be an acceptable sub-rule reference.<br><br>By convention, the default “else” outcome has a sub-rule reference of `.00`. |
 | `outcome` | The configuration file defines whether the result delivered by the rule processor is flagged as either `true` or `false`. The flag is somewhat arbitrary, but by convention we choose to assign a `true` flag to deterministic results that will have a weighting impact on the typology score and we assign a `false` flag to non-deterministic results that will not have a weighting impact on the typology score. |
-| `reason`| The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. [Reason descriptions will be refined during future enhancements](#reason-description-refinements) |
+| `reason`| The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. [Reason descriptions will be refined during future enhancements](#Ref 1) |
 
 ### Complete example of a rule processor configuration
 
@@ -636,7 +637,7 @@ The thresholds are located in a workflow object in the typology configuration. I
 
 ### Introduction
 
-The network map associates a specific transaction type with the rules and typologies that will be used to evaluate the incoming transaction. The network map allows for a sub-division of typologies according to themes (channels) as may be appropriate for a specific implementation. For example, typologies can be arranged in channels according to the types of financial crime they aim to detect, or typologies can be arranged according to the speed and performance with which they are required to respond, based on the infrastructure onto which the rules are deployed.
+The network map associates a specific transaction type with the rules and typologies that will be used to evaluate the incoming transaction. The network map allows for a subdivision of typologies according to themes (channels) as may be appropriate for a specific implementation. For example, typologies can be arranged in channels according to the types of financial crime they aim to detect, or typologies can be arranged according to the speed and performance with which they are required to respond, based on the infrastructure onto which the rules are deployed.
 
 The network map is structured as a decision tree that defines the rules in a typology, the typologies into a channel and the channels into a transaction (by type):
 
@@ -690,9 +691,9 @@ The network map “header” contains metadata that describes the network map. T
 
 ### The messages object
 
-The `messages` object is an array that contains information about the transactions that the platform is expected to evaluate. Each element in the `messages` object contains the following attributes ([Ref 11](#ref-11)):
+The `messages` object is an array that contains information about the transactions that the platform is expected to evaluate. Each element in the `messages` object contains the following attributes [Ref 4](#ref-4):
 
-*   `id` is the unique identifier for the Transaction Aggregation and Decisioning Processor (TADProc) that will be used to ultimately conclude the evaluation of a specific transaction. It is possible for a transaction to be routed to a unique TADProc that contains specialized functionality related to summarizing the transaction’s results [Ref 10](#ref-10).
+*   `id` is the unique identifier for the Transaction Aggregation and Decisioning Processor (TADProc) that will be used to ultimately conclude the evaluation of a specific transaction. It is possible for a transaction to be routed to a unique TADProc that contains specialized functionality related to summarizing the transaction’s results [Ref 3](#ref-3).
     
 *   `cfg` is the unique version of the deployed TADProc that will be used to conclude the evaluation of the transaction.
     
@@ -731,7 +732,7 @@ Most importantly, the `channels` array contains a `typologies` object array that
 
 The typology object array contains the following attributes:
 
-*   `id` is the unique identifier for the typology processor that will be invoked to aggregate the specified rule results into a typology. It is possible for a transaction to be routed to a unique typology processor[Ref 10](#ref-10) that contains specialized functionality related to calculating the specific typology.
+*   `id` is the unique identifier for the typology processor that will be invoked to aggregate the specified rule results into a typology. It is possible for a transaction to be routed to a unique typology processor[Ref 3](#ref-3) that contains specialized functionality related to calculating the specific typology.
     
 *   `cfg` defines the unique typology and the version of its configuration. The typology processor is effectively just a generic engine that processes the typology’s configuration to combine rules into a typology in a specific way. From a certain perspective, the typology configuration *is* the typology.
     
@@ -815,9 +816,9 @@ When a new version of a configuration document is required, the updated version 
 
 | **Collection name** | **Processor Type** |
 | --- | --- |
-| `configuration` | [Rule](/product/rule-processor-overview.md) Note to Justus - new rule-processor-overview.md does not have the same content as to old confluence 4.1 read rule config [https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/6586489/Rule+Processor+Overview#4.1.-Read-rule-config](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/6586489/Rule+Processor+Overview#4.1.-Read-rule-config) |
-| `typologyExpression` | Typologies[5](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/76906497/Configuration+management#References%3A) |
-| `transactionConfiguration` | Transaction Aggregation and Decisioning[6](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/76906497/Configuration+management#References%3A) |
+| `configuration` | [Rule processor overview - rule config](/product/rule-processor-overview-rule-config.md) |
+| `typologyExpression` | [Typologies](/product/typology-processing.md) |
+| `transactionConfiguration` | [Transaction Aggregation and Decisioning](/product/transaction-aggregation-and-decisioning-processor.md) |
 
 Configuration documents can be posted to the appropriate collection via the ArangoDB API, either in bulk or one-by-one. When posting a new configuration for an existing processor, the database will not allow a user to submit a configuration for an "id" and "cfg" combination that already exists in the database: a new configuration must always be assigned a unique configuration version.
 
@@ -827,9 +828,9 @@ Once a configuration document has been created or updated and uploaded to the co
 
 ## 3.3. The Network Map
 
-The network map defines the routing of an incoming transaction to all rules and typologies that are required to evaluate the transaction[7](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/76906497/Configuration+management#References). By default, the platform is configured to evaluate a pacs.002 transaction that concludes a transaction initiated from a pain.001 or pacs.008 message with a status response.
+The network map defines the routing of an incoming transaction to all rules and typologies that are required to evaluate the transaction. By default, the platform is configured to evaluate a pacs.002 transaction that concludes a transaction initiated from a pain.001 or pacs.008 message with a status response.
 
-Unlike the processor configuration documents, the network map does not contain an explicit configuration version8. Instead, the network map contains an attribute to identify the current active network map being used to perform evaluations:
+Unlike the processor configuration documents, the network map does not contain an explicit configuration version [Ref 2](#ref-2). Instead, the network map contains an attribute to identify the current active network map being used to perform evaluations:
 
 ```
 "active": true
@@ -850,27 +851,18 @@ The active network map ultimately defines the scope of a particular evaluation, 
 [Top](#configuration-management)
 
 # References
-Ref 1.  In its current configuration, the platform only evaluates the pacs.002 as the trigger payload for the rule processors and typologies have only been defined with the final status of a payment transaction in mind. (SL delete this reference included in text above)
-    
-Ref 2 The typology processor is not currently configured to interdict the transaction when the threshold is breached; only investigations are commissioned once the evaluation of all the typologies are complete. (SL delete this note - included in text above)
-    
-Ref 3 [https://semver.org/](https://semver.org/) (SL delete this reference - link included in the text above)
-    
-Ref 4 [https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/6586489/Rule+Processor+Overview#4.1.-Read-rule-config](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/6586489/Rule+Processor+Overview#4.1.-Read-rule-config)
-    
-Ref 5 [https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/1740494/Typology+Processing#5.5.-Read-typology-configuration](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/1740494/Typology+Processing#5.5.-Read-typology-configuration)
-    
-Ref 6 [https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/6259944/Transaction+Aggregation+and+Decisioning+Processor+TADProc#7.4.2.-Read-transaction-configuration](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/6259944/Transaction+Aggregation+and+Decisioning+Processor+TADProc#7.4.2.-Read-transaction-configuration)
-    
-Ref 7 [https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/6520927/Channel+Router+and+Setup+Processor+CRSP#3.1.-Read-Network-Map](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/6520927/Channel+Router+and+Setup+Processor+CRSP#3.1.-Read-Network-Map)
-    
-Ref 8 An explicit version reference has been planned for development to make it easier for an operator to link an evaluation result to the specific originating network map.
-    
-# Reason description refinements
+
+# Ref 1
 We have found during our performance testing that the text-based descriptions in our processor results undermines the performance gains we achieved with our ProtoBuff implementation. We will be removing the unabridged reason and processor descriptions from the configuration documents in favor of shorter look-up codes that will then also be used to introduce regionalized/language-specific descriptions.
+   
+   
+# Ref 2 
+An explicit version reference has been planned for development to make it easier for an operator to link an evaluation result to the specific originating network map.
     
-# Ref 10
+
+    
+# Ref 3
 In its default deployment, the platform contains a single version of the “core” platform processors (the typology processor and TADProc) at a time. Though it is possible to deploy and maintain multiple parallel versions of these processors and manage routing to these processors through the network map, this guide will only focus on singular core processors for now.
     
-# Ref 11
+# Ref 4
 Before our implementation of NATS, Tazama processors were implemented as RESTful microservices. The `host` attributes in the network map contained the URL where the processors could be addressed. With our initial implementation of NATS, the routing information was moved into environment variables that were read into the processors when they were deployed, or restarted in the event of a processor failure. We have now removed the need to specify the host property for a processor - the routing is automatically determined from the network map at processor startup - see [https://github.com/frmscoe/General-Issues/issues/310](https://github.com/frmscoe/General-Issues/issues/310) for details.
