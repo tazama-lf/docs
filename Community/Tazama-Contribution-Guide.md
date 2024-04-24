@@ -404,17 +404,17 @@ Best practices for making changes.
 
 #### 5.2.1 Definition of done
 
-**Code Complete** - Source code changes are done for all the features in the “to do” list.” Source code has been commented appropriately (defined in dev workflow guidelines). [Developer]
+**Code Complete** - Source code changes are done for all the features in the “to do” list.” Source code has been commented appropriately. [Developer]
 
 **Architecture** – All new code conforms to the agreed architecture (*unless agreed otherwise as part of refactoring existing legacy code). [PR Approver]
 
-**Unit testing** - Unit test cases have been created, executed and are working successfully. Follow coverage guidelines in confluence - will run on pipeline (where possible). Will create spike where we find some Rule Engine that’s difficult to unit test. [Developer]
+**Unit testing** - Unit test cases have been created, executed and are working successfully. Follow  [coverage guidelines](/Technical/unit-test-coverage.md). Will create spike where we find some Rule Engine that’s difficult to unit test. [Developer]
 
-**GitHub CI/CD** - Ensure that all GitHub workflows have completed successfully during PR checks, and that the Newman benchmark results have been presented on the PR as a comment. If you notice any spikes in the benchmark, please report the spike or reevaluate the implemented code, if you are using a Fork to contribute please follow: Organization Contribution Guidelines - Ekuta - Confluence (atlassian.net) [Developer] + [PR Approver]
+**GitHub CI/CD** - Ensure that all GitHub workflows have completed successfully during PR checks, and that the Newman benchmark results have been presented on the PR as a comment. If you notice any spikes in the benchmark, please report the spike or reevaluate the implemented code, if you are using a Fork to contribute please follow: [contribution guidelines](/Technical/contribution-guidelines.md) [Developer] + [PR Approver]
 
 **Automated Builds** – All code is included in automated builds and any updates to the build scripts have been completed and tested and checked in. Jenkins / CircleCI - Poly vs Mono repo [DevOps]
 
-**Developer Documentation Ready** – There is sufficient and suitable development documentation in place (as defined in confluence) - Sequence Diagram / Swagger in Confluence (NOT GitHub - security reasons) eventually. [Developer]
+**Developer Documentation Ready** – There is sufficient and suitable development documentation in place - Sequence Diagram / Swagger in Confluence (NOT GitHub - security reasons) eventually. [Developer]
 
 **Code Documentation** – Electronic documentation has been auto-generated (where available) and has been checked for correctness. Also have sufficient code comments. [Developer] + [PR Approver]
 
