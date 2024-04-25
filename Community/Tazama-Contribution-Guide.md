@@ -239,7 +239,7 @@ Follow these step-by-step instructions to get your local machine ready to work o
 
     If interaction with Tazama is expected to be solely through the TMS API, the proxy will not be required.
 
-   - Install the Tazama NATS REST Proxy Docker image for the `latest` version via the Github Container Registry:
+   - Install the Tazama NATS REST Proxy Docker image for the `latest` version via the GitHub Container Registry:
      - Start the Docker Desktop in Windows
      - In a Windows Command Prompt:
       ```
@@ -346,7 +346,7 @@ Check for specific database setup, API keys, or other dependencies.
 #### Troubleshooting:
  - If you encounter issues during the setup process, refer to the project's issue tracker on GitHub or the documentation for troubleshooting steps.
  - Ensure that your system meets the specified requirements
- - If a shell command fails at firts, try running your shell in administrator mode.
+ - If a shell command fails at first, try running your shell in administrator mode.
 
 #### Conclusion:
 You have successfully set up a Tazama microservice processor on your local machine. If you encounter any difficulties or have questions, refer to the project's documentation or seek help from the project's community on GitHub or Slack. Happy coding!
@@ -402,6 +402,40 @@ Instructions on forking and cloning the repository.
 ### 5.2 Making Changes
 Best practices for making changes.
 
+#### 5.2.1 Definition of done
+
+**Code Complete** - Source code changes are done for all the features in the “to do” list.” Source code has been commented appropriately. [Developer]
+
+**Architecture** – All new code conforms to the agreed architecture (*unless agreed otherwise as part of refactoring existing legacy code). [PR Approver]
+
+**Unit testing** - Unit test cases have been created, executed and are working successfully. Follow  [coverage guidelines](/Technical/unit-test-coverage.md). Will create spike where we find some Rule Engine that’s difficult to unit test. [Developer]
+
+**GitHub CI/CD** - Ensure that all GitHub workflows have completed successfully during PR checks, and that the Newman benchmark results have been presented on the PR as a comment. If you notice any spikes in the benchmark, please report the spike or reevaluate the implemented code, if you are using a Fork to contribute please follow: [contribution guidelines](/Technical/contribution-guidelines.md) [Developer] + [PR Approver]
+
+**Automated Builds** – All code is included in automated builds and any updates to the build scripts have been completed and tested and checked in. Jenkins / CircleCI - Poly vs Mono repo [DevOps]
+
+**Developer Documentation Ready** – There is sufficient and suitable development documentation in place - Sequence Diagram / Swagger in Confluence (NOT GitHub - security reasons) eventually. [Developer]
+
+**Code Documentation** – Electronic documentation has been auto-generated (where available) and has been checked for correctness. Also have sufficient code comments. [Developer] + [PR Approver]
+
+**\*Release Notes / Version Control** - TODO Aaron - figure out what greater ML does - check this
+
+**Code Refactoring** - Source code has been refactored to make it comprehensive, maintainable and amenable to change (*unless agreed otherwise as part of refactoring existing legacy code). [Developer]
+
+**Code Check-in** - Source code is checked in to source code control repository and PR process is followed [Developer]
+
+**Code & Peer reviews** (pull requests) – These have been carried out and all improvements implemented and tests completed. [Developer] to follow-up and ensure code gets merged in reasonable time [PR Approver]
+
+**\*Logging** - Configurable log levels - able to switch on verbose logging for debugging purposes? Error logging - where to? [Developer]
+
+**All acceptance criteria are met and Testing complete** [Developer]
+
+ - **Automated testing** - All existing automated tests have been run successfully
+
+ - **Regression testing** – Suitable level of Regression testing has been carried out successfully
+
+**Closure** - PR is closed, Automated tests ran, Pipeline built successfully, Automated deployments ran, THEN All finished user stories/tasks are marked complete/resolved. [Developer]
+
 ### 5.3 Committing Your Changes
 
 When committing changes to your development branch you would be required to submit a commit message to describe the change. Depending on the mechanism that you are using to commit your changes, you may have access to a commit message as well as an extended description of your changes, but it is expected that you should complete at least the commit message.
@@ -435,7 +469,7 @@ Recommended commit types are based on the [Angular convention](https://github.co
  - **fix**: A bug fix
  - **perf**: A code change that improves performance
  - **refactor**: A code change that neither fixes a bug nor adds a feature
- - **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semicolons, etc)
+ - **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semicolons, etc.)
  - **test**: Adding missing tests or correcting existing tests
 
 Scope keywords are tailored to Tazama's specific requirements. Tazama's source code is spread across a number of repositories and as such even small changes often affect a number of separate repositories simultaneously. This complicates source control a bit, since a number of changes across different repositories may all be related to a single requirement. For the sake of proper governance, the requirement would be logged as an issue in each of the affected repositories to outline the acceptance criteria for the change in *that* repository and also to provide an anchor for the eventual Pull Request to implement the change in that repository. From this perspective, the scope is generally either confined to a single repository that represents a single Tazama processor, or a cluster of repositories representing a number of Tazama processors.
