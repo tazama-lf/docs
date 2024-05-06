@@ -101,6 +101,8 @@ References:
 [Linux Kernel Code of Conduct](https://docs.kernel.org/process/code-of-conduct.html)
 [Contributor Covenant](https://www.contributor-covenant.org/)
 
+[Top](#contribution-guide)
+
 ## 3. Types of Contributors
 
 Our contribution guide addresses different kinds of contributors. It is not intended to be an exhaustive or exclusive list, but the classification of contributors helps us to support each contributor according to their specific needs. 
@@ -157,6 +159,8 @@ From a DevOps perspective, we make use of the following tools:
  - [PlantUML](https://plantuml.com/) for embedded diagrams in Confluence
  - [Drawio](https://www.drawio.com/) for embedded diagrams in GitHub
 
+[Top](#contribution-guide)
+
 ### 3.2 Setting Up the Development Environment
 
 (with thanks to @cshezi)
@@ -183,6 +187,8 @@ Before you begin working on an existing or new Tazama microservice processor, en
   - **Postman / Newman**
     - Install the Postman application by visiting the official [Postman website](https://www.postman.com/downloads/) - we use Postman collections to test our microservices, but also to set up our ArangoDB collections and data. 
     - (Optional) If you prefer a command-line alternative to the Postman application, you can also use Newman or the Postman CLI tool. Instructions for installing both are also on the official [Postman website](https://www.postman.com/downloads/).
+
+[Top](#contribution-guide)
 
 #### Microprocessor setup instructions
 Follow these step-by-step instructions to get your local machine ready to work on a Tazama microservice processor. First we are going to set up the core services that all microservice processors rely on, and then we'll set up a specific microservice and get that ready for you to work on.
@@ -306,6 +312,7 @@ Follow these step-by-step instructions to get your local machine ready to work o
       ```
       docker run -p 3000:3000 --network=tazama-net -e NODE_ENV=dev -e SERVER_URL=nats-server:4222 -d --name nats-utilities ghcr.io/frmscoe/nats-utilities:latest
       ```
+[Top](#contribution-guide)
 
 ##### B. Setting Up a Microservice Processor to Work On
 
@@ -392,6 +399,7 @@ Follow the steps below to get the `Rule Executer` on your operating table:
     ```
     npm run test
     ```
+[Top](#contribution-guide)
 
 ##### Additional Configuration (if needed):
 
@@ -406,6 +414,8 @@ Check for specific database setup, API keys, or other dependencies.
 
 #### Conclusion:
 You have successfully set up a Tazama microservice processor on your local machine. If you encounter any difficulties or have questions, refer to the project's documentation or seek help from the project's community on GitHub or Slack. Happy coding!
+
+[Top](#contribution-guide)
 
 ## 4. How to Contribute
 ### 4.1 Understanding the Project Structure
@@ -449,7 +459,7 @@ flowchart TB
 
 1. Fork the repository you want to work on
 
-
+[Top](#contribution-guide)
 
 ## 5. Making and Submitting Contributions
 ### 5.1 Forking and Cloning the Repository
@@ -539,6 +549,8 @@ Steps to create and submit a pull request.
 ### 5.5 Code Review Process
 What to expect during the code review.
 
+[Top](#contribution-guide)
+
 ## 6. Community and Communication
 ### 6.1 Communication Channels
 Information on communication channels like mailing lists and chat.
@@ -586,6 +598,7 @@ How to contact the core team for assistance.
 
 <https://opensource.guide/>
 
+[Top](#contribution-guide)
 
 ### 12.2 Glossary
 
