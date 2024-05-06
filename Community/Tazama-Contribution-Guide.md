@@ -1,5 +1,60 @@
 # Contribution Guide
 
+- [Contribution Guide](#contribution-guide)
+  - [1. Introduction](#1-introduction)
+    - [1.1 Overview of the Project](#11-overview-of-the-project)
+    - [1.2 Importance of Contributions](#12-importance-of-contributions)
+    - [1.3 Scope of the Guide](#13-scope-of-the-guide)
+  - [2. Code of Conduct](#2-code-of-conduct)
+    - [2.1 Adherence to Linux Foundation's Code of Conduct](#21-adherence-to-linux-foundations-code-of-conduct)
+  - [3. Types of Contributors](#3-types-of-contributors)
+    - [3.1 Required Skills and Knowledge](#31-required-skills-and-knowledge)
+      - [Development and developer tools](#development-and-developer-tools)
+      - [Third party Open Source Software components](#third-party-open-source-software-components)
+      - [DevOps](#devops)
+      - [Documentation](#documentation)
+    - [3.2 Setting Up the Development Environment](#32-setting-up-the-development-environment)
+      - [Requirements](#requirements)
+      - [Microprocessor setup instructions](#microprocessor-setup-instructions)
+        - [A. Preparation](#a-preparation)
+        - [B. Setting Up a Microservice Processor to Work On](#b-setting-up-a-microservice-processor-to-work-on)
+        - [Additional Configuration (if needed):](#additional-configuration-if-needed)
+      - [Troubleshooting:](#troubleshooting)
+      - [Conclusion:](#conclusion)
+  - [4. How to Contribute](#4-how-to-contribute)
+    - [4.1 Understanding the Project Structure](#41-understanding-the-project-structure)
+    - [4.2 Finding Something to Work On](#42-finding-something-to-work-on)
+    - [4.3 Contribution Process Overview](#43-contribution-process-overview)
+  - [5. Making and Submitting Contributions](#5-making-and-submitting-contributions)
+    - [5.1 Forking and Cloning the Repository](#51-forking-and-cloning-the-repository)
+    - [5.2 Making Changes](#52-making-changes)
+      - [5.2.1 Definition of done](#521-definition-of-done)
+    - [5.3 Committing Your Changes](#53-committing-your-changes)
+    - [5.4 Submitting a Pull Request](#54-submitting-a-pull-request)
+    - [5.5 Code Review Process](#55-code-review-process)
+  - [6. Community and Communication](#6-community-and-communication)
+    - [6.1 Communication Channels](#61-communication-channels)
+    - [6.2 Regular Meetings or Calls](#62-regular-meetings-or-calls)
+  - [7. Documentation Contributions](#7-documentation-contributions)
+    - [7.1 Contributing to Documentation](#71-contributing-to-documentation)
+    - [7.2 Documentation Style Guide](#72-documentation-style-guide)
+  - [8. Reporting Bugs and Requesting Features](#8-reporting-bugs-and-requesting-features)
+    - [8.1 How to Report Bugs](#81-how-to-report-bugs)
+    - [8.2 Suggesting Enhancements](#82-suggesting-enhancements)
+  - [9. Legal Compliance](#9-legal-compliance)
+    - [9.1 Licensing Information](#91-licensing-information)
+    - [9.2 Contributor License Agreement (CLA)](#92-contributor-license-agreement-cla)
+  - [10. Acknowledgements](#10-acknowledgements)
+    - [10.1 Recognizing Contributors](#101-recognizing-contributors)
+    - [10.2 Community Contributors](#102-community-contributors)
+  - [11. Getting Help](#11-getting-help)
+    - [11.1 Resources for Help](#111-resources-for-help)
+    - [11.2 Contact Information](#112-contact-information)
+  - [12. Appendix](#12-appendix)
+    - [12.1. Additional Resources](#121-additional-resources)
+    - [12.2 Glossary](#122-glossary)
+
+
 ## 1. Introduction
 
 Hello and welcome! If you are reading this, we hope it's because you'd like to help. 
@@ -100,6 +155,7 @@ From a DevOps perspective, we make use of the following tools:
  - [Mermaid.js](http://mermaid.js.org/#/) for markdown-embedded diagrams in GitHub
  - [Atlassian Confluence](https://www.atlassian.com/software/confluence) is (currently) hosting our project documentation at <https://frmscoe.atlassian.net/wiki/spaces/FRMS/overview>
  - [PlantUML](https://plantuml.com/) for embedded diagrams in Confluence
+ - [Drawio](https://www.drawio.com/) for embedded diagrams in GitHub
 
 ### 3.2 Setting Up the Development Environment
 
