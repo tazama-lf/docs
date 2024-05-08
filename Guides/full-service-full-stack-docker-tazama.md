@@ -33,7 +33,7 @@ This guide will take you through the steps to deploy Tazama in a Docker containe
 
 Tazama is composed of a number of third party and custom-built open source components. While all our Tazama components are also open source software, the rules that we have built to detect fraud and money laundering behaviour are hidden from public (and nefarious) view in private repositories on GitHub.
 
-The guide in the [Full-Stack-Docker-Tazama repository](https://github.com/frmscoe/Full-Stack-Docker-Tazama) will show you how to install the platform using only the publicly available open source software components. This guide will show you how to install everything, including the hidden, private rules, if you have access to them.
+The guide in the [Full-Stack-Docker-Tazama repository](https://github.com/frmscoe/Full-Stack-Docker-Tazama) will show you how to install the system using only the publicly available open source software components. This guide will show you how to install everything, including the hidden, private rules, if you have access to them.
 
 This guide is specific to the Windows 10 operating system.
 
@@ -161,7 +161,7 @@ Once again, copy-pasting and string-replacing can be rather tedious, and you are
 
 ## 3. Deploy the Core Services
 
-Tazama core services provides the foundational infrastructure components for the platform and includes the ArangoDB, NATS and redis services: ArangoDB provides the database infrastructure, NATS provides the pub/sub functionality and redis provides for fast in-memory processor data caching.
+Tazama core services provides the foundational infrastructure components for the system and includes the ArangoDB, NATS and redis services: ArangoDB provides the database infrastructure, NATS provides the pub/sub functionality and redis provides for fast in-memory processor data caching.
 
 We deploy these services first and separately so that we can access the database to configure Tazama before continuing with the rest of the installation tasks.
 
@@ -229,7 +229,7 @@ newman run collection-file -e environment-file --timeout-request 10200
 
 ## 5. Deploy core processors
 
-Now that the platform is configured, we can deploy our core processors. The main reason the configuration needs to preceed the deployment of the processors is that the processors read the network map at startup to set up the NATS pub/sub routes for the evaluation flow. If the core processors were deployed first, they would have to be restarted once the configuration was eventually uploaded.
+Now that the system is configured, we can deploy our core processors. The main reason the configuration needs to preceed the deployment of the processors is that the processors read the network map at startup to set up the NATS pub/sub routes for the evaluation flow. If the core processors were deployed first, they would have to be restarted once the configuration was eventually uploaded.
 
 Navigate back to the `full-stack-docker-tazama` folder:
 ```

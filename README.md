@@ -16,11 +16,11 @@ The sections below provide a brief overview of the Tazama system, with links to 
 
 ##  1. <a name='1-what-is-tazama'></a>What is Tazama?
 
-Tazama is an Open Source Real-Time Transaction Monitoring Software built to support any Financial Services Provider (FSP) that requires Transaction Monitoring for Fraud and Money Laundering detection. Whether that FSP is a small provider running one or 2 transactions per day or a national payment switch running at over 3,000 Transactions per second. With Tazama they can implement simple or complex rules, implement Fraud Detection controls or support Anti-Money Laundering activities.
+Tazama is an Open Source Real-Time Transaction Monitoring System built to support any Financial Services Provider (FSP) that requires Transaction Monitoring for Fraud and Money Laundering detection. Whether that FSP is a small provider running one or 2 transactions per day or a national payment switch running at over 3,000 Transactions per second. With Tazama they can implement simple or complex rules, implement Fraud Detection controls or support Anti-Money Laundering activities.
 
 ![tazama context](images/tazama-context.png)
 
-Tazama is designed to ingest transaction data in real-time through its Transaction Monitoring Service API. Data can be received from multiple participants in a financial ecosystem, including customer-facing Financial Service Providers such as banks, remitters or mobile money operators, and also the intermediaries involved in facilitates transfers and payments across the ecosystem, such as clearing houses or payment switches. The Tazama API is designed to be ISO20022 compliant, but non-ISO20022 systems can still communicate with the platform via a Payment Platform Adapter (PPA) that will transform message traffic into an ISO20022 equivalent.
+Tazama is designed to ingest transaction data in real-time through its Transaction Monitoring Service API. Data can be received from multiple participants in a financial ecosystem, including customer-facing Financial Service Providers such as banks, remitters or mobile money operators, and also the intermediaries involved in facilitates transfers and payments across the ecosystem, such as clearing houses or payment switches. The Tazama API is designed to be ISO20022 compliant, but non-ISO20022 systems can still communicate with the system via a Payment Platform Adapter (PPA) that will transform message traffic into an ISO20022 equivalent.
 
 Ingested transactions are stored in the Tazama database from where it will be used to support real-time modelling of participant behaviour through a number of rule processors that will evaluate the transaction and its participants to look for suspicious behaviour. Rule results will be summarized into fraud and money-laundering scenarios, called typologies.
 
@@ -47,7 +47,7 @@ In the creation of a typology, it is worth highlighting that our phishing exampl
 <div style="text-align: right"><a href="#top">Top</a></div>
 
 ##  3. <a name='3-core-components'></a>Core Components
-The Tazama software has a number of key components that have been selected and architected to allow maximum flexibility, ensure data protection, and reduced operational costs for high performance at scale. They are the:
+The Tazama system has a number of key components that have been selected and architected to allow maximum flexibility, ensure data protection, and reduced operational costs for high performance at scale. They are the:
 
  - Transaction Monitoring Service (TMS) API
  - Channel Router and Setup Processor (CRSP)
@@ -111,8 +111,8 @@ With the output from these rules an assessment is made to determine if there is 
 
 If a suspicious transaction is identified, there are a number of actions that can be considered. If the accumulated evidence of suspicious behaviour in the transaction is considered:
 
- - **High** - the transaction can be interdicted (blocked) immediately, with an alert sent to the FSP transacting and/or case management platforms;
- - **Moderate** - an investigation alert to a case management platform can be created once the evaluation of all the typologies are complete;
+ - **High** - the transaction can be interdicted (blocked) immediately, with an alert sent to the FSP transacting and/or case management systems;
+ - **Moderate** - an investigation alert to a case management systems can be created once the evaluation of all the typologies are complete;
  - **Low** - the transaction will pass without intervention, but the evaluation outcome will be stored for future retrieval.
 
 Further information on the role of the Typology Processor is available on the [Typology Processing](/Product/typology-processing.md) page.
@@ -123,7 +123,7 @@ Further information on the role of the Typology Processor is available on the [T
 
 The final assessment step is to consolidate all the results from all the typologies and persist the results by writing the transaction evaluation results to the database. If any typologies are breached, the completed evaluation results can be routed to a Case Management System for investigation.
 
-The Tazama system does not currently integrate with an existing Case Management System, but does have the capability to submit the transaction evaluation results in JSON format to an external platform. An implementer will be able to use this JSON output to pass an alert to the FSP's existing Case Management or Ticket Management systems.
+The Tazama system does not currently integrate with an existing Case Management System, but does have the capability to submit the transaction evaluation results in JSON format to an external system. An implementer will be able to use this JSON output to pass an alert to the FSP's existing Case Management or Ticket Management systems.
 
 Further information on the role of the Transaction Aggregator and Decision Processor (TADProc) is available on the [Transaction Aggregation and Decisioning Processor (TADProc)](/Product/transaction-aggregation-and-decisioning-processor.md) page.
 

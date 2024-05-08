@@ -145,7 +145,7 @@ The Product is composed out of a wide variety of other Open Source Software comp
 
 From a DevOps perspective, we make use of the following tools:
 
- - [Helm](https://helm.sh/) to define the build and deployment of our software
+ - [Helm](https://helm.sh/) to define the build and deployment of our system
  - [Jenkins](https://www.jenkins.io/) to automate our build, test and deployment processes
  - [Kubernetes](https://kubernetes.io/) for the automated deployment of containers and to scale and manage our containerized system components
  - [Newman](https://learning.postman.com/docs/collections/using-newman-cli/command-line-integration-with-newman/) to automatically execute Postman tests as part of the automated build, test and deployment process
@@ -420,7 +420,7 @@ You have successfully set up a Tazama microservice processor on your local machi
 ## 4. How to Contribute
 ### 4.1 Understanding the Project Structure
 
-Read the [Project documentation](https://frmscoe.atlassian.net/wiki/spaces/FRMS/overview) for a detailed overview of the system.
+Read the [Product Overview](/README.md) for a detailed overview of the system.
 
 The Project organization on GitHub contains both PUBLIC and PRIVATE repositories. Core components of the system are in public repositories that are accessible to anyone:
 
