@@ -1,5 +1,60 @@
 # Contribution Guide
 
+- [Contribution Guide](#contribution-guide)
+  - [1. Introduction](#1-introduction)
+    - [1.1 Overview of the Project](#11-overview-of-the-project)
+    - [1.2 Importance of Contributions](#12-importance-of-contributions)
+    - [1.3 Scope of the Guide](#13-scope-of-the-guide)
+  - [2. Code of Conduct](#2-code-of-conduct)
+    - [2.1 Adherence to Linux Foundation's Code of Conduct](#21-adherence-to-linux-foundations-code-of-conduct)
+  - [3. Types of Contributors](#3-types-of-contributors)
+    - [3.1 Required Skills and Knowledge](#31-required-skills-and-knowledge)
+      - [Development and developer tools](#development-and-developer-tools)
+      - [Third party Open Source Software components](#third-party-open-source-software-components)
+      - [DevOps](#devops)
+      - [Documentation](#documentation)
+    - [3.2 Setting Up the Development Environment](#32-setting-up-the-development-environment)
+      - [Requirements](#requirements)
+      - [Microprocessor setup instructions](#microprocessor-setup-instructions)
+        - [A. Preparation](#a-preparation)
+        - [B. Setting Up a Microservice Processor to Work On](#b-setting-up-a-microservice-processor-to-work-on)
+        - [Additional Configuration (if needed):](#additional-configuration-if-needed)
+      - [Troubleshooting:](#troubleshooting)
+      - [Conclusion:](#conclusion)
+  - [4. How to Contribute](#4-how-to-contribute)
+    - [4.1 Understanding the Project Structure](#41-understanding-the-project-structure)
+    - [4.2 Finding Something to Work On](#42-finding-something-to-work-on)
+    - [4.3 Contribution Process Overview](#43-contribution-process-overview)
+  - [5. Making and Submitting Contributions](#5-making-and-submitting-contributions)
+    - [5.1 Forking and Cloning the Repository](#51-forking-and-cloning-the-repository)
+    - [5.2 Making Changes](#52-making-changes)
+      - [5.2.1 Definition of done](#521-definition-of-done)
+    - [5.3 Committing Your Changes](#53-committing-your-changes)
+    - [5.4 Submitting a Pull Request](#54-submitting-a-pull-request)
+    - [5.5 Code Review Process](#55-code-review-process)
+  - [6. Community and Communication](#6-community-and-communication)
+    - [6.1 Communication Channels](#61-communication-channels)
+    - [6.2 Regular Meetings or Calls](#62-regular-meetings-or-calls)
+  - [7. Documentation Contributions](#7-documentation-contributions)
+    - [7.1 Contributing to Documentation](#71-contributing-to-documentation)
+    - [7.2 Documentation Style Guide](#72-documentation-style-guide)
+  - [8. Reporting Bugs and Requesting Features](#8-reporting-bugs-and-requesting-features)
+    - [8.1 How to Report Bugs](#81-how-to-report-bugs)
+    - [8.2 Suggesting Enhancements](#82-suggesting-enhancements)
+  - [9. Legal Compliance](#9-legal-compliance)
+    - [9.1 Licensing Information](#91-licensing-information)
+    - [9.2 Contributor License Agreement (CLA)](#92-contributor-license-agreement-cla)
+  - [10. Acknowledgements](#10-acknowledgements)
+    - [10.1 Recognizing Contributors](#101-recognizing-contributors)
+    - [10.2 Community Contributors](#102-community-contributors)
+  - [11. Getting Help](#11-getting-help)
+    - [11.1 Resources for Help](#111-resources-for-help)
+    - [11.2 Contact Information](#112-contact-information)
+  - [12. Appendix](#12-appendix)
+    - [12.1. Additional Resources](#121-additional-resources)
+    - [12.2 Glossary](#122-glossary)
+
+
 ## 1. Introduction
 
 Hello and welcome! If you are reading this, we hope it's because you'd like to help. 
@@ -46,6 +101,8 @@ References:
 [Linux Kernel Code of Conduct](https://docs.kernel.org/process/code-of-conduct.html)
 [Contributor Covenant](https://www.contributor-covenant.org/)
 
+[Top](#contribution-guide)
+
 ## 3. Types of Contributors
 
 Our contribution guide addresses different kinds of contributors. It is not intended to be an exhaustive or exclusive list, but the classification of contributors helps us to support each contributor according to their specific needs. 
@@ -88,7 +145,7 @@ The Product is composed out of a wide variety of other Open Source Software comp
 
 From a DevOps perspective, we make use of the following tools:
 
- - [Helm](https://helm.sh/) to define the build and deployment of our software
+ - [Helm](https://helm.sh/) to define the build and deployment of our system
  - [Jenkins](https://www.jenkins.io/) to automate our build, test and deployment processes
  - [Kubernetes](https://kubernetes.io/) for the automated deployment of containers and to scale and manage our containerized system components
  - [Newman](https://learning.postman.com/docs/collections/using-newman-cli/command-line-integration-with-newman/) to automatically execute Postman tests as part of the automated build, test and deployment process
@@ -100,6 +157,9 @@ From a DevOps perspective, we make use of the following tools:
  - [Mermaid.js](http://mermaid.js.org/#/) for markdown-embedded diagrams in GitHub
  - [Atlassian Confluence](https://www.atlassian.com/software/confluence) is (currently) hosting our project documentation at <https://frmscoe.atlassian.net/wiki/spaces/FRMS/overview>
  - [PlantUML](https://plantuml.com/) for embedded diagrams in Confluence
+ - [Drawio](https://www.drawio.com/) for embedded diagrams in GitHub
+
+[Top](#contribution-guide)
 
 ### 3.2 Setting Up the Development Environment
 
@@ -127,6 +187,8 @@ Before you begin working on an existing or new Tazama microservice processor, en
   - **Postman / Newman**
     - Install the Postman application by visiting the official [Postman website](https://www.postman.com/downloads/) - we use Postman collections to test our microservices, but also to set up our ArangoDB collections and data. 
     - (Optional) If you prefer a command-line alternative to the Postman application, you can also use Newman or the Postman CLI tool. Instructions for installing both are also on the official [Postman website](https://www.postman.com/downloads/).
+
+[Top](#contribution-guide)
 
 #### Microprocessor setup instructions
 Follow these step-by-step instructions to get your local machine ready to work on a Tazama microservice processor. First we are going to set up the core services that all microservice processors rely on, and then we'll set up a specific microservice and get that ready for you to work on.
@@ -250,6 +312,7 @@ Follow these step-by-step instructions to get your local machine ready to work o
       ```
       docker run -p 3000:3000 --network=tazama-net -e NODE_ENV=dev -e SERVER_URL=nats-server:4222 -d --name nats-utilities ghcr.io/frmscoe/nats-utilities:latest
       ```
+[Top](#contribution-guide)
 
 ##### B. Setting Up a Microservice Processor to Work On
 
@@ -336,6 +399,7 @@ Follow the steps below to get the `Rule Executer` on your operating table:
     ```
     npm run test
     ```
+[Top](#contribution-guide)
 
 ##### Additional Configuration (if needed):
 
@@ -351,10 +415,12 @@ Check for specific database setup, API keys, or other dependencies.
 #### Conclusion:
 You have successfully set up a Tazama microservice processor on your local machine. If you encounter any difficulties or have questions, refer to the project's documentation or seek help from the project's community on GitHub or Slack. Happy coding!
 
+[Top](#contribution-guide)
+
 ## 4. How to Contribute
 ### 4.1 Understanding the Project Structure
 
-Read the [Project documentation](https://frmscoe.atlassian.net/wiki/spaces/FRMS/overview) for a detailed overview of the system.
+Read the [Product Overview](/README.md) for a detailed overview of the system.
 
 The Project organization on GitHub contains both PUBLIC and PRIVATE repositories. Core components of the system are in public repositories that are accessible to anyone:
 
@@ -393,7 +459,7 @@ flowchart TB
 
 1. Fork the repository you want to work on
 
-
+[Top](#contribution-guide)
 
 ## 5. Making and Submitting Contributions
 ### 5.1 Forking and Cloning the Repository
@@ -483,6 +549,8 @@ Steps to create and submit a pull request.
 ### 5.5 Code Review Process
 What to expect during the code review.
 
+[Top](#contribution-guide)
+
 ## 6. Community and Communication
 ### 6.1 Communication Channels
 Information on communication channels like mailing lists and chat.
@@ -530,6 +598,7 @@ How to contact the core team for assistance.
 
 <https://opensource.guide/>
 
+[Top](#contribution-guide)
 
 ### 12.2 Glossary
 

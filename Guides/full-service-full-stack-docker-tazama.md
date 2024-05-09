@@ -1,3 +1,31 @@
+- [Introduction](#introduction)
+- [Pre-requisites:](#pre-requisites)
+- [Installation steps](#installation-steps)
+- [1. Clone the Full-Stack-Docker-Tazama Repository to Your Local Machine](#1-clone-the-full-stack-docker-tazama-repository-to-your-local-machine)
+- [2. Update the Full-Stack-Docker-Tazama Configuration Files](#2-update-the-full-stack-docker-tazama-configuration-files)
+  - [./.env](#env)
+  - [./env/rule\*.env](#envruleenv)
+  - [./docker-compose.yaml](#docker-composeyaml)
+- [3. Deploy the Core Services](#3-deploy-the-core-services)
+- [4. Configure Tazama](#4-configure-tazama)
+- [5. Deploy core processors](#5-deploy-core-processors)
+- [6. Private Rule Processors](#6-private-rule-processors)
+  - [Background](#background)
+  - [Clone the Rule Executer Repository](#clone-the-rule-executer-repository)
+    - [1. Update the .npmrc file](#1-update-the-npmrc-file)
+    - [2. Delete the package-lock.json file](#2-delete-the-package-lockjson-file)
+  - [Set Up the Rule Executer for a Specific Rule](#set-up-the-rule-executer-for-a-specific-rule)
+    - [1. Copy the rule-executer folder](#1-copy-the-rule-executer-folder)
+    - [2. Update the package.json file](#2-update-the-packagejson-file)
+    - [3. Update the Dockerfile](#3-update-the-dockerfile)
+    - [4. Install software dependencies](#4-install-software-dependencies)
+    - [5. Deploy the processor](#5-deploy-the-processor)
+    - [6. Repeat steps 1 to 5 for the other rule processors as well](#6-repeat-steps-1-to-5-for-the-other-rule-processors-as-well)
+- [Batch process alternative](#batch-process-alternative)
+  - [Microsoft Windows batch file](#microsoft-windows-batch-file)
+  - [MacOS shell script](#macos-shell-script)
+  - [Execution](#execution)
+- [Testing the End-to-End Deployment](#testing-the-end-to-end-deployment)
 
 ## Introduction
 
@@ -5,7 +33,7 @@ This guide will take you through the steps to deploy Tazama in a Docker containe
 
 Tazama is composed of a number of third party and custom-built open source components. While all our Tazama components are also open source software, the rules that we have built to detect fraud and money laundering behaviour are hidden from public (and nefarious) view in private repositories on GitHub.
 
-The guide in the [Full-Stack-Docker-Tazama repository](https://github.com/frmscoe/Full-Stack-Docker-Tazama) will show you how to install the platform using only the publicly available open source software components. This guide will show you how to install everything, including the hidden, private rules, if you have access to them.
+The guide in the [Full-Stack-Docker-Tazama repository](https://github.com/frmscoe/Full-Stack-Docker-Tazama) will show you how to install the system using only the publicly available open source software components. This guide will show you how to install everything, including the hidden, private rules, if you have access to them.
 
 This guide is specific to the Windows 10 operating system.
 
@@ -30,6 +58,8 @@ The pre-requisites that are essential to be able to follow this guide to the let
         ```
         set GH_TOKEN
         ```
+
+[Top](#introduction)
 
 ## Installation steps
 
@@ -127,9 +157,11 @@ Once again, copy-pasting and string-replacing can be rather tedious, and you are
 
 <https://github.com/frmscoe/docs/blob/main/files/full-stack-docker-tazama/docker-compose.yaml>
 
+[Top](#introduction)
+
 ## 3. Deploy the Core Services
 
-Tazama core services provides the foundational infrastructure components for the platform and includes the ArangoDB, NATS and redis services: ArangoDB provides the database infrastructure, NATS provides the pub/sub functionality and redis provides for fast in-memory processor data caching.
+Tazama core services provides the foundational infrastructure components for the system and includes the ArangoDB, NATS and redis services: ArangoDB provides the database infrastructure, NATS provides the pub/sub functionality and redis provides for fast in-memory processor data caching.
 
 We deploy these services first and separately so that we can access the database to configure Tazama before continuing with the rest of the installation tasks.
 
@@ -151,6 +183,8 @@ You'll be able to access the web interfaces for the deployed components through 
  - NATS: <http://localhost:18222>
 
 If your machine is open to your local area network, you will also be able to access these services from other computers on your network via your local machine's IP address.
+
+[Top](#introduction)
 
 ## 4. Configure Tazama
 
@@ -191,9 +225,11 @@ newman run collection-file -e environment-file --timeout-request 10200
 
 ![execute-config](../images/full-stack-docker-tazama-execute-config.png)
 
+[Top](#introduction)
+
 ## 5. Deploy core processors
 
-Now that the platform is configured, we can deploy our core processors. The main reason the configuration needs to preceed the deployment of the processors is that the processors read the network map at startup to set up the NATS pub/sub routes for the evaluation flow. If the core processors were deployed first, they would have to be restarted once the configuration was eventually uploaded.
+Now that the system is configured, we can deploy our core processors. The main reason the configuration needs to preceed the deployment of the processors is that the processors read the network map at startup to set up the NATS pub/sub routes for the evaluation flow. If the core processors were deployed first, they would have to be restarted once the configuration was eventually uploaded.
 
 Navigate back to the `full-stack-docker-tazama` folder:
 ```
@@ -222,6 +258,8 @@ curl localhost:5000
 **Output:**
 
 ![execute-config](../images/full-stack-docker-tazama-compose-core-processors.png)
+
+[Top](#introduction)
 
 ## 6. Private Rule Processors
 

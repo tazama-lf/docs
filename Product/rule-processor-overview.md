@@ -2,13 +2,13 @@
 
 ![Rule Processor breadcrumbs](../images/tazama-context-ruleprocessors.png)
 
-The foundation of the Tazama Transaction Monitoring software is its ability to evaluate incoming transactions for financial crime behaviour through the execution of a number of conditional statements (rules) that render a boolean (True or False) result. Rule evaluations consider specific attributes of the incoming transaction and the historical behaviour of the transaction participants.
+The foundation of the Tazama Transaction Monitoring System is its ability to evaluate incoming transactions for financial crime behaviour through the execution of a number of conditional statements (rules) that render a boolean (True or False) result. Rule evaluations consider specific attributes of the incoming transaction and the historical behaviour of the transaction participants.
 
 The Channel Router & Setup Processor (CRSP) is responsible for determining which typologies are applicable for a transaction. (Typologies are a way to describe a specific financial crime scenario.) As part of this process, the CRSP determines which rules must receive the transaction and then routes the transaction to these rules as the next step in the evaluation process.
 
 The rules receive the transaction, as well as the portion of the Network Map that was used to identify the rules as recipients (and by association also identifies which typologies are beneficiaries of the rule results).
 
-Each rule executes as a discrete and bespoke function in the evaluation process. It is a Tazama design principle that any given rule in the platform has as small a purpose as possible and seeks to answer a single and very specific behavioural question about the transaction it is evaluation, for example:
+Each rule executes as a discrete and bespoke function in the evaluation process. It is a Tazama design principle that any given rule in the system has as small a purpose as possible and seeks to answer a single and very specific behavioural question about the transaction it is evaluation, for example:
 
  - How many transactions were made by the debtor?
  - How many accounts does the creditor have?
