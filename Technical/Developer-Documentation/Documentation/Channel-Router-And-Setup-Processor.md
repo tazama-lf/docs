@@ -19,13 +19,13 @@
 
 The foundation of the Tazama Transaction Monitoring system is its ability to evaluate incoming transactions for financial crime risk through the execution of a number of conditional statements (rules) that are then combined into typologies that describe the nature of the financial crime that the system is trying to detect. Typologies are in turn arranged into channels, according to an arrangement required by the operator.
 
-![image](../../../../Images/image-20210817-043926.png)
+![image](../../../Images/image-20210817-043926.png)
 
 The Channel Router & Setup Processor (CRSP) is responsible for determining which channels and typologies a transaction must be submitted to for the transaction to be evaluated for Financial Crime Risk. As part of this process, the CRSP determines which rules must receive the transaction and then which typologies are to be scored. The CRSP routes the transaction to the individual rule processors.
 
 # Channel Router and Setup Processor Context
 
-![](../../../../Images/Actio_TMS_CRSP_Context.png)
+![](../../../Images/Actio_TMS_CRSP_Context.png)
 
 ## 2. Evaluate Transaction
 
@@ -35,7 +35,7 @@ Once all the data preparation work in NiFi is complete, NiFi will route the inco
 
 The network map defines the configuration according to which a transaction will be routed to typologies and their associated rule processors. The network map is a polynomial tree that contains the associations between a message type (at the root) and channels, typologies and rules:
 
-![](../../../../Images/image-20211018-085245.png)
+![](../../../Images/image-20211018-085245.png)
 
 The primary purpose of the CRSP is to determine which typologies are appropriate for the incoming transaction and then to route the transaction to the rules associated to those typologies. The network map allows the configuration of the relationships between message types, channels, typologies and rules to be centralised into an external configuration, rather than hard-coded in the CRSP.
 

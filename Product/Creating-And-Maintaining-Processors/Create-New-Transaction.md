@@ -4,7 +4,7 @@
 
 About “Create Processor”:
 
-A transaction in Tazama does not utilize a specific transaction “processor” the way that a rule utilizes a rule processor. A transaction is the root node in a Network Map. This means that the transaction attributes are evaluated by the CRSP and the CRSP then interrogates the Network Map to determine which typologies and rules are required to evaluate the transaction. The transaction routing and the evaluations by the rule and typology processors are then within the context of the transaction. The transaction is split amongst the channels, rules processors and typology processor and finally recombined by the Transaction Aggregation and Decisioning Processor to close off the evaluation of the transaction. (see: [Channel Aggregation and Decisioning Processor (CADProc)](../06-Channel-Aggregation-And-Decisioning-Processor-Cadproc.md) )
+A transaction in Tazama does not utilize a specific transaction “processor” the way that a rule utilizes a rule processor. A transaction is the root node in a Network Map. This means that the transaction attributes are evaluated by the CRSP and the CRSP then interrogates the Network Map to determine which typologies and rules are required to evaluate the transaction. The transaction routing and the evaluations by the rule and typology processors are then within the context of the transaction. The transaction is split amongst the channels, rules processors and typology processor and finally recombined by the Transaction Aggregation and Decisioning Processor to close off the evaluation of the transaction. (see: [Channel Aggregation and Decisioning Processor (CADProc)](../99-Archive/Channel-Aggregation-And-Decisioning-Processor-Cadproc.md) )
 
 1. The transaction message will have a unique ID that relates to the transaction message type and is used to identify the specific TADProc that will be used to produce the transaction results.
 2. Every message evaluated by Actio will be defined in the Network Map as the root of its own channel, typology and rule tree. This means that transactions are considered discrete and mutually exclusive in the design and while a rule, typology or a channel may be duplicated between transactions, the nett effect is that the evaluation process will behave as if the transaction we are evaluating is the only one that exists in the configuration.
@@ -42,12 +42,12 @@ Now:
 
 ## Steps:
 
-1. Create the transaction configuration (see: [Channel_Router_and_Setup_Processor_CRSP#3.1.-Read-Network-Map](../02-Channel-Router-And-Setup-Processor-CRSP.md#31-read-network-map))
+1. Create the transaction configuration (see: [Channel_Router_and_Setup_Processor_CRSP#3.1.-Read-Network-Map](../Channel-Router-And-Setup-Processor-CRSP.md#31-read-network-map))
     1. The transaction configuration must specify the transaction attributes that will direct the evaluation of the transaction to a specific typology (and, by association, the rules and the specific channel).
         1. Instead of reinventing the wheel, it may be worth considering an implementation of some kind of query language where we can parse statements that are linked to the transaction and map the result of the statement to a typology. We would need to know more about the rules and typologies and how these differ from transaction to transaction and attribute to attribute.
     2. If the transaction configuration is missing or empty the Channel Router and Setup Processor will route the transaction to all channels, their associated typologies and their associated rules.
 2. Connect the transaction
-    1. Update the Network Map (see: [Channel_Router_and_Setup_Processor_CRSP#3.1.-Read-Network-Map](../02-Channel-Router-And-Setup-Processor-CRSP.md#31-read-network-map))
+    1. Update the Network Map (see: [Channel_Router_and_Setup_Processor_CRSP#3.1.-Read-Network-Map](../Channel-Router-And-Setup-Processor-CRSP.md#31-read-network-map))
         1. The new transaction must be added to the Network Map as a transaction object to which a channel (and then typologies, and ultimate also rules) can be linked. The new transaction will be located in the `transactions` object in the Network Map.
         2. The new transaction must be described in the network map with the following information:
             ```json

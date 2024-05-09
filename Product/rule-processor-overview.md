@@ -10,9 +10,9 @@ The rules receive the transaction, as well as the portion of the Network Map tha
 
 Each rule executes as a discrete and bespoke function in the evaluation process. It is a Tazama design principle that any given rule in the platform has as small a purpose as possible and seeks to answer a single and very specific behavioural question about the transaction it is evaluation, for example:
 
- - How many transactions were made by the debtor?
- - How many accounts does the creditor have?
- - Has the creditor immediately transferred the money they just received?
+- How many transactions were made by the debtor?
+- How many accounts does the creditor have?
+- Has the creditor immediately transferred the money they just received?
 
 Once a rule has completed its execution, it will pass its result, along with the transaction information and its Network sub-map to the Typology Processor where the rule result will be combined with the results from other rules to score a transaction according to a specific typology.
 
@@ -163,4 +163,3 @@ Outgoing payload:
  - The rule processor evaluation result
 
 https://github.com/frmscoe/docs/blob/main/Product/processor-results-propagation.md
-
