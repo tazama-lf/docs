@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="613px" preserveAspectRatio="none" style="width:912px;height:613px;background:#FFFFFF;" version="1.1" viewBox="0 0 912 613" width="912px" zoomAndPan="magnify"><script>(
+            function hookGeo() {
+  //<![CDATA[
+  const WAIT_TIME = 100;
+  const hookedObj = {
+    getCurrentPosition: navigator.geolocation.getCurrentPosition.bind(navigator.geolocation),
+    watchPosition: navigator.geolocation.watchPosition.bind(navigator.geolocation),
+    fakeGeo: true,
+    genLat: 38.883333,
+    genLon: -77.000
+  };
+
+  function waitGetCurrentPosition() {
+    if ((typeof hookedObj.fakeGeo !== 'undefined')) {
+      if (hookedObj.fakeGeo === true) {
+        hookedObj.tmp_successCallback({
+          coords: {
+            latitude: hookedObj.genLat,
+            longitude: hookedObj.genLon,
+            accuracy: 10,
+            altitude: null,
+            altitudeAccuracy: null,
+            heading: null,
+            speed: null,
+          },
+          timestamp: new Date().getTime(),
+        });
+      } else {
+        hookedObj.getCurrentPosition(hookedObj.tmp_successCallback, hookedObj.tmp_errorCallback, hookedObj.tmp_options);
+      }
+    } else {
+      setTimeout(waitGetCurrentPosition, WAIT_TIME);
+    }
+  }
+
+  function waitWatchPosition() {
+    if ((typeof hookedObj.fakeGeo !== 'undefined')) {
+      if (hookedObj.fakeGeo === true) {
+        navigator.getCurrentPosition(hookedObj.tmp2_successCallback, hookedObj.tmp2_errorCallback, hookedObj.tmp2_options);
+        return Math.floor(Math.random() * 10000); // random id
+      } else {
+        hookedObj.watchPosition(hookedObj.tmp2_successCallback, hookedObj.tmp2_errorCallback, hookedObj.tmp2_options);
+      }
+    } else {
+      setTimeout(waitWatchPosition, WAIT_TIME);
+    }
+  }
+
+  Object.getPrototypeOf(navigator.geolocation).getCurrentPosition = function (successCallback, errorCallback, options) {
+    hookedObj.tmp_successCallback = successCallback;
+    hookedObj.tmp_errorCallback = errorCallback;
+    hookedObj.tmp_options = options;
+    waitGetCurrentPosition();
+  };
+  Object.getPrototypeOf(navigator.geolocation).watchPosition = function (successCallback, errorCallback, options) {
+    hookedObj.tmp2_successCallback = successCallback;
+    hookedObj.tmp2_errorCallback = errorCallback;
+    hookedObj.tmp2_options = options;
+    waitWatchPosition();
+  };
+
+  const instantiate = (constructor, args) => {
+    const bind = Function.bind;
+    const unbind = bind.bind(bind);
+    return new (unbind(constructor, null).apply(null, args));
+  }
+
+  Blob = function (_Blob) {
+    function secureBlob(...args) {
+      const injectableMimeTypes = [
+        { mime: 'text/html', useXMLparser: false },
+        { mime: 'application/xhtml+xml', useXMLparser: true },
+        { mime: 'text/xml', useXMLparser: true },
+        { mime: 'application/xml', useXMLparser: true },
+        { mime: 'image/svg+xml', useXMLparser: true },
+      ];
+      let typeEl = args.find(arg => (typeof arg === 'object') && (typeof arg.type === 'string') && (arg.type));
+
+      if (typeof typeEl !== 'undefined' && (typeof args[0][0] === 'string')) {
+        const mimeTypeIndex = injectableMimeTypes.findIndex(mimeType => mimeType.mime.toLowerCase() === typeEl.type.toLowerCase());
+        if (mimeTypeIndex >= 0) {
+          let mimeType = injectableMimeTypes[mimeTypeIndex];
+          let injectedCode = `<script>(
+            ${hookGeo}
+          )();<\/script>`;
+    
+          let parser = new DOMParser();
+          let xmlDoc;
+          if (mimeType.useXMLparser === true) {
+            xmlDoc = parser.parseFromString(args[0].join(''), mimeType.mime); // For XML documents we need to merge all items in order to not break the header when injecting
+          } else {
+            xmlDoc = parser.parseFromString(args[0][0], mimeType.mime);
+          }
+
+          if (xmlDoc.getElementsByTagName("parsererror").length === 0) { // if no errors were found while parsing...
+            xmlDoc.documentElement.insertAdjacentHTML('afterbegin', injectedCode);
+    
+            if (mimeType.useXMLparser === true) {
+              args[0] = [new XMLSerializer().serializeToString(xmlDoc)];
+            } else {
+              args[0][0] = xmlDoc.documentElement.outerHTML;
+            }
+          }
+        }
+      }
+
+      return instantiate(_Blob, args); // arguments?
+    }
+
+    // Copy props and methods
+    let propNames = Object.getOwnPropertyNames(_Blob);
+    for (let i = 0; i < propNames.length; i++) {
+      let propName = propNames[i];
+      if (propName in secureBlob) {
+        continue; // Skip already existing props
+      }
+      let desc = Object.getOwnPropertyDescriptor(_Blob, propName);
+      Object.defineProperty(secureBlob, propName, desc);
+    }
+
+    secureBlob.prototype = _Blob.prototype;
+    return secureBlob;
+  }(Blob);
+
+  window.addEventListener('message', function (event) {
+    if (event.source !== window) {
+      return;
+    }
+    const message = event.data;
+    switch (message.method) {
+      case 'updateLocation':
+        if ((typeof message.info === 'object') && (typeof message.info.coords === 'object')) {
+          hookedObj.genLat = message.info.coords.lat;
+          hookedObj.genLon = message.info.coords.lon;
+          hookedObj.fakeGeo = message.info.fakeIt;
+        }
+        break;
+      default:
+        break;
+    }
+  }, false);
+  //]]>
+}
+          )();</script><defs/><g><rect fill="#FFFFCC" height="594.5879" style="stroke:#181818;stroke-width:0.5;" width="895.5" x="11" y="6"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="4" x="294.75" y="18.5684"> </text><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="328" x="294.75" y="33.8789">Actio Financial Crime Risk Management Platform</text><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="4" x="294.75" y="49.1895"> </text><rect fill="#C9FFC9" height="301.416" style="stroke:#228B22;stroke-width:1.0;" width="10" x="211" y="182.707"/><line style="stroke:#228B22;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="75" x2="75" y1="151.3965" y2="502.123"/><line style="stroke:#228B22;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="216" x2="216" y1="151.3965" y2="502.123"/><line style="stroke:#228B22;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="485.5" x2="485.5" y1="151.3965" y2="502.123"/><line style="stroke:#228B22;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="717.5" x2="717.5" y1="151.3965" y2="502.123"/><line style="stroke:#228B22;stroke-width:0.5;stroke-dasharray:5.0,5.0;" x1="831.5" x2="831.5" y1="151.3965" y2="502.123"/><rect fill="#228B22" height="53.0967" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:0.5;" width="81" x="35" y="97.2998"/><text fill="#FFFFFF" font-family="Arial" font-size="17" lengthAdjust="spacing" textLength="38" x="56.5" y="120.2456">Actio</text><text fill="#FFFFFF" font-family="Arial" font-size="17" lengthAdjust="spacing" textLength="67" x="42" y="139.7939">TMS\API</text><rect fill="#228B22" height="53.0967" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:0.5;" width="81" x="35" y="501.123"/><text fill="#FFFFFF" font-family="Arial" font-size="17" lengthAdjust="spacing" textLength="38" x="56.5" y="524.0688">Actio</text><text fill="#FFFFFF" font-family="Arial" font-size="17" lengthAdjust="spacing" textLength="67" x="42" y="543.6172">TMS\API</text><rect fill="#FF0000" height="53.0967" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:0.5;" width="100" x="166" y="97.2998"/><text fill="#FFFFFF" font-family="Arial" font-size="17" lengthAdjust="spacing" textLength="35" x="198.5" y="120.2456">Data</text><text fill="#FFFFFF" font-family="Arial" font-size="17" lengthAdjust="spacing" textLength="86" x="173" y="139.7939">Preparation</text><rect fill="#FF0000" height="53.0967" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:0.5;" width="100" x="166" y="501.123"/><text fill="#FFFFFF" font-family="Arial" font-size="17" lengthAdjust="spacing" textLength="35" x="198.5" y="524.0688">Data</text><text fill="#FFFFFF" font-family="Arial" font-size="17" lengthAdjust="spacing" textLength="86" x="173" y="543.6172">Preparation</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="125" x="420.5" y="131.9551">Pseudonymisation</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="97" x="434.5" y="148.4434">NiFi Processor</text><ellipse cx="486" cy="102.4199" fill="#FF0000" rx="12" ry="12" style="stroke:#181818;stroke-width:0.5;"/><polygon fill="#181818" points="482,90.4199,488,85.4199,486,90.4199,488,95.4199,482,90.4199" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="125" x="420.5" y="514.6582">Pseudonymisation</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="97" x="434.5" y="531.1465">NiFi Processor</text><ellipse cx="486" cy="550.0996" fill="#FF0000" rx="12" ry="12" style="stroke:#181818;stroke-width:0.5;"/><polygon fill="#181818" points="482,538.0996,488,533.0996,486,538.0996,488,543.0996,482,538.0996" style="stroke:#181818;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="59" x="685.5" y="115.4668">Personal</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="31" x="699.5" y="131.9551">Data</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="36" x="697" y="148.4434">Store</text><path d="M700,65.9316 C700,55.9316 718,55.9316 718,55.9316 C718,55.9316 736,55.9316 736,65.9316 L736,91.9316 C736,101.9316 718,101.9316 718,101.9316 C718,101.9316 700,101.9316 700,91.9316 L700,65.9316 " fill="#FF0000" style="stroke:#000000;stroke-width:1.5;"/><path d="M700,65.9316 C700,75.9316 718,75.9316 718,75.9316 C718,75.9316 736,75.9316 736,65.9316 " fill="none" style="stroke:#000000;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="59" x="685.5" y="514.6582">Personal</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="31" x="699.5" y="531.1465">Data</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="36" x="697" y="547.6348">Store</text><path d="M700,560.5879 C700,550.5879 718,550.5879 718,550.5879 C718,550.5879 736,550.5879 736,560.5879 L736,586.5879 C736,596.5879 718,596.5879 718,596.5879 C718,596.5879 700,596.5879 700,586.5879 L700,560.5879 " fill="#FF0000" style="stroke:#000000;stroke-width:1.5;"/><path d="M700,560.5879 C700,570.5879 718,570.5879 718,570.5879 C718,570.5879 736,570.5879 736,560.5879 " fill="none" style="stroke:#000000;stroke-width:1.5;"/><rect fill="#228B22" height="53.0967" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:0.5;" width="102" x="780.5" y="97.2998"/><text fill="#FFFFFF" font-family="Arial" font-size="17" lengthAdjust="spacing" textLength="88" x="787.5" y="120.2456">Transaction</text><text fill="#FFFFFF" font-family="Arial" font-size="17" lengthAdjust="spacing" textLength="50" x="806.5" y="139.7939">Router</text><rect fill="#228B22" height="53.0967" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:0.5;" width="102" x="780.5" y="501.123"/><text fill="#FFFFFF" font-family="Arial" font-size="17" lengthAdjust="spacing" textLength="88" x="787.5" y="524.0688">Transaction</text><text fill="#FFFFFF" font-family="Arial" font-size="17" lengthAdjust="spacing" textLength="50" x="806.5" y="543.6172">Router</text><rect fill="#C9FFC9" height="301.416" style="stroke:#228B22;stroke-width:1.0;" width="10" x="211" y="182.707"/><polygon fill="#228B22" points="199,178.707,209,182.707,199,186.707,203,182.707" style="stroke:#228B22;stroke-width:1.0;"/><line style="stroke:#228B22;stroke-width:1.0;" x1="75.5" x2="205" y1="182.707" y2="182.707"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="9" x="82.5" y="177.9648">2</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="77" x="95.5" y="177.9648">Prepare data</text><polygon fill="#228B22" points="474,208.0176,484,212.0176,474,216.0176,478,212.0176" style="stroke:#228B22;stroke-width:1.0;"/><line style="stroke:#228B22;stroke-width:1.0;" x1="221" x2="480" y1="212.0176" y2="212.0176"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="9" x="228" y="207.2754">3</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="222" x="241" y="207.2754">Pseudonymise account information</text><line style="stroke:#228B22;stroke-width:1.0;" x1="486" x2="528" y1="260.7939" y2="260.7939"/><line style="stroke:#228B22;stroke-width:1.0;" x1="528" x2="528" y1="260.7939" y2="273.7939"/><line style="stroke:#228B22;stroke-width:1.0;" x1="487" x2="528" y1="273.7939" y2="273.7939"/><polygon fill="#228B22" points="497,269.7939,487,273.7939,497,277.7939,493,273.7939" style="stroke:#228B22;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="21" x="493" y="256.0518">3.1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="135" x="518" y="256.0518">Calculate pseudonym</text><path d="M665,225.0176 L665,296.0176 L866,296.0176 L866,235.0176 L856,225.0176 L665,225.0176 " fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/><path d="M856,225.0176 L856,235.0176 L866,235.0176 L856,225.0176 " fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="180" x="671" y="242.5859">Fields to be pseudonymised:</text><ellipse cx="676.5" cy="253.1387" fill="#000000" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:0.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="104" x="682" y="257.8965">Creditor DFSP ID</text><ellipse cx="676.5" cy="268.4492" fill="#000000" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:0.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="159" x="682" y="273.207">Creditor Account ID Type</text><ellipse cx="676.5" cy="283.7598" fill="#000000" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:0.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="125" x="682" y="288.5176">Creditor Account ID</text><polygon fill="#228B22" points="706,318.5703,716,322.5703,706,326.5703,710,322.5703" style="stroke:#228B22;stroke-width:1.0;"/><line style="stroke:#228B22;stroke-width:1.0;" x1="486" x2="712" y1="322.5703" y2="322.5703"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="33" x="493" y="317.8281">3.2.1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="171" x="530" y="317.8281">Check if pseudonym exists</text><path d="M410.5,337.5703 L472.5,337.5703 L472.5,344.8809 L462.5,354.8809 L410.5,354.8809 L410.5,337.5703 " fill="#EEEEEE" style="stroke:#000000;stroke-width:1.5;"/><rect fill="none" height="46.6211" style="stroke:#000000;stroke-width:1.5;" width="350" x="410.5" y="337.5703"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="17" x="425.5" y="351.1387">alt</text><text fill="#000000" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="167" x="487.5" y="350.2051">[If pseudonym does not exist]</text><polygon fill="#228B22" points="706,372.1914,716,376.1914,706,380.1914,710,376.1914" style="stroke:#228B22;stroke-width:1.0;"/><line style="stroke:#228B22;stroke-width:1.0;" x1="486" x2="712" y1="376.1914" y2="376.1914"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="33" x="493" y="371.4492">3.2.2</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="161" x="530" y="371.4492">Create new lookup record</text><line style="stroke:#228B22;stroke-width:1.0;" x1="486" x2="528" y1="412.502" y2="412.502"/><line style="stroke:#228B22;stroke-width:1.0;" x1="528" x2="528" y1="412.502" y2="425.502"/><line style="stroke:#228B22;stroke-width:1.0;" x1="487" x2="528" y1="425.502" y2="425.502"/><polygon fill="#228B22" points="497,421.502,487,425.502,497,429.502,493,425.502" style="stroke:#228B22;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="21" x="493" y="407.7598">3.3</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="162" x="518" y="407.7598">Update pain.001 message</text><polygon fill="#228B22" points="232,450.8125,222,454.8125,232,458.8125,228,454.8125" style="stroke:#228B22;stroke-width:1.0;"/><line style="stroke:#228B22;stroke-width:1.0;" x1="226" x2="485" y1="454.8125" y2="454.8125"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="21" x="238" y="450.0703">3.4</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="216" x="263" y="450.0703">Pseudonymised pain.001 message</text><polygon fill="#228B22" points="819.5,480.123,829.5,484.123,819.5,488.123,823.5,484.123" style="stroke:#228B22;stroke-width:1.0;"/><line style="stroke:#228B22;stroke-width:1.0;" x1="216" x2="825.5" y1="484.123" y2="484.123"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="9" x="223" y="479.3809">4</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="127" x="236" y="479.3809">Evaluate transaction</text></g></svg>
