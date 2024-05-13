@@ -68,7 +68,7 @@ The pre-requisites that are essential to be able to follow this guide to the let
 In a Windows Command Prompt, navigate to the folder where you want to store a copy of the source code. Then clone the repository with the following command:
 
 ```
-git clone https://github.com/frmscoe/Full-Stack-Docker-Tazama
+git clone https://github.com/frmscoe/Full-Stack-Docker-Tazama -b main
 ```
 
 **Output:**
@@ -198,13 +198,13 @@ cd ..
 Clone the `tms-configuration` repository:
 
 ```
-git clone https://github.com/frmscoe/tms-configuration
+git clone https://github.com/frmscoe/tms-configuration -b main
 ```
 
 In addition to cloning the configuration repository, we also need to clone the Tazama `Postman` repository so that we can utilize the Postman environment file that is hosted there:
 
 ```
-git clone https://github.com/frmscoe/postman
+git clone https://github.com/frmscoe/postman -b main
 ```
 
 **Output:**
@@ -280,7 +280,7 @@ Each rule processor must be wrapped in its own rule-executer. The rule executer 
 First, we have to clone the rule-executer itself. From your source code folder, in a Command Prompt, execute:
 
 ```
-git clone https://github.com/frmscoe/rule-executer
+git clone https://github.com/frmscoe/rule-executer -b main
 ```
 
 By default, the rule executer is configured to build rule 901, the public sample rule processor, but we want it to build each private rule processor instead.
