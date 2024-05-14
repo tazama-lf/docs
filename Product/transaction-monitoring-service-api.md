@@ -6,13 +6,13 @@ The purpose of Transaction Monitoring Service (TMS) API is to facilitate the sub
 
 The Tazama system is designed to be able to take on transaction messages from customer systems, evaluate these messages for specific behaviors, and deliver an assessment of the evidence of financial crime inherent in the transaction.
 
-Tazama can be deployed to service the needs of a single Financial Service Provider (FSP), an intermediary system such as a clearing house or payment switch, and also a combination of FSP and switching participants in what we call a “semi-attached” configuration:
+Tazama can be deployed to service the needs of a single Financial Service Provider (FSP), an intermediary platform such as a clearing house or payment switch, and also a combination of FSP and switching participants in what we call a “semi-attached” configuration:
 
 ![semi-attached-detection](../images/tazama-semi-attached.png)
 
-In this configuration, the switching hub and FSPs both inside and outside the switching ecosystem can submit transaction messages to the Tazama system for evaluation.
+In this configuration, the switching hub and FSPs both inside and outside the switching ecosystem can submit transaction messages to the Tazama platform for evaluation.
 
-To facilitate this configuration, the Tazama system exposes its services through its own API.
+To facilitate this configuration, the Tazama platform exposes its services through its own API.
 
 ![tazama-context](../images/tazama-context.png)
 
@@ -49,55 +49,55 @@ When each message is received and processed by the TMS API, the following tasks 
 
 1. Store the message as received
 
-For audit purposes, incoming messages are stored unadulterated in separate data collections:
+  For audit purposes, incoming messages are stored unadulterated in separate data collections:
 
- - `pain.001` messages are stashed in the `TransactionHistoryPain001` collection in the `transactionHistory` database
- - `pain.013` messages are stashed in the `TransactionHistoryPain013` collection in the `transactionHistory` database
- - `pacs.008` messages are stashed in the `TransactionHistoryPacs008` collection in the `transactionHistory` database
- - `pacs.002` messages are stashed in the `TransactionHistoryPacs002` collection in the `transactionHistory` database
+   - `pain.001` messages are stashed in the `TransactionHistoryPain001` collection in the `transactionHistory` database
+   - `pain.013` messages are stashed in the `TransactionHistoryPain013` collection in the `transactionHistory` database
+   - `pacs.008` messages are stashed in the `TransactionHistoryPacs008` collection in the `transactionHistory` database
+   - `pacs.002` messages are stashed in the `TransactionHistoryPacs002` collection in the `transactionHistory` database
 
 2. Load the message into the historical graph
 
 The bulk of the behavioral modelling is performed over data composed into the historical graph database.
 
-With the notable exception of the `pacs.002` message, each ISO20022 message contains information related to the entities participating in the transaction, their accounts, and information about the transaction itself. This information is used to populate the components of the graph model:
+  With the notable exception of the `pacs.002` message, each ISO20022 message contains information related to the entities participating in the transaction, their accounts, and information about the transaction itself. This information is used to populate the components of the graph model:
 
- - The debtor and creditor entity data is stored in the `entities` node collection
- - The debtor and creditor account data is stored in the `accounts` node collection
- - The debtors and creditors are connected to their accounts via an `account_holder` edge
- - The transaction itself is represented by a `transactionRelationship` edge between the debtor and creditor accounts
+  - The debtor and creditor entity data is stored in the `entities` node collection
+  - The debtor and creditor account data is stored in the `accounts` node collection
+  - The debtors and creditors are connected to their accounts via an `account_holder` edge
+  - The transaction itself is represented by a `transactionRelationship` edge between the debtor and creditor accounts
 
 3. Create the `DataCache` object
 
-The chain of four messages that comprises a complete transaction from quote to transfer contain the same information for some basic components that are used to interact with the graph database.
+  The chain of four messages that comprises a complete transaction from quote to transfer contain the same information for some basic components that are used to interact with the graph database.
 
-When the first message is received, the Data Preparation service will collect and store this information in an object called the `DataCache` that will then accompany the transaction message payload to the rule processors.
+  When the first message is received, the Data Preparation service will collect and store this information in an object called the `DataCache` that will then accompany the transaction message payload to the rule processors.
 
-For improved performance, rule processors that require this basic information can retrieve the information from the `DataCache` in the payload, instead of having to retrieve the data from the database.
+  For improved performance, rule processors that require this basic information can retrieve the information from the `DataCache` in the payload, instead of having to retrieve the data from the database.
 
-The following information is currently contained in the `DataCache` object:
+  The following information is currently contained in the `DataCache` object:
 
-```json
-{
-  "cdtrId": "<creditor identifier>",
-  "dbtrId": "<debtor identifier>",
-  "cdtrAcctId": "<creditor account identifier>",
-  "dbtrAcctId": "<debtor account identifier>",
-  "creDtTm": "<timestamp of the earliest message in the chain>",
-  "amt": {
-    "amt": "<the transaction amount>",
-    "ccy": "<the transaction currency>"
+  ```json
+  {
+    "cdtrId": "<creditor identifier>",
+    "dbtrId": "<debtor identifier>",
+    "cdtrAcctId": "<creditor account identifier>",
+    "dbtrAcctId": "<debtor account identifier>",
+    "creDtTm": "<timestamp of the earliest message in the chain>",
+    "amt": {
+      "amt": "<the transaction amount>",
+      "ccy": "<the transaction currency>"
+    }
   }
-}
-```
+  ```
 
 4. Generate meta-data
 
-There are two additional pieces of information added to the transaction message payload that is worth mentioning. The outgoing transaction message will contain a new `metaData` object that will contain some additional information that is generated during the Data Preparation process.
+  There are two additional pieces of information added to the transaction message payload that is worth mentioning. The outgoing transaction message will contain a new `metaData` object that will contain some additional information that is generated during the Data Preparation process.
 
-Firstly, we create a `traceParent` attribute that will generate an over-arching identifier that we use to link logging across all the processors together into a single waterfall view in Elastic Application Performance Monitoring (APM).
+  Firstly, we create a `traceParent` attribute that will generate an over-arching identifier that we use to link logging across all the processors together into a single waterfall view in Elastic Application Performance Monitoring (APM).
 
-Secondly, we record the time it took to process the transaction inside the TMS API and Data Preparation into a `prcgTmDP` attribute.
+  Secondly, we record the time it took to process the transaction inside the TMS API and Data Preparation into a `prcgTmDP` attribute.
 
 ## Message transmission
 
@@ -105,7 +105,7 @@ On the conclusion of the Data Preparation process, the complete message payload 
 
 ## Payment Platform Adapters
 
-If a Tazama client system is unable to submit messages in the required ISO 20022 format, client organizations would need to submit their transactions to a custom-built adaptor so that their transaction can be transformed and then passed to the Tazama system to meet the specification of the Tazama Transaction Monitoring Service (TMS) API.
+If a Tazama client platform is unable to submit messages in the required ISO 20022 format, client organizations would need to submit their transactions to a custom-built adaptor so that their transaction can be transformed and then passed to the Tazama platform to meet the specification of the Tazama Transaction Monitoring Service (TMS) API.
 
 A [Mojaloop](https://mojaloop.io) Payment Platform Adapter has been developed and is hosted in the [Tazama GitHub Payment Platform Adapter repository](https://github.com/frmscoe/payment-platform-adapter).
 
