@@ -2,17 +2,17 @@
 
 ![tazama-context-tmsapi](../images/tazama-context-tmsapi.png)
 
-The purpose of Transaction Monitoring Service (TMS) API is to facilitate the submission of a transaction to the Tazama platform so that the transaction can be evaluated for behaviour that may indicate financial crime, including fraud and money laundering.
+The purpose of Transaction Monitoring Service (TMS) API is to facilitate the submission of a transaction to the Tazama system so that the transaction can be evaluated for behaviour that may indicate financial crime, including fraud and money laundering.
 
-The Tazama platform is designed to be able to take on transaction messages from customer platforms, evaluate these messages for specific behaviours, and deliver an assessment of the evidence of financial crime inherent in the transaction.
+The Tazama system is designed to be able to take on transaction messages from customer systems, evaluate these messages for specific behaviours, and deliver an assessment of the evidence of financial crime inherent in the transaction.
 
-Tazama can be deployed to service the needs of a single Financial Service Provider (FSP), an intermediary platform such as a clearing house or payment switch, and also a combination of FSP and switching participants in what we call a “semi-attached” configuration:
+Tazama can be deployed to service the needs of a single Financial Service Provider (FSP), an intermediary system such as a clearing house or payment switch, and also a combination of FSP and switching participants in what we call a “semi-attached” configuration:
 
 ![semi-attached-detection](../images/tazama-semi-attached.png)
 
-In this configuration, the switching hub and FSPs both inside and outside the switching ecosystem can submit transaction messages to the Tazama platform for evaluation.
+In this configuration, the switching hub and FSPs both inside and outside the switching ecosystem can submit transaction messages to the Tazama system for evaluation.
 
-To facilitate this configuration, the Tazama platform exposes its services through its own API.
+To facilitate this configuration, the Tazama system exposes its services through its own API.
 
 ![tazama-context](../images/tazama-context.png)
 
@@ -105,7 +105,7 @@ On the conclusion of the Data Preparation process, the complete message payload 
 
 ## Payment Platform Adapters
 
-If a Tazama client platform is unable to submit messages in the required ISO 20022 format, client organizations would need to submit their transactions to a custom-built adaptor so that their transaction can be transformed and then passed to the Tazama platform to meet the specification of the Tazama Transaction Monitoring Service (TMS) API.
+If a Tazama client system is unable to submit messages in the required ISO 20022 format, client organizations would need to submit their transactions to a custom-built adaptor so that their transaction can be transformed and then passed to the Tazama system to meet the specification of the Tazama Transaction Monitoring Service (TMS) API.
 
 A [Mojaloop](https://mojaloop.io) Payment Platform Adapter has been developed and is hosted in the [Tazama GitHub Payment Platform Adapter repository](https://github.com/frmscoe/payment-platform-adapter).
 

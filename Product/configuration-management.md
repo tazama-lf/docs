@@ -42,7 +42,7 @@
 
 # TL;DR
 
-Platform configuration is managed through a number of configuration files, each containing a JSON document that configures a specific processor type (CRSP, rules and typologies) and specific processor instance identified by a processor identifier (id@version) and a configuration version.
+System configuration is managed through a number of configuration files, each containing a JSON document that configures a specific processor type (CRSP, rules and typologies) and specific processor instance identified by a processor identifier (id@version) and a configuration version.
 
 Changes to a rule processor’s behavior can be made by changing the parameters or rearranging the result bands (or cases).
 
@@ -54,17 +54,17 @@ In a production environment, configurations should never be over-written and new
 
 In a test or PoC environment, it may sometimes be simpler to just overwrite existing configuration files so that you don’t have to constantly update the network map every time you experiment with a change, *but don’t do this in your production environment*.
 
-Configuration documents can be uploaded to the platform using the ArangoDB API deployed with the platform.
+Configuration documents can be uploaded to the system using the ArangoDB API deployed with the platform.
 
 [Top](#configuration-management)
 
 # 1\. Overview of the detection methodology
 
-The core detection capability within the platform is distributed across three distinct steps in the end-to-end evaluation flow.
+The core detection capability within the system is distributed across three distinct steps in the end-to-end evaluation flow.
 
 ![Tazama context end to end](../images/tazama-context-end-to-end.png)
 
-Once data is ingested into the transaction history by the TMS API, the Channel Router and Setup Processor (CRSP) performs an initial “triage” step to determine if the transaction should be inspected by the platform, and in what way. At the moment this is a very simple decision based on the transaction type only (i.e. pain.001, pain.013, pacs.008 and pacs.002), though we envisage that the decision-making here can be more complex in the future by inspecting attributes contained in the message. For now, the CRSP uses the transaction type to select the typologies that are to be evaluated and triggers the rules required by the typologies. The default configuration of the platform only evaluates the pacs.002 as the trigger payload for the rule processors and typologies. The CRSP routing is configured via a network map that defines the hierarchy of typologies and rules. While not directly influenced by a calibration process at present, the behavior of existing rules and typologies may result in changes to the scope of the evaluation defined in the network map. Some rules or typologies may be deemed to be ineffective in the current configuration and removed or recomposed, and new rules or typologies may be added as new behaviors emerge.
+Once data is ingested into the transaction history by the TMS API, the Channel Router and Setup Processor (CRSP) performs an initial “triage” step to determine if the transaction should be inspected by the system, and in what way. At the moment this is a very simple decision based on the transaction type only (i.e. pain.001, pain.013, pacs.008 and pacs.002), though we envisage that the decision-making here can be more complex in the future by inspecting attributes contained in the message. For now, the CRSP uses the transaction type to select the typologies that are to be evaluated and triggers the rules required by the typologies. The default configuration of the system only evaluates the pacs.002 as the trigger payload for the rule processors and typologies. The CRSP routing is configured via a network map that defines the hierarchy of typologies and rules. While not directly influenced by a calibration process at present, the behavior of existing rules and typologies may result in changes to the scope of the evaluation defined in the network map. Some rules or typologies may be deemed to be ineffective in the current configuration and removed or recomposed, and new rules or typologies may be added as new behaviors emerge.
 
 ![Tazama rule and typology plane](../images/tazama-rule-and-typology-plane.png)
 
@@ -105,13 +105,13 @@ In this document, we will discuss how the various configuration documents are ex
 
 # 2\. Configuration Management
 
-Configuration documents are essentially files that contain a processor-specific configuration object in JSON format. The recommended way to upload the configuration file to the appropriate configuration database (`networkMap` or `configuration`) and collection is via Arango DB’s HTTP API that is deployed as standard during platform deployment.
+Configuration documents are essentially files that contain a processor-specific configuration object in JSON format. The recommended way to upload the configuration file to the appropriate configuration database (`networkMap` or `configuration`) and collection is via Arango DB’s HTTP API that is deployed as standard during system deployment.
 
-The platform processes configurations in a specific order to evaluate an incoming transaction. Starting with the Channel Router & Setup Processor (CRSP) that interprets the network map for routing, then following with the rule processors that interpret their individual rule configurations to determine how to evaluate the transaction, and then concluding with the typology processor that uses a variety of typology configurations to summarize rule results into typologies (fraud or money laundering scenarios).
+The system processes configurations in a specific order to evaluate an incoming transaction. Starting with the Channel Router & Setup Processor (CRSP) that interprets the network map for routing, then following with the rule processors that interpret their individual rule configurations to determine how to evaluate the transaction, and then concluding with the typology processor that uses a variety of typology configurations to summarize rule results into typologies (fraud or money laundering scenarios).
 
 ![Tazama config rule processor](../images/tazama-config-rule-processor.drawio.svg)
 
-The development cycle for the platform processors and their associated configurations follow a slightly different flow. The development and configuration process follows somewhat loosely cascading dependencies amongst the configuration documents: typologies rely on rules, and the network map that defines routing relies on typology-and-rule structures.
+The development cycle for the system processors and their associated configurations follow a slightly different flow. The development and configuration process follows somewhat loosely cascading dependencies amongst the configuration documents: typologies rely on rules, and the network map that defines routing relies on typology-and-rule structures.
 
 Typically, a rule processor is developed first to implement a new rule to evaluate an incoming transaction. The rule processor will already need a configuration for testing purposes during the development, but this may not be the final configuration with the default processor calibration. Regardless, the rule processor may be deployed simultaneously with an initial configuration, or the processor and its configuration may be deployed independently.
 
@@ -149,7 +149,7 @@ The rule configuration “header” contains metadata that describes the rule. T
 
 *   `id` identifies the specific rule processor and its version that will use the configuration. It is recommended that the rule processor “name” is drawn from the source-code repository where the rule processor code resides, and the version should match the semantical version of the source code as defined in the source code repository.
     
-*   `cfg` is the unique version of the rule configuration. Multiple different versions of a rule configuration can co-exist simultaneously in the platform
+*   `cfg` is the unique version of the rule configuration. Multiple different versions of a rule configuration can co-exist simultaneously in the system.
     
 *   `desc` offers a readable description of the rule
     
@@ -242,7 +242,7 @@ Each exit condition contains the same attributes:
 
 All rule processors are encoded with an error condition outcome that accounts for exceptions that do not fall into any of the exit conditions above, or the rule results below. These error conditions reflect a fatal error that occurred during the execution of the rule processor, such as, for example, if the database is inaccessible or if some expected data dependency had not been met due to an error during data ingestion or transformation.
 
-Rule processor error conditions are too numerous and diverse to explicitly define, and their definition is not required for the rule configuration anyway. The error conditions are handled exclusively in the rule code; however the error condition outcome will still be produced as a rule result to ensure continuity and end-to-end robustness in the platform. If an error occurs, a rule processor will deliver a rule result with a very unique `.err` sub-rule reference and with a specific reason that describes the error. In rare instances, where an error condition was not anticipated during development, the reason might be a generic `Unhandled rule result outcome` message.
+Rule processor error conditions are too numerous and diverse to explicitly define, and their definition is not required for the rule configuration anyway. The error conditions are handled exclusively in the rule code; however the error condition outcome will still be produced as a rule result to ensure continuity and end-to-end robustness in the system. If an error occurs, a rule processor will deliver a rule result with a very unique `.err` sub-rule reference and with a specific reason that describes the error. In rare instances, where an error condition was not anticipated during development, the reason might be a generic `Unhandled rule result outcome` message.
 
 ### The configuration object - rule results
 
@@ -310,7 +310,7 @@ Each rule result band contains the same information:
 | `outcome` | The configuration file defines whether the result delivered by the rule processor is flagged as either `true` or `false`. The flag is somewhat arbitrary, but by convention we choose to assign a `true` flag to deterministic results that will have a weighting impact on the typology score and we assign a `false` flag to non-deterministic results that will not have a weighting impact on the typology score. |
 | `reason`| The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. [Reason descriptions will be refined during future enhancements](#Ref 1)|
 
-One of the most frequent limit values in use in the platform is based on time-frames. In the platform, all time-frames and associated limits are represented in milliseconds. The following table reflects the conventional milliseconds for different time terms in our configurations:
+One of the most frequent limit values in use in the system is based on time-frames. In the system, all time-frames and associated limits are represented in milliseconds. The following table reflects the conventional milliseconds for different time terms in our configurations:
 
 | **Term** | **Milliseconds** |
 | --- | --- |
@@ -393,9 +393,9 @@ A typology processor configuration document typically contains the following inf
 
 The typology configuration “header” contains metadata that describes the typology. The metadata includes the following attributes:
 
-*   `id` identifies the specific typology processor and its version that will be used by the configuration. There will typically only be a single typology processor active in the platform at a time, but it is possible and conceivable that multiple typology processors and/or versions can co-exist simultaneously. It is recommended that the typology processor “name” is drawn from the source-code repository where the typology processor code resides, and the version should match the semantical version of the source code as defined in the source code.
+*   `id` identifies the specific typology processor and its version that will be used by the configuration. There will typically only be a single typology processor active in the system at a time, but it is possible and conceivable that multiple typology processors and/or versions can co-exist simultaneously. It is recommended that the typology processor “name” is drawn from the source-code repository where the typology processor code resides, and the version should match the semantical version of the source code as defined in the source code.
     
-*   `cfg` is the unique version of the typology configuration. Though unlikely, multiple different versions of a typology configuration can co-exist simultaneously in the platform. The configuration consists of two parts: an arbitrary identifier for the typology to differentiate one typology from another, and then, separated by an `@`, a semantical version that defines the specific version of the configuration for that typology, for example `typology-001@1.0.0`.
+*   `cfg` is the unique version of the typology configuration. Though unlikely, multiple different versions of a typology configuration can co-exist simultaneously in the system. The configuration consists of two parts: an arbitrary identifier for the typology to differentiate one typology from another, and then, separated by an `@`, a semantical version that defines the specific version of the configuration for that typology, for example `typology-001@1.0.0`.
     
 *   `desc` offers a readable description of the typology
     
@@ -538,7 +538,7 @@ The `expression` object contains the operators and terms that make up the typolo
 }
 ```
 
-In the platform the terms a and b would be represented by their unique `id` and `cfg` combination:
+In the system the terms a and b would be represented by their unique `id` and `cfg` combination:
 
 ```
 {
@@ -601,14 +601,14 @@ The workflow object determines the thresholds according to which the typology pr
 
 **Alert (**`alertThreshold`): this threshold will only alert an investigator if the threshold was breached, but will not force the typology processor to take any other direct action
 
-**Interdiction (**`interdictionThreshold`): if breached, this threshold will force the typology processor to issue a message to the client platform to block the transaction. This action will also force an alert to an investigator at the end of the evaluation process.
+**Interdiction (**`interdictionThreshold`): if breached, this threshold will force the typology processor to issue a message to the client system to block the transaction. This action will also force an alert to an investigator at the end of the evaluation process.
 
 A threshold breach occurs when the calculated typology score is greater or equal to the threshold (`>=`).
 
 Alerts are intended to trigger the investigation of a transaction; either because the transaction was blocked by interdiction, or perhaps because there was insufficient evidence to outright block a transaction, but enough evidence was accumulated to arouse suspicion.  
 A typology may be configured with alert threshold, but without an interdiction threshold, usually when the typology is focused on money laundering and the intention of the alert is to trigger surveillance processes without tipping the participants off that their criminal behavior had been noticed.
 
-The platform also allows for separate thresholds for alerts and interdictions so that the platform can generate an alert for a lower and more sensitive threshold than an interdiction. The platform may also omit the alert threshold altogether since the interdiction threshold will generate an alert anyway if the interdiction threshold is breached. (And even though it is possible to specify an alert threshold greater or equal to an interdiction threshold, this alert threshold would be redundant.)
+The system also allows for separate thresholds for alerts and interdictions so that the system can generate an alert for a lower and more sensitive threshold than an interdiction. The system may also omit the alert threshold altogether since the interdiction threshold will generate an alert anyway if the interdiction threshold is breached. (And even though it is possible to specify an alert threshold greater or equal to an interdiction threshold, this alert threshold would be redundant.)
 
 | **Option** | **Outcome** |
 | --- | --- |
@@ -618,7 +618,7 @@ The platform also allows for separate thresholds for alerts and interdictions so
 
 If a specific type of threshold is not required, the threshold should be omitted entirely. A typology configuration threshold value of 0 (zero) will always result in a breach of that typology.
 
-The thresholds are located in a workflow object in the typology configuration. If, for example, the platform is expected to alert on a typology score of 500 or more, and interdict on a typology score of 1000 or more, the workflow object would be composed as follows:
+The thresholds are located in a workflow object in the typology configuration. If, for example, the system is expected to alert on a typology score of 500 or more, and interdict on a typology score of 1000 or more, the workflow object would be composed as follows:
 
 ```
 "workflow": {
@@ -681,7 +681,7 @@ The network map “header” contains metadata that describes the network map. T
 
 *   `cfg` is the unique version of the network map. The version allows an investigator or auditor to know which version of the network map was used in a specific evaluation.
     
-*   `active` is a flag that identifies the current active network map in use by the platform. There can only ever be one active version of the network map and this flag is updated when a network map is superseded by a new version. The value of this attribute for the current active network is `true`. The value for every inactive version is `false`. The purpose of this flag is to allow the platform operator to roll back to a previous version of a network map by deactivating the current active network map and activating the older version.
+*   `active` is a flag that identifies the current active network map in use by the system. There can only ever be one active version of the network map and this flag is updated when a network map is superseded by a new version. The value of this attribute for the current active network is `true`. The value for every inactive version is `false`. The purpose of this flag is to allow the system operator to roll back to a previous version of a network map by deactivating the current active network map and activating the older version.
     
 ```
 {
@@ -691,7 +691,7 @@ The network map “header” contains metadata that describes the network map. T
 
 ### The messages object
 
-The `messages` object is an array that contains information about the transactions that the platform is expected to evaluate. Each element in the `messages` object contains the following attributes [Ref 4](#ref-4):
+The `messages` object is an array that contains information about the transactions that the system is expected to evaluate. Each element in the `messages` object contains the following attributes [Ref 4](#ref-4):
 
 *   `id` is the unique identifier for the Transaction Aggregation and Decisioning Processor (TADProc) that will be used to ultimately conclude the evaluation of a specific transaction. It is possible for a transaction to be routed to a unique TADProc that contains specialized functionality related to summarizing the transaction’s results [Ref 3](#ref-3).
     
@@ -712,7 +712,7 @@ The `messages` object is an array that contains information about the transactio
 
 ### The channels object
 
-The `channels` object is a nested array object inside the transaction element in the `messages` array object. The `channels` array defines the channels within which the typologies are distributed. The channel object contains `id` and `cfg` attributes to differentiate between multiple channels. The platform is deployed by default to only contain a single channel, so the values are typically:
+The `channels` object is a nested array object inside the transaction element in the `messages` array object. The `channels` array defines the channels within which the typologies are distributed. The channel object contains `id` and `cfg` attributes to differentiate between multiple channels. The system is deployed by default to only contain a single channel, so the values are typically:
 
 ```
  "id": "001@1.0.0",
@@ -775,7 +775,7 @@ The rules object array contains the following attributes:
 
 ## 3.1. Introduction and Basics
 
-Each configuration document in the platform can be assigned a unique semantic version that will identify one instance of a configuration document as distinctly separate from another instance of the same configuration document.
+Each configuration document in the system can be assigned a unique semantic version that will identify one instance of a configuration document as distinctly separate from another instance of the same configuration document.
 
 Configuration documents in Tazama are strictly structured JSON documents. Each document contains an identifier related to the specific processor and version of that processor to which the configuration is to be applied. For example, the configuration for a rule processor would have the following attribute and value in the typology configuration:
 
@@ -785,7 +785,7 @@ Configuration documents in Tazama are strictly structured JSON documents. Each d
 
 The rule would typically be known as “rule 099” and is called the rule name. The deployed version of the rule processor would be “1.0.0” and is called the rule processor version.
 
-In reality platform processors are deployed from their GitHub source code via Jenkins. Rule processors are version- or source-controlled using GitHub’s native source control functionality and changes to a rule processor’s source code are fully accounted for between versions.
+In reality system processors are deployed from their GitHub source code via Jenkins. Rule processors are version- or source-controlled using GitHub’s native source control functionality and changes to a rule processor’s source code are fully accounted for between versions.
 
 The configuration of a particular processor is handled separately from the processor source code. The configuration of a specific version of a processor may be changed without changing the underlying code and will then result in a new behavior in the rule processor’s execution. The same rule processor version may even be deployed multiple times with a different configuration applied to each of the different instances.
 
@@ -822,13 +822,13 @@ When a new version of a configuration document is required, the updated version 
 
 Configuration documents can be posted to the appropriate collection via the ArangoDB API, either in bulk or one-by-one. When posting a new configuration for an existing processor, the database will not allow a user to submit a configuration for an "id" and "cfg" combination that already exists in the database: a new configuration must always be assigned a unique configuration version.
 
-Beyond this constraint imposed by the database, configuration versions are expected to be managed outside the platform. Tazama does not currently offer a native user interface for configuration management, though Sybrin, one of the FRMS Centre of Excellence’s System Integrator partners, have created a user interface that allows for the creation of configuration documents as well as the automated management of configuration versions between iterations of a configuration document.
+Beyond this constraint imposed by the database, configuration versions are expected to be managed outside the system. Tazama does not currently offer a native user interface for configuration management, though Sybrin, one of the FRMS Centre of Excellence’s System Integrator partners, have created a user interface that allows for the creation of configuration documents as well as the automated management of configuration versions between iterations of a configuration document.
 
 Once a configuration document has been created or updated and uploaded to the configuration database, the configuration is ready to be used, but not in use yet. To activate a new configuration (or version), the configuration must be linked to the processor in the network map.
 
 ## 3.3. The Network Map
 
-The network map defines the routing of an incoming transaction to all rules and typologies that are required to evaluate the transaction. By default, the platform is configured to evaluate a pacs.002 transaction that concludes a transaction initiated from a pain.001 or pacs.008 message with a status response.
+The network map defines the routing of an incoming transaction to all rules and typologies that are required to evaluate the transaction. By default, the system is configured to evaluate a pacs.002 transaction that concludes a transaction initiated from a pain.001 or pacs.008 message with a status response.
 
 Unlike the processor configuration documents, the network map does not contain an explicit configuration version [Ref 2](#ref-2). Instead, the network map contains an attribute to identify the current active network map being used to perform evaluations:
 
@@ -838,11 +838,11 @@ Unlike the processor configuration documents, the network map does not contain a
 
 The network map that is used to perform a particular evaluation is dynamically determined in the Channel Router and Setup Processor and is always encapsulated in the payload that is evaluated by all downstream processors. The processor uses the network map to retrieve the correct configuration and also accompanies the results of the evaluation so that the network map that was used for the evaluation is always explicitly traceable.
 
-There can only be one network map in an “active” state in the platform at a time. A new network map can be posted to the network map database via the ArangoDB API. An existing network map’s “active” state can also be changed via the API.
+There can only be one network map in an “active” state in the system at a time. A new network map can be posted to the network map database via the ArangoDB API. An existing network map’s “active” state can also be changed via the API.
 
 As with other configuration documents, a network map is never intended to be updated. A new iteration (or version) of the network map must be uploaded and then the existing active network map must be deactivated and the new network map must be activated.
 
-The unique “true” state of the active flag is expected to be enforced outside the platform. Sybrin have also embedded this functionality in their configuration management utility.
+The unique “true” state of the active flag is expected to be enforced outside the system. Sybrin have also embedded this functionality in their configuration management utility.
 
 The active network map ultimately defines the scope of a particular evaluation, right down to the specific processors and their versions that are going to be used, as well as the specific version of the processor configuration required. If any of the components in a network map changes, a new network map must be deployed and activated to replace the previous iteration of the network map.
 
@@ -862,7 +862,7 @@ An explicit version reference has been planned for development to make it easier
 
     
 # Ref 3
-In its default deployment, the platform contains a single version of the “core” platform processors (the typology processor and TADProc) at a time. Though it is possible to deploy and maintain multiple parallel versions of these processors and manage routing to these processors through the network map, this guide will only focus on singular core processors for now.
+In its default deployment, the system contains a single version of the “core” system processors (the typology processor and TADProc) at a time. Though it is possible to deploy and maintain multiple parallel versions of these processors and manage routing to these processors through the network map, this guide will only focus on singular core processors for now.
     
 # Ref 4
 Before our implementation of NATS, Tazama processors were implemented as RESTful microservices. The `host` attributes in the network map contained the URL where the processors could be addressed. With our initial implementation of NATS, the routing information was moved into environment variables that were read into the processors when they were deployed, or restarted in the event of a processor failure. We have now removed the need to specify the host property for a processor - the routing is automatically determined from the network map at processor startup - see [https://github.com/frmscoe/General-Issues/issues/310](https://github.com/frmscoe/General-Issues/issues/310) for details.
