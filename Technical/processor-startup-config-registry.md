@@ -1,4 +1,4 @@
-## Configure environment
+These environment variables are used across processors in the system. The specific variables related to a specific processor can be found in the `.env.template` file in each processor's repository.
 
 | Variable | Purpose | Example
 | ------ | ------ | ------ |
