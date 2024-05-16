@@ -38,12 +38,12 @@ As the API gateway, Ambassador only exposes a certain set of services for Ingres
 
 ### Secure (Authentication, Authorization, Encryption and Inter-Service Communication)
 
-![](../../Images/Security.png)
+![](../../images/Security.png)
 
 ### Sequence Diagram with Adapter in the flow
 
-![](../../Images/SecuritySequence.png)
+![](../../images/SecuritySequence.png)
 
 ### Sequence Diagram without Adapter in the flow
 
-![](../../Images/SecuritySequenceWithoutAdapter.png)
+![](../../images/SecuritySequenceWithoutAdapter.png)

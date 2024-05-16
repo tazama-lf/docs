@@ -42,4 +42,4 @@ All the products run independently in their own Kubernetes containers. They take
 
 Linkerd provides the load balancing for any input calls / traffic to all of the above components. Below is an example of how Rules Processor (scaled independently by Kubernetes and load balanced using Linkerd) sends Rule Result to two different Typology Processors (each of them scaled independently by Kubernetes and load balanced using Linkerd)
 
-![](../../Images/Untitled_Diagram.drawio.png)
+![](../../images/Untitled_Diagram.drawio.png)

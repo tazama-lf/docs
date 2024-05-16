@@ -91,7 +91,7 @@ The Tazama Financial Crime Risk Management system architecture covers the techno
 
 ### Which Tool and Why
 
-![](../../Images/Untitled_Diagram.drawio.png)
+![](../../images/Untitled_Diagram.drawio.png)
 
 The architecture above shows the following list of components:
 

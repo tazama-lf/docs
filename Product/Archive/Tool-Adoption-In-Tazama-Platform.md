@@ -2,4 +2,4 @@
 
 Below shows us the level of adoption of the open-sources tools in the Tazama system
 
-![](../../Images/ToolAdoption.png)
+![](../../images/ToolAdoption.png)

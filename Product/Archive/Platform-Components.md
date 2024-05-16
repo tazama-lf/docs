@@ -10,8 +10,8 @@
   - [Channel Aggregation and Decisioning Processor (CADP)](#channel-aggregation-and-decisioning-processor-cadp)
   - [Transaction Aggregation and Decisioning Processor (TADP)](#transaction-aggregation-and-decisioning-processor-tadp)
 
-![](../../Images/Platform-Components.drawio.png)
-![](../../Images/Overall1.png)
+![](../../images/Platform-Components.drawio.png)
+![](../../images/Overall1.png)
 
 Actio platform has the following implementation components:
 
@@ -44,7 +44,7 @@ Actio platform has the following implementation components:
         1. How: NIFI Processor API Call
         2. What: JSON with Transaction info
 
-![](../../Images/TransactionRouting.png)
+![](../../images/TransactionRouting.png)
 
 ## Data Preparation - Transaction Enrichment (TE)
 
@@ -62,7 +62,7 @@ Actio platform has the following implementation components:
         1. How: gRPC Call
         2. What: Proto file containing pseudonymised ISO formatted JSON with Transaction Info
 
-![](../../Images/TransactionValidation.png)
+![](../../images/TransactionValidation.png)
 
 ## Transaction Router (TR)
 
@@ -80,7 +80,7 @@ Actio platform has the following implementation components:
         1. How: API Call
         2. What: Transaction Checklist (list of all the Channel Scores to expect)
 
-![](../../Images/TRouter.png)
+![](../../images/TRouter.png)
 
 ## Channel Routing Setup Processor (CRSP)
 
@@ -104,7 +104,7 @@ Actio platform has the following implementation components:
         1. How: API Call
         2. What: Typology Checklist (list of all the Rules Results to expect)
 
-![](../../Images/ChannelRouter.png)
+![](../../images/ChannelRouter.png)
 
 ## Rules Processor (RP)
 
@@ -121,7 +121,7 @@ Actio platform has the following implementation components:
         1. How: API Call
         2. What: JSON with Rules Result + Transaction Info
 
-![](../../Images/RulesProcessor.png)
+![](../../images/RulesProcessor.png)
 
 ## Typology Processor (TP)
 
@@ -152,7 +152,7 @@ Actio platform has the following implementation components:
         1. How: cache write
         2. What: Rule Result for that Typology for the associated Transaction
 
-![](../../Images/TypologyProcessor.png)
+![](../../images/TypologyProcessor.png)
 
 ## Channel Aggregation and Decisioning Processor (CADP)
 
@@ -184,7 +184,7 @@ Actio platform has the following implementation components:
         1. How: cache write
         2. What: Typology Score for that Channel for the associated Transaction
 
-![](../../Images/ChannelScoringProcessor.png)
+![](../../images/ChannelScoringProcessor.png)
 
 ## Transaction Aggregation and Decisioning Processor (TADP)
 
@@ -217,4 +217,4 @@ Actio platform has the following implementation components:
         1. How: cache write
         2. What: Channel Score for the associated Transaction
 
-![](../../Images/TransactionDecisioning.png)
+![](../../images/TransactionDecisioning.png)

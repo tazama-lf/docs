@@ -12,7 +12,7 @@
 
 The life-cycle for typologies and rules included in the Tazama system broadly follow the process described in the image below:
 
-![](../Images/image-20210316-072938.png)
+![](../images/image-20210316-072938.png)
 
 **Typologies** define the methods according to which financial crime is performed by criminals to defraud users in the eco-system or to launder money/finance terrorism.
 

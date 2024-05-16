@@ -18,7 +18,7 @@ Once each channel has been completed, the result of the channel will be passed t
 
 ## Transaction Aggregation and Decisioning Processor Context
 
-![](../Images/image-20220901-144421.png)
+![](../images/image-20220901-144421.png)
 
 **Figure**: *Actio TMS Transaction Aggregation and Decisioning Context*
 

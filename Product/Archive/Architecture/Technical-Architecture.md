@@ -2,7 +2,7 @@
 
 Technical Architecture contains the list of the important tools and technologies of the Actio platform and Lextego Product
 
-![](../../../Images/TechnicalArchitecture.png)
+![](../../../images/TechnicalArchitecture.png)
 
 List of Technologies and Tools:
 

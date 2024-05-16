@@ -78,7 +78,7 @@ d. pacs.002 does not contain any name information
 
 5. There is no citizenship, residency, or place of birth information available (by default) in the ISO message for a Mojaloop implementation, though the Mojaloop extension list could be utilised to host this information. ISO 20022 provides for citizenship, residency and place of birth information in its structure, but has not been implemented as such for the MVP.
 
-![](../../../../Images/image-20220901-121651.png)
+![](../../../../images/image-20220901-121651.png)
 
 ## Process steps
 

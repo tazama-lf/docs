@@ -27,7 +27,7 @@ List of Sequence Flows (this does not have all the detailed logic at least not y
         1. Write to Redis
         2. What: Transaction details
 
-![](../../../Images/TransactionRouting.png)
+![](../../../images/TransactionRouting.png)
 
 ## Transaction Validation
 
@@ -41,7 +41,7 @@ List of Sequence Flows (this does not have all the detailed logic at least not y
     2. How: Call Function(API for this PI)
     3. What: Validated Json
 
-![](../../../Images/TransactionValidation.png)
+![](../../../images/TransactionValidation.png)
 
 ## Channel Routing
 
@@ -56,7 +56,7 @@ List of Sequence Flows (this does not have all the detailed logic at least not y
     2. How: Call method (in the same Channel Orchestrator Function)
     3. What: List of De-duped Rules (with rules details includes destination Typologies info)
 
-![](../../../Images/ChannelRouter.png)
+![](../../../images/ChannelRouter.png)
 
 ## Service Routing
 
@@ -80,7 +80,7 @@ List of Sequence Flows (this does not have all the detailed logic at least not y
     2. How: Call Method (in the same Transaction Decisioning Processor Function)
     3. What: Transaction Aggregation status
 
-![](../../../Images/TransactionAggregation.png)
+![](../../../images/TransactionAggregation.png)
 
 ## Rules Processing
 
@@ -92,7 +92,7 @@ List of Sequence Flows (this does not have all the detailed logic at least not y
     2. How: Call Function (API for this PI)
     3. What: Rules Result + Transaction Info
 
-![](../../../Images/RulesProcessor.png)
+![](../../../images/RulesProcessor.png)
 
 ## Typology Processing
 
@@ -104,7 +104,7 @@ List of Sequence Flows (this does not have all the detailed logic at least not y
     2. How: Call Function (API for this PI)
     3. What: Typology Score + Transaction Info
 
-![](../../../Images/TypologyProcessor.png)
+![](../../../images/TypologyProcessor.png)
 
 ## Channel Scoring
 
@@ -116,7 +116,7 @@ List of Sequence Flows (this does not have all the detailed logic at least not y
     2. How: Call Function (API for this PI)
     3. What: Channel Score + Transaction Info
 
-![](../../../Images/ChannelScoringProcessor.png)
+![](../../../images/ChannelScoringProcessor.png)
 
 ## Transaction Decisioning
 
@@ -132,8 +132,8 @@ List of Sequence Flows (this does not have all the detailed logic at least not y
         1. How: Target system not decided yet
         2. What: JSON with transaction info
 
-![](../../../Images/TransactionDecisioning.png)
+![](../../../images/TransactionDecisioning.png)
 
 ## Overall Flow
 
-![](../../../Images/OverallFlow.png)
+![](../../../images/OverallFlow.png)

@@ -32,7 +32,7 @@ Once each typology has been scored, the result of the typology will be passed to
 
 # Channel Aggregation and Decisioning Processor Context
 
-![](../../../../Images/Actio_TMS_CADP_Context.png)
+![](../../../../images/Actio_TMS_CADP_Context.png)
 
 **Figure**: *Tazama TMS Channel Aggregation and Decisioning Context*
 

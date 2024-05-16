@@ -56,23 +56,23 @@ Configuration documents can be uploaded to the platform using the ArangoDB API d
 
 The core detection capability within the platform is distributed across three distinct steps in the end-to-end evaluation flow.
 
-![](../../Images/image-20230929-110134.png)
+![](../../images/image-20230929-110134.png)
 
 Once data is ingested into the transaction history by the TMS API, the Channel Router and Setup Processor (CRSP) performs an initial “triage” step to determine if the transaction should be inspected by the platform, and in what way. At the moment this is a very simple decision based on the transaction type only (i.e. pain.001, pain.013, pacs.008 and pacs.002), though we envisage that the decision-making here can be more complex in the future by inspecting attributes contained in the message. For now, the CRSP uses the transaction type[1](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/76906497/Configuration+management#References) to select the typologies that are to be evaluated and triggers the rules required by the typologies. The CRSP routing is configured via a network map that defines the hierarchy of typologies and rules. While not directly influenced by a calibration process at present, the behavior of existing rules and typologies may result in changes to the scope of the evaluation defined in the network map. Some rules or typologies may be deemed to be ineffective in the current configuration and removed or recomposed, and new rules or typologies may be added as new behaviors emerge.
 
-![](../../Images/image-20230929-110404.png)
+![](../../images/image-20230929-110404.png)
 
 Each rule processor that receives the trigger payload from the CRSP evaluates the transaction and the historical behavior of its participants according to its specification and configuration. Rule processors are driven by a combination of parameters and result specifications to determine only one of a number of related outcomes. The rule outcome is then submitted to the typology processor for scoring.
 
 The typology processor assigns a weighting to each rule outcome as it is received based on the rule’s parent typologies’ configurations. Once all the rule results for a specific typology has been received, the typology adds all the weighted scores together into the typology score. The typology score can be evaluated against an “interdiction” threshold to determine if the client system should be instructed to block a transaction “in flight” and also an investigation threshold to trigger a review process at the end of the transaction evaluation.[2](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/76906497/Configuration+management#References%3A)
 
-![](../../Images/image-20231109-131207.png)
+![](../../images/image-20231109-131207.png)
 
 Once these three steps are complete, the evaluation of the transaction is wrapped up in the Channel and Transaction Aggregation and Decisioning Processor where the results from typologies are aggregated and reviewed to determine if an investigation alert should be sent to the Case Management System. If any typology had breached either its investigation or interdiction threshold, the transaction will trigger an alert.
 
 The evaluation process accommodates a number of different calibration levers that can be manipulated to alter the evaluation outcome.
 
-![](../../Images/image-20231109-132855.png)
+![](../../images/image-20231109-132855.png)
 
 In the CRSP:
 
@@ -96,7 +96,7 @@ Configuration documents are essentially files that contain a processor-specific 
 
 The platform processes configurations in a specific order to evaluate an incoming transaction. Starting with the Channel Router & Setup Processor (CRSP) that interprets the network map for routing, then following with the rule processors that interpret their individual rule configurations to determine how to evaluate the transaction, and then concluding with the typology processor that uses a variety of typology configurations to summarize rule results into typologies (fraud or money laundering scenarios).
 
-![](../../Images/image-20231109-135101.png)
+![](../../images/image-20231109-135101.png)
 
 The development cycle for the platform processors and their associated configurations follow a slightly different flow. The development and configuration process follows somewhat loosely cascading dependencies amongst the configuration documents: typologies rely on rules, and the network map that defines routing relies on typology-and-rule structures.
 
@@ -106,7 +106,7 @@ Rule results roll up into typologies through a typology configuration. One would
 
 Finally, the typologies and rules are bound together into the network map and attached to the specific transaction type for which the rules and typologies are intended. The network map defines the rules that should receive the transaction for evaluation, and also the routing to the typologies composed out of the rules.
 
-![](../../Images/image-20231012-113112.png)
+![](../../images/image-20231012-113112.png)
 
 ### 2.1. Rule Processor Configuration
 
@@ -228,15 +228,15 @@ While the parameters and exit conditions may be optional for a specific rule pro
 
 **Banded results**, where the result from the rule processor is categorized into one out of a number of discrete bands that partition a contiguous range of possible results.
 
-![](../../Images/image-20231006-123736.png)
+![](../../images/image-20231006-123736.png)
 
 **Cased results**, where the result from the rule processor is an explicit value from a list of discrete and explicit values.
 
-![](../../Images/image-20231006-124155.png)
+![](../../images/image-20231006-124155.png)
 
 The rule processor’s core purpose is to produce a definitive deterministic result based on its programmed behavioral analysis of historical data. The rule configuration defines the bands or values for which rule results can be provided.
 
-![](../../Images/image-20231009-142914.png)
+![](../../images/image-20231009-142914.png)
 
 It is extremely important that the configuration of a rule processor does not leave any gaps in the results, whether banded or cased. Every possible outcome of a rule result must be accounted for, otherwise the rule processor may deliver a result that the typology processor cannot interpret. In the event that a rule processor result misses the configured results, the rule processor will issue an error (`.err`) result with a reason description of `Value provided undefined, so cannot determine rule outcome`.
 
@@ -244,7 +244,7 @@ It is extremely important that the configuration of a rule processor does not le
 
 Banded results are partitions in a contiguous range of results, effectively from -∞ to +∞. When a target value is evaluated against a result band the lower limit of a band is *always* evaluated with the `>=` operator and the upper limit is *always* evaluated with the `<` operator. This way, we can configure the upper limit of one band and the lower limit of the next band with the exact same value to make sure there is no overlap between bands and also no gap.
 
-![](../../Images/image-20231009-144856.png)
+![](../../images/image-20231009-144856.png)
 
 Where a lower limit is not provided, the rule processor will assume the intended target lower limit is -∞.
 
@@ -395,7 +395,7 @@ Example of the typology configuration metadata:
 
 The `rules` object is an array that contains an element for every possible outcome for each of the rule results that can be received from the rule processors in scope for the typology.
 
-![](../../Images/image-20231012-125521.png)
+![](../../images/image-20231012-125521.png)
 
 ***Every. Possible. Outcome.***
 
@@ -559,7 +559,7 @@ By example, a complete expression for a typology that relies on 4 rule results a
 
 Mathematically, this expression would translate to:
 
-![](../../Images/image-20231013-090030.png)
+![](../../images/image-20231013-090030.png)
 
 or simply:
 
@@ -609,7 +609,7 @@ The network map associates a specific transaction type with the rules and typolo
 
 The network map is structured as a decision tree that defines the rules in a typology, the typologies into a channel and the channels into a transaction (by type):
 
-![](../../Images/image-20231016-104652.png)
+![](../../images/image-20231016-104652.png)
 
 The network map contains the following information:
 

@@ -75,4 +75,4 @@
     - avoid the unnecessary invocation of all rule and typology processors;
     - achieve a modular and extensible architecture with functional separation by design;
 
-![](../../Images/ABC.png)
+![](../../images/ABC.png)

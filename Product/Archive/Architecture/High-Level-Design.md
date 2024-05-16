@@ -4,7 +4,7 @@ This page contains the high-level Design of the Tazama system
 
 ## High Level Design Diagram
 
-![](../../../Images/Untitled_Diagram.drawio.png)
+![](../../../images/Untitled_Diagram.drawio.png)
 
 ## Legend
 

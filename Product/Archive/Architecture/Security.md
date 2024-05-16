@@ -110,19 +110,19 @@ Network and zoning creates secure infrastructure that can be monitored. Access b
 
 By satisfying the absolute minimum expectations, Tazama can be installed in low-budget infrastructures with just one subnet. Here is how the network architecture should look like
 
-![](../../../Images/Untitled_Diagram.drawio.png)
+![](../../../images/Untitled_Diagram.drawio.png)
 
 ### Intermediate
 
 Tazama system recommends having at-least 2 subnets (internal and DMZ) but it does not require that.
 
-![](../../../Images/IBudgetNetwork.png)
+![](../../../images/IBudgetNetwork.png)
 
 ### Enterprise-grade
 
 Tazama system is designed to be installed in enterprise grade infrastructure. It implies having multiple subnets includes a DMZ.
 
-![](../../../Images/IdealNetwork.png)
+![](../../../images/IdealNetwork.png)
 
 ***Tazama recommends Enterprise-grade setup because it is a lot more secure***
 
@@ -130,7 +130,7 @@ Tazama system is designed to be installed in enterprise grade infrastructure. It
 
 Tazama system includes Apache Ambassador as the API Gateway. DMZ is created using External and Internal Firewall. The network zones behind the internal firewall cannot be directly accessed from outside the External Firewall. Ports are open on the internal firewall and they can only be accessed by the API Gateway. API Gateway receives all the traffic that comes from outside the external firewall. API Gateway does the authentication and authorization based on the tokens provided by the IAM and does the traffic forwarding to the internal zones. Ingress traffic API Gateway is configured to **Deny-by-default.** API Gateway is set up to only allow **HTTPS** ingress traffic.
 
-![](../../../Images/Ingress.drawio.png)
+![](../../../images/Ingress.drawio.png)
 
 ***Tazama recommends that you have External and Internal Firewall setup and configured and that the API Gateway is hosted between the 2 firewalls***
 
@@ -225,7 +225,7 @@ The *control plane* is a set of services that run in a dedicated namespace. Th
 
 The Controller hosts an API that can be accessed using CLI or Web UI.
 
-![](../../../Images/CP.drawio.png)
+![](../../../images/CP.drawio.png)
 
 ### Low-budget setup:
 
@@ -426,7 +426,7 @@ there are a lot of tutorials on how to do this. Unfortunately, most of them crea
 
 Every component in the architecture is implemented as Kubernetes container and it comes with default security afforded by Kubernetes.
 
-![](../../../Images/K8s-4cs.png)
+![](../../../images/K8s-4cs.png)
 
 #### Cloud Security
 
