@@ -10,7 +10,7 @@ Data are collected directly from the data subjects and pseudonymised by the data
 
 A data processor is also involved in the process by obtaining the identifiers from the data subjects (on behalf of the controller). However, the pseudonymisation is still performed by the controller.
 
-![](../../Images/Pseudonymisation_Scenario_2.drawio.png)
+![](../../images/Pseudonymisation_Scenario_2.drawio.png)
 
 **Figure**: Scenario 2 expressed in a Mojaloop/Tazama context.
 

@@ -38,7 +38,7 @@ The impact can be measured by how many places are affected, and how many code ch
 
 Here, we would only need to update the [communication library](https://github.com/frmscoe/frms-coe-startup-lib) as this is currently where the serialization and deserialization happens. So this should be a non-intrusive, quick change.
 
-![](../../Images/inter-service-communication-json-protobuf.png)
+![](../../images/inter-service-communication-json-protobuf.png)
 
 ```plantuml
 @startuml
@@ -78,7 +78,7 @@ note right of Protobuf : Proposed Method
 
 This will be more impactful. Currently, each micro-service is responsible for serialization and deserialization to and from JSON in the service itself, before it submits it to the library to be cached. So to update to Protobuf, we’d have to make changes in all the micro-services.
 
-![](../../Images/caching-serialization.png)
+![](../../images/caching-serialization.png)
 
 ```plantuml
 @startuml
@@ -125,7 +125,7 @@ BProtobuf -down-> Cache : Proposed to send Protobuf
 
 move from JSON to Protobuf, we also make the library the party responsible to handle serialization and deserialization.
 
-![](../../Images/caching-proposed-serialization.png)
+![](../../images/caching-proposed-serialization.png)
 
 ```plantuml
 @startuml

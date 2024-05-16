@@ -12,7 +12,7 @@
 
 ### Producer scaling
 
-![image](../Images/Producer_scaling.png)
+![image](../images/Producer_scaling.png)
 
 ```plantuml
 @startuml
@@ -59,7 +59,7 @@ end group
 
 ### Guaranteed delivery
 
-![image](../Images/Main_flow_and_Error_Handling.png)
+![image](../images/Main_flow_and_Error_Handling.png)
 
 ```plantuml
 @startuml
@@ -109,7 +109,7 @@ end group
 
 ### Subscriber scaling
 
-![image](../Images/Scale_Typology_Processor.png)
+![image](../images/Scale_Typology_Processor.png)
 
 ```plantuml
 @startuml
@@ -148,7 +148,7 @@ end group
 
 ### Producer and subscriber scaling
 
-![image](../Images/Producer_and_subscriber_scaling.png)
+![image](../images/Producer_and_subscriber_scaling.png)
 
 ```plantuml
 @startuml

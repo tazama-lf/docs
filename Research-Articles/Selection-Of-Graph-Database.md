@@ -33,9 +33,9 @@ ArangoDB provides a better solution for Tazama
 |     | **JanusGraph** | **ArangoDB** |
 | --- | --- | --- |
 | **Overview** | JanusGraph is a scalable graph database optimized for storing and querying graphs containing hundreds of billions of vertices and edges distributed across a multi-machine cluster. | Natively store data for graph, document and search needs.  <br>Utilize feature-rich access with one query language. |
-| **Screenshot** | Couldn’t make it that far (Just a terminal running gremlin) | ![](../Images/image-20210217-052840.png) |
+| **Screenshot** | Couldn’t make it that far (Just a terminal running gremlin) | ![](../images/image-20210217-052840.png) |
 | **Link** | [https://janusgraph.org/](https://janusgraph.org/) | [https://www.arangodb.com/](https://www.arangodb.com/documentation/) |
-| **Benefits and risks** | ![(plus)](../Images/plus_32.png) Apache 2 License<br><br>![(plus)](../Images/plus_32.png) Fully Open Source<br><br>![(minus)](../Images/minus_32.png) Not enough documentation<br><br>![(plus)](../Images/plus_32.png) Gremlin language makes graph queries easy<br><br>![(minus)](../Images/minus_32.png) Complicated architecture and difficult to deploy<br><br>![(minus)](../Images/minus_32.png) Not enough information on scalability<br><br>![(minus)](../Images/minus_32.png) Doesn’t have a UI<br><br>![(minus)](../Images/minus_32.png) Depends on external configuration to work<br><br>![(minus)](../Images/minus_32.png) Depends on third party gremlin integrations for NodeJS<br><br>![(minus)](../Images/minus_32.png) Developers couldn’t insert data | ![(plus)](../Images/plus_32.png) Apache 2 License<br><br>![(minus)](../Images/minus_32.png) Enterprise/Cloud paid options<br><br>![(plus)](../Images/plus_32.png) Huge amounts of documentation, tutorials, courses, and third party information<br><br>![(plus)](../Images/plus_32.png) ![(minus)](../Images/minus_32.png) Own language “AQL” providing graph queries.<br><br>![(plus)](../Images/plus_32.png) Easy to run and deploy<br><br>![(plus)](../Images/plus_32.png) Elastic and scalable<br><br>![(plus)](../Images/plus_32.png) Beautiful UI<br><br>![(plus)](../Images/plus_32.png) Is it’s own application, nothing else<br><br>![(plus)](../Images/plus_32.png) Support for NodeJS out of the box<br><br>![(plus)](../Images/plus_32.png) Up and running data in a single day<br><br>![(plus)](../Images/plus_32.png) Avocado as a logo |
+| **Benefits and risks** | ![(plus)](../images/plus_32.png) Apache 2 License<br><br>![(plus)](../images/plus_32.png) Fully Open Source<br><br>![(minus)](../images/minus_32.png) Not enough documentation<br><br>![(plus)](../images/plus_32.png) Gremlin language makes graph queries easy<br><br>![(minus)](../images/minus_32.png) Complicated architecture and difficult to deploy<br><br>![(minus)](../images/minus_32.png) Not enough information on scalability<br><br>![(minus)](../images/minus_32.png) Doesn’t have a UI<br><br>![(minus)](../images/minus_32.png) Depends on external configuration to work<br><br>![(minus)](../images/minus_32.png) Depends on third party gremlin integrations for NodeJS<br><br>![(minus)](../images/minus_32.png) Developers couldn’t insert data | ![(plus)](../images/plus_32.png) Apache 2 License<br><br>![(minus)](../images/minus_32.png) Enterprise/Cloud paid options<br><br>![(plus)](../images/plus_32.png) Huge amounts of documentation, tutorials, courses, and third party information<br><br>![(plus)](../images/plus_32.png) ![(minus)](../images/minus_32.png) Own language “AQL” providing graph queries.<br><br>![(plus)](../images/plus_32.png) Easy to run and deploy<br><br>![(plus)](../images/plus_32.png) Elastic and scalable<br><br>![(plus)](../images/plus_32.png) Beautiful UI<br><br>![(plus)](../images/plus_32.png) Is it’s own application, nothing else<br><br>![(plus)](../images/plus_32.png) Support for NodeJS out of the box<br><br>![(plus)](../images/plus_32.png) Up and running data in a single day<br><br>![(plus)](../images/plus_32.png) Avocado as a logo |
 | Cost | ?   | ?   |
 
 # Results
@@ -136,7 +136,7 @@ If yo don’t want to convert the data yourself, you can use the `demo-docs.json
 
 Now click in the database and click in the small upload icon on the top right.
 
-![](../Images/Screenshot_from_2021-03-09_00-47-46.png)
+![](../images/Screenshot_from_2021-03-09_00-47-46.png)
 
 Notice that we can now attach a file. Add the `demo-docs.json` file and click on “Import JSON”.
 
@@ -182,7 +182,7 @@ return p = returns the entire vertices and edges for the condition.
 
 if you run that command, you’ll notice that there’s no output. that’s because there’s no transfers from the second graph tier to the first payer! lets add that transactions. Go to collections, then transactions, and click on the green “+” button. In “_from” type `docs/g.tz.fsp001.msisdn.2558617728569` and in “_to” type `docs/g.tz.fsp001.msisdn.2558617728568`. click on save and now try to run the query again. Now we have the condition for the rule to succeed! This is the result:
 
-![](../Images/Screenshot_from_2021-03-09_01-01-41.png)
+![](../images/Screenshot_from_2021-03-09_01-01-41.png)
 
 Notice that the level of granularity only goes up to 2 levels. This is because we don’t have the data setup for this scenario. More on that in the github `README.md`
 
@@ -263,7 +263,7 @@ Further investigation needs to be done.
 
 Best Graph DBMS’s - [https://db-engines.com/en/ranking/graph+dbms](https://db-engines.com/en/ranking/graph+dbms)
 
-![](../Images/image-20210217-133316.png)
+![](../images/image-20210217-133316.png)
 
 ## ✅ Follow up
 

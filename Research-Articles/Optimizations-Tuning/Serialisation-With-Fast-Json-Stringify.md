@@ -60,6 +60,6 @@ We do the same for `JSON.stringify()`
 
 The results, on my environment:
 
-![](../../Images/at.png)
+![](../../images/at.png)
 
 On the left, `JSON.stringify()` took `1.950s` after warm up iterations. On the right we have our `fast-json-stringify` implementation which took `747.91ms` after our warm up iterations.

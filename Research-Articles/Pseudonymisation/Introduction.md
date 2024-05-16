@@ -70,7 +70,7 @@ Personal data in Tazama may be vulnerable to the following risks:
 
 - Personal data that can be used to identify data subjects must be pseudonymised as soon as is feasible in the data pipeline. The purpose of the pseudonymisation is to protect the identity of the individuals involved in a transaction as transactions are screened for financial crime risk.
 
-![](../../Images/Tazama_Create_Pseudonym.svg)
+![](../../images/Tazama_Create_Pseudonym.svg)
 
 **Figure 1***: Sequence for creation of a pseudonym*
 
@@ -108,7 +108,7 @@ Similarly, though to a lesser degree, straightforward hashing (MD5, SHA, etc) al
 
 Message Authentication Codes offers a more secure way to generate a pseudonym, and also creates the opportunity to pseudonymise personal data in different groups by using a separate secret.
 
-![](../../Images/image-20220901-122225.png)
+![](../../images/image-20220901-122225.png)
 
 Regardless of the method selected, with the exception of encryption, the use of a lookup or mapping table is inevitably required to reverse the pseudonymisation. As such, we do not expect to have to extract the pseudonymised personal data from the pseudonym itself.
 

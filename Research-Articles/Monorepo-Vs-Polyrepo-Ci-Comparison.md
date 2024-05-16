@@ -1,6 +1,6 @@
 # Monorepo vs Polyrepo CI Comparison
 
-![](../Images/540077_318106.webp)
+![](../images/540077_318106.webp)
 
 ## CI Steps
 
