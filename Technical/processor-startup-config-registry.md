@@ -20,3 +20,18 @@ These environment variables are used across processors in the system. The specif
 | `ACK_POLICY` | [NATS] Ack [policy](https://docs.nats.io/nats-concepts/jetstream/consumers#ackpolicy) | `Explicit`
 | `PRODUCER_STORAGE` | [NATS] Producer [Storage](https://docs.nats.io/using-nats/developer/develop_jetstream/model_deep_dive#storage-overhead) | `File`
 | `PRODUCER_RETENTION_POLICY` | [NATS] Producer Retention [Policy](https://docs.nats.io/using-nats/developer/develop_jetstream/model_deep_dive#stream-limits-retention-and-policy) | `Workqueue`
+| `TRANSACTION_HISTORY_DATABASE_CERT_PATH` | Path to the certificate for the transaction history database | `certs/transaction_history_cert.pem` |
+| `TRANSACTION_HISTORY_DATABASE` | Name of the transaction history database | `transactionHistory` |
+| `TRANSACTION_HISTORY_DATABASE_USER` | Username for accessing the transaction history database | `root` |
+| `TRANSACTION_HISTORY_DATABASE_PASSWORD` | Password for accessing the transaction history database | `password123` |
+| `TRANSACTION_HISTORY_DATABASE_URL` | URL for accessing the transaction history database | `http://localhost:8529` |
+| `CONFIG_DATABASE_CERT_PATH` | Path to the certificate for the configuration database | `certs/config_db_cert.pem` |
+| `CONFIG_DATABASE` | Name of the configuration database | `Configuration` |
+| `CONFIG_DATABASE_USER` | Username for accessing the configuration database | `root` |
+| `CONFIG_DATABASE_URL` | URL for accessing the configuration database | `http://localhost:8529` |
+| `CONFIG_DATABASE_PASSWORD` | Password for accessing the configuration database | `configPass123` |
+| `PSEUDONYMS_DATABASE_CERT_PATH` | Path to the certificate for the pseudonyms database | `certs/pseudonyms_db_cert.pem` |
+| `PSEUDONYMS_DATABASE` | Name of the pseudonyms database | `pseudonyms` |
+| `PSEUDONYMS_DATABASE_USER` | Username for accessing the pseudonyms database | `root` |
+| `PSEUDONYMS_DATABASE_URL` | URL for accessing the pseudonyms database | `http://localhost:8529` |
+| `PSEUDONYMS_DATABASE_PASSWORD` | Password for accessing the pseudonyms database | `pseudoPass456` |
