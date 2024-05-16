@@ -60,10 +60,10 @@ on:
 
 This workflow will run whenever a push event occurs on the `main` branch. You can customize the branch or branches on which the workflow should run.
 
-![](../../../../Images/image-20230522-103240.png)
+![](../../../../images/image-20230522-103240.png)
 
-![](../../../../Images/image-20230522-103406.png)
-![](../../../../Images/image-20230522-103516.png)
+![](../../../../images/image-20230522-103406.png)
+![](../../../../images/image-20230522-103516.png)
 
 #### Step 3: Defining Workflow Jobs
 
@@ -174,18 +174,18 @@ When a pull request is created or updated, the workflow specified in the branch 
 
 #### Rule configuration setup
 
-![](../../../../Images/image-20230522-110143.png)
+![](../../../../images/image-20230522-110143.png)
 
-![](../../../../Images/image-20230522-110216.png)
-![](../../../../Images/image-20230522-110238.png)
+![](../../../../images/image-20230522-110216.png)
+![](../../../../images/image-20230522-110238.png)
 
 ### Rules triggered on push requests
 
 Once the code has been pushed through to the code repository , the build triggers the workflows and does the certain checks needed , if the checks fail they will need to be fixed before a merge to that main branch can be completed.
 
-![](../../../../Images/image-20230522-111007.png)
+![](../../../../images/image-20230522-111007.png)
 
-![](../../../../Images/image-20230522-110935.png)
+![](../../../../images/image-20230522-110935.png)
 
 ## Jenkins
 
@@ -199,14 +199,14 @@ The following provides an explanation of how Jenkins can automatically trigger a
 
 1. **Setting up Jenkins**: Ensure that a Jenkins server is properly set up and configured with the necessary plugins and access to the code repository. [https://plugins.jenkins.io/ghprb](https://plugins.jenkins.io/ghprb) [https://plugins.jenkins.io/github-pullrequest/](https://plugins.jenkins.io/github-pullrequest/)
 2. **Configuring Jenkins Job**: Create a Jenkins job that defines the build and deployment process for the application. This job should be configured to build the code and package it for deployment.  
-    ![](../../../../Images/image-20230522-113831.png)
+    ![](../../../../images/image-20230522-113831.png)
 3. **Adding Git Hooks**: Set up Git hooks on your local development environment. Git hooks are scripts executed in response to specific Git events. In this case, we will use a post-receive hook that triggers a build on Jenkins when a push event occurs.
 4. **Configuring Webhooks in GitHub**: Access the repository settings on GitHub and configure webhooks to communicate with the Jenkins server. Webhooks are HTTP callbacks that notify external services when specific events occur. Set up a webhook to send a payload to the Jenkins server whenever a push event happens on the main branch.  
-    ![](../../../../Images/image-20230522-114210.png)
+    ![](../../../../images/image-20230522-114210.png)
 5. **Receiving Webhook Payload**: Jenkins has a built-in web server that can listen for incoming webhook payloads. Once the webhook is configured in GitHub, Jenkins will start receiving the payload whenever a push event occurs on the main branch.
 6. **Jenkins Job Triggered**: Upon receiving the webhook payload, Jenkins will trigger the corresponding job that was set up earlier. This job will pull the latest changes from the repository, build the code, and package it for deployment.
 7. **Deployment Process**: The Jenkins job can include steps to deploy the packaged code to the desired environment, such as a staging or production server. The specific deployment process will depend on the requirements of the application.  
-![](../../../../Images/image-20230522-114359.png)
+![](../../../../images/image-20230522-114359.png)
 
 By following the outlined steps, Jenkins can be configured to fire off a deployment build using Git hooks triggered by a push request to the main branch on GitHub. This automated process streamlines the build and deployment workflow, ensuring efficient and consistent deployments of the application. Please note that the actual implementation may vary based on your specific development environment, Jenkins configuration, and repository hosting platform (in this case, GitHub).
 
@@ -228,7 +228,7 @@ Before proceeding with the setup, ensure you have the following:
 3. In the "Available" tab, search for "Slack Notifier" plugin.
 4. Check the box next to the "[Global Slack Notifier](https://plugins.jenkins.io/global-slack-notifier)" and “[Slack NotificationSlack Notification Plugin](https://plugins.jenkins.io/slack)“ plugin and click "Instalwithout restart".
 
-![](../../../../Images/image-20230522-115213.png)
+![](../../../../images/image-20230522-115213.png)
 
 #### Step 2: Create a Slack App
 
@@ -239,8 +239,8 @@ Before proceeding with the setup, ensure you have the following:
 
 [https://plugins.jenkins.io/global-slack-notifier/](https://plugins.jenkins.io/global-slack-notifier/)
 
-![](../../../../Images/image-20230522-120021.png)
-![](../../../../Images/image-20230522-120049.png)
+![](../../../../images/image-20230522-120021.png)
+![](../../../../images/image-20230522-120049.png)
 
 #### Step 3: Configure Slack Integration in Jenkins
 
@@ -258,7 +258,7 @@ The other fields are optional. You can click on the question mark icons next to 
 
 > **Note:** Please remember to replace the Integration Token in the screenshot below with your own.
 
-![](../../../../Images/jenkins-ci_step3.png)
+![](../../../../images/jenkins-ci_step3.png)
 
 #### Step 4: Configure Jenkins Jobs to Send Slack Notifications
 
@@ -277,7 +277,7 @@ The other fields are optional. You can click on the question mark icons next to 
 2. Monitor the Slack channel you specified in the job configuration.
 3. You should receive a notification in the Slack channel indicating the build status and any additional information based on the configured settings.
   
-![](../../../../Images/image-20230522-120451.png)
+![](../../../../images/image-20230522-120451.png)
 
 By following the steps outlined in this document, you can set up the Slack Notifier plugin in Jenkins to send build and deployment notifications to your Slack workspace. This integration enhances collaboration and keeps your team informed about the status of Jenkins jobs and builds. Ensure that you have the necessary permissions in your Slack workspace and Jenkins server to successfully complete the setup.
 
@@ -302,9 +302,9 @@ The below provides a detailed explanation of SonarCloud, a cloud-based code qual
 4. Running SonarCloud Analysis: Detail the steps to run the SonarCloud analysis either through the SonarCloud command-line interface or through a CI/CD pipeline.
 5. Viewing SonarCloud Reports: Guide users on how to access and interpret the SonarCloud reports generated for the GitHub project, including code quality metrics, issues, and security vulnerabilities.
   
-![](../../../../Images/image-20230522-121223.png)
+![](../../../../images/image-20230522-121223.png)
 
-![](../../../../Images/image-20230522-121009.png)
+![](../../../../images/image-20230522-121009.png)
 
 #### Section 3: Best Practices and Additional Considerations
 
@@ -347,8 +347,8 @@ Dependabot is a powerful dependency management tool, and how it is used in GitHu
 7. Merging Dependabot Updates: Provide guidance on how to handle and merge Dependabot-generated pull requests, including manual review, testing, and ensuring compatibility with the project.
 8. Dependabot Notifications: Explain how developers can receive notifications or email digests from Dependabot regarding dependency updates, vulnerability alerts, and overall dependency health.
   
-![](../../../../Images/image-20230522-121750.png)
-![](../../../../Images/image-20230522-121913.png)
+![](../../../../images/image-20230522-121750.png)
+![](../../../../images/image-20230522-121913.png)
 
 #### Section 3: Best Practices and Additional Considerations
 

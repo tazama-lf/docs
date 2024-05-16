@@ -19,7 +19,7 @@
 
 Below is the sequence diagram for CRSP
 
-![image](../../../../Images/image-20210817-043926.png)
+![image](../../../../images/image-20210817-043926.png)
 
 The Channel Router & Setup Processor (CRSP) is where most of the heavy lifting happens. The CRSP is responsible for branching the transaction to all the different rules in the different channels. It uses the Network Map as configuration source, de-duplicates all the rules, generates a network submap (that is sent to Rule Processors), allowing the Rule Processors to know to which Typologies they need to send their results.
 
@@ -31,17 +31,17 @@ The Channel Router & Setup Processor (CRSP) is where most of the heavy lifting h
 
 [CRSP.plantuml](https://github.com/frmscoe/uml-diagrams/blob/main/services/CRSP.plantuml)
 
-![](../../../../Images/CRSP-Activity-Diagram.png)
-![](../../../../Images/CRSP.png)
+![](../../../../images/CRSP-Activity-Diagram.png)
+![](../../../../images/CRSP.png)
 
 ## Usage
 
 CRSP can be initialized by sending an HTTP with the below Postman Collection Example for all current Messaging Types.
 
-[pacs008_postman_request.json](/Images/pacs008_postman_request.json)  
-[pacs002_postman_request.json](/Images/pacs002_postman_request.json)  
-[pain013_postman_request.json](/Images/pain013_postman_request.json)  
-[pain001_postman_request.json](/Images/pain001_postman_request.json)  
+[pacs008_postman_request.json](/images/pacs008_postman_request.json)  
+[pacs002_postman_request.json](/images/pacs002_postman_request.json)  
+[pain013_postman_request.json](/images/pain013_postman_request.json)  
+[pain001_postman_request.json](/images/pain001_postman_request.json)  
 
 ## Sample JSON Request & Response
 

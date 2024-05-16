@@ -1,6 +1,6 @@
 # 3. Rule Processing
 
-![](../../../../Images/TMS_Rules_Processing_Context.png)
+![](../../../../images/TMS_Rules_Processing_Context.png)
 
 - [3. Rule Processing](#3-rule-processing)
 - [Introduction](#introduction)
@@ -67,7 +67,7 @@ In this example, the rule that is evaluated to be TRUE will be identified in the
 
 # Rule processing context
 
-![](../../../../Images/TMS_Rules_Processing_Context.png)
+![](../../../../images/TMS_Rules_Processing_Context.png)
 
 **Figure**: *Tazama TMS Rules Processing Context*
 

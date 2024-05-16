@@ -37,7 +37,7 @@ In terms of implementation, we needed two new microservices
 - A logging service which listens for a particular NATS subject
   - Upon receiving a message, we would then deserialise it and batch/send the logs:
 
-![](../../Images/image-20231206-102932.png)
+![](../../images/image-20231206-102932.png)
 
 ### Payload Details
 

@@ -10,8 +10,8 @@ Prometheus does not require any additional configuration for NATS scraping, as P
 
 If the metrics dont display please check your statefulset to make sure that prefix=**nats** changes to → prefix=**gnatsd**
 
-![image-20240227-095249.png](../../Images/image-20240227-095249.png)
-![image-20240227-095120.png](../../Images/image-20240227-095120.png)
+![image-20240227-095249.png](../../images/image-20240227-095249.png)
+![image-20240227-095120.png](../../images/image-20240227-095120.png)
 
 ### Dashboard
 

@@ -71,7 +71,7 @@ Since we’re building the infrastructure on the fly, we cannot be certain of wh
 
 As a second option, we can implement OpenTelemetry in the platform. It’s a set of APIs, SDKs, tooling, and integrations that enable the creation and management of telemetry data. It formed through a merger of the OpenTracing and OpenCensus projects. APM can be integrated as an exporter for OpenTelemetry:
 
-![](../../Images/image-20210315-042722.png)
+![](../../images/image-20210315-042722.png)
 
 Interacting APM with OpenTelemetry is aseasy as simply declaring them in the yaml configuration:
 

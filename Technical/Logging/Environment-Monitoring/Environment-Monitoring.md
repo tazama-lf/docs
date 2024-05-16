@@ -11,11 +11,11 @@ Our NATS , DNS and Arango metrics are all being scraped by Prometheus.
 Before we can import any dashboard we require a datasource. Open the Grafana Dashboard.
 
 1. Navigate to Add Data Source and choose Prometheus:  
-    ![](../../Images/image-20230816-092251.png)
+    ![](../../images/image-20230816-092251.png)
 2. Point towards your prometheus Server:  
-    ![](../../Images/image-20230816-092358.png)
+    ![](../../images/image-20230816-092358.png)
 3. Scroll to the end, Press “Save & Test“ - if all is well, you should see the following message:  
-    ![](../../Images/image-20230816-092504.png)
+    ![](../../images/image-20230816-092504.png)
 
 ### Dashboards
 
@@ -24,8 +24,8 @@ We will mainly be importing dashboard in this example, but you are welcome to cr
 Navigate to dashboards:  
 
 1. Click import  
-    ![](../../Images/image-20230816-094039.png)
+    ![](../../images/image-20230816-094039.png)
 2. You can import via JSON or Dashboard Code  
-    ![](../../Images/image-20230816-094109.png)
+    ![](../../images/image-20230816-094109.png)
   
 Depending on dashboard, remember to set datasource to our defined Prometheus data source.

@@ -34,7 +34,7 @@ Once each channel has been completed, the result of the channel will be passed t
 
 # Transaction Aggregation and Decisioning Processor Context
 
-![](../../../../Images/Actio_TMS_TADP_Context.png)
+![](../../../../images/Actio_TMS_TADP_Context.png)
 
 **Figure**: *Tazama TMS Transaction Aggregation and Decisioning Context*
 
