@@ -14,20 +14,20 @@ Do a performance run (`n` number of transactions are sent through the platform).
 
     - For all transactions, total up the processors' `prcgTm`
 
-    ![](../../Images/image-20231002-142838.png)
+    ![](../../images/image-20231002-142838.png)
 
 2. Generate a frequency distribution diagram for the current run showing how many transactions performed better than the average value (of that run)
 
-    ![](../../Images/image-20231002-143655.png)
+    ![](../../images/image-20231002-143655.png)
 
 3. Show different percentile values for each different processor:
 
-    ![](../../Images/image-20231002-144324.png)
+    ![](../../images/image-20231002-144324.png)
 4. Show percentiles for the different rules
 
     - So we can easily pinpoint which rule is the slowest
 
-    ![](../../Images/image-20231002-144546.png)
+    ![](../../images/image-20231002-144546.png)
 
 5. Write the dataset to persistent storage, recording the `min`, `max` and `average` for each processor in the run so it can be used for comparison against future runs.
 

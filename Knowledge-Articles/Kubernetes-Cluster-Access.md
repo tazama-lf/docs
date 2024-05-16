@@ -32,7 +32,7 @@ az account set --subscription 8ba9b414-35d4-4a1e-adf7-a9df2ae0324d
 az aks get-credentials --resource-group ACTIO-FRM --name AKS-ACTIO
 ```
 
-![](../../Images/image-20210311-073550.png)
+![](../../images/image-20210311-073550.png)
 
 4.
 
@@ -42,23 +42,23 @@ az login --use-device-code
 
 5. Open the highlighted URL and copy your unique code:
 
-![](../../Images/image-20210311-073918.png)
+![](../../images/image-20210311-073918.png)
 
 6. Paste the code you copied into the text box on the URL you browsed to:
 
-![](../../Images/image-20210311-074047.png)
+![](../../images/image-20210311-074047.png)
 
 7. Select the account you have bound to the cluster
 
-![](../../Images/image-20210311-074158.png)
+![](../../images/image-20210311-074158.png)
 
 8. This popup means the sign in was successful and you can close your browser window
 
-![](../../Images/image-20210311-074233.png)
+![](../../images/image-20210311-074233.png)
 
 9. Once you close the browser you will see your terminal update with the following output:
 
-![](../../Images/image-20210311-074417.png)
+![](../../images/image-20210311-074417.png)
 
 10.
 
@@ -68,7 +68,7 @@ kubectl get pods --namespace frm
 
 11. If successful you will see a list of pods as seen here
 
-![](../../Images/image-20210311-083823.png)
+![](../../images/image-20210311-083823.png)
 
 12. Launch the Lens application we installed earlier
 
@@ -76,18 +76,18 @@ kubectl get pods --namespace frm
 
 14. In the “select contexts” dropdown please select “AKS-FRM”
 
-![](../../Images/image-20210311-084023.png)
+![](../../images/image-20210311-084023.png)
 
 15. Once the cluster is added expand “Workloads” and click on “Pods” you should see a result set of the pods we have running in the dev namespace
 
-![](../../Images/image-20210311-084122.png)
+![](../../images/image-20210311-084122.png)
 
 ## Logging
 
 All events are logged so we can always backtrack what happened.
 
-![](../../Images/image-20210311-084506.png)
+![](../../images/image-20210311-084506.png)
 
 Remember
 
-![](../../Images/image-20210311-084545.png)
+![](../../images/image-20210311-084545.png)

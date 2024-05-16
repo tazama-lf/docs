@@ -13,7 +13,7 @@ If you want to use **storage volumes** to provide *persistence* for your workloa
 
 # Challenges Scaling Stateful Workloads
 
-![](../../Images/1_igoCkmlQP-MdaOSayEdbLw.png)
+![](../../images/1_igoCkmlQP-MdaOSayEdbLw.png)
 
 The StatefulSet is a special type of controller that makes it easy to run clustered workloads in Kubernetes. A clustered workload typically may have one or more masters and multiple slaves. Most of the databases are designed to run in a clustered mode to deliver high availability and fault tolerance.
 
@@ -29,7 +29,7 @@ Since each Pod in a StatefulSet gets a dedicated PVC and PV, there is no hard an
 
 ## Kubernetes Persistent Storage Concepts
 
-![](../../Images/media-20180208.png)
+![](../../images/media-20180208.png)
 
 There are three primary concepts you should understand as you start working with Kubernetes persistent storage:
 
@@ -123,7 +123,7 @@ There’s multiple hooks provided by Helm:
 
 Here’s how a pre-install hook would look for the previous job described:
 
-![](../../Images/Hook.png)
+![](../../images/Hook.png)
 
 ```yaml
 apiVersion: v1

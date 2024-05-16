@@ -20,4 +20,4 @@
 
 ## 10. Appendices
 
-![](../../Images/Flow_of_the_Benchmark_testing.png)
+![](../../images/Flow_of_the_Benchmark_testing.png)

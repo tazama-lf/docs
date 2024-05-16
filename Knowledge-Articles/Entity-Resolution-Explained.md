@@ -37,7 +37,7 @@ In an Tazama or Mojaloop ecosystem, examples of entities may include:
 
 An entity is described by its data. For example, the sum of data that defines a person could be mapped out as follows:
 
-![](../../Images/Entity_Resolution.png)
+![](../../images/Entity_Resolution.png)
 
 ### (Effective) Resolution
 
@@ -57,7 +57,7 @@ Some combinations of attributes are expected to have self-referential integrity.
 
 Effective entity resolution relies on what could be called the “big five” attributes of entity resolution:
 
-![](../../Images/image-20210824-144451.png)
+![](../../images/image-20210824-144451.png)
 
 ## Why do we need it?
 
@@ -127,7 +127,7 @@ But it is not impossible.
 
 The information available out of Mojaloop can be illustrated in the following diagram:
 
-![](../../Images/Mojaloop_Infor.png)
+![](../../images/Mojaloop_Infor.png)
 
 Values in the PartyIdType are:
 
@@ -160,7 +160,7 @@ Values under the PERSONAL_ID from PartySubIdOrType (PersonalIdentifierType) are:
 
 In summary, Mojaloop can fulfil only the following requirements in relation to the big five:
 
-![](../../Images/image-20210825-104519.png)
+![](../../images/image-20210825-104519.png)
 
 That’s… not optimal. Let’s look at the individual animals:
 

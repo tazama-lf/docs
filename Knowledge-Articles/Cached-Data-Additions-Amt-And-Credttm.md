@@ -47,4 +47,4 @@ Implications:
 
 An alternative implementation would have used a database lookup as a fallback, but as we are in control of the entire environment, we can guarantee that these fields will always be available in the cache. Another reason to consider is that we want to optimise for performance, with the cache implementation, our database is less busy and reading from memory is very much faster than reading from disk. While it’s generally up to the system architecture, reading from memory will usually be constant time, whereas finding the associated Pacs008 message will likely be longer the more Pacs008 messages we have to go through.
 
-![Blank diagram.png](../../Images/10-Cached-Data-Additions-Amt-And-Credttm.png)
+![Blank diagram.png](../../images/10-Cached-Data-Additions-Amt-And-Credttm.png)

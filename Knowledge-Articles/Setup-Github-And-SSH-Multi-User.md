@@ -133,7 +133,7 @@ The above configuration asks ssh-agent to:
 - Use **id_rsa** as the key for any Git URL that uses **@github.com**
 - Use the **id_rsa_LexTego_rob** key for any Git URL that uses **@RobReeveLexTego.github.com**
 
-![](../../../Images/CleanShot 2021-08-06 at 21.14.57@2x.png)
+![](../../../images/CleanShot 2021-08-06 at 21.14.57@2x.png)
 
 **Testing SSH connections and response**
 

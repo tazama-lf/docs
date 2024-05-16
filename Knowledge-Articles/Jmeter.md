@@ -39,7 +39,7 @@ This document outlines the steps to effectively run JMeter tests on a Kubernetes
 
     -Ensure that the scenario directory (e.g., `TP028`) is present within the `scenario` folder (`...jmeter-k8s-starterkit/scenario/`), and it contains the relevant `.jmx` test file.
 
-    -Sample Test file:[KyleTP028.zip](/Images/KyleTP028.zip)
+    -Sample Test file:[KyleTP028.zip](/images/KyleTP028.zip)
 
 4. **Run the Test:**
 

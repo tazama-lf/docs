@@ -14,7 +14,7 @@ During the investigation, we found that as storage usage increases the ATP cost 
 
 After a discussion on the risks and rewards, we agreed on disabling the ATP functionality. This could not be done through the Azure portal and needed to be completed through the Azure CLI. In order to complete this in the Azure CLI, there was some dependency hell we needed to resolve before being able to change this functionality. ATP is applied at the Subscription level and will need to be changed from the subscription level on a per resource basis.
 
-![](../../Images/image-20210713-122804.png)
+![](../../images/image-20210713-122804.png)
 
 As additional clean-up, we are also cleaning up any dangling resources such as assigned IPs or Storage mounts that are no longer being used. We are also reducing the cluster clean up lag time.
 
@@ -22,4 +22,4 @@ As additional clean-up, we are also cleaning up any dangling resources such as a
 
 In order to prevent any more costs surprises, we have set up a Grafana dashboard and report to show the storage usage of the previous 7 days. Note that this dashboard seems a little rough on the eyes, however, it shows everything we need to see storage wise. This Dashboard is shared as a report daily.  
 
-![](../..//Images/image-20210713-123634.png)
+![](../..//images/image-20210713-123634.png)

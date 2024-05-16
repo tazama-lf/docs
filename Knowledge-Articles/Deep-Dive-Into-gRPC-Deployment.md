@@ -19,7 +19,7 @@ Here’s a simple matrix that compares the basics of **REST APIs** and **gRPC**:
 
 ## gRPC Use Case
 
-![](../Images/gRPC_example.png)
+![](../images/gRPC_example.png)
 
 ## Understanding gRPC APIs
 
@@ -41,11 +41,11 @@ There are three types of streaming that gRPC makes available:
 - **Client-side:** A client sends a stream of request messages to a server. The server returns one response back to the client. It (usually) sends the response after receiving all of the requests from the client and a status message (and in some cases trailing metadata).
 - **Bidirectional:** A client and server transmit data to one another in no special order. The client is the one that initiates this kind of bidirectional streaming. The client also ends the connection.
 
-![](../Images/across_languages_1.png)
+![](../images/across_languages_1.png)
 
 ## Our Architecture
 
-![](../Images/Group_5.jpg)
+![](../images/Group_5.jpg)
 
 * * *
 
@@ -53,11 +53,11 @@ There are three types of streaming that gRPC makes available:
 
 ## gRPC Server Code
 
-![](../Images/gRPC_Server.png)
+![](../images/gRPC_Server.png)
 
 ## gRPC Client
 
-![](../Images/gRPC_Client.png)
+![](../images/gRPC_Client.png)
 
 * * *
 

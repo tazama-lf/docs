@@ -2,7 +2,7 @@
 
 ## Pain001
 
-![](../../Images/high_level_pain001.png)
+![](../../images/high_level_pain001.png)
 
 @startuml
 |Retrieve or Rebuild Cache|
@@ -17,7 +17,7 @@ stop
 
 ## Pain013
 
-![](../../Images/High_Level_Pain013_cache_interactions.png)
+![](../../images/High_Level_Pain013_cache_interactions.png)
 
 @startuml
 |Pain013|
@@ -38,7 +38,7 @@ stop
 
 ## Pacs008
 
-![](../../Images/high_level_cache_interactions_pacs008.png)
+![](../../images/high_level_cache_interactions_pacs008.png)
 
 @startuml
 |Insert Creditor and Debtor Accounts|
@@ -69,7 +69,7 @@ stop
 
 ## Pacs002
 
-![](../../Images/high_level_pacs_002_cache_interactions.png)
+![](../../images/high_level_pacs_002_cache_interactions.png)
 
 @startuml
 |Retrieve or Rebuild Cache|

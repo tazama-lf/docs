@@ -16,7 +16,7 @@ In this document, you can understand how we develop, deploy and monitor our gRPC
 
 gRPC is a modern open-source high-performance Remote Procedure Call (RPC) framework that can run in any environment. It can efficiently connect services in and across data centres with pluggable support for load balancing, tracing, health checking and authentication. It is also applicable in the last mile of distributed computing to connect devices, mobile applications and browsers to backend services.  
 
-![](../../Images/2021-06-25_at_1.45.21-2x.png)
+![](../../images/2021-06-25_at_1.45.21-2x.png)
 
 # Development
 
@@ -73,7 +73,7 @@ yarn build:proto
 yarn start # Start the server
 ```
 
-![](../../Images/2021-06-25_at_2.46.11-2x.png)
+![](../../images/2021-06-25_at_2.46.11-2x.png)
 
 If the service is running, you can create GET request to trigger Health Check function.
 
@@ -83,7 +83,7 @@ curl --location --request GET 'localhost:3000/'
 
 or you can use postman.
 
-![](../../Images/2021-06-25_at_2.47.39-2x.png)
+![](../../images/2021-06-25_at_2.47.39-2x.png)
 
 **Local Testing while Developing**
 
@@ -109,7 +109,7 @@ choco install bloomrpc
 
 Search for bloomrpc in windows search.
 
-![](../../Images/editor-preview.gif)
+![](../../images/editor-preview.gif)
 
 If you have tms service in your local, you can import proto files from tms service.
 
@@ -121,7 +121,7 @@ First, install NiFi locally using Docker. Follow the doc.
 
 After that import nifi proto file (you can find it in tms service folder)
 
-![](../../Images/2021-06-25_at_2.40.48-2x.png)
+![](../../images/2021-06-25_at_2.40.48-2x.png)
 
 # Deployment
 
@@ -157,7 +157,7 @@ The following authentication mechanisms are built-in to gRPC:
 
 Also, when you create a client, make sure the client variable is in safe mode.
 
-![](../../Images/2021-06-25_at_2.53.05-2x.png)
+![](../../images/2021-06-25_at_2.53.05-2x.png)
 
 **gRPC NodeJS and SSL**
 
