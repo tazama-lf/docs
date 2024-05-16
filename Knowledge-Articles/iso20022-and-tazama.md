@@ -1,4 +1,4 @@
-![under construction](/images/construction.gif)
+![under construction](../images/construction.gif)
 
 In the meantime, you can view this content on Confluence:
 

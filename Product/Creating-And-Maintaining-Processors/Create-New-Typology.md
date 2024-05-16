@@ -3,7 +3,7 @@
 - [Create New Typology](#create-new-typology)
 - [Steps:](#steps)
 
-![](../Images/image-20220902-103424.png)
+![](../images/image-20220902-103424.png)
 
 About “Create Processor”:
 
@@ -20,7 +20,7 @@ The universal typology processor has already been developed and implemented in T
 1. Create the typology configuration (see: [Typology Processing | 5.5. Read typology configuration](https://frmscoe.atlassian.net/wiki/spaces/FRMS/pages/1740494/Typology+Processing#5.5.-Read-typology-configuration))
     1. The typology configuration will include the rule results scoring table: the result for each rule (or each set of the sub-rules), which will be either TRUE or FALSE, must be associated with an integer between 0 and 100
     2. The typology configuration will include the typology expression
-        ![](../../Images/image-20210819-131055.png)
+        ![](../../images/image-20210819-131055.png)
     3. If the rule processors for the typology are still to be deployed, the typology configuration could be missing or empty. When the typology processor is called on to execute the typology configuration, the typology processor will identify that no rules are in scope and no expression exists and then automatically complete the typology with a score of 0 (zero).
 2. Connect the typology
     1. Prerequisite: The typology processor must exist and be deployed to the platform.
