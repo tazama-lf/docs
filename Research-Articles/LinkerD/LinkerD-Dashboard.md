@@ -80,11 +80,11 @@ The ingress-nginx config above uses the `nginx.ingress.kubernetes.io/upstream-v
 
 After **step 4** you will be able to see the dashboard.
 
-![](../../Images/Screenshot_2021-03-19_at_4.00.29_pm.png)
+![](../../images/Screenshot_2021-03-19_at_4.00.29_pm.png)
 
 Click to orange symbol to see Grafana dashboard.
-![](../../Images/Screenshot_2021-03-19_at_4.04.35_pm.png)
+![](../../images/Screenshot_2021-03-19_at_4.04.35_pm.png)
 
 You can select the deployments to see deployed services.
 
-![](../../Images/Screenshot_2021-03-19_at_4.00.47_pm.png)
+![](../../images/Screenshot_2021-03-19_at_4.00.47_pm.png)

@@ -16,7 +16,7 @@ Important points of consideration:
 
 1. Kafka will have to brought back into the Architecture. It will not have the serious infrastructure requirements as with the POC architecture because it will not be in the critical path for Transaction Monitoring
 2. All components (Data Preparation, Rules Processors, Typology Processor etc) will have to use kafka library to write to Druid
-![](../../Images/kafkaindexing.png)
+![](../../images/kafkaindexing.png)
 
 ## Tranquility (Server option)
 
@@ -33,4 +33,4 @@ Link to the github for tranquility server:
 
 [https://github.com/druid-io/tranquility/blob/master/docs/server.md](https://github.com/druid-io/tranquility/blob/master/docs/server.md)
 
-![](../../Images/tranquilityhttp.png)
+![](../../images/tranquilityhttp.png)

@@ -24,7 +24,7 @@ In simplified terms, a Container is a software package containing everything nee
 
 Here are the contents of a container compared to an old school Virtual machine setup:
 
-![](../../Images/image-20210601-110348.png)
+![](../../images/image-20210601-110348.png)
 [https://rancher.com/playing-catch-docker-containers]([https://rancher.com/playing-catch-docker-containers)
 
 These containers can be deployed to Kubernetes by using a different set of instruction files that will reference the docker image you created. These instructions will let Kubernetes know how to host the docker image and what it needs to connect to, for example: ingress for inbound traffic, volume mounts for persistent storage, config maps for loading config without destroying the pod, secrets to share and utilise secrets such as SSL certificates.
@@ -35,13 +35,13 @@ Pods are how Kubernetes deploys and manager Containers, pods can contain more th
 
 A cluster is made up of one or more nodes. Nodes are made up of one or more Pods. Pods are made up of one or more Containers.
 
-![](../../Images/Container-Pods.jpg)
+![](../../images/Container-Pods.jpg)
 
 ## What is a Sidecar?
 
 A sidecar is a utility container in a pod that’s loosely coupled to the main application container. Perhaps the most well-known use case of sidecars is proxies in a service mesh, but there are other examples, including log shippers, monitoring agents or data loaders. More than one sidecar can be applied to a pod. For ease of following, I will add some sidecars to the example image provided above.
 
-![](../../Images/Sidecar.jpg)
+![](../../images/Sidecar.jpg)
 
 It is possible to have replicas of the same pod run on different Nodes if needed. If this is the case Linkerd will add the sidecar to all of the replicas because the Linkerd sidecar instructions are stored in the Deployment instructions file inside of Kubernetes. This ensures that even if the pod has a fatal crash or gets deleted the sidecar will still be created alongside the Containers.
 
@@ -63,15 +63,15 @@ LinkerD makes running multiple services easier by providing the following withou
 
 Runtime debugging is provided by the Linkerd “Tap” functionality. This enables the user to inspect the requests to and from a pod. This Tap once connected streams the data received and sent by the Pod live:
 
-![](../../Images/image-20210601-115943.png)
+![](../../images/image-20210601-115943.png)
 
 Each of the requests above requests can also be inspected whilst the live feed is still active:
 
-![](../../Images/image-20210601-120045.png)
+![](../../images/image-20210601-120045.png)
 
 There is also functionality referred to as “Top” that enables us to view all the traffic from a namespace (a collection of meshed services) live:
 
-![](../../Images/image-20210601-120234.png)
+![](../../images/image-20210601-120234.png)
 
 Each of the requests listed above can also be used linked to the Tap function where they will be used as filters and you will only see the instances of that specific request.
 
@@ -80,23 +80,23 @@ Each of the requests listed above can also be used linked to the Tap function wh
 Observability is provided by collecting and storing telemetry and metrics data from the sidecars. This data can then be used to “keep an eye” on your containers.  
 It shows the network statistics:
 
-![](../../Images/image-20210601-114116.png)
+![](../../images/image-20210601-114116.png)
 
 The container resource metrics:
 
-![](../../Images/image-20210601-114213.png)
+![](../../images/image-20210601-114213.png)
 
 The requests made to the Container:
 
-![](../../Images/image-20210601-114330.png)
+![](../../images/image-20210601-114330.png)
 
 A breakdown of each of these requests:
 
-![](../../Images/image-20210601-114404.png)
+![](../../images/image-20210601-114404.png)
 
 And last but not least it also shows Live TCP Metrics:
 
-![](../../Images/image-20210601-114555.png)
+![](../../images/image-20210601-114555.png)
 
 ### Reliability
 

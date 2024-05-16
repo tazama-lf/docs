@@ -28,7 +28,7 @@ Basically:
 
 ## Current architecture
 
-![](../../Images/Screen_Shot_2021-05-16_at_22.47.40.png)
+![](../../images/Screen_Shot_2021-05-16_at_22.47.40.png)
 
 While this architecture is GREAT for OpenFaaS serverless functions, that’s not what we’re currently doing.
 
@@ -58,11 +58,11 @@ Reasons:
 
 Ok, so once we remove OpenFaaS, we have easier deployments, but hardcoding withing the services is still there.
 
-![](../../Images/Screen_Shot_2021-05-16_at_22.49.05.png)
+![](../../images/Screen_Shot_2021-05-16_at_22.49.05.png)
 
 A possible solution would be to create a Dashboard that configures data for typologies and channels. The data is saved in a the database (Arango) and the channel orchestrator service uses that data to forward it to the rules alongside the transaction. Rules then receive the configuration and evaluate the transaction, then forward the result to the typology service.
 
-![](../../Images/Screen_Shot_2021-05-16_at_22.49.39.png)
+![](../../images/Screen_Shot_2021-05-16_at_22.49.39.png)
 
 Typologies are replaced with a single typology service. This service will be receiving data from rules, reading the configuration they send and creating typologies based on that data. Once typologies are evaluated, the service sends the results for each individual typology AND the configuration for channels received from the configuration to the Channel Scoring service. The Channel Scoring Service now takes the same approach as the Typology service, and evaluates it’s channels. Once they’re evaluated, they send the result alongside the configuration for the final transaction evaluation to the transaction decisioning service which evaluates the end result for a transaction.
 

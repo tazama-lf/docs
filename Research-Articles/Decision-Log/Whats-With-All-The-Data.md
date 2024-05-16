@@ -32,7 +32,7 @@ Alternative options can be found here for example:
 |     | Option 1: | Option 2: |
 | --- | --- | --- |
 | Description |     |     |
-| Pros and cons | ![plus](../../Images/plus_32.png)<br><br>![(minus)](../../Images/minus_32.png) | ![plus](../../Images/plus_32.png)<br><br>![(minus)](../../Images/minus_32.png) |
+| Pros and cons | ![plus](../../images/plus_32.png)<br><br>![(minus)](../../images/minus_32.png) | ![plus](../../images/plus_32.png)<br><br>![(minus)](../../images/minus_32.png) |
 | Estimated cost | LARGE | MEDIUM |
 
 ## Action items

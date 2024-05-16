@@ -30,5 +30,5 @@ This is from June 2021 (YouTube release).
     4. Transform original message to ISO20022 compliant format.
     5. REST (https) to Tazama system for evaluation. (Access and security needs to be applied/repositioned)
 
-![](../../Images/Intercept_ML_Events.drawio.png)
+![](../../images/Intercept_ML_Events.drawio.png)
 

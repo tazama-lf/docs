@@ -24,7 +24,7 @@ Some time ago, when there was no light and humanity's most important achievement
 
 During this time, Turing discovered that Lambda calculus is interchangeable with the Turing machines process. This process is also the base for functional programming. You add a parameter into the function, you get a result. This is a simple lambda function with its representation in current JS (the functional version):
 
-![](../../Images/4ce199d1-6dd1-48d9-b828-6ede8a7c7c5d.png)
+![](../../images/4ce199d1-6dd1-48d9-b828-6ede8a7c7c5d.png)
 
 in standard JS: function I(a) { return a };
 
@@ -65,7 +65,7 @@ An actual function, would be just the business logic for the rule. 
 
 # OpenFaaS is not a tool, it’s a burden
 
-![](../../Images/680ccd86-2cc3-4264-ac4a-ee5510dd9516.jpeg)
+![](../../images/680ccd86-2cc3-4264-ac4a-ee5510dd9516.jpeg)
 
 Not only are we not doing functions correctly, we’re stepping over OpenFaaS advantages with other tools.
 

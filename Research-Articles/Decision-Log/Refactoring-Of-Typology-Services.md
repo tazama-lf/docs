@@ -17,11 +17,11 @@ Add your comments directly to the page. Include links to any relevant research, 
 
 ## Relevant data
 
-![](../../Images/Visualisation_of_refactoring_of_Typologies.png)
+![](../../images/Visualisation_of_refactoring_of_Typologies.png)
 
 The current architecture for typologies is a GitHub repository where multiple NodeJS applications are stored. this applications are “Typologies”, and each typologies has a set of functionalities that is repeated across all of them. The only variant are rules, which may be different or similar based on each typology need.
 
-![](../../Images/monorepo.png)
+![](../../images/monorepo.png)
 
 This is incredibly inefficient when it comes to maintaining the code for each typology:
 
@@ -36,7 +36,7 @@ The process to develop typologies is too repetitive, which is [INSANITY](https:/
 
 Enter, the Injection Proposal:
 
-![](../../Images/typology-config.png)
+![](../../images/typology-config.png)
 
 The typology service will receive a configuration file, which is stored in a private place. This configuration tells the service which rules should it run and the scoring for the typology. Example file:
 
@@ -85,7 +85,7 @@ However, this model is still exposing rules publicly, and they need to be hidden
 |     | Actual Architecture | Injection Proposal |
 | --- | --- | --- |
 | Description | An all-public, typology monorepo | Service that reads a configuration file to setup Typologies. |
-| Pros and cons | ![(plus)](../../Images/plus_32.png) Fast to develop initially<br><br>![(minus)](../../Images/minus_32.png) Gets slower to develop/maintain by time<br><br>![(minus)](../../Images/minus_32.png) Duplication across code/tests<br><br>![(minus)](../../Images/minus_32.png) Slow CI<br><br>![(minus)](../../Images/minus_32.png) Gets harder to deploy<br><br>![(minus)](../../Images/minus_32.png) TYPOLOGIES SECURITY IS NOT MET<br><br>![(minus)](../../Images/minus_32.png) RULES SECURITY IS NOT MET | ![(plus)](../../Images/plus_32.png) Easy to develop/maintain<br><br>![(plus)](../../Images/plus_32.png) Easy to create new typologies<br><br>![(plus)](../../Images/plus_32.png) Fast CI<br><br>![(plus)](../../Images/plus_32.png) TYPOLOGIES SECURITY IS MET<br><br>![(minus)](../../Images/minus_32.png) RULES SECURITY IS NOT MET<br><br>![(minus)](../../Images/minus_32.png) Puts a burden in the deployment(DevOps) rather than development. |
+| Pros and cons | ![(plus)](../../images/plus_32.png) Fast to develop initially<br><br>![(minus)](../../images/minus_32.png) Gets slower to develop/maintain by time<br><br>![(minus)](../../images/minus_32.png) Duplication across code/tests<br><br>![(minus)](../../images/minus_32.png) Slow CI<br><br>![(minus)](../../images/minus_32.png) Gets harder to deploy<br><br>![(minus)](../../images/minus_32.png) TYPOLOGIES SECURITY IS NOT MET<br><br>![(minus)](../../images/minus_32.png) RULES SECURITY IS NOT MET | ![(plus)](../../images/plus_32.png) Easy to develop/maintain<br><br>![(plus)](../../images/plus_32.png) Easy to create new typologies<br><br>![(plus)](../../images/plus_32.png) Fast CI<br><br>![(plus)](../../images/plus_32.png) TYPOLOGIES SECURITY IS MET<br><br>![(minus)](../../images/minus_32.png) RULES SECURITY IS NOT MET<br><br>![(minus)](../../images/minus_32.png) Puts a burden in the deployment(DevOps) rather than development. |
 | Estimated cost | LARGE | LOW |
 
 ## Action items

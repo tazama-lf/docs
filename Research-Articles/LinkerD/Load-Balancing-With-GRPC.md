@@ -16,7 +16,7 @@
 
 ## Linkerd
 
-![](../../Images/Screenshot_2021-03-02_at_4.34.45_pm.png)
+![](../../images/Screenshot_2021-03-02_at_4.34.45_pm.png)
 
 Linkerd adds critical security, observability, and reliability features to your Kubernetes stack with no code change required.
 
@@ -26,7 +26,7 @@ Linkerd works by running a sidecar container in your Kubernetes `pods`. That is
 - auto-detect HTTP/2 and HTTP/1.x an
 - d do L7 load balancing, and they pass through all other traffic as pure TCP
 - Linkerd uses an *exponentially-weighted moving average* of response latencies to automatically send requests to the fastest pods. If one pod is slowing down, even momentarily, Linkerd will shift traffic away from it. This can reduce end-to-end tail latencies
-![](../../Images/Screenshot_2021-03-02_at_4.37.46_pm.png)
+![](../../images/Screenshot_2021-03-02_at_4.37.46_pm.png)
 - **Just works:** Zero configs, out of the box, for any Kubernetes app
 - **Ultralight:** Introduce the bare minimum perf and resource cost
 - **Simple:** Reduce operational complexity in every possible way
@@ -60,13 +60,13 @@ Linkerd works by running a sidecar container in your Kubernetes `pods`. That is
 
 You can find the related demo linkerd app through the link [https://github.com/klingerf/grpc-linkerd-demo](https://github.com/klingerf/grpc-linkerd-demo)
 
-![](../../Images/Screenshot_2021-03-02_at_4.46.47_pm.png)
+![](../../images/Screenshot_2021-03-02_at_4.46.47_pm.png)
 
 Also, we can execute the commands to see the same result on the terminal
 
 `linkerd stat deploy`
 
-![](../../Images/Screenshot_2021-03-02_at_4.44.55_pm.png)
+![](../../images/Screenshot_2021-03-02_at_4.44.55_pm.png)
 
 This will show the “golden” metrics for each deployment:
 
@@ -77,7 +77,7 @@ This will show the “golden” metrics for each deployment:
 
 **Without Load Balancing**
 
-![](../../Images/Screenshot_2021-03-02_at_4.49.35_pm.png)
+![](../../images/Screenshot_2021-03-02_at_4.49.35_pm.png)
 
 We’re going to inject Linkerd into the pods.
 
@@ -89,7 +89,7 @@ and Load balancing is ready 👇
 
 **With Load Balancing**
 
-![](../../Images/Screenshot_2021-03-02_at_4.50.14_pm.png)
+![](../../images/Screenshot_2021-03-02_at_4.50.14_pm.png)
 
 ## Related articles
 

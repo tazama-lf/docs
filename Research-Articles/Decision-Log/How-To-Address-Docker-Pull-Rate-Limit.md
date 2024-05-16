@@ -38,7 +38,7 @@ An investigation was done to find a solution to the problem we were facing deplo
 |     | Option 1: | Option 2: | Option 3: |
 | --- | --- | --- | --- |
 | Description | Docker Hub | Local Registry - Harbor | Container - Registry |
-| Environment location | ![plus](../../Images/plus_32.png) No environment setup, cloud based | ![plus](../../Images/plus_32.png)<br><br>![(minus)](../../Images/minus_32.png) |     |
+| Environment location | ![plus](../../images/plus_32.png) No environment setup, cloud based | ![plus](../../images/plus_32.png)<br><br>![(minus)](../../images/minus_32.png) |     |
 | Developer Overhead |     |     |     |
 | Authentication |     |     |     |
 | Vulnerability Scanning |     |     |     |
