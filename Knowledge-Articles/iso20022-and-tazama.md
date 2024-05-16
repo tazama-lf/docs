@@ -77,15 +77,15 @@ Painfully, you have to browse the data dictionary through search terms online or
 
 The data dictionary contains terms and definitions, as well as associated elements for each term. For example the Business Component “party” is defined as follows:
 
-![](../../Images/image-20210510-075236.png)
+![](../../images/image-20210510-075236.png)
 
 Each of the Business Components can be referenced in the Business Model where the components are placed in a simplified business information model represented in UML:
 
-![](../../Images/image-20210510-075745.png)
+![](../../images/image-20210510-075745.png)
 
 The components that are then involved in a payment can be mapped as follows:
 
-![](../../Images/image-20210510-081102.png)
+![](../../images/image-20210510-081102.png)
 
 ## Message Definition Reports
 
@@ -120,7 +120,7 @@ Of particular future interest to Tazama would be the messages related to the Fra
 
 Within each of the Business Areas, there are several messages defined to meet specific business model/process requirements. The messages available for pacs and pain are listed below. Note the structure of each message:
 
-![](../../Images/image-20210519-104337.png)
+![](../../images/image-20210519-104337.png)
 
 | **Message ID** | **Description** | **Tazama** |
 | --- | --- | --- |
@@ -155,7 +155,7 @@ PAIN 013 - 014 MDR: [https://www.iso20022.org/message/mdr/20381/download](https:
 
 ## Mapping Mojaloop to Tazama
 
-![](../../Images/Untitled_Diagram.drawio.png)
+![](../../images/Untitled_Diagram.drawio.png)
 
 ***Figure 1**: PAIN and PACS in Mojaloop*
 
@@ -191,7 +191,7 @@ In ISO 20022, the most widely used syntax is eXtensible Mark-up Language (XML), 
 
 The spreadsheet below details the mapping between Mojaloop quotes and transfers messages and their ISO 20022 equivalents:
 
-[Mojaloop_to_ISO20022_mapping_-_v.0.5_20210824.xlsx](/Images/Mojaloop_to_ISO20022_mapping_-_v.0.5_20210824.xlsx)
+[Mojaloop_to_ISO20022_mapping_-_v.0.5_20210824.xlsx](/images/Mojaloop_to_ISO20022_mapping_-_v.0.5_20210824.xlsx)
 
 Note: this version of the mapping contains an update for the following mapping:
 
@@ -217,7 +217,7 @@ FIToFICustomerCreditTransferV10.CreditTransferTransactionInformation.DebtorAccou
 
 Previous version of the mapping:
 
-[Mojaloop_to_ISO20022_mapping_-_v.0.4_20210630.xlsx](/Images/Mojaloop_to_ISO20022_mapping_-_v.0.4_20210630.xlsx)
+[Mojaloop_to_ISO20022_mapping_-_v.0.4_20210630.xlsx](/images/Mojaloop_to_ISO20022_mapping_-_v.0.4_20210630.xlsx)
 
 | **Tab** | **Contents** |
 | --- | --- |
@@ -232,4 +232,4 @@ Previous version of the mapping:
 
 ## Mojaloop message enrichment
 
-![](../../Images/Tazama_ISO_enrichment.png)
+![](../../images/Tazama_ISO_enrichment.png)
