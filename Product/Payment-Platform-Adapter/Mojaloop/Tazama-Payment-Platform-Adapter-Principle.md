@@ -14,7 +14,7 @@ PPA within the DFSP infrastructure will support both ISO 20022 as well as DFSP t
 
 PPA will need to be customized to perform the DFSP format ↔︎ ISO 20022 compliant format transformations.
 
-![](../../Images/PPA-DFSP.drawio.png)
+![](../../images/PPA-DFSP.drawio.png)
 
 ## PPA hosted within Mojaloop / Hub / Switch infrastructure
 
@@ -22,10 +22,10 @@ PPA within Mojaloop infrastructure will support both ISO 20022 as well as Mojalo
 
 PPA will need to be customized to perform the Mojaloop / Hub / Switch format ↔︎ ISO 20022 compliant format transformations. Below is the high-level diagram for Mojaloop and Tazama Integration using PPA.
 
-![](../../Images/PPA-2.drawio.png)
+![](../../images/PPA-2.drawio.png)
 
 ## PPA as part of the Mojaloop SDK
 
 DFSP can install Mojaloop Scheme Adapter SDK (containing Tazama PPA) to connect to the Tazama Transaction Monitoring platform.
 
-![](../../Images/PPA-3.drawio.png)
+![](../../images/PPA-3.drawio.png)

@@ -6,8 +6,8 @@ The PPA is deployed within Mojaloop as it requires access to Mojaloop's message 
 
 As events in Mojaloop do not have full context of a transaction a cache is used to keep reference of the initial pain001 message to map out the formatted ISO message and their subsequent events. The transformations done on these Mojaloop events can be found in the mapper module.
 
-![](../../Images/ppa-flow-20221010-144730.png)
+![](../../images/ppa-flow-20221010-144730.png)
 
 ISO Mappings
 
-[Mojaloop_to_ISO20022_mapping_V1.1_20210531.xlsx](/Images/Mojaloop_to_ISO20022_mapping_V1.1_20210531.xlsx)
+[Mojaloop_to_ISO20022_mapping_V1.1_20210531.xlsx](/images/Mojaloop_to_ISO20022_mapping_V1.1_20210531.xlsx)

@@ -133,7 +133,7 @@ deactivate cms
 
 ## Processor results flow
 
-![](../Images/image-20211124-135720.png)
+![](../images/image-20211124-135720.png)
 
 1. As a transaction progresses through the evaluation pipeline, the results from each processor should be wrapped around the results from a previous processor:
 2. ruleResults {} are issued from a rule processor

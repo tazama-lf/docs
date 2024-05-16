@@ -21,7 +21,7 @@
 
 2. 2021/08/19: Added a requirement for interdiction out of the typology processor.
 
-![](../Images/Actio_TMS-Typology_Processor_Context.png)
+![](../images/Actio_TMS-Typology_Processor_Context.png)
 
 ## Introduction
 
@@ -39,7 +39,7 @@ Once each typology has been scored, the result of the typology will be passed to
 
 ## Typology Processor Context
 
-![](../Images/Actio_TMS-Typology_Processor_Context.png)
+![](../images/Actio_TMS-Typology_Processor_Context.png)
 
 **Figure**: *Tazama TMS Typology Processing Context*
 
