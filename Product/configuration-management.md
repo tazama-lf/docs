@@ -216,7 +216,7 @@ Example of the `exitConditions` object:
 
 ```
   "config": {
-    "exitConditions": \[
+    "exitConditions": [
       {
         "subRuleRef": ".x00",
         "reason": "Unsuccessful transaction"
@@ -225,7 +225,7 @@ Example of the `exitConditions` object:
         "subRuleRef": ".x01",
         "reason": "Insufficient transaction history"
       }
-    \]
+    ]
 ```
 
 Each exit condition contains the same attributes:
@@ -273,7 +273,7 @@ The rule result bands are specified in the `config` object in the rule configura
 
 ```
 "config": {
-  "bands": \[
+  "bands": [
     {
       "subRuleRef": ".01",
       "upperLimit": 86400000,
@@ -290,7 +290,7 @@ The rule result bands are specified in the `config` object in the rule configura
       "lowerLimit": 2592000000,
       "reason": "Account is more than 30 days old"
     }
-  \]
+  ]
 }
 ```
 
@@ -329,7 +329,7 @@ The rule result cases are specified in the `config` object in the rule configura
 
 ```
 "config": {
-  "cases": \[
+  "cases": [
     {
       "subRuleRef": ".00",
       "reason": "Value found is non-deterministic"
@@ -344,7 +344,7 @@ The rule result cases are specified in the `config` object in the rule configura
       "subRuleRef": ".02",
       "reason": "The transaction is a peer-to-peer transfer"
     }
-  \]
+  ]
 }
 ```
 
@@ -443,7 +443,7 @@ The rule processor must produce one of these results (identified by the result�
 Because the `rules` object contains every possible rule result outcome from each of the rule processors allocated to the typology, the typology configuration can become quite verbose, but here’s a short example of a rules object for a typology that contains two rules:
 
 ```
-"rules": \[
+"rules": [
   {
     "id": "001@1.0.0",
     "cfg": "1.0.0",
@@ -498,7 +498,7 @@ Because the `rules` object contains every possible rule result outcome from each
     "ref": ".02",
     "wght": 200
   }
-\]
+]
 ```
 
 ### The expression object
@@ -514,7 +514,7 @@ The `expression` object contains the operators and terms that make up the typolo
 ```
 "expression": {
   "operator": "+",
-  "terms": \["a", "b"\]
+  "terms": ["a", "b"]
 }
 ```
 
@@ -534,10 +534,10 @@ If, for example, we wanted to apply an additional multiplier to the formula e.g.
 ```
 "expression": {
   "operator": "\*",
-  "terms": \["c",
+  "terms": ["c",
     "operator":"+",
-    "terms": \["a", "b"\]
-  \]
+    "terms": ["a", "b"]
+  ]
 }
 ```
 
@@ -546,7 +546,7 @@ For example, a complete expression for a typology that relies on 4 rule results 
 ```
 "expression": {
   "operator": "+",
-  "terms": \[
+  "terms": [
     {
       "id": "001@1.0.0",
       "cfg": "1.0.0"
@@ -563,7 +563,7 @@ For example, a complete expression for a typology that relies on 4 rule results 
       "id": "004@1.0.0",
       "cfg": "1.0.0"
     },    
-  \]
+  ]
 }
 ```
 
@@ -678,12 +678,12 @@ The `messages` object is an array that contains information about the transactio
     
     
 ```
-  "messages": \[
+  "messages": [
     {
       "id": "004@1.0.0",
       "cfg": "1.0.0",
       "txTp": "pacs.002.001.12",
-      "typologies": \[     
+      "typologies": [     
 ```
 
 ### The channels object
@@ -705,7 +705,7 @@ The typology object array contains the following attributes:
          {
           "id": "typology-processor@1.0.0",
           "cfg": "001@1.0.0",
-          "rules": \[
+          "rules": [
 ```
 
 ### The rules object
@@ -718,7 +718,7 @@ The rules object array contains the following attributes:
     
 
 ```
-              "rules": \[
+              "rules": [
                 {
                   "id": "002@1.0.0",
                   "cfg": "1.0.0"

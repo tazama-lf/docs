@@ -12,7 +12,7 @@
         "maxQueryLimit": 3,
         "tolerance": 0.1
       },
-      "exitConditions": \[
+      "exitConditions": [
         {
           "subRuleRef": ".x00",
           "reason": "Incoming transaction is unsuccessful"
@@ -21,8 +21,8 @@
           "subRuleRef": ".x01",
           "reason": "Insufficient transaction history"
         }
-      \],
-      "bands": \[
+      ],
+      "bands": [
         {
           "subRuleRef": ".01",
           "upperLimit": 2,
@@ -39,7 +39,7 @@
           "lowerLimit": 3,
           "reason": "Three or more similar amounts detected in the most recent transactions from the debtor"
         }
-      \]
+      ]
     }
   }
 ```
@@ -53,8 +53,8 @@
     "desc": "Transaction type",
     "config": {
       "parameters": {},
-      "exitConditions": \[\],
-      "cases": \[
+      "exitConditions": [],
+      "cases": [
         {
           "subRuleRef": ".00",
           "reason": "The transaction type is not defined in this rule configuration"
@@ -74,7 +74,7 @@
           "value": "TRANSFER",
           "reason": "The transaction is identified as a direct funds transfer"
         }
-      \]
+      ]
     }
   }
 ```

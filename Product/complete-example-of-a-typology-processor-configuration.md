@@ -11,7 +11,7 @@ Building on the example rule configurations provided here:
   "desc": "Double-payment to a merchant.",
   "id": "typology-processor@1.0.0",
   "cfg": "001@1.0.0",
-  "rules": \[
+  "rules": [
     {
       "id": "006@1.0.0",
       "cfg": "1.0.0",
@@ -78,10 +78,10 @@ Building on the example rule configurations provided here:
       "ref": ".03",
       "wght": 0
     }
-  \],
+  ],
   "expression": {
     "operator": "\*",
-    "terms": \[
+    "terms": [
       {
         "id": "006@1.0.0",
         "cfg": "1.0.0"
@@ -90,7 +90,7 @@ Building on the example rule configurations provided here:
         "id": "078@1.0.0",
         "cfg": "1.0.0"
       }
-    \]
+    ]
   },
   "workflow": {
     "alertThreshold": 200,

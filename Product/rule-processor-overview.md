@@ -51,13 +51,13 @@ Each rule processor must be wrapped in its own rule-executer when it is deployed
 
 ```mermaid
 sequenceDiagram
-  participant Event Director as Event<br/>Director
+  participant ed as Event<br/>Director
   participant rulex as Rule<br/>Executer
   participant rules as Rule<br/>Processors
   participant tp as Typology<br/>Processor
 
   par For each in-scope rule processor
-    Event Director ->>rulex: 3. Evaluate transaction
+    ed->>rulex: 3. Evaluate transaction
     rulex->>rulex: 3.1 Set up rule processor
     rulex->>rules: 3.2 Execute request
     rules->>rules: 3.3 Check for early exit conditions

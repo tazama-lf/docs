@@ -24,15 +24,15 @@ The Event Director is responsible for determining which typologies a transaction
 ```mermaid
 sequenceDiagram
   participant tmsapi as TMS API
-  participant Event Director as Event Director
+  participant ed as Event Director
   participant rules as Rule Processors
 
-  tmsapi->>Event Director: 2. Evaluate transaction
-  Event Director->>Event Director: 2.1 Read network map
-  Event Director->>Event Director: 2.2 Determine rules
-  Event Director->>Event Director: 2.3 Prune network map
-  Event Director->>Event Director: 2.4 Deduplicate rules
-  Event Director->>rules: 3. Evaluate transaction
+  tmsapi->>ed: 2. Evaluate transaction
+  ed->>ed: 2.1 Read network map
+  ed->>ed: 2.2 Determine rules
+  ed->>ed: 2.3 Prune network map
+  ed->>ed: 2.4 Deduplicate rules
+  ed->>rules: 3. Evaluate transaction
 ```
 
 ### 2. Evaluate Transaction
