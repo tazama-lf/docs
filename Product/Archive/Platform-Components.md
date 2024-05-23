@@ -13,7 +13,7 @@
 ![](../../images/Platform-Components.drawio.png)
 ![](../../images/Overall1.png)
 
-Actio platform has the following implementation components:
+Tazamaplatform has the following implementation components:
 
 1. Transaction Monitoring Service (TMS API)
 2. Data Preparation (DP)

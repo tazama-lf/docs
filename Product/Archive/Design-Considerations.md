@@ -17,7 +17,7 @@
     - We will have channels based on the speed of processing and priority. Channel is just a group of Typologies and that mapping will be stored in a yaml config file.
     - Rules are part of a Typology and Typology is part of a Channel. So effectively Rules are part of a Typology. ~But there will be no mapping between Rules and Channel.~
     - ~~Typology = Mapping of what rules belong to it + Typology Scoring~~
-3. Authentication / Authorization of various services - The Authentication / Authorization will only be at the point of Ingress (Payment Platform Adaptor for Mojaloop OR Actio TMS for others). Between services (example: Rules Processor or Transaction Scoring) we will use the Linkerd service mesh for mTLS (no other explicit authorization/authentication) will be implemented.
+3. Authentication / Authorization of various services - The Authentication / Authorization will only be at the point of Ingress (Payment Platform Adaptor for Mojaloop OR TazamaTMS for others). Between services (example: Rules Processor or Transaction Scoring) we will use the Linkerd service mesh for mTLS (no other explicit authorization/authentication) will be implemented.
     - [https://actiofrm.slack.com/archives/C01SHL2K62C/p1616143614006600?thread\_ts=1616143572.006500&cid=C01SHL2K62C](https://actiofrm.slack.com/archives/C01SHL2K62C/p1616143614006600?thread_ts=1616143572.006500&cid=C01SHL2K62C)
     - Engines are not exposed externally the TMS API is the only surface exposed ... although you still have to defeat the API gateway just to interact with it
     - To manage/update Rules is where [@Greg McCormick](https://actiofrm.slack.com/team/U01MPR00A68) proposed BPM tool (which should mean that you will be authenticated before you can view or change the rules)

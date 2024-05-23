@@ -2,7 +2,7 @@
 
 # <a name='top'></a>Welcome to the Tazama Project!
 
-The sections below provide a brief overview of the Tazama system, with links to pages that contain more detailed information.
+The sections below provide a brief overview of the Tazama platform, with links to pages that contain more detailed information.
 
 - [Welcome to the Tazama Project!](#welcome-to-the-tazama-project)
   - [1. What is Tazama?](#1-what-is-tazama)
@@ -47,7 +47,7 @@ In the creation of a typology, it is worth highlighting that our phishing exampl
 <div style="text-align: right"><a href="#top">Top</a></div>
 
 ##  3. <a name='3-core-components'></a>Core Components
-The Tazama system has a number of key components that have been selected and architected to allow maximum flexibility, ensure data protection, and reduced operational costs for high performance at scale. They are the:
+The Tazama platform has a number of key components that have been selected and architected to allow maximum flexibility, ensure data protection, and reduced operational costs for high performance at scale. They are the:
 
  - Transaction Monitoring Service (TMS) API
  - Channel Router and Setup Processor (CRSP)
@@ -123,7 +123,7 @@ Further information on the role of the Typology Processor is available on the [T
 
 The final assessment step is to consolidate all the results from all the typologies and persist the results by writing the transaction evaluation results to the database. If any typologies are breached, the completed evaluation results can be routed to a Case Management System for investigation.
 
-The Tazama system does not currently integrate with an existing Case Management System, but does have the capability to submit the transaction evaluation results in JSON format to an external system. An implementer will be able to use this JSON output to pass an alert to the FSP's existing Case Management or Ticket Management systems.
+The Tazama platform does not currently integrate with an existing Case Management System, but does have the capability to submit the transaction evaluation results in JSON format to an external system. An implementer will be able to use this JSON output to pass an alert to the FSP's existing Case Management or Ticket Management systems.
 
 Further information on the role of the Transaction Aggregator and Decision Processor (TADProc) is available on the [Transaction Aggregation and Decisioning Processor (TADProc)](/Product/transaction-aggregation-and-decisioning-processor.md) page.
 

@@ -1,6 +1,6 @@
 # Composition
 
-The Tazama system has the following implementation components:
+The Tazama platform has the following implementation components:
 
 1. Transaction Monitoring Service (TMS API)
 2. Data Preparation (DP)

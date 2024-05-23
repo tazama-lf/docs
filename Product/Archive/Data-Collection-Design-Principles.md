@@ -1,6 +1,6 @@
 # Data Collection Design Principles
 
-Here are the Data Collection Design Principles for the Tazama system specifically for the Enrichment data:
+Here are the Data Collection Design Principles for the Tazama platform specifically for the Enrichment data:
 
 1. Get the right data
 2. Get the data right

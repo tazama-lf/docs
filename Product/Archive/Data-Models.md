@@ -1,6 +1,6 @@
 # Data Models
 
-Data Models in Tazama system are stored in the code and not in the Database/Datastore. Datastore simply provides data storage, and efficient CRUD functionalities. In other words, ArangoDB provides the ability to create/add records, update records, query/read records and delete records.
+Data Models in Tazama platform are stored in the code and not in the Database/Datastore. Datastore simply provides data storage, and efficient CRUD functionalities. In other words, ArangoDB provides the ability to create/add records, update records, query/read records and delete records.
 
 How the Data object is design is not stored in ArangoDB but rather the code base. Example: ISO20022 Quote or ISO20022 Transfer data model is stored in the code. This data design pattern is called ORM (Object-Relationship-Mapping).
 

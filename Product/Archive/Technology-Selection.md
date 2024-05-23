@@ -112,7 +112,7 @@ We want the system to be modular, configurable, scalable, performant, reliable. 
 
 ### Containerization Alternatives
 
-We had Docker Swarm, Openshift and other Cloud offerings. Because Tazama system is open-source, we wanted to go with open source options. That left us with Kubernetes, Docker Swarm and Openshift.
+We had Docker Swarm, Openshift and other Cloud offerings. Because Tazama platform is open-source, we wanted to go with open source options. That left us with Kubernetes, Docker Swarm and Openshift.
 
 ### Kubernetes and Why
 
@@ -122,11 +122,11 @@ It is an open-source container orchestration system. We went with Kubernetes bec
 
 ### Tazama Business Need
 
-With a lot of containers in the system, there is a need for a reliable API Gateway to route the traffic / Ingress into the Tazama system running on Kubernetes. We want easy introspection, reliability, scalability, availability and performance. Ambassador provides sophisticated traffic management capabilities including load balancing, automatic retries etc.
+With a lot of containers in the system, there is a need for a reliable API Gateway to route the traffic / Ingress into the Tazama platform running on Kubernetes. We want easy introspection, reliability, scalability, availability and performance. Ambassador provides sophisticated traffic management capabilities including load balancing, automatic retries etc.
 
 ### Why API Gateway?
 
-We need a single entry / Ingress point into the Tazama system. Can we use nginx? Yes. But then why Ambassador - because it is built for Kubernetes and implementating the same with nginx will require a little more custom work than to go with Ambassador.
+We need a single entry / Ingress point into the Tazama platform. Can we use nginx? Yes. But then why Ambassador - because it is built for Kubernetes and implementating the same with nginx will require a little more custom work than to go with Ambassador.
 
 ### Ambassador Alternatives
 
@@ -134,17 +134,17 @@ We have Envoy, Consul, OpenAPI, Istio, Kong, Amazon API Gateway and other produc
 
 ### Ambassador and Why
 
-Ambassador is Envoy built for Kubernetes. Ambassador is cloud native / Kubernetes native. Hence the defacto API Gateway choice for the Tazama system.
+Ambassador is Envoy built for Kubernetes. Ambassador is cloud native / Kubernetes native. Hence the defacto API Gateway choice for the Tazama platform.
 
 ## IAM
 
 ### Tazama Business Need
 
-We need to make Tazama system secure with little to no code. Tazama system is designed to support multi-tenants. We also anticipate the need for Single Sign On (SSO) in the future.
+We need to make Tazama platform secure with little to no code. Tazama platform is designed to support multi-tenants. We also anticipate the need for Single Sign On (SSO) in the future.
 
 ### Why IAM?
 
-Security, authentication, authorization, multi-tenant (profile) management is critical to a system like Tazama. There will be a regulatory compliance requirement because Tazama is a Financial Crime Risk Management system. With many containers, as part of the Tazama system, it is ideal to use an IAM solution and more importantly an IAM solution designed to work with containers (Kubernetes)
+Security, authentication, authorization, multi-tenant (profile) management is critical to a system like Tazama. There will be a regulatory compliance requirement because Tazama is a Financial Crime Risk Management system. With many containers, as part of the Tazama platform, it is ideal to use an IAM solution and more importantly an IAM solution designed to work with containers (Kubernetes)
 
 ### KeyCloak Alternatives
 
@@ -170,7 +170,7 @@ Consul, Istio, Google Anthos, AWS Service Mesh, HAProxy, Hystrix and more. Speci
 
 ### Linkerd and Why
 
-It is a complete service mesh solution and it is open source. Here are the features that are important for the Tazama system:
+It is a complete service mesh solution and it is open source. Here are the features that are important for the Tazama platform:
 
 1. Automatic TLS
 2. Automatic Proxy Injection
@@ -204,7 +204,7 @@ Requirements include:
 
 ### Why Function as a Service?
 
-Tazama system is modular. We want to be able to commission and decommission Typologies, Rules, Channels with ease. So these components are associated with each other but function independently. Hence they are implemented as functions. Functions need to be invoked by providing inputs and they will create output that needs to be consumed. Hence these functions are implemented as a Service.
+Tazama platform is modular. We want to be able to commission and decommission Typologies, Rules, Channels with ease. So these components are associated with each other but function independently. Hence they are implemented as functions. Functions need to be invoked by providing inputs and they will create output that needs to be consumed. Hence these functions are implemented as a Service.
 
 ### FaaS alternatives
 
@@ -224,7 +224,7 @@ There is a need for event monitoring and alerting application for real-time metr
 
 ### Why Event monitoring?
 
-We need to collect real-time event monitoring metrics across all containers in the Tazama system for real-time observability. ** This does not cover historic observability.
+We need to collect real-time event monitoring metrics across all containers in the Tazama platform for real-time observability. ** This does not cover historic observability.
 
 ### Event Monitoring Alternatives
 
@@ -238,7 +238,7 @@ It comes packaged along with Linkerd.
 
 ### Tazama Business Need
 
-Tazama system needs open source analytics and visualization for real-time observability.
+Tazama platform needs open source analytics and visualization for real-time observability.
 
 ### Why real-time observability?
 
@@ -260,7 +260,7 @@ Tazama is a data system. Tazama works with various datasets that help with ident
 
 ### Why Data Flow / Data Processor?
 
-Data Flow automates the flow of data between systems. Tazama system does transaction monitoring with associated services.
+Data Flow automates the flow of data between systems. Tazama platform does transaction monitoring with associated services.
 
 ### Data Flow Alternatives
 
@@ -268,13 +268,13 @@ IBM Infosphere, AWS Glue, Azure Data Factory, Streamsets, Apache Spark, Airflow,
 
 ### NIFI and Why
 
-Welcome NIFI!NIFI is an end-to-end system that can collect/receive and act of data real-time. Real-time data validation, collection of data from external sources, real-time aggregation, pre-aggregation are data requirements of the Tazama system. NIFI as a tool fulfills those requirements.
+Welcome NIFI!NIFI is an end-to-end system that can collect/receive and act of data real-time. Real-time data validation, collection of data from external sources, real-time aggregation, pre-aggregation are data requirements of the Tazama platform. NIFI as a tool fulfills those requirements.
 
 ## Multi-modal Database
 
 ### Tazama Business Need
 
-Tazama system is expected to serve 3k to 10k+ TPS. It is expected to find criminal/fraudulent intent through transaction analysis, pre-aggregation, data enrichment, real-time aggregation, 1000s of Rules and 100s of Typologies in various channels.
+Tazama platform is expected to serve 3k to 10k+ TPS. It is expected to find criminal/fraudulent intent through transaction analysis, pre-aggregation, data enrichment, real-time aggregation, 1000s of Rules and 100s of Typologies in various channels.
 
 ### Why Multi-modal database?
 
@@ -294,7 +294,7 @@ ArangoDB is expected to serve all DB use cases except for Datalake requirements 
 
 ### Tazama Business Need
 
-Tazama system needs historic observability.
+Tazama platform needs historic observability.
 
 ### Why Historic Observability?
 
@@ -306,13 +306,13 @@ Apache Solr, Google Cloud Search to name a few. To stay open source and cloud pr
 
 ### Elastic and Why
 
-Elastic (ELK stack: ElasticSearch, LogStash, Kibana) is the most popular open source logging and observability system. Tazama system development stories have proven that Elastic does satisfy our requirements.
+Elastic (ELK stack: ElasticSearch, LogStash, Kibana) is the most popular open source logging and observability system. Tazama platform development stories have proven that Elastic does satisfy our requirements.
 
 ## In-Memory Cache
 
 ### Tazama Business Need
 
-Caching to improve performance is a key non-functional requirement. Caching is also a critical component in the solution design (There are Tazama system requirements to cache Rules results for a Typology, Typology results for a Channel and Channel results for a Transaction to name a few)
+Caching to improve performance is a key non-functional requirement. Caching is also a critical component in the solution design (There are Tazama platform requirements to cache Rules results for a Typology, Typology results for a Channel and Channel results for a Transaction to name a few)
 
 ### Why In-Memory Cache?
 
@@ -326,7 +326,7 @@ Open source alternatives include Memcached. We went with Redis because of the de
 
 ### Why Redis?
 
-Redis is the most popular in-memory data structure store / cache. Tazama system development stories have proven that Redis is the right cache solution for Tazama system.
+Redis is the most popular in-memory data structure store / cache. Tazama platform development stories have proven that Redis is the right cache solution for Tazama platform.
 
 ## OLAP
 
@@ -354,7 +354,7 @@ Inter-service communication is not a business requirement but rather a non-funct
 
 ### Why Inter-service communication?
 
-Tazama system contains many components/processors for Rules, Typologies, Channels, Transaction, Data Preparation, Data Transformation etc. Inter-service communication is an understated requirement. Inter-service communication is a non-functional need. Performance and low latency is critical need, especially considering that Tazama system will support millions of transactions.
+Tazama platform contains many components/processors for Rules, Typologies, Channels, Transaction, Data Preparation, Data Transformation etc. Inter-service communication is an understated requirement. Inter-service communication is a non-functional need. Performance and low latency is critical need, especially considering that Tazama platform will support millions of transactions.
 
 ### Inter-service communication Alternatives
 
@@ -362,20 +362,20 @@ Messaging Queues, Other RPC solutions and REST/JSON are alternatives. Kafka was 
 
 ### Why gRPC?
 
-Open source Remote Procedure Call built by Google. gRPC means calling a method hosted on a remote server that you can call as if hosted locally. gRPC supports async as well as sync modes. There are multiple options of communication, unary (single request), server streaming, client streaming as well as bidirectional streaming. Because there are a lot of processors in the Tazama system, all modes/options of communication are considered.
+Open source Remote Procedure Call built by Google. gRPC means calling a method hosted on a remote server that you can call as if hosted locally. gRPC supports async as well as sync modes. There are multiple options of communication, unary (single request), server streaming, client streaming as well as bidirectional streaming. Because there are a lot of processors in the Tazama platform, all modes/options of communication are considered.
 
-gRPC is designed for both high-performance and high-productivity design of the Tazama system. It supports 10 popular languages. It operates using the following Design Principles:
+gRPC is designed for both high-performance and high-productivity design of the Tazama platform. It supports 10 popular languages. It operates using the following Design Principles:
 
-1. Free and Open - Needed for Tazama system to be completely
+1. Free and Open - Needed for Tazama platform to be completely
 2. Services not Objects, Messages not References
 3. Interoperability and Reach
 4. General Purpose and Performant - key design principle that let’s us use gRPC without sacrificing performance
 5. Layered
 6. Payload Agnostic
-7. Blocking and Non-Blocking (Sync and Async) - provides flexibility to the Tazama system components communication
+7. Blocking and Non-Blocking (Sync and Async) - provides flexibility to the Tazama platform components communication
 8. Lameducking - it is helpful with turning off any Rules or Typologies but letting the existing in-flight invocations complete while not accepting new invocations
 9. Flow Control - buffer management between Client and Servers which could have unbalanced computing power and network capacity
-10. Standardized Status Codes - this helps with developing communication between Tazama system components
+10. Standardized Status Codes - this helps with developing communication between Tazama platform components
 
 ## Data Serialization and Queuing
 
@@ -385,11 +385,11 @@ Data serialization and queuing is not a business requirement but rather a non-fu
 
 ### Why Data Serialization and Queuing?
 
-OpenFaaS provides queuing for REST requests but with gRPC for Inter-service communication, we will need to serialize and de-serialize for sending it using gRPC. Queuing will need to be addressed considering that Tazama system will support millions of transactions.
+OpenFaaS provides queuing for REST requests but with gRPC for Inter-service communication, we will need to serialize and de-serialize for sending it using gRPC. Queuing will need to be addressed considering that Tazama platform will support millions of transactions.
 
 ### Data Serialization and Queuing alternatives
 
-Apache Thrift and Fast Buffers. Since gRPC and ProtoBuf work natively together, ProtoBuf is the choice for Tazama system.
+Apache Thrift and Fast Buffers. Since gRPC and ProtoBuf work natively together, ProtoBuf is the choice for Tazama platform.
 
 ### ProtoBuf and Why
 

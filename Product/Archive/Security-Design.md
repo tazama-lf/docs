@@ -34,7 +34,7 @@ gRPC has SSL/TLS integration and promotes the use of SSL/TLS to authenticate the
 
 ### Ambassador
 
-As the API gateway, Ambassador only exposes a certain set of services for Ingress into the Actio platform (example: TMS API). Many services will not be exposed to the outside (example: Channel Router, Rules Processor etc). So Ambassador provides security by design and deny by default (when exposing services to the outside)
+As the API gateway, Ambassador only exposes a certain set of services for Ingress into the Tazamaplatform (example: TMS API). Many services will not be exposed to the outside (example: Channel Router, Rules Processor etc). So Ambassador provides security by design and deny by default (when exposing services to the outside)
 
 ### Secure (Authentication, Authorization, Encryption and Inter-Service Communication)
 

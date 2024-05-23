@@ -1,6 +1,6 @@
 # High Level Design
 
-This page contains the high-level Design of the Tazama system
+This page contains the high-level Design of the Tazama platform
 
 ## High Level Design Diagram
 
@@ -598,17 +598,17 @@ Case Management reads from and writes to OLAP every time it works on a particula
 ### 38: API for Enrichment Data Source <- Enrichment Data Source
 
 - Many clients or public data stores that host Enrichment data will be exposed via an API
-  - This API is not part of the Tazama system
+  - This API is not part of the Tazama platform
 - Enrichment Data Source can be of any type
-- Enrichment Data Source will not be part of the Tazama system
+- Enrichment Data Source will not be part of the Tazama platform
 
 ### 39: API for Enrichment Data Source -> Enrichment Data API
 
 Enrichment Data API is implemented using OpenFaaS
 
 - Many clients or public data stores that host Enrichment data will be exposed via an API
-  - This API is not part of the Tazama system
-- Enrichment Data API is part of the Tazama system
+  - This API is not part of the Tazama platform
+- Enrichment Data API is part of the Tazama platform
 - Enrichment Data API will expose endpoints to receive data from external sources (examples: API for Enrichment Data). Access to those endpoints will be secure behind the API Gateway with authentication and authorization provided by KeyCloak
 - Enrichment Data API will accept data in multiple formats (including JSON, CSV, XLS, XLSX, XML)
 - Enrichment Data API is meshed using Linkerd
@@ -618,8 +618,8 @@ Enrichment Data API is implemented using OpenFaaS
 Enrichment Data Pull is implemented using OpenFaaS
 
 - Many clients or public data stores that host Enrichment data will be exposed via an API
-  - This API is not part of the Tazama system
-- Enrichment Data Pull is part of the Tazama system
+  - This API is not part of the Tazama platform
+- Enrichment Data Pull is part of the Tazama platform
 - Enrichment Data Pull will NOT expose endpoints
 - Enrichment Data Pull will call API for Enrichment Data Source (external) using the relevant authentication and authorization token
 - Enrichment Data Pull will accept data in multiple formats (including JSON, CSV, XLS, XLSX, XML)
@@ -630,8 +630,8 @@ Enrichment Data Pull is implemented using OpenFaaS
 Enrichment Data Pull is implemented using OpenFaaS
 
 - Many public data stores (possibly a few clients) host Enrichment data source without an API in front of it
-  - This Enrichment Data Source is not part of the Tazama system
-- Enrichment Data Pull is part of the Tazama system
+  - This Enrichment Data Source is not part of the Tazama platform
+- Enrichment Data Pull is part of the Tazama platform
 - Enrichment Data Pull will NOT expose endpoints
 - Enrichment Data Pull will read data from Enrichment Data Source (external) using the relevant authentication and authorization token, if applicable
 - Enrichment Data Pull will read data in multiple formats (including JSON, CSV, XLS, XLSX, XML, specific DB queries)
