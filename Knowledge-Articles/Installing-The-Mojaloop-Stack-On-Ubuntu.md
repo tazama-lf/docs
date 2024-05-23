@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Installing the Mojaloop Stack on Ubuntu
 
 - [Installing the Mojaloop Stack on Ubuntu](#installing-the-mojaloop-stack-on-ubuntu)

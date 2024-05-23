@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Kubernetes - Managing Stateful Workloads And One-off Jobs
 
 StatefulSet is the workload API object used to manage **stateful applications**. Manages the deployment and scaling of a set of [Pods](https://kubernetes.io/docs/concepts/workloads/pods/), *and provides guarantees about the ordering and uniqueness* of these Pods.

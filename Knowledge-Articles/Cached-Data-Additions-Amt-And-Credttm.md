@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Cached Data Additions: Amt and CreDtTm
 
 Some rule queries search the database for an associated Pacs008 message (or some specific fields there-in).

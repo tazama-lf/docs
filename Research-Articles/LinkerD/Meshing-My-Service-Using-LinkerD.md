@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Meshing my Service using Linkerd
 
 This article will show you how to mesh your services using Linkerd as well as some of the basic usages of Linkerd.

@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # PUT /transactionRequest{ID}
 
 The data fields we can expect in the in the PUT /transactionRequests method from Mojaloop.

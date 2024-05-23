@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Technical​ ​Charter (the “Charter”) for <br> Tazama Project
 Adopted November 29, 2023
 

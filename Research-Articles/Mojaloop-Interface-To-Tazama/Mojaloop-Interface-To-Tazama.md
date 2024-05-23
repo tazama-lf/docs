@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Mojaloop - Interface to Tazama
 
 Created this page to answer a couple of question.

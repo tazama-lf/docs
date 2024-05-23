@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # POST /transactionRequests
 
 The data fields we can expect in the in the POST /transactionRequests method from Mojaloop.

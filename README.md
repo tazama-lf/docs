@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 ![Tazama](/images/Tazama-logo-banner.png)
 
 # <a name='top'></a>Welcome to the Tazama Project!

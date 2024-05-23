@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # The OpenFaaS Dilemma
 
 OpenFaaS is a serverless technology that runs on premise, meaning, Kubernetes. It enables it’s user to deploy and route serverless functions fairly easily.

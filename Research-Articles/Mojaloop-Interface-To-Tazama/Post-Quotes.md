@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # POST /quotes
 
 The data fields we can expect in the in the POST /quote method from Mojaloop.

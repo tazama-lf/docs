@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # ISO20022 and Tazama
 
 - [ISO20022 and Tazama](#iso20022-and-tazama)

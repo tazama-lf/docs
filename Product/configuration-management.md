@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Configuration management
  [TL;DR](#tldr)
 - [Configuration management](#configuration-management)

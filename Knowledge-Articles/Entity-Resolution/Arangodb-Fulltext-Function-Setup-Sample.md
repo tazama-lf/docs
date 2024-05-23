@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # ArangoDB FullText Function Setup & Sample
 
 ## Setup Analyzer

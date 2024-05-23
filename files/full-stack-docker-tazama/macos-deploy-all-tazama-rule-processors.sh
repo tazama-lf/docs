@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+
 #!/bin/bash
 echo "Duplicating Rule Executer folder..."
 cp -R rule-executer rule-executer-001

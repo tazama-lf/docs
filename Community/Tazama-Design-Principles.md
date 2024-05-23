@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Design Principles
 
 In order to ensure that the system is built on good foundations, we follow a number of design principles for Tazama.

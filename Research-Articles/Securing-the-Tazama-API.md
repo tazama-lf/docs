@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 Proposed solution for authenticating the TMS API:
 
 ## Overview

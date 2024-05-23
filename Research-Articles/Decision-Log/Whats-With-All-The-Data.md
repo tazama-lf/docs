@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # What's with all the data
 
 Add your comments directly to the page. Include links to any relevant research, data, or feedback.

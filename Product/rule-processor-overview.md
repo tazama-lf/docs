@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 - [Rule Processors](#rule-processors)
   - [The rule executer](#the-rule-executer)
   - [Rule processor context](#rule-processor-context)

@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # testing tool vs postman
 
 |     | Option 1: postman | Option 2: Testing tool |
