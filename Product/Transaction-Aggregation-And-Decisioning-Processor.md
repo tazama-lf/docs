@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The foundation of the Actio Transaction Monitoring service is its ability to evaluate incoming transactions for financial crime risk through the execution of a number of conditional statements (rules) that are then combined into typologies that describe the nature of the financial crime that the system is trying to detect.
+The foundation of the Tazama Transaction Monitoring service is its ability to evaluate incoming transactions for financial crime risk through the execution of a number of conditional statements (rules) that are then combined into typologies that describe the nature of the financial crime that the system is trying to detect.
 
 The Channel Router & Setup Processor (CRSP) is responsible for determining which channels and typologies a transaction must be submitted to for the transaction to be evaluated for Financial Crime Risk. As part of this process, the CRSP determines which rules must receive the transaction and then which typologies are to be scored. The CRSP routes the transaction to the individual rule processors.
 
@@ -20,7 +20,7 @@ Once each channel has been completed, the result of the channel will be passed t
 
 ![](../images/image-20220901-144421.png)
 
-**Figure**: *Actio TMS Transaction Aggregation and Decisioning Context*
+**Figure**: *Tazama TMS Transaction Aggregation and Decisioning Context*
 
 ### 6. Submit channel results
 
@@ -60,7 +60,7 @@ Where interdiction is required, either option 1 and 2 above is the most suitable
 
 The purpose of step 7.3 is to allow for the creation of a case should any typology breach its review thresholds and only if interdiction (and associated case creation) is not in scope for the deployment.
 
-The TADProc must retrieve the typology triggers from the Actio configuration store so that the TADProc can determine if any of the typologies just received with the channel results warrant an investigation.
+The TADProc must retrieve the typology triggers from the Tazama configuration store so that the TADProc can determine if any of the typologies just received with the channel results warrant an investigation.
 
 The typology triggers must define a specific threshold value linked to each of the typologies that defines the following workflow outcomes:
 
