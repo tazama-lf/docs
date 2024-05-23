@@ -9,7 +9,7 @@ Step-By-Step Guide:
 1. Link your NodeJS application to Elasticsearch APM
 2. Ensure that you are receiving your APM statistics (as seen below):
 
-   ![](/images/image-20210521-101303.png)
+   ![](../../images/image-20210521-101303.png)
 
 3. Add the span to your code as seen in the example below:
 
@@ -40,7 +40,7 @@ app.listen(3001, () => console.log("Server running on port 3001"));
 
 4. Check APM and see the timings of your spans added in (as seen below):
 
-![](/images/image-20210521-101753.png)
+![](../../images/image-20210521-101753.png)
 
 > :warning: Note that these spans work like timers and need to be ended. When they are ended they will include their times with the other APM statistics
 

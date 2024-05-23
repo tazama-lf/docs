@@ -15,30 +15,30 @@ This document will show what data we log and where to get each type of data is c
 ## Telemetry
 
 Telemetry refers to data collected from a remote source and is collected and cataloged by Elasticsearch.
-[see the guide](../../../../../../Product/01-Getting-Started/01-Developer-Documentation/01-Set-Up-The-Environment/03-Elasticsearch/01-Adding-Custom-Telemetry-To-Apm.md)
-Telemetry can be gathered by using the Elasticsearch APM module [see the guide](../../../../../../Product/01-Getting-Started/01-Developer-Documentation/01-Set-Up-The-Environment/03-Elasticsearch/01-Adding-Custom-Telemetry-To-Apm.md). Telemetry data is stored inside of the Elasticsearch container volume to ensure that if the pod restarts the data will be secure as can be seen below:
+[see the guide](../../Product/01-Getting-Started/01-Developer-Documentation/01-Set-Up-The-Environment/03-Elasticsearch/01-Adding-Custom-Telemetry-To-Apm.md)
+Telemetry can be gathered by using the Elasticsearch APM module [see the guide](../../Product/01-Getting-Started/01-Developer-Documentation/01-Set-Up-The-Environment/03-Elasticsearch/01-Adding-Custom-Telemetry-To-Apm.md). Telemetry data is stored inside of the Elasticsearch container volume to ensure that if the pod restarts the data will be secure as can be seen below:
 
-![](../../../../../images/image-20210609-101227.png)
+![](../../images/image-20210609-101227.png)
 
 Below follows some examples of what telemetry is collected and stored:
 
-![](../../../../../images/image-20210609-101428.png)
+![](../../images/image-20210609-101428.png)
 
 Transaction summary data will include a live graph of the Transaction selected for viewing. This is useful for showing execution time differences based on load.
 
-![](../../../../../images/image-20210609-101728.png)
+![](../../images/image-20210609-101728.png)
 
 Request Trace will show all the contact points a transaction has with various services. This is useful to show the flow of transactions in the system.
 
-![](../../../../../images/image-20210609-101826.png)
+![](../../images/image-20210609-101826.png)
 
 Request Metadata will show all the metadata of the Transaction selected for viewing. Metadata will include valuable data such as where the request came from, which container the request is executing in, IP of the host, IP of the client, IP of the request origin, Trace ID, Transaction ID and various other info.
 
-![](../../../../../images/image-20210609-102729.png)
+![](../../images/image-20210609-102729.png)
 
 Any Errors that result in an HTTP error code response will also be collected and displayed, however at the time of writing this no HTTP errors have been logged yet.
 
-![](../../../../../images/image-20210609-103247.png)
+![](../../images/image-20210609-103247.png)
 
 All Telemetry gathered by Elasticsearch can be viewed in a Collective view, thus we can see tpm (transactions per minute), average response time, and the error rate of all the services we currently monitor.
 
@@ -52,33 +52,33 @@ Metrics are gathered from two different places and stored accordingly.
 
 Elasticsearch gathers metrics for each service added to the APM. The metrics can be accessed by looking into the service:
 
-![](../../../../../images/image-20210609-103135.png)
+![](../../images/image-20210609-103135.png)
 
 ### Linkerd Metrics
 
 By adding the Linkerd sidecar to containers we can also collect container-based metrics from those containers. Here are a few examples of Metrics automatically gathered by Linkerd:
 
-![](../../../../../images/image-20210609-103723.png)
+![](../../images/image-20210609-103723.png)
 
 These metrics include all metrics from the meshed deployments, notice how unmeshed services don’t have any metrics connected to them.
 
-![](../../../../../images/image-20210609-103958.png)
+![](../../images/image-20210609-103958.png)
 
 Network metrics collected by Linkerd and visualized automatically through Grafana
 
-![](../../../../../images/image-20210609-104127.png)
+![](../../images/image-20210609-104127.png)
 
 Route Metrics are filtered per service and shows all the Metrics regarding connections to and from the service selected.
 
-![](../../../../../images/image-20210609-104249.png)
+![](../../images/image-20210609-104249.png)
 
 The route metrics from above are shown in a more digestible graph format.
 
-![](../../../../../images/image-20210601-114330.png)
+![](../../images/image-20210601-114330.png)
 
 All requests to the container can be “Tapped” live.
 
-![](../../../../../images/image-20210601-114404.png)
+![](../../images/image-20210601-114404.png)
 
 Details for each request can also be viewed if needed.
 
@@ -104,15 +104,15 @@ The environment variable is LOGSTASH\_LEVEL the different levels are outlined as
 
 Container logs are stored in Elasticsearch and retrieved via LogStash. Whenever the container runs it will collect all of the logs sent by the code to LogStash, then it is transferred to Elasticsearch where it will be cataloged and stored in the “log*” Index. To see these logs navigate here:
 
-![](../../../../../images/image-20210614-091356.png)
+![](../../images/image-20210614-091356.png)
 
 The logs will load in a Quickview:
 
-![](../../../../../images/image-20210614-091444.png)
+![](../../images/image-20210614-091444.png)
 
 From here you can expand each entry to see more details:
 
-![](../../../../../images/image-20210614-091538.png)![](../../../../../images/image-20210614-091608.png)
+![](../../images/image-20210614-091538.png)![](../../images/image-20210614-091608.png)
 
 These logs are highly configurable and will log whatever is given to them.
 
