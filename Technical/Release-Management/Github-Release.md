@@ -127,7 +127,7 @@ For example:
 
 Create a release workflow within your CI system that automates the release process. This workflow should trigger after successful tests and when a new version is bumped. It can generate release artifacts, create a new release on GitHub, and publish the artifacts as release assets.
 
-![](../../../../../images/Flow_Diagram_of_the_Github_Release.png)
+![](../../images/Flow_Diagram_of_the_Github_Release.png)
 
 ```plantuml
 @startuml
@@ -609,7 +609,7 @@ Make sure to adjust the commands, configuration, and file paths based on your pr
 
 **Note:** The above workflow assumes you have already set up the necessary dependencies and have a valid GITHUB_TOKEN available as a secret in your GitHub repository.
 
-![](../../../../../images/image-20230703-083516.png)
+![](../../images/image-20230703-083516.png)
 
 ### Version Bumping
 

@@ -30,9 +30,9 @@ The following document provides a step-by-step guide to setting up a Jenkins pip
 ### Step 2: Configure the Pipeline Script
 
 1. In the job configuration select the GitHub project check box
-![Jenkins](../../../../../images/image-20230703-125212.png)
+![Jenkins](../../images/image-20230703-125212.png)
 2. Scroll down and check the Github pull request builder
-![Jenkins](../../../../../images/image-20230703-125337.png)
+![Jenkins](../../images/image-20230703-125337.png)
 3. In the job configuration page, scroll down to the "Pipeline" section.
 4. Select the "Pipeline script" option.
 5. Copy and paste the following pipeline script into the script editor:
@@ -87,7 +87,7 @@ pipeline {
   
 - You can either hardcode the milestone number or retrieve it dynamically using Jenkins parameters or other methods.
 
-![Jenkins](../../../../../images/image-20230703-125941.png)
+![Jenkins](../../images/image-20230703-125941.png)
 
 ### Step 6: Save and Run the Jenkins Job
 
@@ -95,6 +95,6 @@ pipeline {
 2. Click on "Build Now" to run the Jenkins job and trigger the milestone workflow on GitHub.
 3. Monitor the Jenkins job console output for any errors or issues.
   
-![Jenkins](../../../../../images/image-20230703-131532.png)
-![Jenkins](../../../../../images/image-20230703-132034.png)
-![Jenkins](../../../../../images/image-20230703-132132.png)
+![Jenkins](../../images/image-20230703-131532.png)
+![Jenkins](../../images/image-20230703-132034.png)
+![Jenkins](../../images/image-20230703-132132.png)

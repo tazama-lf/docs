@@ -64,8 +64,8 @@ This is a private registry service for building, storing, and managing container
 
 ## Suggested Hardware Specifications for Sandbox
 
-![](../../../../../images/image-20230503-124702.png)
+![](../../../images/image-20230503-124702.png)
 
 ## Suggested Hardware Specifications for Sandbox
 
-![](../../../../../images/image-20230503-124801.png)
+![](../../../images/image-20230503-124801.png)

@@ -40,7 +40,7 @@ This job runs after the `build` and `pastbench` jobs and depends on its completi
 
 Example of output:
 
-![cicd_nodejs_ci_output_job.png](../../../../../images/cicd-nodejs-ci-output-job.png)
+![cicd_nodejs_ci_output_job.png](/../../images/cicd-nodejs-ci-output-job.png)
 
 ### 5. Store Job
 
@@ -58,7 +58,7 @@ During each step execution, an error can be thrown, which will result in the wor
 
 ## The Flow of the Node Ci workflow
 
-![flow_of_the_node_Ci_workflow](../../../../../images/flow_of_the_node_Ci_workflow.png)
+![flow_of_the_node_Ci_workflow](/../../images/flow_of_the_node_Ci_workflow.png)
 
 ### 8. Summary
 
