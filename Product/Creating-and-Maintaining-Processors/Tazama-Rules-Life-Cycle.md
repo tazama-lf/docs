@@ -10,7 +10,7 @@
   - [7. Rules performance monitoring](#7-rules-performance-monitoring)
   - [8. Rule calibration](#8-rule-calibration)
 
-The life-cycle for typologies and rules included in the Tazama system broadly follow the process described in the image below:
+The life-cycle for typologies and rules included in the Tazama platform broadly follow the process described in the image below:
 
 ![](../images/image-20210316-072938.png)
 
@@ -26,11 +26,11 @@ In 2020, Deloitte had compiled a comprehensive list of 232 typologies that were 
 
 To assist with the prioritisation of the typologies, each typology was classified across 7 dimensions and 20 attributes through the APRICOT model, which was also invented by Deloitte as part of the FRM workstream. The model assists in narrowing down the list of typologies based on the anticipated deployment scope of the FRM solution, now codenamed Tazama.
 
-While the register is the source for the initial set of typologies, financial crime is constantly evolving to stay ahead of detection and prevention methodologies. It is expected that new typologies will arise over time that will then have to be added to the register and subsequently included in the Tazama system’s detection scope.
+While the register is the source for the initial set of typologies, financial crime is constantly evolving to stay ahead of detection and prevention methodologies. It is expected that new typologies will arise over time that will then have to be added to the register and subsequently included in the Tazama platform’s detection scope.
 
 ## 2. Rules discovery
 
-The typologies merely provide the method according to which financial crime is executed and do not specifically provide the means of detection. We have chosen a rules-based approach to detecting financial crime related to the prioritised typologies as the basic foundation for transaction monitoring with the Tazama system. We expect that detection may include machine learning and artificial intelligence in the future, though this approach will require additional research and resources that do not fall within the scope and budget of the Tazama development in the short term.
+The typologies merely provide the method according to which financial crime is executed and do not specifically provide the means of detection. We have chosen a rules-based approach to detecting financial crime related to the prioritised typologies as the basic foundation for transaction monitoring with the Tazama platform. We expect that detection may include machine learning and artificial intelligence in the future, though this approach will require additional research and resources that do not fall within the scope and budget of the Tazama development in the short term.
 
 Rules discovery is currently largely driven by the collective experience of the team. Through brainstorming and research, we identify rules that can be used to detect a typology when a new transaction is evaluated within the Tazama Transaction Monitoring Service.
 

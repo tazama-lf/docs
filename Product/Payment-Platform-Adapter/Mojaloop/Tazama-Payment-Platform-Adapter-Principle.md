@@ -1,8 +1,8 @@
 # Tazama Payment Platform Adapter - Principle
 
-Tazama system accepts transactions/messages in ISO 20022 compliant format. We do understand that few of the Hubs / Switches / DFSPs do not support ISO 20022. For them, we offer the Tazama Payment Platform Adapter (PPA).
+Tazama platform accepts transactions/messages in ISO 20022 compliant format. We do understand that few of the Hubs / Switches / DFSPs do not support ISO 20022. For them, we offer the Tazama Payment Platform Adapter (PPA).
 
-PPA is offered as part of the Tazama system. However it is designed and implemented in one of the two ways:
+PPA is offered as part of the Tazama platform. However it is designed and implemented in one of the two ways:
 
 1. PPA hosted within the DFSP infrastructure to talk to DFSP backend
 2. PPA hosted within Mojaloop / Hub / Switch infrastructure
