@@ -38,7 +38,6 @@ sequenceDiagram
   participant rulex as Rule<br/>Executer
   participant rules as Rule<br/>Processors
   participant tp as Typology<br/>Processor
-
   par For each in-scope rule processor
     crsp->>rulex: 3. Evaluate transaction
     rulex->>rulex: 3.1 Set up rule processor
