@@ -66,7 +66,7 @@
 
 ## Overview
 
-Tazama platform is Kubernetes native. It can be deployed either on-premise or on one of the popular cloud providers including Amazon AWS, Google GCP or Microsoft Azure. Security has to be applied at multiple levels.
+Tazama system is Kubernetes native. It can be deployed either on-premise or on one of the popular cloud providers including Amazon AWS, Google GCP or Microsoft Azure. Security has to be applied at multiple levels.
 
 1. Network
 2. Ingress
@@ -93,7 +93,7 @@ Tazama is design to work either On-Premise or with the Cloud provider products. 
 
 ## Network
 
-Tazama platform can be installed in any of the following three network architectures. There could be other architectures that you can implement the network but here are the absolute minimum expectations:
+Tazama system can be installed in any of the following three network architectures. There could be other architectures that you can implement the network but here are the absolute minimum expectations:
 
 1. Hardware that has access to the internet
 2. Have an external firewall
@@ -114,13 +114,13 @@ By satisfying the absolute minimum expectations, Tazama can be installed in low-
 
 ### Intermediate
 
-Tazama platform recommends having at-least 2 subnets (internal and DMZ) but it does not require that.
+Tazama system recommends having at-least 2 subnets (internal and DMZ) but it does not require that.
 
 ![](../../../images/IBudgetNetwork.png)
 
 ### Enterprise-grade
 
-Tazama platform is designed to be installed in enterprise grade infrastructure. It implies having multiple subnets includes a DMZ.
+Tazama system is designed to be installed in enterprise grade infrastructure. It implies having multiple subnets includes a DMZ.
 
 ![](../../../images/IdealNetwork.png)
 
@@ -128,7 +128,7 @@ Tazama platform is designed to be installed in enterprise grade infrastructure. 
 
 ## Ingress
 
-Tazama platform includes Apache Ambassador as the API Gateway. DMZ is created using External and Internal Firewall. The network zones behind the internal firewall cannot be directly accessed from outside the External Firewall. Ports are open on the internal firewall and they can only be accessed by the API Gateway. API Gateway receives all the traffic that comes from outside the external firewall. API Gateway does the authentication and authorization based on the tokens provided by the IAM and does the traffic forwarding to the internal zones. Ingress traffic API Gateway is configured to **Deny-by-default.** API Gateway is set up to only allow **HTTPS** ingress traffic.
+Tazama system includes Apache Ambassador as the API Gateway. DMZ is created using External and Internal Firewall. The network zones behind the internal firewall cannot be directly accessed from outside the External Firewall. Ports are open on the internal firewall and they can only be accessed by the API Gateway. API Gateway receives all the traffic that comes from outside the external firewall. API Gateway does the authentication and authorization based on the tokens provided by the IAM and does the traffic forwarding to the internal zones. Ingress traffic API Gateway is configured to **Deny-by-default.** API Gateway is set up to only allow **HTTPS** ingress traffic.
 
 ![](../../../images/Ingress.drawio.png)
 
@@ -148,7 +148,7 @@ The entities that a Pod can communicate with are identified through a combinatio
 
 [https://kubernetes.io/docs/concepts/services-networking/network-policies/](https://kubernetes.io/docs/concepts/services-networking/network-policies/)
 
-***Network Policy recommendation for Tazama platform: You have a network policy implemented and Default deny all ingress and all egress traffic***
+***Network Policy recommendation for Tazama system: You have a network policy implemented and Default deny all ingress and all egress traffic***
 
 ### Example Network Policy
 
@@ -332,7 +332,7 @@ Kubernetes provides a number of in-built mechanisms for API server authenticatio
 - [Service Accounts Tokens](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#service-account-tokens)
      are also available for authentication. Their primary intended use is to allow workloads running in the cluster to authenticate to the API server, however they can also be used for user authentication.
 
-***Tazama recommends using KeyCloak for IAM / API Authentication. KeyCloak is already part of the Tazama platform***
+***Tazama recommends using KeyCloak for IAM / API Authentication. KeyCloak is already part of the Tazama system***
 
 If you want to use alternatives to Keyclock then the recommended approach for larger or production clusters, is to use an external authentication method:
 
@@ -434,7 +434,7 @@ Cloud Security implies Network security and File system security. Network securi
 
 #### Cluster Security
 
-Tazama platform implements Cluster Security using the following:
+Tazama system implements Cluster Security using the following:
 
 - RBAC Authorization [https://lextego.atlassian.net/wiki/spaces/ACTIO/pages/475332625/Security#Role-Based-Secure-Access](https://lextego.atlassian.net/wiki/spaces/ACTIO/pages/475332625/Security#Role-Based-Secure-Access)
 
@@ -448,11 +448,11 @@ Tazama platform implements Cluster Security using the following:
 
 #### Container Security
 
-Container Security for Kubernetes is implemented using Container Runtime Class (CRC). Tazama platform only recommends CRC for Enterprise-grade setup because implementing CRC sacrifices performance to achieve this extra level of security. There are enough security measures across different layers of the Tazama platform that CRC is only a recommendation.
+Container Security for Kubernetes is implemented using Container Runtime Class (CRC). Tazama system only recommends CRC for Enterprise-grade setup because implementing CRC sacrifices performance to achieve this extra level of security. There are enough security measures across different layers of the Tazama system that CRC is only a recommendation.
 
 #### Code Security
 
-Code Security in Tazama platform is implemented using the following:
+Code Security in Tazama system is implemented using the following:
 
 - mTLS [https://lextego.atlassian.net/wiki/spaces/ACTIO/pages/475332625/Security#Linkerd-Service-Mesh](https://lextego.atlassian.net/wiki/spaces/ACTIO/pages/475332625/Security#Linkerd-Service-Mesh)
 
@@ -505,7 +505,7 @@ Each secret type is used for a specific purpose and will be access only inside t
 
 ## Datastore
 
-All the datastores in the Tazama platform are recommended (Enterprise-grade installation) to be in their own Network zone that is firewall to allow access only certain other Network Zones, specific IPs (ranges) and ports. For Intermediate and Low-budget Tazama platform installation, we still have the protection of the External and/or Internal Firewalls and their rules.
+All the datastores in the Tazama system are recommended (Enterprise-grade installation) to be in their own Network zone that is firewall to allow access only certain other Network Zones, specific IPs (ranges) and ports. For Intermediate and Low-budget Tazama system installation, we still have the protection of the External and/or Internal Firewalls and their rules.
 
 On top of the above network security measures, here are the following ways Tazama secures the datastores (Document stores, Graph and SQL):
 
@@ -520,19 +520,19 @@ Whether connecting via a UI or through code, the connection (datastore specific 
 
 #### Secure connection to Document store (Druid)
 
-In Tazama platform, TLS is enabled for Druid to support HTTPS only connections. Thus all Read and Write actions are executed over a secure connection.
+In Tazama system, TLS is enabled for Druid to support HTTPS only connections. Thus all Read and Write actions are executed over a secure connection.
 
 #### Secure connection to Graph store (ArangoDB)
 
-In Tazama platform, TLS is enabled for ArangoDB to support HTTPS only connections. Thus all Read and Write actions are executed over a secure connection.
+In Tazama system, TLS is enabled for ArangoDB to support HTTPS only connections. Thus all Read and Write actions are executed over a secure connection.
 
 #### Authentication and Authorization in Document store (Druid)
 
-In Tazama platform, the Authentication and Authorization is implemented using resources (Datasources, Configs and States) and actions (Read, Write).
+In Tazama system, the Authentication and Authorization is implemented using resources (Datasources, Configs and States) and actions (Read, Write).
 
 #### Authentication and Authorization in Document store (ArangoDB)
 
-In Tazama platform, the Authentication and Authorization for ArangoDB is managed within ArangoDB itself. The users of ArangoDB are different from those managed in KeyCloak. This is by design to ensure no external client/user can access the database. The Authentication and Authorization in ArangoDB are managed using ArangoDB provided Web UI which is hosted in a separate network zone (Enterprise-grade setup).
+In Tazama system, the Authentication and Authorization for ArangoDB is managed within ArangoDB itself. The users of ArangoDB are different from those managed in KeyCloak. This is by design to ensure no external client/user can access the database. The Authentication and Authorization in ArangoDB are managed using ArangoDB provided Web UI which is hosted in a separate network zone (Enterprise-grade setup).
 
 #### Encryption at Rest (Druid)
 
@@ -540,11 +540,11 @@ Druid provides encryption at Rest and this is an understated security measure. *
 
 #### Encryption at Rest (ArangoDB)
 
-ArangoDB, unfortunately, does not provide Encryption at Rest in the Community version. This is the main reason why ArangoDB is only used as a Graph Datastore in Tazama platform
+ArangoDB, unfortunately, does not provide Encryption at Rest in the Community version. This is the main reason why ArangoDB is only used as a Graph Datastore in Tazama system
 
 ## Transient Data
 
-Tazama platform has many components. Transient Data covers data within various components of the Tazama platform. It does not cover Inter-Service communication (that is covered separately). Data is processed in Tazama components (including Data Preparation, Rules Processors etc). Tazama components write logs to ELK. Here are the possible Security vulnerabilities:
+Tazama system has many components. Transient Data covers data within various components of the Tazama system. It does not cover Inter-Service communication (that is covered separately). Data is processed in Tazama components (including Data Preparation, Rules Processors etc). Tazama components write logs to ELK. Here are the possible Security vulnerabilities:
 
 - Logs
 - UI
@@ -557,14 +557,14 @@ Tazama logs are explicitly designed to not include any PII or Data elements in t
 
 ### UI
 
-Tazama platform does not have a UI for any of the Tazama components that process data in the critical path. This does not include the Datastore (Datastore security is addressed in a separate section)
+Tazama system does not have a UI for any of the Tazama components that process data in the critical path. This does not include the Datastore (Datastore security is addressed in a separate section)
 
 ### Hacked code or config
 
-If hacked code or config, somehow even though highly unlikely, gets into the Tazama platform (example: code for any of the Rules Processors) then the data is protected in the following ways:
+If hacked code or config, somehow even though highly unlikely, gets into the Tazama system (example: code for any of the Rules Processors) then the data is protected in the following ways:
 
 - Pseudonymization - Any PII elements of the data are pseudonymized and those elements can only be looked up for validation / confirmation. The hacked code will not be able to decrypt the pseudonymized data.
-- Hacked code will attempt to write the code and push it out of Tazama platform to an outside location. The network policy and setup has tight control over egress (ports, IPs) to ensure that the written data cannot exit the Tazama platform.
+- Hacked code will attempt to write the code and push it out of Tazama system to an outside location. The network policy and setup has tight control over egress (ports, IPs) to ensure that the written data cannot exit the Tazama system.
 - Hacked code will attempt to write to a file system. All Tazama components are Kubernetes pods/containers; File system security of Kubernetes will ensure that any data written to the disks is encrypted hence unusable.
 
 ### Data History
@@ -628,7 +628,7 @@ Configuration for Tazama architecture products (Linkerd, Druid, ArangoDB, gRPC e
 
 ## Code
 
-Tazama platform will be available as an open source code base. It will be
+Tazama system will be available as an open source code base. It will be
 
 - maintained in a public repo
 - you can either update the public repo by creating your own branch and follow a Pull Request / Merge Request process (at a high-level: the code is managed in different git branches and updated based on review)
@@ -638,7 +638,7 @@ Tazama platform will be available as an open source code base. It will be
   - secure access, if done manually
 - file system security / encryption will need to be enabled
 - no PII or data or transaction information should be present in the configuration
-- code will have to be deployed / executed for various Tazama platform components
+- code will have to be deployed / executed for various Tazama system components
 
 ## Role Based Secure Access
 
@@ -661,9 +661,9 @@ For more details on RBAC Authorization using Kubernetes [https://kubernetes.io/d
 
 ***Here are the Access Controls that Tazama recommends for its various components:***
 
-- Access to any Tazama platform Datastores need to be managed separately. In case the IAM gets compromised, the access tokens/passwords to the Datastores will not be compromised.
-- Access to send transactions to the Tazama platform (example: Hub, Switch, DFSP etc) needs to be centrally managed using IAM (KeyCloak)
-- Acccess to any Tazama platform UIs need to be managed seperately. In case the IAM gets compromised, the access passwords to the Datastores will not be compromised.
+- Access to any Tazama system Datastores need to be managed separately. In case the IAM gets compromised, the access tokens/passwords to the Datastores will not be compromised.
+- Access to send transactions to the Tazama system (example: Hub, Switch, DFSP etc) needs to be centrally managed using IAM (KeyCloak)
+- Acccess to any Tazama system UIs need to be managed seperately. In case the IAM gets compromised, the access passwords to the Datastores will not be compromised.
 
 ## Cryptographic Controls
 
