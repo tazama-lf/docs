@@ -2,9 +2,9 @@
 
 ![tazama-context-tmsapi](../images/tazama-context-tmsapi.png)
 
-The purpose of Transaction Monitoring Service (TMS) API is to facilitate the submission of a transaction to the Tazama system so that the transaction can be evaluated for behaviour that may indicate financial crime, including fraud and money laundering.
+The purpose of Transaction Monitoring Service (TMS) API is to facilitate the submission of a transaction to the Tazama system so that the transaction can be evaluated for behavior that may indicate financial crime, including fraud and money laundering.
 
-The Tazama system is designed to be able to take on transaction messages from customer systems, evaluate these messages for specific behaviours, and deliver an assessment of the evidence of financial crime inherent in the transaction.
+The Tazama system is designed to be able to take on transaction messages from customer systems, evaluate these messages for specific behaviors, and deliver an assessment of the evidence of financial crime inherent in the transaction.
 
 Tazama can be deployed to service the needs of a single Financial Service Provider (FSP), an intermediary system such as a clearing house or payment switch, and also a combination of FSP and switching participants in what we call a “semi-attached” configuration:
 
@@ -58,7 +58,7 @@ For audit purposes, incoming messages are stored unadulterated in separate data 
 
 2. Load the message into the historical graph
 
-The bulk of the behavioural modelling is performed over data composed into the historical graph database.
+The bulk of the behavioral modelling is performed over data composed into the historical graph database.
 
 With the notable exception of the `pacs.002` message, each ISO20022 message contains information related to the entities participating in the transaction, their accounts, and information about the transaction itself. This information is used to populate the components of the graph model:
 
@@ -101,10 +101,12 @@ Secondly, we record the time it took to process the transaction inside the TMS A
 
 ## Message transmission
 
-On the conclusion of the Data Preparation process, the complete message payload is sent from the Transaction Monitoring Service API to the Channel Router and Setup Processor.
+On the conclusion of the Data Preparation process, the complete message payload is sent from the Transaction Monitoring Service API to the Event Director.
 
 ## Payment Platform Adapters
 
 If a Tazama client system is unable to submit messages in the required ISO 20022 format, client organizations would need to submit their transactions to a custom-built adaptor so that their transaction can be transformed and then passed to the Tazama system to meet the specification of the Tazama Transaction Monitoring Service (TMS) API.
 
 A [Mojaloop](https://mojaloop.io) Payment Platform Adapter has been developed and is hosted in the [Tazama GitHub Payment Platform Adapter repository](https://github.com/frmscoe/payment-platform-adapter).
+
+Technical documentation for the implementation of the TMS API is covered in the [Transaction Monitoring Service (TMS) repository](https://github.com/frmscoe/tms-service).
