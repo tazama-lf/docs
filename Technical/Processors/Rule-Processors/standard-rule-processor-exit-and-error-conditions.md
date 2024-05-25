@@ -34,7 +34,6 @@ All rule processors produce a rule processor result in the following format as a
 ruleResult = {
   "id": "001@1.0.0",
   "cfg": "1.0.0",
-  "result": true,
   "subRuleRef": ".01"
 }
 ```
@@ -49,28 +48,24 @@ The deterministic outcomes for a rule processor will be defined either in rule �
         "subRuleRef": ".01",
 
         "upperLimit": 86400000,
-        "outcome": true,
         "reason": "Creditor account is less than 1 day old"
       },
       {
         "subRuleRef": ".02",
         "lowerLimit": 86400000,
         "upperLimit": 2592000000,
-        "outcome": true,
         "reason": "Creditor account is between 1 and 30 days old"
       },
       {
         "subRuleRef": ".03",
         "lowerLimit": 2592000000,
         "upperLimit": 7776000000,
-        "outcome": true,
         "reason": "Creditor account is between 30 and 90 days old"
       },
       {
         "subRuleRef": ".04",
         "lowerLimit": 7776000000,
 
-        "outcome": true,
         "reason": "Creditor account is more than 90 days old"
       }
     ]
@@ -95,7 +90,6 @@ Furthermore, exit conditions are defined in the rule config, while error conditi
     "exitConditions": [
       {
         "subRuleRef": ".x00",
-        "outcome": false,
         "reason": "No verifiable creditor account activity detected"
       }],
     "bands": [
@@ -103,16 +97,11 @@ Furthermore, exit conditions are defined in the rule config, while error conditi
         "subRuleRef": ".01",
 
         "upperLimit": 86400000,
-        "outcome": true,
         "reason": "Creditor account is less than 1 day old"
       }],
 ```
 
-By convention, a non-deterministic outcome has a `false` outcome while a deterministic outcome has a `true` outcome.
-
 ## Register of standard error conditions
-
-The `ruleResult.result` for error conditions is *always* `false`.
 
 The `ruleResult.subRuleRef` for an error condition is *always* `.err`
 
@@ -215,8 +204,6 @@ reason: 'Search term not provided in determineBandedOutcome function',
 
 ## Register of standard exit conditions
 
-The `ruleResult.result` for exit conditions may be `true` or `false`.
-
 The `reason` associated with a specific exit condition `subRuleRef` is defined in the rule config.
 
 Different rules may require different exit conditions from the complete generic set, but the `subRuleRef` for specific error condition categories should be the same. The `reason` for an exit condition will be defined against the `subRuleRef` in the rule config.
@@ -224,14 +211,12 @@ Different rules may require different exit conditions from the complete generic 
 ### .x00: If the current transaction is unsuccessful (`TxSts != 'ACCC'`):
 
 ```text
-    result: false,
     subRuleRef: '.x00',
 ```
 
 ### .x01: If the number of returned results is less than the minimum number of results required for a deterministic outcome:
 
 ```text
-    result: false,
     subRuleRef: '.x01',
 ```
 
