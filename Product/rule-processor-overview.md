@@ -180,3 +180,4 @@ Outgoing payload:
  - The rule processor evaluation result
 
 https://github.com/frmscoe/docs/blob/main/Product/processor-results-propagation.md
+
