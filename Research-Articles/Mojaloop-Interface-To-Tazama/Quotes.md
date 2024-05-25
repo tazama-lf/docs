@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Quotes
 
 As per the **Open API for FSP Interoperability** (FSPIOP) currently based on API Definition.docx updated on 2020-05-19 Version 1.1.

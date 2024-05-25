@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Transfers
 
 Request the creation of a transfer for a financial transaction.

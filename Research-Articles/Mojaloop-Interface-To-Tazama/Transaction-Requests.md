@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Transaction Requests
 
 To request the creation of a transaction request for the provided financial transaction in the server.

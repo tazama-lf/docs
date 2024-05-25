@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Encryption at rest database decision
 
 As we need to secure private personal data from users, we should decide on a database and model on data encryption at rest.

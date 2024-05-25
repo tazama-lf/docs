@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Entity Resolution Explained
 
 - [Entity Resolution Explained](#entity-resolution-explained)

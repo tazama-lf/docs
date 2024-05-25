@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Jmeter
 
 -[Running JMeter Tests with Kubernetes Using JMeter Starter Kit](#running-jmeter-tests-with-kubernetes-using-jmeter-starter-kit)

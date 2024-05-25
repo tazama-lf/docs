@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Druid Data Ingestion
 
 *This page assumes that we will stay with Druid as our Datastore for all purposes (except GraphDB use cases)*

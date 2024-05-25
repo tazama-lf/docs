@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Development Using gRPC (Tutorial, Lesson Learned)
 
 We’ve migrated some of our services to gRPC so far.

@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Complete example of a typology processor configuration
 
 Building on the example rule configurations provided here:
