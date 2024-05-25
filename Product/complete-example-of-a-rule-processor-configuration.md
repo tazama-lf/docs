@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Complete example of a rule processor configuration
 
 ## A “banded” rule configuration:

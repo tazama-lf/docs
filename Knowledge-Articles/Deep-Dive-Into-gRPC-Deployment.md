@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Deep Dive into gRPC Deployment
 
 ## Overview of REST vs. gRPC

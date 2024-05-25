@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Retrieving transaction events from Mojaloop
 
 ## Background to proposed solution

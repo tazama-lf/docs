@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Code of Conduct - The Tazama Project
 
 ## Our Pledge

@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Setup GitHub and SSH - multi user
 
 This instruction guide is to allow people who have more than one GitHub user account to switch from one to the other, and still be able to work with Git.

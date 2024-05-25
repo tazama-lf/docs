@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # PUT /quotes{ID}
 
 The data fields we can expect in the PUT /quotes{ID} method in mojaloop.

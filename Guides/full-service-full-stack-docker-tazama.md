@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 - [Introduction](#introduction)
 - [Pre-requisites:](#pre-requisites)
 - [Installation steps](#installation-steps)

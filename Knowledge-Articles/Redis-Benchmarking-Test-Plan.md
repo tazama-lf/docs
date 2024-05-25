@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Redis Benchmarking Test Plan
 
 - [Redis Benchmarking Test Plan](#redis-benchmarking-test-plan)

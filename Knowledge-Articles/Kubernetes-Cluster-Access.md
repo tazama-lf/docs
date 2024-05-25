@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Kubernetes Cluster Access
 
 This article will guide you through getting access to the FRM cluster from your local machine.

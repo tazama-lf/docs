@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Standard Rule Processor Exit and Error Conditions
 
 - [Standard Rule Processor Exit and Error Conditions](#standard-rule-processor-exit-and-error-conditions)

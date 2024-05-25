@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Linkerd Deep Dive
 
 - [Linkerd Deep Dive](#linkerd-deep-dive)

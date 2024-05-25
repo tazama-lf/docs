@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Tazama Database Indexes
 
 This document provides indexes that are to be created in the database deployment to improve query performance. The following content is grouped by databases (main heading), the collection (sub-heading), and the list of indexes along with their various properties (the contents of tables).

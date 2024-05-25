@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 - [The Event Director](#the-event-director)
   - [Event Director Context](#event-director-context)
     - [2. Evaluate Transaction](#2-evaluate-transaction)

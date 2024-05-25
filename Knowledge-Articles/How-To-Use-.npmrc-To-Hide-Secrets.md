@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # How To: Use .npmrc to hide secrets
 
 - [How To: Use .npmrc to hide secrets](#how-to-use-npmrc-to-hide-secrets)
