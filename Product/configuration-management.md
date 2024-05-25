@@ -159,9 +159,9 @@ Example of the rule configuration metadata:
 
 ```
 {
-  "id": "rule-001@1.0.0",
+  "id": "rule-001@1.0.0",
   "cfg": "1.0.0",
-  "desc": "Derived account age - creditor",
+  "desc": "Derived account age - creditor",
   ...
   }
 ```
@@ -181,12 +181,12 @@ A rule processor’s parameters are used to define how a rule processor will ope
 Example of the `parameters` object:
 
 ```
-  "config": {
-    "parameters": {
-      "maxQueryRange": 86400000,
-      "commission": 0.1,
-      "tolerance": 0.1
-    }
+  "config": {
+    "parameters": {
+      "maxQueryRange": 86400000,
+      "commission": 0.1,
+      "tolerance": 0.1
+    }
   }
 ```
 
@@ -400,9 +400,9 @@ Example of the typology configuration metadata:
 
 ```
 {
-  "id": "typology-processor@1.0.0",
+  "id": "typology-processor@1.0.0",
   "cfg": "typology-001@1.0.0",
-  "desc": "Use of several currencies, structured transactions, etc",
+  "desc": "Use of several currencies, structured transactions, etc",
   ...
   }
 ```
@@ -602,7 +602,7 @@ The thresholds are located in a workflow object in the typology configuration. I
 
 ```
 "workflow": {
-  "alertThreshold": 500,
+  "alertThreshold": 500,
   "interdictionThreshold": 1000
 }
 ```
