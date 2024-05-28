@@ -9,8 +9,7 @@ Before you begin, ensure you have Docker installed on your desktop. Docker will 
 1. Open your preferred text editor.
 2. Copy and paste the provided Bash script into the editor. Or create a Dockerfile and run that.
 
-```yaml
-
+```dockerfile
 # Use a base Jenkins agent image
 FROM jenkins/inbound-agent:latest as jnlp
 
