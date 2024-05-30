@@ -3,7 +3,7 @@
 - [Create New Channel](#create-new-channel)
 - [Steps:](#steps)
 
-![](../../Images/image-20220902-104055.png)
+![](../../images/image-20220902-104055.png)
 
 **About “Create Processor”:**
 
