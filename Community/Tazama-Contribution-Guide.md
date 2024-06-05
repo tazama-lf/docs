@@ -159,7 +159,7 @@ From a DevOps perspective, we make use of the following tools:
  - [Mermaid.js](http://mermaid.js.org/#/) for markdown-embedded diagrams in GitHub
  - [Atlassian Confluence](https://www.atlassian.com/software/confluence) is (currently) hosting our project documentation at <https://frmscoe.atlassian.net/wiki/spaces/FRMS/overview>
  - [PlantUML](https://plantuml.com/) for embedded diagrams in Confluence
- - [Drawio](https://www.drawio.com/) for embedded diagrams in GitHub
+ - [Drawio](https://www.drawio.com/) for embedded diagrams in GitHub. See [guide for draw.io](/guides/drawio-guide.md)
 
 [Top](#contribution-guide)
 
@@ -383,7 +383,7 @@ Follow the steps below to get the `Rule Executer` on your operating table:
 
 8. Sending messages to the microservice processor via the NATS REST Proxy
 
-    Let's try to send a test message to our locally running CRSP via the NATS REST Proxy using a pre-fabricated Postman test. If you previously cloned the Postman repository, the `Rule-901-Quick-Check.postman_collection.json` test will be located in the Postman repository folder.
+    Let's try to send a test message to our locally running Event Director via the NATS REST Proxy using a pre-fabricated Postman test. If you previously cloned the Postman repository, the `Rule-901-Quick-Check.postman_collection.json` test will be located in the Postman repository folder.
     
     Because the application is running in our previous Windows Command Prompt, we'll need to open a new one and then, using the following Newman command in the new Command Prompt, we can execute the test on our running processor:
 
@@ -427,7 +427,7 @@ Read the [Product Overview](/README.md) for a detailed overview of the system.
 The Project organization on GitHub contains both PUBLIC and PRIVATE repositories. Core components of the system are in public repositories that are accessible to anyone:
 
  - The Transaction Monitoring Service (TMS) API
- - The Channel Router and Setup Processor (CRSP)
+ - The Event Director (ED)
  - The Rule Executor (the rule processor wrapper function)
  - Rule 901, a sample rule
  - The Typology Processor
@@ -453,13 +453,11 @@ flowchart TB
   F -->|Push| G[5. Create Pull Request]
   G -->|Review| H[6. Code Review]
   H -->|Approve| I{7. Merge PR}
-  I -->|Merge to Main| J[8. Close Issue]
+  I -->|Merge to Dev| J[8. Close Issue]
   J --> K[9. Deploy to Production]
   K --> L[10. Monitor & Feedback]
   H -->|Request Changes| D
 ```
-
-1. Fork the repository you want to work on
 
 [Top](#contribution-guide)
 
@@ -485,6 +483,8 @@ Best practices for making changes.
 **Developer Documentation Ready** – There is sufficient and suitable development documentation in place - Sequence Diagram / Swagger in Confluence (NOT GitHub - security reasons) eventually. [Developer]
 
 **Code Documentation** – Electronic documentation has been auto-generated (where available) and has been checked for correctness. Also have sufficient code comments. [Developer] + [PR Approver]
+
+**Licensing comment** Add the following string as a comment at the top of every file in the FRMS organisation in GitHub that is capable of including a comment  " SPDX-License-Identifier: Apache-2.0"
 
 **\*Release Notes / Version Control** - TODO Aaron - figure out what greater ML does - check this
 
