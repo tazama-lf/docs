@@ -7,16 +7,16 @@
 The sections below provide a brief overview of the Tazama system, with links to pages that contain more detailed information.
 
 - [Welcome to the Tazama Project!](#welcome-to-the-tazama-project)
-  - [1. What is Tazama?](#1-what-is-tazama)
-  - [2. Understanding Typologies and Rules](#2-understanding-typologies-and-rules)
-  - [3. Core Components](#3-core-components)
-    - [3.1. Transaction Monitoring Service API](#31-transaction-monitoring-service-api)
-    - [3.2. Event Director](#32-event-director)
-    - [3.3. Rule Processors](#33-rule-processors)
-    - [3.4. Typology Processor](#34-typology-processor)
-    - [3.5. Transaction Aggregation and Decisioning Processor (TADProc)](#35-transaction-aggregation-and-decisioning-processor-tadproc)
+- [1.  What is Tazama](#1--what-is-tazama)
+- [2. Understanding typologies and rules](#2-understanding-typologies-and-rules)
+- [3. Core components](#3-core-components)
+  - [3.1. Transaction Monitoring Service API](#31-transaction-monitoring-service-api)
+  - [3.2. Event Director](#32-event-director)
+  - [3.3. Rule Processors](#33-rule-processors)
+  - [3.4. Typology Processor](#34-typology-processor)
+  - [3.5. Transaction Aggregation and Decisioning Processor (TADProc)](#35-transaction-aggregation-and-decisioning-processor-tadproc)
 
-##  1. <a name='1-what-is-tazama'></a>What is Tazama?
+# 1.  What is Tazama
 
 Tazama is an Open Source Real-Time Transaction Monitoring System built to support any Financial Services Provider (FSP) that requires Transaction Monitoring for Fraud and Money Laundering detection. Whether that FSP is a small provider running one or 2 transactions per day or a national payment switch running at over 3,000 Transactions per second. With Tazama they can implement simple or complex rules, implement Fraud Detection controls or support Anti-Money Laundering activities.
 
@@ -32,7 +32,7 @@ In the following pages, we intend to give you a clear understanding of the Tazam
 
 <div style="text-align: right"><a href="#top">Top</a></div>
 
-##  2. <a name='2-understanding-typologies-and-rules'></a>Understanding Typologies and Rules
+# 2. Understanding typologies and rules
 
 To help detect any financial crime we have an extensive list of Typologies. A classic example of a typology is a Phishing Scam - where a susceptible individual is phoned by someone claiming to be legitimately chasing a payment from the individual. For example a tax collection bureau alleging someone has failed to pay taxes and there is now an urgent demand or risk of prison.
 
@@ -48,7 +48,7 @@ In the creation of a typology, it is worth highlighting that our phishing exampl
 
 <div style="text-align: right"><a href="#top">Top</a></div>
 
-##  3. <a name='3-core-components'></a>Core Components
+# 3. Core components
 The Tazama system has a number of key components that have been selected and architected to allow maximum flexibility, ensure data protection, and reduced operational costs for high performance at scale. They are the:
 
  - Transaction Monitoring Service (TMS) API
@@ -63,7 +63,7 @@ These components are summarized below and described in detail in their own respe
 
 <div style="text-align: right"><a href="#top">Top</a></div>
 
-###  3.1. <a name='31-transaction-monitoring-service-api'></a>Transaction Monitoring Service API
+## 3.1. Transaction Monitoring Service API
 
 The Transaction Monitoring Service (TMS) API is the point of interaction for the FSP. It has been designed to support ISO 20022 compliant transaction messages to give implementers the confidence that, as the world's payments and transfers embrace the ISO 20022 standard, the system is already designed to support them.
 
@@ -75,7 +75,7 @@ Further information on the role of the TMS API is available on the [Transaction 
 
 <div style="text-align: right"><a href="#top">Top</a></div>
 
-###  3.2. <a name='#32-event-director'></a>Event Director
+## 3.2. Event Director
 
 The Event Director is responsible for determining which typologies a transaction must be submitted to, for the transaction to be evaluated. As part of this process, the Event Director determines which rules must receive the transaction and then which typologies are to be scored. The Event Director routes the transaction to the individual rule processors.
 
@@ -85,7 +85,7 @@ Further information on the role of the Event Director is available on the [Event
 
 <div style="text-align: right"><a href="#top">Top</a></div>
 
-###  3.3. <a name='#33-rule-processors'></a>Rule Processors
+## 3.3. Rule Processors
 
 A rule processor is designed to address a singular scenario, but its output might be used by multiple typologies. For example a check on the age of the account, when the risk of having accepted a rogue actor as a customer is higher, will be used in more than one typology. This approach reduces the overall impact of combining a rule and typology into a singular function as each typology risks repeating the requests (in this example the age of the account) for the same transaction.
 
@@ -99,7 +99,7 @@ Further information on the role of the Rules Processor is available on the [Rule
 
 <div style="text-align: right"><a href="#top">Top</a></div>
 
-###  3.4. <a name='#34-typology-processor'></a>Typology Processor
+## 3.4. Typology Processor
 
 The typology processor is designed to aggregate and assess the outcomes from the all rules within the scope of a specific typology. The scope of a typology is defined in a typology configuration specific to each typology. The typology processor scores the combined effect of a typology’s rules to determine if the weighted aggregation of the rule outcomes has reached a predefined threshold for raising a fraud or money laundering alert. Each rule’s weighted contribution to the typology score, as well as the scoring predicate, or formula, is also defined in the typology configuration.
 
@@ -121,7 +121,7 @@ Further information on the role of the Typology Processor is available on the [T
 
 <div style="text-align: right"><a href="#top">Top</a></div>
 
-###  3.5. <a name='#35-transaction-aggregation-and-decisioning-processor-tadproc'></a>Transaction Aggregation and Decisioning Processor (TADProc)
+## 3.5. Transaction Aggregation and Decisioning Processor (TADProc)
 
 The final assessment step is to consolidate all the results from all the typologies and persist the results by writing the transaction evaluation results to the database. If any typologies are breached, the completed evaluation results can be routed to a Case Management System for investigation.
 
