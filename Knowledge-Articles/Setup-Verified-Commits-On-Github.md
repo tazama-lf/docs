@@ -2,7 +2,7 @@
 
 # Setup Verified Commits on Github
 
-These instruction guide is to walk you through the process of configuring git to sign commits with a generated key
+This instruction guide is to walk you through the process of configuring git to sign commits with a generated key.
 Maintaining the integrity and authenticity of code is important and one effective way to enhance this security is through verified commits using GPG (GNU Privacy Guard).
 
 Verified commits are particularly valuable for open-source projects and collaborations where multiple contributors are involved. By leveraging GPG, developers can cryptographically sign their commits, establishing a clear chain of trust and safeguarding against unauthorized changes.
@@ -80,7 +80,7 @@ For Windows users, the [Gpg4win](https://www.gpg4win.org/) integrates with other
 
 - Configure user to sign using the generated gpg key `git config user.signingkey gpg-key`
 
-- Declare key to be globally if you want to use the same key for every repository. `git config --global user.signingkey gpg-key`
+- Declare key to be global if you want to use the same key for every repository. `git config --global user.signingkey gpg-key`
 
 - Add the absolute path of gpg `git config --global gpg.program "C:\Program Files (x86)\GnuPG\bin\gpg.exe"`
 
