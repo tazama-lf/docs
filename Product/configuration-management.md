@@ -36,11 +36,6 @@
   - [3.1. Introduction and Basics](#31-introduction-and-basics)
   - [3.2. Configuration version management of processors](#32-configuration-version-management-of-processors)
   - [3.3. The Network Map](#33-the-network-map)
-- [References](#references)
-- [Ref 1](#ref-1)
-- [Ref 2](#ref-2)
-- [Ref 3](#ref-3)
-- [Ref 4](#ref-4)
 
 # TL;DR
 
@@ -60,7 +55,7 @@ Configuration documents can be uploaded to the system using the ArangoDB API dep
 
 [Top](#configuration-management)
 
-# 1\. Overview of the detection methodology
+# 1. Overview of the detection methodology
 
 The core detection capability within the system is distributed across three distinct steps in the end-to-end evaluation flow.
 
@@ -105,7 +100,7 @@ In this document, we will discuss how the various configuration documents are ex
 
 [Top](#configuration-management)
 
-# 2\. Configuration Management
+# 2. Configuration Management
 
 Configuration documents are essentially files that contain a processor-specific configuration object in JSON format. The recommended way to upload the configuration file to the appropriate configuration database (`networkMap` or `configuration`) and collection is via ArangoDB’s HTTP API that is deployed as standard during system deployment.
 
@@ -235,7 +230,9 @@ Each exit condition contains the same attributes:
 | **Attribute** | **Description** |
 | --- | --- |
 | `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br> By convention, the exit condition sub-rule references are prefaced with an 'x'. |
-| `reason` | The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. [Reason descriptions will be refined during future enhancements](#Ref 1) |
+| `reason` | The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. Reason descriptions will be refined during future enhancements[^1] |
+
+
 
 #### The `.err` exit condition
 
@@ -303,7 +300,7 @@ Each rule result band contains the same information:
 | `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br> We have elected to assign a numeric sequence to the sub-rule references for result bands, prefaced with a dot (“.”) separator, but this format is not mandatory for the sub-rule reference string. Any descriptive and unique string would be an acceptable sub-rule reference. |
 | `lowerLimit` | This attribute defines the lower limit of the band range and is evaluated inclusively (`>=`).<br><br> Where a lower limit is not provided, the rule processor will assume the intended target lower limit is -∞. Unless the very first result band in a configuration has a clear and unambiguous lower limit, it is often omitted. |
 | `upperLimit` | This attribute defines the upper limit of the band range and is evaluated exclusively (`<`).<br><br>Where an upper limit is not provided, the rule processor will assume the intended target upper limit is +∞. Unless the very last result band in a configuration has a clear and unambiguous upper limit, it is often omitted. |
-| `reason`| The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. [Reason descriptions will be refined during future enhancements](#Ref 1)|
+| `reason`| The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. Reason descriptions will be refined during future enhancements[^1]|
 
 One of the most frequent limit values in use in the system is based on time-frames. In the system, all time-frames and associated limits are represented in milliseconds. The following table reflects the conventional milliseconds for different time terms in our configurations:
 
@@ -356,7 +353,7 @@ Each rule result case contains the same information:
 | --- | --- |
 | `value` | This attribute defines the specific value that will be matched in the rule processor (`=`).<br><br>Every case contains a value, with the exception of the default “else” case.<br><br>Values can be either strings, encapsulated in quotes, or numbers, without quotes. |
 | `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br>We have elected to assign a numeric sequence to the sub-rule references for result cases, prefaced with a dot (“.”) separator, but this format is not mandatory for the sub-rule reference string. Any descriptive and unique string would be an acceptable sub-rule reference.<br><br>By convention, the default “else” outcome has a sub-rule reference of `.00`. |
-| `reason`| The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. [Reason descriptions will be refined during future enhancements](#Ref 1) |
+| `reason`| The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. Reason descriptions will be refined during future enhancements[^1] |
 
 ### Complete example of a rule processor configuration
 
@@ -670,9 +667,9 @@ The network map “header” contains metadata that describes the network map. T
 
 ### The messages object
 
-The `messages` object is an array that contains information about the transactions that the system is expected to evaluate. Each element in the `messages` object contains the following attributes [Ref 4](#ref-4):
+The `messages` object is an array that contains information about the transactions that the system is expected to evaluate. Each element in the `messages` object contains the following attributes[^4]:
 
-*   `id` is the unique identifier for the Transaction Aggregation and Decisioning Processor (TADProc) that will be used to ultimately conclude the evaluation of a specific transaction. It is possible for a transaction to be routed to a unique TADProc that contains specialized functionality related to summarizing the transaction’s results [Ref 3](#ref-3).
+*   `id` is the unique identifier for the Transaction Aggregation and Decisioning Processor (TADProc) that will be used to ultimately conclude the evaluation of a specific transaction. It is possible for a transaction to be routed to a unique TADProc that contains specialized functionality related to summarizing the transaction’s results[^3]
     
 *   `cfg` is the unique version of the deployed TADProc that will be used to conclude the evaluation of the transaction.
     
@@ -696,7 +693,7 @@ The `typologies` object is a nested array object inside the transaction element 
 
 The typology object array contains the following attributes:
 
-*   `id` is the unique identifier for the typology processor that will be invoked to aggregate the specified rule results into a typology. It is possible for a transaction to be routed to a unique typology processor[Ref 3](#ref-3) that contains specialized functionality related to calculating the specific typology.
+*   `id` is the unique identifier for the typology processor that will be invoked to aggregate the specified rule results into a typology. It is possible for a transaction to be routed to a unique typology processor[^3] that contains specialized functionality related to calculating the specific typology.
     
 *   `cfg` defines the unique typology and the version of its configuration. The typology processor is effectively just a generic engine that processes the typology’s configuration to combine rules into a typology in a specific way. From a certain perspective, the typology configuration *is* the typology.
     
@@ -794,7 +791,7 @@ Once a configuration document has been created or updated and uploaded to the co
 
 The network map defines the routing of an incoming transaction to all rules and typologies that are required to evaluate the transaction. By default, the system is configured to evaluate a pacs.002 transaction that concludes a transaction initiated from a pain.001 or pacs.008 message with a status response.
 
-Unlike the processor configuration documents, the network map does not contain an explicit configuration version [Ref 2](#ref-2). Instead, the network map contains an attribute to identify the current active network map being used to perform evaluations:
+Unlike the processor configuration documents, the network map does not contain an explicit configuration version[^2]. Instead, the network map contains an attribute to identify the current active network map being used to perform evaluations:
 
 ```
 "active": true
@@ -814,19 +811,13 @@ The active network map ultimately defines the scope of a particular evaluation, 
 
 [Top](#configuration-management)
 
-# References
-
-# Ref 1
-We have found during our performance testing that the text-based descriptions in our processor results undermines the performance gains we achieved with our ProtoBuff implementation. We will be removing the unabridged reason and processor descriptions from the configuration documents in favor of shorter look-up codes that will then also be used to introduce regionalized/language-specific descriptions.
+[^1]: We have found during our performance testing that the text-based descriptions in our processor results undermines the performance gains we achieved with our ProtoBuff implementation. We will be removing the unabridged reason and processor descriptions from the configuration documents in favor of shorter look-up codes that will then also be used to introduce regionalized/language-specific descriptions.
    
    
-# Ref 2 
-An explicit version reference has been planned for development to make it easier for an operator to link an evaluation result to the specific originating network map.
+[^2]: An explicit version reference has been planned for development to make it easier for an operator to link an evaluation result to the specific originating network map.
     
 
     
-# Ref 3
-In its default deployment, the system contains a single version of the “core” system processors (the typology processor and TADProc) at a time. Though it is possible to deploy and maintain multiple parallel versions of these processors and manage routing to these processors through the network map, this guide will only focus on singular core processors for now.
+[^3]: In its default deployment, the system contains a single version of the “core” system processors (the typology processor and TADProc) at a time. Though it is possible to deploy and maintain multiple parallel versions of these processors and manage routing to these processors through the network map, this guide will only focus on singular core processors for now.
     
-# Ref 4
-Before our implementation of NATS, Tazama processors were implemented as RESTful microservices. The `host` attributes in the network map contained the URL where the processors could be addressed. With our initial implementation of NATS, the routing information was moved into environment variables that were read into the processors when they were deployed, or restarted in the event of a processor failure. We have now removed the need to specify the host property for a processor - the routing is automatically determined from the network map at processor startup - see [https://github.com/frmscoe/General-Issues/issues/310](https://github.com/frmscoe/General-Issues/issues/310) for details.
+[^4]: Before our implementation of NATS, Tazama processors were implemented as RESTful microservices. The `host` attributes in the network map contained the URL where the processors could be addressed. With our initial implementation of NATS, the routing information was moved into environment variables that were read into the processors when they were deployed, or restarted in the event of a processor failure. We have now removed the need to specify the host property for a processor - the routing is automatically determined from the network map at processor startup - see [https://github.com/frmscoe/General-Issues/issues/310](https://github.com/frmscoe/General-Issues/issues/310) for details.
