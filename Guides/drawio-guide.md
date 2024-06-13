@@ -9,7 +9,7 @@
 
 This guide will take you through the steps to embed a Draw.io diagram into a markdown file.
 
-For the purposes of this guide, I am using a folder \\\GitHub\docs which you can copy by cloning the `docs` repository to a github folder in your local environment
+For the purposes of this guide, I am using a folder \\\GitHub\docs which you can copy by cloning the `docs` repository to a GitHub folder in your local environment
 
 ![draw.io clone docs repo](../images/draw.io-clone-docs-repo.png). 
 
