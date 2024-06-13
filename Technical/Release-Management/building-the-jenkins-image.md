@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 To install and push the provided script to a container registry, follow these steps. This guide assumes you have Docker installed on your desktop and have access to a container registry where you can push images.
 
 ## 1. Preparing Your Environment
