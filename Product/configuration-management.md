@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # Configuration management
  [TL;DR](#tldr)
 - [Configuration management](#configuration-management)
@@ -42,13 +44,13 @@
 
 # TL;DR
 
-System configuration is managed through a number of configuration files, each containing a JSON document that configures a specific processor type (CRSP, rules and typologies) and specific processor instance identified by a processor identifier (id@version) and a configuration version.
+System configuration is managed through a number of configuration files, each containing a JSON document that configures a specific processor type (Event director, rules and typologies) and specific processor instance identified by a processor identifier (id@version) and a configuration version.
 
 Changes to a rule processor’s behavior can be made by changing the parameters or rearranging the result bands (or cases).
 
 Changes to the typology processor’s behavior for a specific typology can be made by changing the thresholds for interdiction or alerting or by changing the weighting of the rule results from the rule processors that contribute to the typology score.
 
-Changes to the network map that is used in the CRSP for routing can add/remove rules to typologies, add/remove typologies from the channel and transaction type, and change the version of a configuration file that is used to calculate a rule or typology result.
+Changes to the network map that is used in the Event Director for routing can add/remove rules to typologies and change the version of a configuration file that is used to calculate a rule or typology result.
 
 In a production environment, configurations should never be over-written and new versions of configurations should be issued to supersede older versions. A new network map must then be issued to implement the updated configuration.
 
@@ -64,11 +66,11 @@ The core detection capability within the system is distributed across three dist
 
 ![Tazama context end to end](../images/tazama-context-end-to-end.png)
 
-Once data is ingested into the transaction history by the TMS API, the Channel Router and Setup Processor (CRSP) performs an initial “triage” step to determine if the transaction should be inspected by the system, and in what way. At the moment this is a very simple decision based on the transaction type only (i.e. pain.001, pain.013, pacs.008 and pacs.002), though we envisage that the decision-making here can be more complex in the future by inspecting attributes contained in the message. For now, the CRSP uses the transaction type to select the typologies that are to be evaluated and triggers the rules required by the typologies. The default configuration of the system only evaluates the pacs.002 as the trigger payload for the rule processors and typologies. The CRSP routing is configured via a network map that defines the hierarchy of typologies and rules. While not directly influenced by a calibration process at present, the behavior of existing rules and typologies may result in changes to the scope of the evaluation defined in the network map. Some rules or typologies may be deemed to be ineffective in the current configuration and removed or recomposed, and new rules or typologies may be added as new behaviors emerge.
+Once data is ingested into the transaction history by the TMS API, the Event Director performs an initial “triage” step to determine if the transaction should be inspected by the system, and in what way. At the moment this is a very simple decision based on the transaction type only (i.e. pain.001, pain.013, pacs.008 and pacs.002), though we envisage that the decision-making here can be more complex in the future by inspecting attributes contained in the message. For now, the ED uses the transaction type to select the typologies that are to be evaluated and triggers the rules required by the typologies. The default configuration of the system only evaluates the pacs.002 as the trigger payload for the rule processors and typologies. The ED routing is configured via a network map that defines the hierarchy of typologies and rules. While not directly influenced by a calibration process at present, the behavior of existing rules and typologies may result in changes to the scope of the evaluation defined in the network map. Some rules or typologies may be deemed to be ineffective in the current configuration and removed or recomposed, and new rules or typologies may be added as new behaviors emerge.
 
 ![Tazama rule and typology plane](../images/tazama-rule-and-typology-plane.png)
 
-Each rule processor that receives the trigger payload from the CRSP evaluates the transaction and the historical behavior of its participants according to its specification and configuration. Rule processors are driven by a combination of parameters and result specifications to determine only one of a number of related outcomes. The rule outcome is then submitted to the typology processor for scoring.
+Each rule processor that receives the trigger payload from the  Event Director evaluates the transaction and the historical behavior of its participants according to its specification and configuration. Rule processors are driven by a combination of parameters and result specifications to determine only one of a number of related outcomes. The rule outcome is then submitted to the typology processor for scoring.
 
 The typology processor assigns a weighting to each rule outcome as it is received based on the rule’s parent typologies’ configurations. Once all the rule results for a specific typology has been received, the typology adds all the weighted scores together into the typology score. The typology score can be evaluated against an “interdiction” threshold to determine if the client system should be instructed to block a transaction “in flight” and also an investigation threshold to trigger a review process at the end of the transaction evaluation. The typology processor is not currently configured to interdict the transaction when the threshold is breached; only investigations are commissioned once the evaluation of all the typologies are complete.
 
@@ -80,7 +82,7 @@ The evaluation process accommodates a number of different calibration levers tha
 
 ![Tazama core components and config](../images/tazama-core-components-config.drawio.svg)
 
-In the CRSP:
+In the Event Director:
 
 *   Changes to the rule and typology scope of the evaluation (**a** - *network map*)
     
@@ -105,9 +107,9 @@ In this document, we will discuss how the various configuration documents are ex
 
 # 2\. Configuration Management
 
-Configuration documents are essentially files that contain a processor-specific configuration object in JSON format. The recommended way to upload the configuration file to the appropriate configuration database (`networkMap` or `configuration`) and collection is via Arango DB’s HTTP API that is deployed as standard during system deployment.
+Configuration documents are essentially files that contain a processor-specific configuration object in JSON format. The recommended way to upload the configuration file to the appropriate configuration database (`networkMap` or `configuration`) and collection is via ArangoDB’s HTTP API that is deployed as standard during system deployment.
 
-The system processes configurations in a specific order to evaluate an incoming transaction. Starting with the Channel Router & Setup Processor (CRSP) that interprets the network map for routing, then following with the rule processors that interpret their individual rule configurations to determine how to evaluate the transaction, and then concluding with the typology processor that uses a variety of typology configurations to summarize rule results into typologies (fraud or money laundering scenarios).
+The system processes configurations in a specific order to evaluate an incoming transaction. Starting with the Event Director that interprets the network map for routing, then following with the rule processors that interpret their individual rule configurations to determine how to evaluate the transaction, and then concluding with the typology processor that uses a variety of typology configurations to summarize rule results into typologies (fraud or money laundering scenarios).
 
 ![Tazama config rule processor](../images/tazama-config-rule-processor.drawio.svg)
 
@@ -216,18 +218,16 @@ Example of the `exitConditions` object:
 
 ```
   "config": {
-    "exitConditions": \[
+    "exitConditions": [
       {
         "subRuleRef": ".x00",
-        "outcome": false,
         "reason": "Unsuccessful transaction"
       },
       {
         "subRuleRef": ".x01",
-        "outcome": false,
         "reason": "Insufficient transaction history"
       }
-    \]
+    ]
 ```
 
 Each exit condition contains the same attributes:
@@ -235,7 +235,6 @@ Each exit condition contains the same attributes:
 | **Attribute** | **Description** |
 | --- | --- |
 | `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br> By convention, the exit condition sub-rule references are prefaced with an 'x'. |
-| `outcome` | The configuration file defines whether the result delivered by the rule processor is flagged as either `true` or `false`. The flag is somewhat arbitrary, but by convention we choose to assign a `true` flag to deterministic results that will have a weighting impact on the typology score, and we assign a `false` flag to non-deterministic results that will not have a weighting impact on the typology score.<br><br> Exit conditions are usually non-deterministic. |
 | `reason` | The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. [Reason descriptions will be refined during future enhancements](#Ref 1) |
 
 #### The `.err` exit condition
@@ -276,27 +275,24 @@ The rule result bands are specified in the `config` object in the rule configura
 
 ```
 "config": {
-  "bands": \[
+  "bands": [
     {
       "subRuleRef": ".01",
       "upperLimit": 86400000,
-      "outcome": true,
       "reason": "Account is less than 1 day old"
     },
     {
       "subRuleRef": ".02",
       "lowerLimit": 86400000,
       "upperLimit": 2592000000,
-      "outcome": true,
       "reason": "Account is between 1 and 30 days old"
     },
     {
       "subRuleRef": ".03",
       "lowerLimit": 2592000000,
-      "outcome": true,
       "reason": "Account is more than 30 days old"
     }
-  \]
+  ]
 }
 ```
 
@@ -307,7 +303,6 @@ Each rule result band contains the same information:
 | `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br> We have elected to assign a numeric sequence to the sub-rule references for result bands, prefaced with a dot (“.”) separator, but this format is not mandatory for the sub-rule reference string. Any descriptive and unique string would be an acceptable sub-rule reference. |
 | `lowerLimit` | This attribute defines the lower limit of the band range and is evaluated inclusively (`>=`).<br><br> Where a lower limit is not provided, the rule processor will assume the intended target lower limit is -∞. Unless the very first result band in a configuration has a clear and unambiguous lower limit, it is often omitted. |
 | `upperLimit` | This attribute defines the upper limit of the band range and is evaluated exclusively (`<`).<br><br>Where an upper limit is not provided, the rule processor will assume the intended target upper limit is +∞. Unless the very last result band in a configuration has a clear and unambiguous upper limit, it is often omitted. |
-| `outcome` | The configuration file defines whether the result delivered by the rule processor is flagged as either `true` or `false`. The flag is somewhat arbitrary, but by convention we choose to assign a `true` flag to deterministic results that will have a weighting impact on the typology score and we assign a `false` flag to non-deterministic results that will not have a weighting impact on the typology score. |
 | `reason`| The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. [Reason descriptions will be refined during future enhancements](#Ref 1)|
 
 One of the most frequent limit values in use in the system is based on time-frames. In the system, all time-frames and associated limits are represented in milliseconds. The following table reflects the conventional milliseconds for different time terms in our configurations:
@@ -336,25 +331,22 @@ The rule result cases are specified in the `config` object in the rule configura
 
 ```
 "config": {
-  "cases": \[
+  "cases": [
     {
       "subRuleRef": ".00",
-      "outcome": false,
       "reason": "Value found is non-deterministic"
     },
     {
       "value": "P2B",
       "subRuleRef": ".01",
-      "outcome": true,
       "reason": "The transaction is a merchant payment"
     },
     {
       "value": "P2P",
       "subRuleRef": ".02",
-      "outcome": true,
       "reason": "The transaction is a peer-to-peer transfer"
     }
-  \]
+  ]
 }
 ```
 
@@ -364,7 +356,6 @@ Each rule result case contains the same information:
 | --- | --- |
 | `value` | This attribute defines the specific value that will be matched in the rule processor (`=`).<br><br>Every case contains a value, with the exception of the default “else” case.<br><br>Values can be either strings, encapsulated in quotes, or numbers, without quotes. |
 | `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br>We have elected to assign a numeric sequence to the sub-rule references for result cases, prefaced with a dot (“.”) separator, but this format is not mandatory for the sub-rule reference string. Any descriptive and unique string would be an acceptable sub-rule reference.<br><br>By convention, the default “else” outcome has a sub-rule reference of `.00`. |
-| `outcome` | The configuration file defines whether the result delivered by the rule processor is flagged as either `true` or `false`. The flag is somewhat arbitrary, but by convention we choose to assign a `true` flag to deterministic results that will have a weighting impact on the typology score and we assign a `false` flag to non-deterministic results that will not have a weighting impact on the typology score. |
 | `reason`| The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. [Reason descriptions will be refined during future enhancements](#Ref 1) |
 
 ### Complete example of a rule processor configuration
@@ -435,8 +426,8 @@ Each rule result element in the rules array contains the same attributes:
 | `id` | The rule processor that was used to determine the rule result is uniquely identified by this identifier attribute. |
 | `cfg` | The configuration version attribute specifies the unique version of the rule configuration that was used by the processor to determine this result. |
 | `ref` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each unique outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others.<br><br>The unique combination of `id`, `cfg` and `ref` attributes references a unique outcome from each rule processor and allows the typology processor to apply a unique weighting to that specific outcome. |
-| `true` | The outcome of the rule result will be either true or false, depending if the configurer expected the result to deterministic or not. If the outcome is true, the rule result will be assigned the weighting associated with the `true` attribute in the configuration. By convention, deterministic (true) outcomes are assigned a positive number as a weighting. |
-| `false` | The outcome of the rule result will be either true or false, depending if the configurer expected the result to deterministic or not. If the outcome is false, the rule result will be assigned the weighting associated with the `false` attribute in the configuration. By convention, deterministic (false) outcomes are usually assigned a weighting of 0 (zero). |
+| `wght` | The outcome of the rule result will be assigned a weighting according to the sub-rule reference |
+
 
 **What does “every possible outcome” mean?**
 
@@ -454,71 +445,62 @@ The rule processor must produce one of these results (identified by the result�
 Because the `rules` object contains every possible rule result outcome from each of the rule processors allocated to the typology, the typology configuration can become quite verbose, but here’s a short example of a rules object for a typology that contains two rules:
 
 ```
-"rules": \[
+"rules": [
   {
     "id": "001@1.0.0",
     "cfg": "1.0.0",
     "ref": ".err",
-    "true": 0,
-    "false": 0
+    "Wght": 0
   },
   {
     "id": "001@1.0.0",
     "cfg": "1.0.0",
     "ref": ".x01",
-    "true": 100,
-    "false": 0
+    "wght": 100
   },
   {
     "id": "001@1.0.0",
     "cfg": "1.0.0",
     "ref": ".01",
-    "true": 200,
-    "false": 0
+    "wght": 200
   },
   {
     "id": "001@1.0.0",
     "cfg": "1.0.0",
     "ref": ".02",
-    "true": 100,
-    "false": 0
+    "wght": 100
   },
   {
     "id": "002@1.0.0",
     "cfg": "1.0.0",
     "ref": ".err",
-    "true": 0,
-    "false": 0
+    "wght": 0
   },
   {
     "id": "002@1.0.0",
     "cfg": "1.0.0",
     "ref": ".x01",
-    "true": 100,
-    "false": 0
+    "wght": 100
   },
   {
     "id": "002@1.0.0",
     "cfg": "1.0.0",
     "ref": ".x02",
-    "true": 100,
-    "false": 0
+    "wght": 100
   },
   {
     "id": "002@1.0.0",
     "cfg": "1.0.0",
     "ref": ".01",
-    "true": 100,
-    "false": 0
+    "wght": 100
   },
   {
     "id": "002@1.0.0",
     "cfg": "1.0.0",
     "ref": ".02",
-    "true": 200,
-    "false": 0
+    "wght": 200
   }
-\]
+]
 ```
 
 ### The expression object
@@ -527,14 +509,14 @@ The expression object in the typology processor defines the formula that is used
 
 In its most basic implementation, the expression is merely a sum of all the weighted rule results. This also means that every deterministic rule listed in the `rules` array object in the typology configuration must be represented in the expression as a term, otherwise the rule weighting will not be taken into account during the score calculation.
 
-The `expression` object contains the operators and terms that make up the typology scoring formula. Operators and their associated terms are defined as a series of nested objects in the JSON structure. For example, if wanted to add two terms, a and b, I would start the expression with the operator and then nest the terms beneath it, as follows:
+The `expression` object contains the operators and terms that make up the typology scoring formula. Operators and their associated terms are defined as a series of nested objects in the JSON structure. For example, if we wanted to add two terms, a and b, I would start the expression with the operator and then nest the terms beneath it, as follows:
 
 `a + b`
 
 ```
 "expression": {
   "operator": "+",
-  "terms": \["a", "b"\]
+  "terms": ["a", "b"]
 }
 ```
 
@@ -554,10 +536,10 @@ If, for example, we wanted to apply an additional multiplier to the formula e.g.
 ```
 "expression": {
   "operator": "\*",
-  "terms": \["c",
+  "terms": ["c",
     "operator":"+",
-    "terms": \["a", "b"\]
-  \]
+    "terms": ["a", "b"]
+  ]
 }
 ```
 
@@ -566,7 +548,7 @@ For example, a complete expression for a typology that relies on 4 rule results 
 ```
 "expression": {
   "operator": "+",
-  "terms": \[
+  "terms": [
     {
       "id": "001@1.0.0",
       "cfg": "1.0.0"
@@ -583,7 +565,7 @@ For example, a complete expression for a typology that relies on 4 rule results 
       "id": "004@1.0.0",
       "cfg": "1.0.0"
     },    
-  \]
+  ]
 }
 ```
 
@@ -599,9 +581,9 @@ or simply:
 
 The workflow object determines the thresholds according to which the typology processor will decide if an action is necessary in response to the typology score. A typology can be configured with two separate thresholds:
 
-**Alert (**`alertThreshold`): this threshold will only alert an investigator if the threshold was breached, but will not force the typology processor to take any other direct action
+**Alert** (`alertThreshold`): this threshold will only alert an investigator if the threshold was breached, but will not force the typology processor to take any other direct action
 
-**Interdiction (**`interdictionThreshold`): if breached, this threshold will force the typology processor to issue a message to the client system to block the transaction. This action will also force an alert to an investigator at the end of the evaluation process.
+**Interdiction** (`interdictionThreshold`): if breached, this threshold will force the typology processor to issue a message to the client system to block the transaction. This action will also force an alert to an investigator at the end of the evaluation process.
 
 A threshold breach occurs when the calculated typology score is greater or equal to the threshold (`>=`).
 
@@ -647,16 +629,13 @@ The network map contains the following information:
 
 *   Network map metadata
     
-*   A `messages` array object that transactions, containing
+*   A `messages` array object containing
     
-    *   an array of `channels`, containing
-        
-        *   an array of `typologies`, containing
-            
-            *   an array of `rules`
-                
+    *  an array of `typologies`, containing
+        *    an array of `rules`
+                            
 
-The network map allows the Channel Router and Setup Processor (CRSP) to:
+The network map allows the Event Director to:
 
 1.  Identify whether the incoming transaction type should be routed for evaluation (undefined types are not routed at all)
     
@@ -669,11 +648,11 @@ The network map allows the Channel Router and Setup Processor (CRSP) to:
 
 The network map defines the route in a hierarchy following the order:
 
-**transactions -> channels -> typologies -> rules**
+**transactions -> typologies -> rules**
 
 and the evaluation is executed along the defined route in reverse order:
 
-**rules -> typologies -> channels -> transaction**.
+**rules -> typologies -> transaction**.
 
 ### Network map metadata
 
@@ -697,36 +676,21 @@ The `messages` object is an array that contains information about the transactio
     
 *   `cfg` is the unique version of the deployed TADProc that will be used to conclude the evaluation of the transaction.
     
-*   `txTp` defines the transaction type for which the message element is intended. The `txTp` value here must match a corresponding `TxTp` attribute in the root of the incoming message. If no matching `txTp` attribute is found in the network map, the transaction will not be routed for evaluation and will simply be ignored by the CRSP.
+*   `txTp` defines the transaction type for which the message element is intended. The `txTp` value here must match a corresponding `TxTp` attribute in the root of the incoming message. If no matching `txTp` attribute is found in the network map, the transaction will not be routed for evaluation and will simply be ignored by the Event Director.
     
-*   `channels` defines the next layer of evaluation destinations along the route laid out by the network map for the evaluation.
     
 ```
-  "messages": \[
+  "messages": [
     {
       "id": "004@1.0.0",
       "cfg": "1.0.0",
       "txTp": "pacs.002.001.12",
-      "channels": \[
+      "typologies": [     
 ```
 
 ### The channels object
 
-The `channels` object is a nested array object inside the transaction element in the `messages` array object. The `channels` array defines the channels within which the typologies are distributed. The channel object contains `id` and `cfg` attributes to differentiate between multiple channels. The system is deployed by default to only contain a single channel, so the values are typically:
-
-```
- "id": "001@1.0.0",
- "cfg": "1.0.0"
-```
-
-Most importantly, the `channels` array contains a `typologies` object array that specifies all the typologies that are collected in the specific channel.
-
-```
-{
-      "id": "001@1.0.0",
-      "cfg": "1.0.0",
-      "typologies": \[
-```
+The `typologies` object is a nested array object inside the transaction element in the `messages` array object. 
 
 ### The typology object
 
@@ -740,10 +704,10 @@ The typology object array contains the following attributes:
     
 
 ```
-            {
-              "id": "typology-processor@1.0.0",
-              "cfg": "001@1.0.0",
-              "rules": \[
+         {
+          "id": "typology-processor@1.0.0",
+          "cfg": "001@1.0.0",
+          "rules": [
 ```
 
 ### The rules object
@@ -756,7 +720,7 @@ The rules object array contains the following attributes:
     
 
 ```
-              "rules": \[
+              "rules": [
                 {
                   "id": "002@1.0.0",
                   "cfg": "1.0.0"
@@ -836,11 +800,11 @@ Unlike the processor configuration documents, the network map does not contain a
 "active": true
 ```
 
-The network map that is used to perform a particular evaluation is dynamically determined in the Channel Router and Setup Processor and is always encapsulated in the payload that is evaluated by all downstream processors. The processor uses the network map to retrieve the correct configuration and also accompanies the results of the evaluation so that the network map that was used for the evaluation is always explicitly traceable.
+The network map that is used to perform a particular evaluation is dynamically determined in the Event Director and is always encapsulated in the payload that is evaluated by all downstream processors. The processor uses the network map to retrieve the correct configuration and also accompanies the results of the evaluation so that the network map that was used for the evaluation is always explicitly traceable.
 
 There can only be one network map in an “active” state in the system at a time. A new network map can be posted to the network map database via the ArangoDB API. An existing network map’s “active” state can also be changed via the API.
 
-As with other configuration documents, a network map is never intended to be updated. A new iteration (or version) of the network map must be uploaded and then the existing active network map must be deactivated and the new network map must be activated.
+As with other configuration documents, a network map is never intended to be updated. A new iteration (or version) of the network map must be uploaded and then the existing active network map must be deactivated, and the new network map must be activated.
 
 The unique “true” state of the active flag is expected to be enforced outside the system. Sybrin have also embedded this functionality in their configuration management utility.
 

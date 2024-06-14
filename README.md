@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 ![Tazama](/images/Tazama-logo-banner.png)
 
 # <a name='top'></a>Welcome to the Tazama Project!
@@ -9,7 +11,7 @@ The sections below provide a brief overview of the Tazama system, with links to 
   - [2. Understanding Typologies and Rules](#2-understanding-typologies-and-rules)
   - [3. Core Components](#3-core-components)
     - [3.1. Transaction Monitoring Service API](#31-transaction-monitoring-service-api)
-    - [3.2. Channel Router and Setup Processor (CRSP)](#32-channel-router-and-setup-processor-crsp)
+    - [3.2. Event Director](#32-event-director)
     - [3.3. Rule Processors](#33-rule-processors)
     - [3.4. Typology Processor](#34-typology-processor)
     - [3.5. Transaction Aggregation and Decisioning Processor (TADProc)](#35-transaction-aggregation-and-decisioning-processor-tadproc)
@@ -22,9 +24,9 @@ Tazama is an Open Source Real-Time Transaction Monitoring System built to suppor
 
 Tazama is designed to ingest transaction data in real-time through its Transaction Monitoring Service API. Data can be received from multiple participants in a financial ecosystem, including customer-facing Financial Service Providers such as banks, remitters or mobile money operators, and also the intermediaries involved in facilitates transfers and payments across the ecosystem, such as clearing houses or payment switches. The Tazama API is designed to be ISO20022 compliant, but non-ISO20022 systems can still communicate with the system via a Payment Platform Adapter (PPA) that will transform message traffic into an ISO20022 equivalent.
 
-Ingested transactions are stored in the Tazama database from where it will be used to support real-time modelling of participant behaviour through a number of rule processors that will evaluate the transaction and its participants to look for suspicious behaviour. Rule results will be summarized into fraud and money-laundering scenarios, called typologies.
+Ingested transactions are stored in the Tazama database from where it will be used to support real-time modelling of participant behavior through a number of rule processors that will evaluate the transaction and its participants to look for suspicious behavior. Rule results will be summarized into fraud and money-laundering scenarios, called typologies.
 
-If the rules and typologies show sufficient evidence of suspicious behaviour, an investigation alert will be issued to an external case management system and in extreme cases, the transaction can also be blocked to prevent the transfer of funds.
+If the rules and typologies show sufficient evidence of suspicious behavior, an investigation alert will be issued to an external case management system and in extreme cases, the transaction can also be blocked to prevent the transfer of funds.
 
 In the following pages, we intend to give you a clear understanding of the Tazama Transaction Monitoring System, and how all the components of the system work together to detect fraud and money laundering.
 
@@ -50,7 +52,7 @@ In the creation of a typology, it is worth highlighting that our phishing exampl
 The Tazama system has a number of key components that have been selected and architected to allow maximum flexibility, ensure data protection, and reduced operational costs for high performance at scale. They are the:
 
  - Transaction Monitoring Service (TMS) API
- - Channel Router and Setup Processor (CRSP)
+ - Event Director
  - Rules Processor
  - Typology Processor
  - Transaction Aggregator and Decision Processor (TADProc)
@@ -67,19 +69,19 @@ The Transaction Monitoring Service (TMS) API is the point of interaction for the
 
 Submitted message contents are validated to ensure that only valid messages are processed. Once the message is cleared, the messages are ingested into the historical data stores through the Data Preparation steps.
 
-The message history is saved and the various transaction network graphs are updated before the transaction is sent on to the Channel Router and Setup Processor (CRSP) to commence the transaction evaluation.
+The message history is saved and the various transaction network graphs are updated before the transaction is sent on to the Event Director to commence the transaction evaluation.
 
 Further information on the role of the TMS API is available on the [Transaction Monitoring Service API](/Product/transaction-monitoring-service-api.md) page.
 
 <div style="text-align: right"><a href="#top">Top</a></div>
 
-###  3.2. <a name='#32-channel-router-and-setup-processor-crsp'></a>Channel Router and Setup Processor (CRSP)
+###  3.2. <a name='#32-event-director'></a>Event Director
 
-The Channel Router & Setup Processor (CRSP) is responsible for determining which typologies a transaction must be submitted to, for the transaction to be evaluated. As part of this process, the CRSP determines which rules must receive the transaction and then which typologies are to be scored. The CRSP routes the transaction to the individual rule processors.
+The Event Director is responsible for determining which typologies a transaction must be submitted to, for the transaction to be evaluated. As part of this process, the Event Director determines which rules must receive the transaction and then which typologies are to be scored. The Event Director routes the transaction to the individual rule processors.
 
-Transaction routing is configurable through a network map that is interpreted in the Channel Router and Setup Processor to invoke rules and typologies. Rules and typologies can be updated, or new versions added to the system, through configuration by only making changes to the network map.
+Transaction routing is configurable through a network map that is interpreted in the Event Director to invoke rules and typologies. Rules and typologies can be updated, or new versions added to the system, through configuration by only making changes to the network map.
 
-Further information on the role of the Channel Router and Setup Processor (CRSP) is available on the [Channel Router and Setup Processor (CRSP)](/Product/channel-router-and-setup-processor.md) page.
+Further information on the role of the Event Director is available on the [Event Director](/Product/event-director.md) page.
 
 <div style="text-align: right"><a href="#top">Top</a></div>
 
@@ -89,7 +91,7 @@ A rule processor is designed to address a singular scenario, but its output migh
 
 A rule can be used to assess more than one outcome, such as age bands if needed, as the same source data is used as the only variable in the calculation.
 
-Rule processors are templated so that logging, data input, determined outcomes, data output and telemetry are consistently applied by all rule processors. It is just the specific rule’s logic, including the queries that retrieve transaction history according to the rule requirements, that changes between rules. Rules must be developed individually, but the parameters used in the calculation of a rule and its outcomes are contained in a configuration file. The rule behaviour can be configured independent of the rule code, reducing the operational burden for modifying a rule to a mere configuration process.
+Rule processors are templated so that logging, data input, determined outcomes, data output and telemetry are consistently applied by all rule processors. It is just the specific rule’s logic, including the queries that retrieve transaction history according to the rule requirements, that changes between rules. Rules must be developed individually, but the parameters used in the calculation of a rule and its outcomes are contained in a configuration file. The rule behavior can be configured independent of the rule code, reducing the operational burden for modifying a rule to a mere configuration process.
 
 Once the rule has completed its evaluation, the output is forwarded to the Typology Processor.
 
@@ -107,9 +109,9 @@ Returning to our earlier example of a phishing scam where rules are implemented 
  - Value of transaction
  - Previous relationship with recipient
 
-With the output from these rules an assessment is made to determine if there is sufficient evidence of the FSP customer falling victim to a phishing scam. The explicit identification of the contributing rules will later be able to assist a Financial Crime Analyst in investigating suspicious behaviour, but also in the reduction of unnecessary investigations.
+With the output from these rules an assessment is made to determine if there is sufficient evidence of the FSP customer falling victim to a phishing scam. The explicit identification of the contributing rules will later be able to assist a Financial Crime Analyst in investigating suspicious behavior, but also in the reduction of unnecessary investigations.
 
-If a suspicious transaction is identified, there are a number of actions that can be considered. If the accumulated evidence of suspicious behaviour in the transaction is considered:
+If a suspicious transaction is identified, there are a number of actions that can be considered. If the accumulated evidence of suspicious behavior in the transaction is considered:
 
  - **High** - the transaction can be interdicted (blocked) immediately, with an alert sent to the FSP transacting and/or case management systems;
  - **Moderate** - an investigation alert to a case management systems can be created once the evaluation of all the typologies are complete;

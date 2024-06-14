@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 - [Introduction](#introduction)
 - [Pre-requisites:](#pre-requisites)
 - [Installation steps](#installation-steps)
@@ -245,8 +247,8 @@ docker compose up -d tms crsp tp tadp
 This command will install:
 
  - The Transaction Monitoring Service API at <https://localhost:5000>, where messages will be sent for evaluation
- - The Channel Router and Setup Processor that will handle message routing based on the network map
- - The Typology Processor that will summarise rule results into scenarios according to invidual typology configurations
+ - The Event Director that will handle message routing based on the network map
+ - The Typology Processor that will summarize rule results into scenarios according to individual typology configurations
  - The Transaction Aggregation and Decisioning Processor that will wrap up the evaluation of a transaction and publish any alerts for breached typologies
 
 You can test that the TMS API was successfully deployed with the following command from the Command Prompt:

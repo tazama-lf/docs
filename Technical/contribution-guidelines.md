@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 ![under construction](/images/construction.gif)
 
 In the meantime, you can view this content on Confluence:

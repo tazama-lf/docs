@@ -1,0 +1,37 @@
+# SPDX-License-Identifier: Apache-2.0
+
+# Please do not attempt to edit this flow without the direct consent from the Tazama team. This file is managed centrally.
+
+# This workflow should only be run when while on the main branch
+# Create a tag locally using "git tag vx.x.x" supposed to match latest version in changelog.md
+# Then push the release tag created above by running "git push origin vx.x.x"
+# The tag will be set on the release page on github with changes made
+
+name: Create a New Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Release pushed tag
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref_name }}
+        run: |
+          gh release create "$tag" \
+              --repo="$GITHUB_REPOSITORY" \
+              --title="${tag#v}" \
+              --generate-notes
+
+# Usage (while on main branch)
+# git tag v1.0.0
+# git push origin v1.0.0
