@@ -7,7 +7,7 @@
 # Then push the release tag created above by running "git push origin vx.x.x"
 # The tag will be set on the release page on github with changes made
 
-name: Createa a New Release
+name: Create a New Release
 
 on:
   push:
