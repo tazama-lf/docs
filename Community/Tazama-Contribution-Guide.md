@@ -484,7 +484,7 @@ Best practices for making changes.
 
 **Code Documentation** – Electronic documentation has been auto-generated (where available) and has been checked for correctness. Also have sufficient code comments. [Developer] + [PR Approver]
 
-**Licensing comment** Add the following string as a comment at the top of every file in the FRMS organisation in GitHub that is capable of including a comment  " SPDX-License-Identifier: Apache-2.0"
+**Licensing comment** Add the following string as a comment ("SPDX-License-Identifier: Apache-2.0") at the top of every file in the organisation in GitHub that is capable of including a comment i.e. extensions="ts" "js" "env" "template" "eslintignore" "yaml" "properties" "npmrc" "editorconfig" "dockerignore" "gitignore" "prettierignore" "md" "helmignore" "Makefile" "sh" "npmignore" "plantuml" "yml" 
 
 **\*Release Notes / Version Control** - TODO Aaron - figure out what greater ML does - check this
 
