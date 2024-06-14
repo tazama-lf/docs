@@ -59,7 +59,8 @@
 
 ## 1. Introduction
 
-Hello and welcome! If you are reading this, we hope it's because you'd like to help. 
+Hello and welcome! If you are reading this, we hope it's because you'd like to help.
+
 
 ### 1.1 Overview of the Project
 
