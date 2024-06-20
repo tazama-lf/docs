@@ -1,7 +1,6 @@
 # Performance Benchmarking of ArangoDB: Single Instance vs. Split Databases vs. Clustering
 
 <span style="font-size: 34px;">**Table of Contents**</span>
-<span style="font-size: 34px;">**Table of Contents**</span>
 - [Summary](#summary)
 - [Introduction](#introduction)
   - [Background](#background)
@@ -39,6 +38,8 @@
 
 This report presents a comprehensive performance benchmarking analysis of ArangoDB deployed in three distinct configurations on Azure: <span style="color:red;">**a Single Instance, Split Databases, and Clustering.**</span>  The aim was to include the best performing configurations and the most cost-efficient setups. It will highlight the FTPS value as a critical performance metric and its impact on choosing the right configuration for deployment.
 
+**Note** The Arangodb Clustering is only available for a licensed deployment of ArangoDB.
+
 The highest **FTPS** that was reached was <span style="color:green; font-size: 16px;">****2496.83****</span> using the **4 SplitDB** approach of Arango.
 
 **2 SplitDB:** <span style="color:green; font-size: 16px;">****2304.5****</span> **FTPS**
@@ -48,8 +49,8 @@ The highest **FTPS** that was reached was <span style="color:green; font-size: 1
 **Cluster:** <span style="color:green; font-size: 16px;">****264.5****</span> **FTPS**
 
 
-****2 SplitDB explaination:****
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/jnU9ob0YDsD3Cc0M-image-1712570816756.png)](https://developer.sybrin.com/uploads/images/gallery/2024-04/jnU9ob0YDsD3Cc0M-image-1712570816756.png)
+****2 SplitDB explanation:****
+![arangodb-benchmarking-split2](/images/arangodb-benchmarking-split2.png)
 
 During the performance benchmarking of ArangoDB, the utilization of a split database approach was used to optimize the FTPS. This configuration involved two main ArangoDB instances.
 
@@ -59,7 +60,8 @@ In the second instance, **Arango 2**, the **EvaluationResults** database was ded
 
 ****4 SplitDB explaination:****
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/yS4PwP3gVyGJ2LMg-image-1718284880142.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/yS4PwP3gVyGJ2LMg-image-1718284880142.png)
+![arangodb-benchmarking-split4](/images/arangodb-benchmarking-split4.png)
+
 
 **Arango 1 - Configuration/NetworkMap Database**
 
@@ -168,7 +170,7 @@ The analysis surrounding the costs related to running ArangoDB on Azure, includi
 | Storage         | Managed Disks (Premium SSD v2)| 1                | $46.36         | $46.36          |
 | **Total**        |                              |                |  **$38 993.32**  |    **$14 843.84**  |
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/YacEroY9SlCBONVu-image-1712312238432.png)](https://developer.sybrin.com/uploads/images/gallery/2024-04/YacEroY9SlCBONVu-image-1712312238432.png)
+![arangodb-benchmarking-disk-price1](/images/arangodb-benchmarking-disk-price1.png)
    
 - <span style="color:maroon; font-size: 18px;">****2 Split Databases****</span>
 
@@ -188,7 +190,7 @@ The analysis surrounding the costs related to running ArangoDB on Azure, includi
 | Storage         | Managed Disks (Premium SSD v2)| 2                | $92.71         | $92.71          |
 | **Total**        |                              |                  |  **$54 001.75**  |    **$20 575.82**  |
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/ye07KwXNxcXaz0ak-image-1712312324676.png)](https://developer.sybrin.com/uploads/images/gallery/2024-04/ye07KwXNxcXaz0ak-image-1712312324676.png)
+![arangodb-benchmarking-disk-price2](/images/arangodb-benchmarking-disk-price2.png)
 
 - <span style="color:orange; font-size: 18px;">****4 Split Databases****</span>
 
@@ -209,8 +211,6 @@ The analysis surrounding the costs related to running ArangoDB on Azure, includi
 | Storage         | Managed Disks (Premium SSD v2)| 2                | $46.36         | $46.36          |
 | Storage         | Managed Disks (Ultra Disk)    | 3                | $801.71        | $801.71         |
 | **Total**        |                              |                  |  **$56 812.80**  |    **$18 803.11**  |
-
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/CdmF8ojxvrNPJXf3-image-1712313545408.png)](https://developer.sybrin.com/uploads/images/gallery/2024-04/CdmF8ojxvrNPJXf3-image-1712313545408.png)
 
 - <span style="color:navy; font-size: 18px;">****Clustering****</span>
 
@@ -236,7 +236,7 @@ The analysis surrounding the costs related to running ArangoDB on Azure, includi
 | Storage         | Managed Disks (Ultra Disk)    | 4                | $1068.94       | $1068.94        |
 | **Total**        |                              |                  |  **$61 565.5**  |    **$24 055.27**  |
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/CdmF8ojxvrNPJXf3-image-1712313545408.png)](https://developer.sybrin.com/uploads/images/gallery/2024-04/CdmF8ojxvrNPJXf3-image-1712313545408.png)
+![arangodb-benchmarking-disk-price3](/images/arangodb-benchmarking-disk-price3.png)
 
 *****
 
@@ -295,6 +295,27 @@ The criteria for the benchmarks included several key performance indicators:
 
 <span style="color:green; font-size: 24px;">****Performance Metrics****</span>
 
+**Processor Table Explanation:** 
+- **mn:** Minimum processing time for the processor.
+- **mx:** Maximum processing time for the processor.
+- **ave:** Average response time for the processor, indicating overall performance efficiency.
+- **mean:** Mean processing time for the processor.
+- **ninety:** 90th percentile of processing time for the processor.
+- **ninety-nine:** 99th percentile of processing time for the processor.
+- **TMS, CRSP, TP, TADP:** Different processors.
+
+**Typology Table Explanation:** 
+- **Typology ID:** Identifier for each typology.
+- **mn:** Minimum processing time for the typology.
+- **mx:** Maximum processing time for the typology.
+- **ave:** Average processing time, useful for understanding overall typology performance.
+
+**Rule Table Explanation:** 
+- **Rule ID:** Identifier for each rule.
+- **mn:** Minimum execution time for the rule.
+- **mx:** Maximum execution time for the rule.
+- **ave:** Average execution time for the rule, helping identify efficiency and potential bottlenecks in a rule.
+
 <span style="color:olive; font-size: 18px;">****Single Instance****</span>
 
 ****Jmeter ingestion rate:**** 2859 MPS
@@ -305,6 +326,7 @@ The criteria for the benchmarks included several key performance indicators:
 
 <span style="color:blue;">**Processors**</span>
 
+
 | Results    | TMS       | CRSP       | TP         | TADP      |
 |------------|-----------|------------|------------|-----------|
 | mn         | 3.064528  | 0.0793     | 0.044      | 1.079506  |
@@ -313,7 +335,6 @@ The criteria for the benchmarks included several key performance indicators:
 | mean       | 17.910068 | 0.139      | 0.321499   | 4.3133815 |
 | ninety     | 37.057844 | 0.212601   | 0.541701   | 5.635591  |
 | ninety-nine| 68.164748 | 0.291901   | 0.900599   | 6.441988  |
-
 
 <span style="color:blue;">**Rules**</span>
 
@@ -550,6 +571,7 @@ The criteria for the benchmarks included several key performance indicators:
 In this comprehensive analysis, which is based on examining the throughput of each configuration, as indicated by the FTPS metric. The analysis includes an evaluation of how effectively the configurations handle load, their responsiveness under stress, and their resilience in terms of fault tolerance and failover capabilities.
 
 - **Single Instance:** With an **FTPS** of 2240, this configuration demonstrated reliable performance for scenarios not requiring high availability or distributed processing. It's particularly suited for development, testing, or smaller-scale production environments.
+  - Cost for a small scale setup can be found here: [Infrastructure Spec for Tazama Sandbox](https://github.com/frmscoe/docs/blob/main/Technical/Environment-Setup/Infrastructure/Infrastructure-Spec-For-Tazama.md) 
 - **2 Split Databases:** The **FTPS** of 2304.5 suggests a robust capability to handle more substantial workloads, especially read-heavy ones, while offering some level of scalability without the full complexity of clustering.
 - **4 Split Databases:** The **FTPS** of 2496.83 indicates a strong ability to manage larger workloads, particularly those that are read-intensive. It also provides a degree of scalability without the need for the complete complexity of clustering.
 - **Clustering:** Despite an **FTPS** of 264.5, the clustering configuration shines in high availability and horizontal scalability. It's built to endure high-load scenarios and provides the foundation for a resilient, enterprise-level deployment.
@@ -559,6 +581,13 @@ In this comprehensive analysis, which is based on examining the throughput of ea
 The evaluation of performance against cost reveals an interesting dynamic between the configurations. The **Single Instance** configuration proved to be the most cost-effective, nearly matching the highest FTPS achieved by the Split Databases setup, which boasted the top performance. This demonstrates a high return on investment for the Single Instance in terms of performance per dollar. On the other end, the Clustering configuration, while being the most expensive and the slowest, is valued for its superior resilience and fault tolerance, features that are often required for mission-critical applications.
 
 When considering the non-linear relationship between performance and cost, the Single Instance stands out for low- to medium-load scenarios where cost savings are paramount. In contrast, the additional expense of the Clustering setup is justified by its advanced capabilities, which are crucial for high-availability requirements despite its lower FTPS.
+
+| Setup       | FTPS     | 3 Year Reserved $ Cost | 
+|-------------|----------|------------------------|
+| Single      | 2240     | **$14 843.84**        | 
+| 2 SplitDB   | 2304.5   | **$20 575.82**        |
+| 4 SplitDB   | 2496.83  | **$18 803.11**        |
+| Cluser      | 264.5    | **$24 055.27**        |
 
 ****Cost-Performance Ratio:****
 
@@ -570,6 +599,13 @@ The cost-performance ratio is an essential metric for understanding the economic
 - **Clustering:** Despite having a less favorable cost-performance ratio due to its higher cost and lower FTPS, the Clustering configuration’s value lies in its ability to maintain service continuity and manage distributed data, which can be critical for certain business operations.
 
 In summary, the 4 Split Databases setup presents the most significant advantage in FTPS, yet organizations must weigh whether the performance gains are worth the additional costs, especially when compared to the surprisingly efficient Single Instance.
+
+| Setup      | FTPS   | 3 Year Reserved $ Cost | Cost-Performance Ratio (Cost/FTPS) |
+|------------|--------|------------------------|-------------------------------------|
+| Single     | 2240   | **$14,843.84**         | 6.63                                |
+| 2 SplitDB  | 2304.5 | **$20,575.82**         | 8.93                                |
+| 4 SplitDB  | 2496.83| **$18,803.11**         | 7.53                                |
+| Cluster    | 264.5  | **$24,055.27**         | 90.97                               |
 
 <span style="color:green; font-size: 24px;">****Improvement Steps****</span>
 
@@ -604,11 +640,45 @@ Continuing to refine and enhance the ArangoDB deployment strategies, the aim to 
 
 The final test for the SplitDbs configuration involves splitting each database onto its own dedicated ArangoDB single instance. This approach showed distribute the read and write operations more evenly, leveraging multiple instances of ArangoDB. By isolating databases, we improved the overall performance by parallelizing the operations but also enhance the maintainability and scalability of the system. This split enabled the fine-tune resources and configurations specific to the workload and usage patterns of each database.
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/GNKjWikQYwdHlLDP-image-1712573136010.png)](https://developer.sybrin.com/uploads/images/gallery/2024-04/GNKjWikQYwdHlLDP-image-1712573136010.png)
+![arangodb-benchmarking-split4](/images/arangodb-benchmarking-split4.png)
 
 <span style="color:green; font-size: 24px;">****JSON End-to-End Times****</span>
 
-Here, we will present the detailed JSON files that reflect the end-to-end processing times, providing a clear picture of how each transaction is handled by the system. This data is critical for understanding the latency and efficiency of each configuration.
+#### What are These JSON References?
+
+Here, we will present the detailed JSON files that reflect the end-to-end processing times, providing a clear picture of how each transaction is handled by the system. This data is critical for understanding the latency and efficiency of each configuration.And provides detailed statistics and results from performance tests for end-to-end (E2E) performance, typology processing times, and rule execution times. 
+
+#### Why Are These JSON References Important?
+
+1. **Performance Monitoring:** They offer insights into the performance of various system components under load.
+2. **Resource Optimization:** By analyzing these metrics, you can make informed decisions on resource allocation and optimization.
+3. **Bottleneck Identification:** Detailed performance data helps pinpoint specific areas that may be causing delays or inefficiencies.
+
+#### What Am I Looking At?
+
+1. **Prcoessor JSON:**
+   - **Transaction Data:** Metrics on the entire transaction flow, including start and end times, amount of data processed, and elapsed time.
+   - **TMSStats:** Statistics related to the Transaction Monitoring Service, including minimum, maximum, average, median, 90th percentile, and 99th percentile response times.
+   - **CRSPStats:** Metrics for another service, similar to TMSStats.
+   - **TPStats and TADPStats:** Additional service-specific statistics.
+
+2. **Typology Results JSON:**
+   - **Processing Times:** Metrics for different typologies, including minimum, maximum, and average processing times.
+   - **Typology IDs:** Unique identifiers for each typology.
+
+3. **Rule JSON:**
+   - **Processing Times for Rules:** Metrics for different rules, including minimum, maximum, and average processing times.
+   - **Rule IDs:** Unique identifiers for each rule.
+
+#### What Should I Pay Attention To?
+
+1. **Service-Specific Metrics:**
+   - **TMSStats, CRSPStats, TPStats, TADPStats:** Look at these to understand the performance of individual services or components within the system.
+
+2. **Typology and Rule Processing Times:**
+   - **Min, Max, Average:** These times help identify which typologies or rules are performing well and which may need optimization.
+
+By closely monitoring and analyzing these JSON references, you can gain valuable insights into the performance and health of your system, enabling you to make informed decisions to improve its efficiency and reliability.
 
 <span style="color:olive; font-size: 18px;">****Single Instance****</span>
 
@@ -1979,52 +2049,299 @@ Here, we will present the detailed JSON files that reflect the end-to-end proces
 
 <span style="color:green; font-size: 24px;">****Screenshots****</span>
 
+#### What are These Graphs?
+
+These graphs show the maximum CPU utilization percentages for various Virtual Machine Scale Sets (VMSS) in an Azure Kubernetes Service (AKS) cluster. Each graph represents the CPU usage over a specific period, indicating how different virtual machines (VMs) within the scale sets are performing.
+
+#### Why Are These Graphs Important?
+
+1. **Performance Monitoring:** These graphs help in tracking the CPU usage of different VMs to identify and resolve performance issues.
+2. **Resource Management:** By monitoring CPU usage, you can ensure efficient use of CPU resources across the VMs.
+3. **Operational Insights:** They provide insights into the CPU demands of different components of the cluster, helping in optimizing resource allocation and preventing resource exhaustion.
+4. **Bottleneck Identification:** By observing which components are using the most CPU, you can pinpoint potential bottlenecks and areas that may require optimization.
+5. **Troubleshooting:** These graphs help in identifying performance issues related to CPU usage, enabling quicker resolutions.
+
+#### What Am I Looking At?
+
+- **Y-Axis:** Represents the CPU utilization percentage, which can range from 0% to 100%.
+- **X-Axis:** Represents the time period over which the CPU utilization is measured.
+- **Colored Lines:** Each line corresponds to a different VM within the VMSS, showing its CPU usage over time. The legend below the graph indicates which color corresponds to which VM.
+
+#### What Should I Pay Attention To?
+
+1. **CPU Spikes:** Look for any sudden increases in CPU usage which might indicate a performance issue or a spike in demand.
+2. **Sustained High CPU Usage:** Identify any VMs with consistently high CPU usage, which may need optimization or scaling.
+3. **Low CPU Usage:** VMs with consistently low CPU usage might indicate over-provisioning.
+4. **Comparative Analysis:** Compare CPU usage across different VMs to identify any outliers or anomalies.
+5. **Time Correlation:** Note the times when CPU usage peaks occur. Correlate these times with any specific operations or workloads to understand what is causing the increased load.
+
+By closely monitoring and analyzing these graphs, you can gain valuable insights into the performance and health of your AKS cluster, enabling you to make informed decisions to improve its efficiency and reliability.
+
 <span style="color:olive; font-size: 18px;">****Single Instance****</span>
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/qfTyW2QiAzvO1USK-image-1712326503615.PNG)](https://developer.sybrin.com/uploads/images/gallery/2024-04/qfTyW2QiAzvO1USK-image-1712326503615.PNG)[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/pKuONteN5guXWEjb-image-1712326503602.PNG)](https://developer.sybrin.com/uploads/images/gallery/2024-04/pKuONteN5guXWEjb-image-1712326503602.PNG)[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/AEarf1qLolJKqe97-image-1712326503585.PNG)](https://developer.sybrin.com/uploads/images/gallery/2024-04/AEarf1qLolJKqe97-image-1712326503585.PNG)[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/zVVUAcfJs6KezJPb-image-1712326503560.PNG)](https://developer.sybrin.com/uploads/images/gallery/2024-04/zVVUAcfJs6KezJPb-image-1712326503560.PNG)
+![arangodb-benchmarking-azure-single1](/images/arangodb-benchmarking-azure-single1.png)
+![arangodb-benchmarking-azure-single2](/images/arangodb-benchmarking-azure-single2.png)
+![arangodb-benchmarking-azure-single3](/images/arangodb-benchmarking-azure-single3.png)
+![arangodb-benchmarking-azure-single4](/images/arangodb-benchmarking-azure-single4.png)
 
 <span style="color:maroon; font-size: 18px;">****2 Split Databases****</span>
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/saoJ2SmsEWjqa3KS-image-1712326537063.PNG)](https://developer.sybrin.com/uploads/images/gallery/2024-04/saoJ2SmsEWjqa3KS-image-1712326537063.PNG)[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/0wyV7YIqRBx62dwQ-image-1712326537047.PNG)](https://developer.sybrin.com/uploads/images/gallery/2024-04/0wyV7YIqRBx62dwQ-image-1712326537047.PNG)[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/GvHiHJbRl0CHrqDt-image-1712326537028.PNG)](https://developer.sybrin.com/uploads/images/gallery/2024-04/GvHiHJbRl0CHrqDt-image-1712326537028.PNG)[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/yo0CrTuQWjOO69eZ-image-1712326537007.PNG)](https://developer.sybrin.com/uploads/images/gallery/2024-04/yo0CrTuQWjOO69eZ-image-1712326537007.PNG)[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/IXOpDeVnZdtGAHDO-image-1712326536984.PNG)](https://developer.sybrin.com/uploads/images/gallery/2024-04/IXOpDeVnZdtGAHDO-image-1712326536984.PNG)
+![arangodb-benchmarking-azure-2split1](/images/arangodb-benchmarking-azure-2split1.png)
+![arangodb-benchmarking-azure-2split2](/images/arangodb-benchmarking-azure-2split2.png)
+![arangodb-benchmarking-azure-2split3](/images/arangodb-benchmarking-azure-2split3.png)
+![arangodb-benchmarking-azure-2split4](/images/arangodb-benchmarking-azure-2split4.png)
+![arangodb-benchmarking-azure-2split5](/images/arangodb-benchmarking-azure-2split5.png)
 
 <span style="color:orange; font-size: 18px;">****4 Split Databases****</span>
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/92XuxzdOAWPsdQBu-image-1718102843061.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/92XuxzdOAWPsdQBu-image-1718102843061.png)
-
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/MNeS0Fm9LjZUEZa6-image-1718102869445.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/MNeS0Fm9LjZUEZa6-image-1718102869445.png)
-
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/10mvNFUScQ3S9rfa-image-1718102892401.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/10mvNFUScQ3S9rfa-image-1718102892401.png)
-
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/V4BS0DWK8LQA2JDV-image-1718102963680.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/V4BS0DWK8LQA2JDV-image-1718102963680.png)
-
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/PsgTpPDfIV5XRcaS-image-1718102911817.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/PsgTpPDfIV5XRcaS-image-1718102911817.png)
-
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/QObTNmCk4ebknonl-image-1718103083149.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/QObTNmCk4ebknonl-image-1718103083149.png)
-
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/fy8fNjaAnxcFuPPo-image-1718103103693.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/fy8fNjaAnxcFuPPo-image-1718103103693.png)
-
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/XSxF1vEUzl6hp36Z-image-1718103129008.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/XSxF1vEUzl6hp36Z-image-1718103129008.png)
-
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/4JmCKDUmyEEmFHWB-image-1718103150269.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/4JmCKDUmyEEmFHWB-image-1718103150269.png)
-
-
+![arangodb-benchmarking-azure-4split1](/images/arangodb-benchmarking-azure-4split1.png)
+![arangodb-benchmarking-azure-4split2](/images/arangodb-benchmarking-azure-4split2.png)
+![arangodb-benchmarking-azure-4split3](/images/arangodb-benchmarking-azure-4split3.png)
+![arangodb-benchmarking-azure-4split4](/images/arangodb-benchmarking-azure-4split4.png)
+![arangodb-benchmarking-azure-4split5](/images/arangodb-benchmarking-azure-4split5.png)
+![arangodb-benchmarking-azure-4split6](/images/arangodb-benchmarking-azure-4split6.png)
+![arangodb-benchmarking-azure-4split7](/images/arangodb-benchmarking-azure-4split7.png)
+![arangodb-benchmarking-azure-4split8](/images/arangodb-benchmarking-azure-4split8.png)
+![arangodb-benchmarking-azure-4split9](/images/arangodb-benchmarking-azure-4split9.png)
 
 <span style="color:navy; font-size: 18px;">****Clustering****</span>
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/hHKOymROHx0yjpIQ-image-1712325712342.PNG)](https://devel![](https://developer.sybrin.com/loading.gif#uploadimage-5f58be4d33d84)oper.sybrin.com/uploads/images/gallery/2024-04/hHKOymROHx0yjpIQ-image-1712325712342.PNG)
+![arangodb-benchmarking-azure-cluster1](/images/arangodb-benchmarking-azure-cluster1.png)
+![arangodb-benchmarking-azure-cluster2](/images/arangodb-benchmarking-azure-cluster2.png)
+![arangodb-benchmarking-azure-cluster3](/images/arangodb-benchmarking-azure-cluster3.png)
+![arangodb-benchmarking-azure-cluster4](/images/arangodb-benchmarking-azure-cluster4.png)
+![arangodb-benchmarking-azure-cluster5](/images/arangodb-benchmarking-azure-cluster5.png)
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/efgrWa9PkvvJEhW7-image-1712325756858.PNG)](https://developer.sybrin.com/uploads/images/gallery/2024-04/efgrWa9PkvvJEhW7-image-1712325756858.PNG)
+### Breakdown of the ArangoDB Dashboard
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/2QpPXokYm4cI1sxZ-image-1712325768528.PNG)](https://developer.sybrin.com/uploads/images/gallery/2024-04/2QpPXokYm4cI1sxZ-image-1712325768528.PNG)
+#### What is the Dashboard?
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/Wi6OwZMqvDzguFz2-image-1712325786316.PNG)](https://developer.sybrin.com/uploads/images/gallery/2024-04/Wi6OwZMqvDzguFz2-image-1712325786316.PNG)
+This dashboard provides various performance metrics related to I/O operations for ArangoDB. It includes key statistics such as memory table sizes, cache sizes, CPU rate, read/write operations, and more.
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/vKhYgEmv71Xh1jOe-image-1712325809016.PNG)](https://developer.sybrin.com/uploads/images/gallery/2024-04/vKhYgEmv71Xh1jOe-image-1712325809016.PNG)
+#### Why is it There?
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/e0GD88QvL7K4WDhp-image-1712325961752.PNG)](https://developer.sybrin.com/uploads/images/gallery/2024-04/e0GD88QvL7K4WDhp-image-1712325961752.PNG)
+The dashboard is designed to monitor and visualize the I/O performance and health of ArangoDB instances. It helps in identifying potential issues, optimizing resource usage, and ensuring that the database is running efficiently.
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/nitbnqxAZEJkRiKi-image-1712325977185.PNG)](https://developer.sybrin.com/uploads/images/gallery/2024-04/nitbnqxAZEJkRiKi-image-1712325977185.PNG)
+#### Why is it Important?
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/m0cJdIeuTrvjLBcm-image-1712326003987.PNG)](https://developer.sybrin.com/uploads/images/gallery/2024-04/m0cJdIeuTrvjLBcm-image-1712326003987.PNG)
+1. **Performance Monitoring:** It provides real-time data on I/O operations, helping to quickly identify and troubleshoot issues.
+2. **Resource Management:** By monitoring metrics like memory usage and CPU rate, you can optimize resource allocation and prevent resource exhaustion.
+3. **Operational Insights:** Understanding metrics such as read/write operations and cache usage can provide insights into the operational behavior of the database.
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-04/scaled-1680-/fCsbG1FnHv01pSaX-image-1712326069737.PNG)](https://developer.sybrin.com/uploads/images/gallery/2024-04/fCsbG1FnHv01pSaX-image-1712326069737.PNG)
+#### What are You Looking At?
+
+- **Current Size Mem Tables:** Displays the current size of memory tables over time. The Y-axis represents the size in bytes, and the X-axis represents the time period.
+- **Search Column Cache Size:** Shows the size of the search column cache over time. The Y-axis represents the size in bytes, and the X-axis represents the time period.
+- **Allocated Cache Size:** Displays the allocated cache size over time. The Y-axis represents the size in bytes, and the X-axis represents the time period.
+- **CPU Rate:** Shows the CPU usage rate over time. The Y-axis represents the percentage of CPU utilization, and the X-axis represents the time period.
+- **Level 0-6 Files:** Displays the number of files in different levels over time. The Y-axis represents the number of files, and the X-axis represents the time period.
+- **Bytes Read/Written:** Shows the number of bytes read and written over time. The Y-axis represents the number of bytes, and the X-axis represents the time period.
+- **Compaction Written/Read:** Displays the amount of data written/read during compaction operations over time. The Y-axis represents the number of bytes, and the X-axis represents the time period.
+- **Pending Compaction:** Shows the amount of data pending for compaction over time. The Y-axis represents the number of bytes, and the X-axis represents the time period.
+- **Writes Stopped:** Indicates if write operations were stopped at any point. The Y-axis represents the status (stopped/not stopped), and the X-axis represents the time period.
+- **Threads:** Displays the number of threads in use over time. The Y-axis represents the number of threads, and the X-axis represents the time period.
+- **RocksDB Cache Usage:** Shows the usage of RocksDB cache over time. The Y-axis represents the size in bytes, and the X-axis represents the time period.
+- **Cluster Communication Lease Duration:** Displays the duration of lease for cluster communication over time. The Y-axis represents the duration, and the X-axis represents the time period.
+
+#### What Should You Pay Attention To?
+
+1. **Memory Table Sizes:**
+   - Monitor the size of memory tables to ensure they do not grow excessively, which can impact performance.
+   - Look for any sudden increases or patterns that may indicate issues.
+
+2. **Cache Sizes:**
+   - Check the search column and allocated cache sizes to ensure efficient cache usage.
+   - Observe any trends or changes in cache sizes over time.
+
+3. **CPU Rate:**
+   - Monitor the CPU usage rate to ensure the database is not running out of CPU resources.
+   - Look for any spikes or sustained periods of high CPU usage.
+
+4. **File Levels:**
+   - Keep an eye on the number of files in different levels, as a high number can indicate compaction issues.
+   - Observe any trends or changes in file levels over time.
+
+5. **Read/Write Operations:**
+   - Monitor the number of bytes read and written to ensure efficient I/O operations.
+   - Look for any patterns or spikes that may indicate issues.
+
+6. **Compaction Operations:**
+   - Check the amount of data written/read during compaction operations to ensure they are running efficiently.
+   - Observe any trends or changes in compaction operations over time.
+
+7. **Pending Compaction:**
+   - Monitor the amount of data pending for compaction to ensure it does not grow excessively.
+   - Look for any sudden increases or patterns that may indicate issues.
+
+8. **Writes Stopped:**
+   - Ensure that write operations are not being stopped frequently, which can impact performance.
+   - Observe any patterns or trends in write stoppages.
+
+9. **Threads:**
+   - Monitor the number of threads in use to ensure efficient resource usage.
+   - Look for any spikes or sustained periods of high thread usage.
+
+10. **RocksDB Cache Usage:**
+    - Check the usage of RocksDB cache to ensure efficient cache management.
+    - Observe any trends or changes in cache usage over time.
+
+11. **Cluster Communication Lease Duration:**
+    - Monitor the duration of lease for cluster communication to ensure efficient cluster operations.
+    - Look for any patterns or changes in lease duration over time.
+
+By closely monitoring these metrics, you can maintain the health and performance of your ArangoDB instances, ensuring they operate efficiently and effectively.
+
+![arangodb-benchmarking-azure-cluster6](/images/arangodb-benchmarking-azure-cluster6.png)
+### Breakdown of the Arango CPU Utilization Graph
+
+#### What is the Graph?
+
+This graph displays the CPU utilization rates for various ArangoDB components over a specified time period. Each line represents the CPU usage of a different component or node within the ArangoDB cluster.
+
+#### Why is it There?
+
+The graph is included to monitor and visualize the performance of the ArangoDB cluster, specifically focusing on the CPU usage of each component. This helps in identifying performance bottlenecks and understanding the load distribution across the cluster.
+
+#### Why is it Important?
+
+1. **Performance Monitoring:** High CPU utilization can indicate that the system is under heavy load, which can lead to performance degradation or failures.
+2. **Bottleneck Identification:** By observing which components are using the most CPU, you can pinpoint potential bottlenecks and areas that may require optimization.
+3. **Resource Allocation:** Understanding CPU usage patterns helps in making informed decisions about resource allocation and scaling to ensure balanced performance across the cluster.
+
+#### What are You Looking At?
+
+- **Y-Axis:** Represents the CPU utilization percentage, ranging from 0% to 100%.
+- **X-Axis:** Represents the time period over which the CPU utilization is measured.
+- **Colored Lines:** Each line corresponds to a different ArangoDB component or node, showing its CPU usage over time. The legend on the right side of the graph indicates which color corresponds to which component.
+
+#### What Should You Pay Attention To?
+
+1. **Spikes in CPU Utilization:** Look for any spikes or sustained periods of high CPU usage. This could indicate that a particular node or component is under heavy load and might be a bottleneck.
+2. **Comparison Between Components:** Compare the CPU usage across different components. If one component consistently uses more CPU than others, it might be a candidate for optimization or scaling.
+3. **Time Correlation:** Note the times when CPU usage peaks occur. Correlate these times with any specific operations or workloads to understand what is causing the increased load.
+4. **Overall CPU Usage:** Pay attention to the overall trend in CPU usage. If the entire cluster is showing high CPU utilization, it might indicate the need for additional resources or a more efficient load balancing strategy.
+
+By closely monitoring and analyzing this graph, you can gain valuable insights into the performance and health of your ArangoDB cluster, enabling you to make informed decisions to improve its efficiency and reliability.
+
+![arangodb-benchmarking-azure-cluster7](/images/arangodb-benchmarking-azure-cluster7.png)
+
+### Breakdown of the Redis Cluster Dashboard
+
+#### What is the Dashboard?
+
+This dashboard provides various performance metrics for a Redis cluster running in a Kubernetes environment. It includes key statistics such as memory usage, network I/O, hit/miss rates, total items per database, and more.
+
+#### Why is it There?
+
+The dashboard is designed to monitor and visualize the performance and health of the Redis cluster. It helps in identifying potential issues, optimizing resource usage, and ensuring that the cluster is running efficiently.
+
+#### Why is it Important?
+
+1. **Performance Monitoring:** It provides real-time data on the cluster's performance, helping to quickly identify and troubleshoot issues.
+2. **Resource Management:** By monitoring metrics like memory usage and network I/O, you can optimize resource allocation and prevent resource exhaustion.
+3. **Operational Insights:** Understanding metrics such as hit/miss rates and expiring keys can provide insights into the operational behavior of the Redis cluster.
+
+#### What are You Looking At?
+
+- **Uptime:** Displays the total uptime of the Redis cluster.
+- **Clients:** Shows the number of connected clients.
+- **Memory Usage:** Displays the current memory usage of the Redis cluster. The gauge indicates the percentage of memory used.
+- **Commands Executed/sec:** Shows the number of commands executed per second (currently no data is displayed).
+- **Hits/Misses per Sec:** Shows the number of cache hits and misses per second.
+- **Total Memory Usage:** Displays a graph of total memory usage over time, showing both used and maximum memory.
+- **Network I/O:** Displays a graph of network input/output over time.
+- **Total Items per DB:** Shows the total number of items in the database over time.
+- **Expiring vs Not-Expiring Keys:** Shows the number of keys that are expiring versus those that are not expiring over time.
+- **Expired/Evicted:** Displays the number of keys that have expired or been evicted over time.
+- **Redis Connected Clients:** Shows the number of connected clients over time.
+- **Command Calls/sec:** Shows the number of command calls per second (currently no data is displayed).
+
+#### What Should You Pay Attention To?
+
+1. **Memory Usage:**
+   - Monitor the memory usage gauge to ensure that the cluster is not running out of memory. High memory usage can lead to performance degradation.
+   - Check the total memory usage graph to observe any spikes or sustained high usage.
+
+2. **Hit/Miss Rates:**
+   - The hits/misses per second graph can help you understand the efficiency of the cache. High miss rates may indicate that the cache is not effectively storing frequently accessed data.
+
+3. **Network I/O:**
+   - The network I/O graph shows the volume of data being transferred. Sudden spikes in network I/O could indicate unusual activity or potential issues.
+
+4. **Total Items per DB:**
+   - The total items per DB graph helps you monitor the growth of the database. Rapid growth may indicate the need for additional resources or optimization.
+
+5. **Expiring vs Not-Expiring Keys:**
+   - This graph shows the balance between expiring and non-expiring keys. A high number of expiring keys may impact performance, as the system needs to continuously manage these keys.
+
+6. **Expired/Evicted:**
+   - Monitoring expired and evicted keys helps in understanding the lifecycle and retention of data in the Redis cluster. High eviction rates might indicate memory pressure or suboptimal key expiration policies.
+
+7. **Redis Connected Clients:**
+   - The number of connected clients is an important metric for understanding the load on the Redis server. Sudden changes in this number can indicate issues with client connections or network problems.
+
+8. **Command Calls/sec:**
+   - This metric, although currently not displaying data, is important for understanding the rate at which commands are being processed by the Redis server.
+
+By closely monitoring these metrics, you can maintain the health and performance of your Redis cluster, ensuring it operates efficiently and effectively.
+
+![arangodb-benchmarking-azure-cluster8](/images/arangodb-benchmarking-azure-cluster8.png)
+
+### Breakdown of the NATS Server Dashboard
+
+#### What is the Dashboard?
+
+This dashboard provides various performance metrics for NATS servers. It includes key statistics such as server CPU and memory usage, throughput (bytes in/out and messages in/out), client metrics (connections and subscriptions), and more.
+
+#### Why is it There?
+
+The dashboard is designed to monitor and visualize the performance and health of NATS servers. It helps in identifying potential issues, optimizing resource usage, and ensuring that the servers are running efficiently.
+
+#### Why is it Important?
+
+1. **Performance Monitoring:** It provides real-time data on the servers' performance, helping to quickly identify and troubleshoot issues.
+2. **Resource Management:** By monitoring metrics like CPU and memory usage, you can optimize resource allocation and prevent resource exhaustion.
+3. **Operational Insights:** Understanding metrics such as throughput and client connections can provide insights into the operational behavior of the NATS servers.
+
+#### What are You Looking At?
+
+- **Server CPU:** Displays the CPU usage of the NATS servers over time. The Y-axis represents the percentage of CPU utilization, and the X-axis represents the time period.
+- **Server Memory:** Shows the memory usage of the NATS servers over time. The Y-axis represents the amount of memory used, and the X-axis represents the time period.
+- **Throughput (Bytes In/Out):** Displays the amount of data being transferred in and out of the NATS servers over time. The Y-axis represents the amount of data, and the X-axis represents the time period.
+- **Throughput (Messages In/Out):** Shows the number of messages being transferred in and out of the NATS servers over time. The Y-axis represents the number of messages, and the X-axis represents the time period.
+- **Client Metrics (Connections):** Displays the number of client connections to the NATS servers over time. The Y-axis represents the number of connections, and the X-axis represents the time period.
+- **Client Metrics (Subscriptions):** Shows the number of subscriptions on the NATS servers over time. The Y-axis represents the number of subscriptions, and the X-axis represents the time period.
+- **Client Metrics (Slow Consumers):** Displays metrics related to slow consumers over time. The Y-axis represents the number of slow consumers, and the X-axis represents the time period.
+
+#### What Should You Pay Attention To?
+
+1. **Server CPU Usage:**
+   - Monitor the CPU usage graph to ensure that the servers are not running out of CPU resources. High CPU usage can lead to performance degradation.
+   - Look for any spikes or sustained periods of high CPU usage.
+
+2. **Server Memory Usage:**
+   - Check the memory usage graph to ensure that the servers have enough memory available. High memory usage can lead to performance issues.
+   - Observe any spikes or trends in memory usage over time.
+
+3. **Throughput (Bytes In/Out):**
+   - Monitor the amount of data being transferred in and out of the servers. Sudden spikes in data transfer could indicate unusual activity or potential issues.
+   - Compare the bytes in and out to understand the data flow and balance.
+
+4. **Throughput (Messages In/Out):**
+   - Observe the number of messages being transferred in and out of the servers. High message rates can indicate heavy usage and potential bottlenecks.
+   - Look for trends and spikes in message transfer rates.
+
+5. **Client Connections:**
+   - Monitor the number of client connections to the servers. Sudden changes in the number of connections can indicate issues with client connectivity or network problems.
+
+6. **Subscriptions:**
+   - Keep an eye on the number of subscriptions. A high number of subscriptions can impact server performance.
+   - Observe any trends or changes in subscription counts over time.
+
+7. **Slow Consumers:**
+   - Monitor metrics related to slow consumers to ensure that there are no performance issues caused by clients that cannot keep up with the data rate.
+   - Look for trends and spikes in the number of slow consumers.
+
+By closely monitoring these metrics, you can maintain the health and performance of your NATS servers, ensuring they operate efficiently and effectively.
+
+![arangodb-benchmarking-azure-cluster9](/images/arangodb-benchmarking-azure-cluster9.png)

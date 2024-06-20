@@ -1,59 +1,101 @@
 # ArangoDB SplitDB Performance Report
 
+## Table of Contents
+
+1. [Overview](#overview)
+2. [ArangoDB Instances](#arangodb-instances)
+   - [Arango 1 - Configuration/NetworkMap Database](#arango-1---configurationnetworkmap-database)
+   - [Arango 2 - Pseudonyms Database](#arango-2---pseudonyms-database)
+   - [Arango 3 - Transaction History Database](#arango-3---transaction-history-database)
+   - [Arango 4 - Evaluation Results Database](#arango-4---evaluation-results-database)
+3. [Test Environment](#test-environment)
+   - [List of Applications](#list-of-applications)
+   - [Application Deployment Configuration](#application-deployment-configuration)
+   - [Database Component](#database-component)
+   - [Cluster Uptime & Costs](#cluster-uptime--costs)
+   - [3 year Reserved Costing](#3-year-reserved-costing)
+4. [Test Execution](#test-execution)
+   - [1. SplitDB Configuration & Metrics](#1-splitdb-configuration--metrics)
+   - [2. Read Queries Performance](#2-read-queries-performance)
+   - [3. Write Operations Performance](#3-write-operations-performance)
+   - [4. Database Scaling](#4-database-scaling)
+   - [5. Network Typology Optimization](#5-network-typology-optimization)
+   - [6. MaxCPU](#6-maxcpu)
+     - [Description of `maxCPU` Parameter](#description-of-maxcpu-parameter)
+     - [How `maxCPU` Works](#how-maxcpu-works)
+     - [Key Points](#key-points)
+     - [Benefits](#benefits)
+5. [Benchmarking Results](#benchmarking-results)
+   - [Benchmarking Results](#benchmarking-results)
+   - [Jmeter Setup](#jmeter-setup)
+   - [Pod Counts](#pod-counts)
+6. [Attachments and Supporting Documents](#attachments-and-supporting-documents)
+   - [Jmeter Statistics](#jmeter-statistics)
+   - [E2E Results](#e2e-results)
+   - [Typology Results](#typology-results)
+   - [Rule Results](#rule-results)
+7. [Analysis of Azure VMS CPU Utilization Graphs](#analysis-of-azure-vms-cpu-utilization-graphs)
+   - [Graph 1: Max Percentage CPU for NATS](#graph-1-max-percentage-cpu-for-NATS)
+   - [Graph 2: Max Percentage CPU for REDIS](#graph-2-max-percentage-cpu-for-Redis)
+   - [Graph 3: Max Percentage CPU for CRSP](#graph-3-max-percentage-cpu-for-CRSP)
+   - [Graph 4: Max Percentage CPU for RULES](#graph-4-max-percentage-cpu-for-RULES)
+   - [Graph 5: Max Percentage CPU for TADP](#graph-5-max-percentage-cpu-for-TADP)
+   - [Graph 6: Max Percentage CPU for TMS](#graph-6-max-percentage-cpu-for-TMS)
+   - [Graph 7: Max Percentage CPU for TP](#graph-7-max-percentage-cpu-for-TP)
+   - [Graph 7: Max Percentage CPU for ARANGO](#graph-8-max-percentage-cpu-for-ARANGO)
+8. [Conclusions and Recommendations](#conclusions-and-recommendations)
+
 ## Overview
 
 This document outlines the architecture of a split database setup using four separate instances of ArangoDB and the performance outcomes on Azure cloud testing to evaluate the efficiency of read and write operations within a splitdb environment, using JMeter as the tool to generate the workload. The main points of consideration were the CPU utilization on Azure nodes, write operation throughput and impact of scaling operations.
 
 ## ArangoDB Instances
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/hEHjK0t1K2Pbei9t-image-1718284785203.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/hEHjK0t1K2Pbei9t-image-1718284785203.png)
+![arangodb-splitdb-example-diagram](/images/arangodb-splitdb-example-diagram.png)
 
 <details>
-  <summary>PlantUML</summary>
-@startuml
-!define RECTANGLE(x) rectangle x <<Database>>
+  <summary>Mermaid</summary>
+  
+```mermaid
+classDiagram
+  class Arango1 {
+    <<Configuration>>
+    transaction
+    typologyExpression
+    channelExpression
+    configuration
 
-package "Arango 1" {
-  RECTANGLE(Configuration) {
-    [transaction]
-    [typologyExpression]
-    [channelExpression]
-    [configuration]
+    <<NetworkMap>>
+    networkConfiguration
   }
-  RECTANGLE(NetworkMap) {
-    [networkConfiguration]
-  }
-}
 
-package "Arango 2" {
-  RECTANGLE(Pseudonyms) {
-    [pseudonyms]
-    [accounts]
-    [account_holder]
-    [entities]
-    [transactionRelationship]
+  class Arango2 {
+    <<Pseudonyms>>
+    pseudonyms
+    accounts
+    account_holder
+    entities
+    transactionRelationship
   }
-}
 
-package "Arango 3" {
-  RECTANGLE(TransactionHistory) {
-    [transactionHistoryPacs002]
-    [transactionHistoryPacs008]
-    [transactionHistoryPain001]
-    [transactionHistoryPain013]
-    [list]
-    [watchlist]
+  class Arango3 {
+    <<TransactionHistory>>
+    transactionHistoryPacs002
+    transactionHistoryPacs008
+    transactionHistoryPain001
+    transactionHistoryPain013
+    list
+    watchlist
   }
-}
 
-package "Arango 4" {
-  RECTANGLE(EvaluationResults) {
-    [transactions]
+  class Arango4 {
+    <<EvaluationResults>>
+    transactions
   }
-}
-@enduml
-
+``` 
 </details>
+
+**Each arangodb explained below is on its own VM . The single instance of Arango used 1 VM with all the configuration inside that one instance of Arango.**
 
 ### Arango 1 - Configuration/NetworkMap Database
 
@@ -162,38 +204,116 @@ The deployment configuration for each application across the servers is as follo
 | D96s_v5    | 3     | 13393.99      | 96 CPU / 320 gigs RAM   |
 |<span style="color:green;">**Total**</span>|           | **18194.49**      | 
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/Gnb4C5IaG2LVh18x-image-1718202981006.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/Gnb4C5IaG2LVh18x-image-1718202981006.png)
-
+![arangodb-splitdb-azure-costs](/images/arangodb-splitdb-azure-costs.png)
 
 ### Test Execution
 #### 1. SplitDB Configuration & Metrics
 - The Arango SplitDB set up with 3 96 vCPUs and 1 32 vCPU for the configuration database.
-- The Config , transaction History and Evaluation databases only used about 20% of its CPU . The Pseudonyms database was using about 50% of its CPU.
+- The Config , transaction History and Evaluation databases only used about 20% of its CPU . The Pseudonyms database was using about 50% of its CPU at peak.
 - Metrics were gathered from the Azure dashboard, showing CPU usage.
 #### 2. Read Queries Performance
-- Processing times for read queries were found to be slow.
-- The Azure metrics indicated that as the CPU load increased, the read operation latencies also increased, leading to performance bottlenecks.
+- Processing times for read queries were found to be slow but faster than the clustered and single instance of Arango due to splitting up the load to different VM's.
+- The Azure metrics indicated that as the CPU load increased on the Arango nodes(VM's), the read operation latencies also increased, leading to performance bottlenecks.
+- Read operations are split unevenly across the transaction history and pseudonyms databases due to the different rules looking for information in either the transaction history database , the pseudonyms database or both.
 #### 3. Write Operations Performance
 - JMeter tests showed that write operations to ArangoDB were completed quickly, with an ingestion rate of 3525 messages per second.
 - All transactions were submitted to the Transaction Monitoring Service (TMS) within a 1-minute timeframe, indicating that the writes were not affected by the issues impacting read operations.
+- Write operations are to the pseudonyms and transaction history databases.
+- **Differences in ingestion rate through TMS can be seen in the different arango deployments** [performance-benchmarking-of-arangodb-single-instance-vs-split-databases-vs-clustering](https://github.com/frmscoe/docs/blob/main/Technical/Performance-Benchmarking/performance-benchmarking-of-arangodb-single-instance-vs-split-databases-vs-clustering.md) 
 #### 4. Database Scaling
 - 4 database instances.
 - An additional Azure node was provisioned to host the new database instance, aimed at distributing the load and improving read query performance.
-#### 5. Network Topology Optimization
-- The typologies were changed from 26 to 6  to improve the performance of the Typology Processor, Transaction Aggregatorand Decision Processor.
+#### 5. Network Typology Optimization
+- The typologies were changed from 26 to 6  to improve the performance of the Typology Processor and the Transaction Aggregatorand Decision Processor.
 - This change was made in response to the observed delays in rule processing.
 
 #### 6. MaxCPU
-- The CPU consumption on the processors were never maxing out CPU like they use too , scaled the max CPU from 1 to 2 to use more CPU on the processors.
+- The Node CPU consumption on the processors were never maxing out like they did on the single instance of arango benchmarking runs - which was a result in performance optimizations in the processors and reading from Cache.
+- Scaled maxCPU parameter from 1 to 2 to consume more CPU's on the processors to increase performance.
+  - In the previous benchmarking runs the maxCPU parameter was set to 1 and always resulted in very high CPU consumption on the processors. This wasn't seen in the splitDB runs (ie: Much lower CPU usage) which is why i changed the MaxCPU parameter from 1 to 2 . to increase their consumption. 
+
+##### Description of `maxCPU` Parameter
+
+The `maxCPU` parameter in this Node.js application is used to control the number of worker processes that are spawned within a single Kubernetes pod. This parameter is crucial for scaling the application efficiently without the need to scale up additional pods. Here is a detailed explanation of how it works:
+
+##### How `maxCPU` Works:
+
+1. **Determine Number of CPUs:**
+   - The `numCPUs` variable is set based on the value of `configuration.maxCPU`. If `maxCPU` is defined and greater than the number of CPUs available on the machine (`os.cpus().length`), it uses that value; otherwise, it defaults to using the number of available CPUs plus one.
+
+   ```javascript
+   const numCPUs = os.cpus().length > configuration.maxCPU ? configuration.maxCPU + 1 : os.cpus().length + 1;
+   ```
+
+2. **Primary Process:**
+   - If the process is the primary one (`cluster.isPrimary`) and `maxCPU` is not set to 1, it logs that the primary process is running and proceeds to fork worker processes.
+
+   ```javascript
+   if (cluster.isPrimary && configuration.maxCPU !== 1) {
+       loggerService.log(`Primary ${process.pid} is running`);
+   ```
+
+3. **Fork Workers:**
+   - The primary process forks multiple worker processes based on the `numCPUs` value determined earlier. This is where the actual scaling happens within the same pod.
+
+   ```javascript
+   for (let i = 1; i < numCPUs; i++) {
+       cluster.fork();
+   }
+   ```
+
+4. **Worker Exit Handling:**
+   - If any worker process exits, a new one is forked to maintain the desired number of workers.
+
+   ```javascript
+   cluster.on('exit', (worker, code, signal) => {
+       loggerService.log(`worker ${Number(worker.process.pid)} died, starting another worker`);
+       cluster.fork();
+   });
+   ```
+
+5. **Non-Primary Process:**
+   - If the process is not the primary one, it checks the environment configuration and starts the necessary services.
+
+   ```javascript
+   } else {
+       (async () => {
+           try {
+               if (configuration.env !== 'test') {
+                   await dbInit();
+                   await runServer();
+               }
+           } catch (err) {
+               loggerService.error(`Error while starting services on worker ${process.pid}`, err);
+               process.exit(1);
+           }
+       })();
+       loggerService.log(`Worker ${process.pid} started`);
+   }
+   ```
+
+##### Key Points:
+
+- **Single Instance (`maxCPU` = 1):**
+  - When `maxCPU` is set to 1, only one instance of the Node.js application runs within the pod. This means there will be no worker processes forked, and the application runs as a single-threaded process.
+
+- **Multiple Instances (`maxCPU` > 1):**
+  - When `maxCPU` is set to a value greater than 1, multiple instances of the Node.js application run within the same pod. This is achieved by forking worker processes, effectively scaling the application horizontally within the same pod. For example, if `maxCPU` is set to 3, there will be 3 worker processes running in addition to the primary process, resulting in 4 instances in total.
+
+##### Benefits:
+
+- **Efficient Resource Utilization:** By controlling the number of worker processes within a pod, you can make better use of the available CPU resources without the need for additional pods.
+- **Scalability:** This approach allows you to scale the application horizontally within a single pod, improving performance and handling higher loads.
+- **Flexibility:** The ability to adjust the `maxCPU` parameter provides flexibility in how you scale your application, allowing for fine-tuning based on the specific needs and constraints of your environment.
 
 ### Benchmarking Results
 Benchmarking involves sending transactions through the system to replicate real-life scenarios. Below are the details of the scaled applications and their configurations:
 
 **ELK Stack** - <span style="color:red;">**Disabled**</span>
 
-<span style="color:green;">**TPS -**</span> **3525.23** 
+**TPS - 3525.23** 
 
-<span style="color:green;">**FTPS -**</span> **2496.83** 
+**FTPS - 2496.83** 
 
 **210 000 transactions processed in 83.99 seconds**
 
@@ -579,24 +699,91 @@ Benchmarking involves sending transactions through the system to replicate real-
 </pre>
 </details>
 
-**AZURE USAGES**
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/92XuxzdOAWPsdQBu-image-1718102843061.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/92XuxzdOAWPsdQBu-image-1718102843061.png)
+### Analysis of Azure VMS CPU Utilization Graphs
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/MNeS0Fm9LjZUEZa6-image-1718102869445.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/MNeS0Fm9LjZUEZa6-image-1718102869445.png)
+---
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/10mvNFUScQ3S9rfa-image-1718102892401.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/10mvNFUScQ3S9rfa-image-1718102892401.png)
+#### What are These Graphs?
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/V4BS0DWK8LQA2JDV-image-1718102963680.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/V4BS0DWK8LQA2JDV-image-1718102963680.png)
+These graphs show the maximum CPU utilization percentages for various Virtual Machine Scale Sets (VMSS) in an Azure Kubernetes Service (AKS) cluster. Each graph represents the CPU usage over a specific period, indicating how different virtual machines (VMs) within the scale sets are performing.
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/PsgTpPDfIV5XRcaS-image-1718102911817.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/PsgTpPDfIV5XRcaS-image-1718102911817.png)
+#### Why Are These Graphs Important?
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/QObTNmCk4ebknonl-image-1718103083149.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/QObTNmCk4ebknonl-image-1718103083149.png)
+1. **Performance Monitoring:** These graphs help in tracking the CPU usage of different VMs to identify and resolve performance issues.
+2. **Resource Management:** By monitoring CPU usage, you can ensure efficient use of CPU resources across the VMs.
+3. **Operational Insights:** They provide insights into the CPU demands of different components of the cluster, helping in optimizing resource allocation and preventing resource exhaustion.
+4. **Bottleneck Identification:** By observing which components are using the most CPU, you can pinpoint potential bottlenecks and areas that may require optimization.
+5. **Troubleshooting:** These graphs help in identifying performance issues related to CPU usage, enabling quicker resolutions.
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/fy8fNjaAnxcFuPPo-image-1718103103693.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/fy8fNjaAnxcFuPPo-image-1718103103693.png)
+#### What Am I Looking At?
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/XSxF1vEUzl6hp36Z-image-1718103129008.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/XSxF1vEUzl6hp36Z-image-1718103129008.png)
+- **Y-Axis:** Represents the CPU utilization percentage, which can range from 0% to 100%.
+- **X-Axis:** Represents the time period over which the CPU utilization is measured.
+- **Colored Lines:** Each line corresponds to a different VM within the VMSS, showing its CPU usage over time. The legend below the graph indicates which color corresponds to which VM.
 
-[![](https://developer.sybrin.com/uploads/images/gallery/2024-06/scaled-1680-/4JmCKDUmyEEmFHWB-image-1718103150269.png)](https://developer.sybrin.com/uploads/images/gallery/2024-06/4JmCKDUmyEEmFHWB-image-1718103150269.png)
+#### What Should I Pay Attention To?
+
+1. **CPU Spikes:** Look for any sudden increases in CPU usage which might indicate a performance issue or a spike in demand.
+2. **Sustained High CPU Usage:** Identify any VMs with consistently high CPU usage, which may need optimization or scaling.
+3. **Low CPU Usage:** VMs with consistently low CPU usage might indicate over-provisioning.
+4. **Comparative Analysis:** Compare CPU usage across different VMs to identify any outliers or anomalies.
+5. **Time Correlation:** Note the times when CPU usage peaks occur. Correlate these times with any specific operations or workloads to understand what is causing the increased load.
+
+By closely monitoring and analyzing these graphs, you can gain valuable insights into the performance and health of your AKS cluster, enabling you to make informed decisions to improve its efficiency and reliability.
+
+---
+
+### Individual Graph Summaries:
+
+1. **Graph 1: Max Percentage CPU for NATS**
+   - **Observation:** Spikes around specific times indicating temporary increases in CPU usage.
+   - **Attention Points:** Sudden spikes, sustained high usage, comparison across VMs.
+
+2. **Graph 2: Max Percentage CPU for Redis**
+   - **Observation:** Moderate CPU usage with spikes indicating varying load levels.
+   - **Attention Points:** Sharp increases, consistent high usage, low usage patterns.
+
+3. **Graph 3: Max Percentage CPU for CRSP**
+   - **Observation:** Notable spikes and varying usage across VMs.
+   - **Attention Points:** Unusual spikes, high usage patterns, comparative analysis.
+
+4. **Graph 4: Max Percentage CPU for RULES**
+   - **Observation:** High usage indicating heavy processing loads at specific times.
+   - **Attention Points:** High CPU spikes, consistent high usage, anomalies.
+
+5. **Graph 5: Max Percentage CPU for TADP**
+   - **Observation:** Significant spikes and high CPU usage indicating intensive tasks.
+   - **Attention Points:** Sharp increases, sustained high usage, low usage patterns.
+
+6. **Graph 6: Max Percentage CPU for TMS**
+   - **Observation:** Varying CPU usage with notable spikes.
+   - **Attention Points:** Unusual spikes, high usage patterns, comparative analysis.
+
+7. **Graph 7: Max Percentage CPU for TP**
+   - **Observation:** High usage with consistent spikes indicating demanding tasks.
+   - **Attention Points:** Sharp increases, sustained high usage, low usage patterns.
+
+8. **Graph 8: Max Percentage CPU for ARANGO**
+   - **Observation:** The graph shows a significant spike for the `Pseudonyms` VM , with other VMs showing minimal CPU usage.
+   - **Attention Points:** High spike for `Pseudonyms` indicating a temporary high demand or intensive task, while other VMs have relatively low CPU usage.
+
+By maintaining a close watch on these metrics, you can ensure your AKS cluster operates efficiently, manage resources effectively, and preemptively address any potential performance issues.
+
+![arangodb-splitdb-nats-azure](/images/arangodb-splitdb-nats-azure.png)
+
+![arangodb-splitdb-redis-azure](/images/arangodb-splitdb-redis-azure.png)
+
+![arangodb-splitdb-crsp-azure](/images/arangodb-splitdb-crsp-azure.png)
+
+![arangodb-splitdb-rules-azure](/images/arangodb-splitdb-rules-azure.png)
+
+![arangodb-splitdb-tadp-azure](/images/arangodb-splitdb-tadp-azure.png)
+
+![arangodb-splitdb-tms-azure](/images/arangodb-splitdb-tms-azure.png)
+
+![arangodb-splitdb-tp-azure](/images/arangodb-splitdb-tp-azure.png)
+
+![arangodb-splitdb-arango-azure](/images/arangodb-splitdb-arango-azure.png)
 
 ## Conclusions and Recommendations
 The Tazama project's Azure Cloud servers provide a robust environment for testing and benchmarking the anti-fraud and money laundering system. The use of K8s facilitates efficient management of various critical applications, ensuring high performance and reliability during benchmarking.
