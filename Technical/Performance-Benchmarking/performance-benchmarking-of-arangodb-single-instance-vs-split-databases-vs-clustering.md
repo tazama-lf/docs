@@ -50,7 +50,7 @@ The highest **FTPS** that was reached was <span style="color:green; font-size: 1
 
 
 ****2 SplitDB explanation:****
-![arangodb-benchmarking-split2](../../images/arangodb-benchmarking-split2.png)
+![arangodb-benchmarking-split2](../../images/arangodb-benchmarking-split2.PNG)
 
 During the performance benchmarking of ArangoDB, the utilization of a split database approach was used to optimize the FTPS. This configuration involved two main ArangoDB instances.
 
@@ -60,7 +60,7 @@ In the second instance, **Arango 2**, the **EvaluationResults** database was ded
 
 ****4 SplitDB explaination:****
 
-![arangodb-benchmarking-split4](../../images/arangodb-benchmarking-split4.png)
+![arangodb-benchmarking-split4](../../images/arangodb-benchmarking-split4.PNG)
 
 
 **Arango 1 - Configuration/NetworkMap Database**
@@ -170,7 +170,7 @@ The analysis surrounding the costs related to running ArangoDB on Azure, includi
 | Storage         | Managed Disks (Premium SSD v2)| 1                | $46.36         | $46.36          |
 | **Total**        |                              |                |  **$38 993.32**  |    **$14 843.84**  |
 
-![arangodb-benchmarking-disk-price1](../../images/arangodb-benchmarking-disk-price1.png)
+![arangodb-benchmarking-disk-price1](../../images/arangodb-benchmarking-disk-price1.PNG)
    
 - <span style="color:maroon; font-size: 18px;">****2 Split Databases****</span>
 
@@ -190,7 +190,7 @@ The analysis surrounding the costs related to running ArangoDB on Azure, includi
 | Storage         | Managed Disks (Premium SSD v2)| 2                | $92.71         | $92.71          |
 | **Total**        |                              |                  |  **$54 001.75**  |    **$20 575.82**  |
 
-![arangodb-benchmarking-disk-price2](../../images/arangodb-benchmarking-disk-price2.png)
+![arangodb-benchmarking-disk-price2](../../images/arangodb-benchmarking-disk-price2.PNG)
 
 - <span style="color:orange; font-size: 18px;">****4 Split Databases****</span>
 
@@ -236,7 +236,7 @@ The analysis surrounding the costs related to running ArangoDB on Azure, includi
 | Storage         | Managed Disks (Ultra Disk)    | 4                | $1068.94       | $1068.94        |
 | **Total**        |                              |                  |  **$61 565.5**  |    **$24 055.27**  |
 
-![arangodb-benchmarking-disk-price3](../../images/arangodb-benchmarking-disk-price3.png)
+![arangodb-benchmarking-disk-price3](../../images/arangodb-benchmarking-disk-price3.PNG)
 
 *****
 
@@ -640,7 +640,7 @@ Continuing to refine and enhance the ArangoDB deployment strategies, the aim to 
 
 The final test for the SplitDbs configuration involves splitting each database onto its own dedicated ArangoDB single instance. This approach showed distribute the read and write operations more evenly, leveraging multiple instances of ArangoDB. By isolating databases, we improved the overall performance by parallelizing the operations but also enhance the maintainability and scalability of the system. This split enabled the fine-tune resources and configurations specific to the workload and usage patterns of each database.
 
-![arangodb-benchmarking-split4](../../images/arangodb-benchmarking-split4.png)
+![arangodb-benchmarking-split4](../../images/arangodb-benchmarking-split4.PNG)
 
 <span style="color:green; font-size: 24px;">****JSON End-to-End Times****</span>
 
@@ -2079,38 +2079,38 @@ By closely monitoring and analyzing these graphs, you can gain valuable insights
 
 <span style="color:olive; font-size: 18px;">****Single Instance****</span>
 
-![arangodb-benchmarking-azure-single1](../../images/arangodb-benchmarking-azure-single1.png)
-![arangodb-benchmarking-azure-single2](../../images/arangodb-benchmarking-azure-single2.png)
-![arangodb-benchmarking-azure-single3](../../images/arangodb-benchmarking-azure-single3.png)
-![arangodb-benchmarking-azure-single4](../../images/arangodb-benchmarking-azure-single4.png)
+![arangodb-benchmarking-azure-single1](../../images/arangodb-benchmarking-azure-single1.PNG)
+![arangodb-benchmarking-azure-single2](../../images/arangodb-benchmarking-azure-single2.PNG)
+![arangodb-benchmarking-azure-single3](../../images/arangodb-benchmarking-azure-single3.PNG)
+![arangodb-benchmarking-azure-single4](../../images/arangodb-benchmarking-azure-single4.PNG)
 
 <span style="color:maroon; font-size: 18px;">****2 Split Databases****</span>
 
-![arangodb-benchmarking-azure-2split1](../../images/arangodb-benchmarking-azure-2split1.png)
-![arangodb-benchmarking-azure-2split2](../../images/arangodb-benchmarking-azure-2split2.png)
-![arangodb-benchmarking-azure-2split3](../../images/arangodb-benchmarking-azure-2split3.png)
-![arangodb-benchmarking-azure-2split4](../../images/arangodb-benchmarking-azure-2split4.png)
-![arangodb-benchmarking-azure-2split5](../../images/arangodb-benchmarking-azure-2split5.png)
+![arangodb-benchmarking-azure-2split1](../../images/arangodb-benchmarking-azure-2split1.PNG)
+![arangodb-benchmarking-azure-2split2](../../images/arangodb-benchmarking-azure-2split2.PNG)
+![arangodb-benchmarking-azure-2split3](../../images/arangodb-benchmarking-azure-2split3.PNG)
+![arangodb-benchmarking-azure-2split4](../../images/arangodb-benchmarking-azure-2split4.PNG)
+![arangodb-benchmarking-azure-2split5](../../images/arangodb-benchmarking-azure-2split5.PNG)
 
 <span style="color:orange; font-size: 18px;">****4 Split Databases****</span>
 
-![arangodb-benchmarking-azure-4split1](../../images/arangodb-benchmarking-azure-4split1.png)
-![arangodb-benchmarking-azure-4split2](../../images/arangodb-benchmarking-azure-4split2.png)
-![arangodb-benchmarking-azure-4split3](../../images/arangodb-benchmarking-azure-4split3.png)
-![arangodb-benchmarking-azure-4split4](../../images/arangodb-benchmarking-azure-4split4.png)
-![arangodb-benchmarking-azure-4split5](../../images/arangodb-benchmarking-azure-4split5.png)
-![arangodb-benchmarking-azure-4split6](../../images/arangodb-benchmarking-azure-4split6.png)
-![arangodb-benchmarking-azure-4split7](../../images/arangodb-benchmarking-azure-4split7.png)
-![arangodb-benchmarking-azure-4split8](../../images/arangodb-benchmarking-azure-4split8.png)
-![arangodb-benchmarking-azure-4split9](../../images/arangodb-benchmarking-azure-4split9.png)
+![arangodb-benchmarking-azure-4split1](../../images/arangodb-benchmarking-azure-4split1.PNG)
+![arangodb-benchmarking-azure-4split2](../../images/arangodb-benchmarking-azure-4split2.PNG)
+![arangodb-benchmarking-azure-4split3](../../images/arangodb-benchmarking-azure-4split3.PNG)
+![arangodb-benchmarking-azure-4split4](../../images/arangodb-benchmarking-azure-4split4.PNG)
+![arangodb-benchmarking-azure-4split5](../../images/arangodb-benchmarking-azure-4split5.PNG)
+![arangodb-benchmarking-azure-4split6](../../images/arangodb-benchmarking-azure-4split6.PNG)
+![arangodb-benchmarking-azure-4split7](../../images/arangodb-benchmarking-azure-4split7.PNG)
+![arangodb-benchmarking-azure-4split8](../../images/arangodb-benchmarking-azure-4split8.PNG)
+![arangodb-benchmarking-azure-4split9](../../images/arangodb-benchmarking-azure-4split9.PNG)
 
 <span style="color:navy; font-size: 18px;">****Clustering****</span>
 
-![arangodb-benchmarking-azure-cluster1](../../images/arangodb-benchmarking-azure-cluster1.png)
-![arangodb-benchmarking-azure-cluster2](../../images/arangodb-benchmarking-azure-cluster2.png)
-![arangodb-benchmarking-azure-cluster3](../../images/arangodb-benchmarking-azure-cluster3.png)
-![arangodb-benchmarking-azure-cluster4](../../images/arangodb-benchmarking-azure-cluster4.png)
-![arangodb-benchmarking-azure-cluster5](../../images/arangodb-benchmarking-azure-cluster5.png)
+![arangodb-benchmarking-azure-cluster1](../../images/arangodb-benchmarking-azure-cluster1.PNG)
+![arangodb-benchmarking-azure-cluster2](../../images/arangodb-benchmarking-azure-cluster2.PNG)
+![arangodb-benchmarking-azure-cluster3](../../images/arangodb-benchmarking-azure-cluster3.PNG)
+![arangodb-benchmarking-azure-cluster4](../../images/arangodb-benchmarking-azure-cluster4.PNG)
+![arangodb-benchmarking-azure-cluster5](../../images/arangodb-benchmarking-azure-cluster5.PNG)
 
 ### Breakdown of the ArangoDB Dashboard
 
@@ -2191,7 +2191,7 @@ The dashboard is designed to monitor and visualize the I/O performance and healt
 
 By closely monitoring these metrics, you can maintain the health and performance of your ArangoDB instances, ensuring they operate efficiently and effectively.
 
-![arangodb-benchmarking-azure-cluster6](../../images/arangodb-benchmarking-azure-cluster6.png)
+![arangodb-benchmarking-azure-cluster6](../../images/arangodb-benchmarking-azure-cluster6.PNG)
 ### Breakdown of the Arango CPU Utilization Graph
 
 #### What is the Graph?
@@ -2223,7 +2223,7 @@ The graph is included to monitor and visualize the performance of the ArangoDB c
 
 By closely monitoring and analyzing this graph, you can gain valuable insights into the performance and health of your ArangoDB cluster, enabling you to make informed decisions to improve its efficiency and reliability.
 
-![arangodb-benchmarking-azure-cluster7](../../images/arangodb-benchmarking-azure-cluster7.png)
+![arangodb-benchmarking-azure-cluster7](../../images/arangodb-benchmarking-azure-cluster7.PNG)
 
 ### Breakdown of the Redis Cluster Dashboard
 
@@ -2285,7 +2285,7 @@ The dashboard is designed to monitor and visualize the performance and health of
 
 By closely monitoring these metrics, you can maintain the health and performance of your Redis cluster, ensuring it operates efficiently and effectively.
 
-![arangodb-benchmarking-azure-cluster8](../../images/arangodb-benchmarking-azure-cluster8.png)
+![arangodb-benchmarking-azure-cluster8](../../images/arangodb-benchmarking-azure-cluster8.PNG)
 
 ### Breakdown of the NATS Server Dashboard
 
@@ -2344,4 +2344,4 @@ The dashboard is designed to monitor and visualize the performance and health of
 
 By closely monitoring these metrics, you can maintain the health and performance of your NATS servers, ensuring they operate efficiently and effectively.
 
-![arangodb-benchmarking-azure-cluster9](../../images/arangodb-benchmarking-azure-cluster9.png)
+![arangodb-benchmarking-azure-cluster9](../../images/arangodb-benchmarking-azure-cluster9.PNG)
