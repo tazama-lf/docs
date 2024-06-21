@@ -53,9 +53,9 @@ sequenceDiagram
     Lumberjack->>Lumberjack: Batch logs
     Lumberjack->>Elastic: trasmit logs
 
-    Note right of EventSidecar: Uses gRPC<br/>for IPC
+    Note left of EventSidecar: Uses gRPC<br/>for IPC
 
-    Note right of Lumberjack: Listens for<br/>logs on specific<br/>NATS subject
+    Note left of Lumberjack: Should use same NATS subject
     
     Note right of Lumberjack: Uses pino-elasticsearch
 ```
