@@ -21,6 +21,7 @@
                + [Function Signature:](#function-signature)
             * [Usage:](#usage-1)
             * [Examples:](#examples)
+         - [Sequence Diagram:](#sequence-diagram-1)
          - [Notes:](#notes)
    * [APM](#apm)
       + [Overview](#overview)
@@ -208,7 +209,7 @@ const logger = new LoggerService();
 ```
 #### Usage
 
-You may specify a `LOGSTASH_LEVEL` environment variable in your processor to control your logs. The logging system supports multiple levels of severity, listed in ascending order of importance: `trace`, `debug`, `info`, `warn`, `error`, and `fatal`. When configuring the logging level, every log event with that level or a higher severity will be logged. For example, if you set the logging level to `info`, all log events at `info`, `warn`, `error`, and `fatal` levels will be logged. This ensures that important information and higher severity events are captured while filtering out less critical details.\
+You may specify a `LOGSTASH_LEVEL` environment variable in your processor to control your logs. The logging system supports multiple levels of severity, listed in ascending order of importance: `trace`, `debug`, `info`, `warn`, `error`, and `fatal`. When configuring the logging level, every log event with that level or a higher severity will be logged. For example, if you set the logging level to `info`, all log events at `info`, `warn`, `error`, and `fatal` levels will be logged. This ensures that important information and higher severity events are captured while filtering out less critical details.
 
 After initialising your logger, you may use the methods available to the `LoggerService` instance.
 
@@ -267,6 +268,26 @@ In this example:
 - `"12345"` is an optional identifier associated with the log message.
 
 ---
+
+#### Sequence Diagram For A Log Event:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Processor
+    participant Event-Sidecar
+
+    User->>Processor: Set log level to "info"
+
+    Processor->>Processor: Create "warn" log event
+
+    Processor->>Processor: Check log level settings
+
+    alt Log level allows "warn"
+        Processor-->>Event-Sidecar: Send Log
+    end
+```
+Refer to a high level [continuation](#sequence-diagram) of the sequence
 
 #### Notes:
 
