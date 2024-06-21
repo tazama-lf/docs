@@ -13,17 +13,17 @@ At the heart of Tazama's logging stack, there is [pino], a fast json logger whic
 ### Logger
 Tazama uses [pino] as the core logger. Which, at its core is a `json` logger. Pino utilises **transports** [^transport], which describe components that can be used to transmit and transform log output. Pino [recommends](https://github.com/pinojs/pino/blob/main/docs/transports.md#transports) that:
 
-> ... that any log transformation or transmission is performed either in a separate thread or a separate process.
+> ... any log transformation or transmission is performed either in a separate thread or a separate process.
 
-Which is where the event-sidecar comes in
+Which is where the [event-sidecar] comes in:
 
 ### Event-Sidecar
-As per the pino recommendation, the event-sidecar is a microservice that runs alongside a processor, capturing log events and transmitting them to a set destination [^lumberjack]. 
+As per the [pino] recommendation, the [event-sidecar] is a microservice that runs alongside a processor, capturing log events and transmitting them to a set destination [^lumberjack]. 
 
-As the [event-sidecar] is running in a separate process, some inter-process-communication is required in order to transmit the logs from the main processor, to the [event-sidecar]. This is implemented using gRPC, which involves two pieces. A client, and a server.
+As the [event-sidecar] is running in a separate process, some inter-process-communication is required in order to transmit the logs from the main processor, to the [event-sidecar]. This is implemented using [gRPC], which involves two pieces. A [client](#client) and a [server](#server).
 
 #### Server
-The [event-sidecar] itself, is a gRPC server that listens for requests sent by compatible clients following a specific format. The message sent is defined in a protobuf [format][wire]. An extract:
+The [event-sidecar] itself, is a [gRPC] server that listens for requests sent by compatible clients following a specific format. The message sent is defined in a protobuf [format][wire]. An extract:
 
 ```proto
 enum LogLevel {
@@ -44,7 +44,7 @@ service Lumberjack {
 ```
 
 #### Client
-Tazama abstracts away the need to write your own gRPC client. Simply initialising a logger and providing it with an address will create a gRPC Client behind the scenes which will send requests to the address that was provided.
+Tazama abstracts away the need to write your own [gRPC] client. Simply initialising a logger and providing it with an address will create a [gRPC] client behind the scenes which will send requests to the address that was provided.
 
 An example:
 
@@ -53,24 +53,24 @@ An example:
 const logger = new LoggerService();
 ```
 
-An alternative implementation, **opting into** logging with the sidecar may be:
+An alternative implementation, **opting into** logging with the sidecar (as well as [lumberjack]) may be:
 ```js
 const logger = new LoggerService("192.0.0.1:1234");
 ```
 > [!NOTE]  
 > If a sidecar host is provided in the `LoggerService` constructor, you have to ensure your sidecar is live on the address you provided
 
-As gRPC is in use, it allows Tazama to be flexible enough to allow logs coming from any client (in any programming language) as long as it adheres to the type that the server expects (defined in the protobuf format above).
+As [gRPC] is in use, it allows Tazama to be flexible enough to allow logs coming from any client (in any programming language) as long as it adheres to the type that the server expects (defined in the protobuf format above).
 
 After receiving the logs, the [event-sidecar] sends them to [lumberjack] via [NATS]
 
 ### Lumberjack
-Lumberjack is a microservice that receives all log events before redirecting them to a central place. This microservice utilises [NATS] to listen for incoming messages with a specific subject. The [event-sidecar] sends messages with a specific subject that [lumberjack] listens for. This microservice depends on [pino-elasticsearch](https://github.com/pinojs/pino-elasticsearch), which is what acts as our transport to transform our logs from our wire format (in the protofile), to the format that Elastic search expects.
+Lumberjack is a microservice that receives all log events before redirecting them to a central place. This microservice utilises [NATS] to listen for incoming messages with a specific subject. The [event-sidecar] sends messages with a specific subject that [lumberjack] listens for. This microservice depends on [pino-elasticsearch](https://github.com/pinojs/pino-elasticsearch), which is what acts as our transport to transform our logs from our wire format (in the protofile), to the format that [Elastic] search expects.
 
 This microservice has an additional responsibility of batching the received logs before transmission. This has a wide range of benefits as ultimately, I/O operations are reduced which will generally have implications on from improved performance coming from less network calls which can also affect costs in cloud environments.
 
 ## Implementation
-The [event-sidecar] and [lumberjack] are optional components in implementation. Perhaps hardware is limited or there may be some situations whereby running more microservices is not ideal, Tazama will still have a functional logging implementation if the [event-sidecar] and [lumberjack] are excluded from deployment. As mentioned before, you can opt out in to using the [event-sidecar] and [lumberjack] for logging by specifying the sidecar host when initialising the logger service.
+The [event-sidecar] and [lumberjack] are optional components in implementation. Perhaps hardware is limited or there may be some situations whereby running more microservices is not ideal, Tazama will still have a functional logging implementation if the [event-sidecar] and [lumberjack] are excluded from deployment. As mentioned before, you can opt in to using the [event-sidecar] and [lumberjack] for logging by specifying the sidecar host when initialising the logger service.
 
 ### Configuration
 
@@ -81,7 +81,7 @@ The [event-sidecar] and [lumberjack] are optional components in implementation. 
 The following services are required:
 
 - [NATS] - requires a [NATS] server to be running
-- [Elastic search]() - log destination
+- [Elastic] - log destination
 
 A sample [.env](https://github.com/frmscoe/lumberjack/blob/ce6cda49bade1a0287bc0c603330e5fbb8159455/.env.example) is provided.
 
@@ -158,7 +158,7 @@ After initialising your logger, you may use the methods available to the `Logger
 
 ##### Function Signature:
 
-The custom logger function has the following signature for `trace`, `debug`, and `warn` log levels:
+The custom logger function has the following signature for `trace`, `debug`, `log` and `warn` log levels:
 
 ```typescript
 trace(message: string, serviceOperation?: string, id?: string, callback?: LogCallback): void
@@ -174,6 +174,17 @@ log(message: string, serviceOperation?: string, id?: string, callback?: LogCallb
 
 - **`callback` (optional)**: A callback function that can be provided to handle asynchronous logging operations or to receive notifications after logging. This parameter is optional and may not be used in all logging scenarios.
 
+Additional Levels:
+`error` and `fatal` levels are also supported but they have a custom signature:
+
+```ts
+error(message: string | Error, innerError?: unknown, serviceOperation?: string, id?: string, callback?: LogCallback): void;
+```
+
+Which allow an instance of an [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) to be sent as an alternative of the usual `string`, for cases where you may want more information contained in the error itself instead of just the error message (`string`)
+
+
+
 #### Usage:
 
 - **`trace`**: Used for very detailed or fine-grained informational events. Example: tracing function calls.
@@ -181,6 +192,8 @@ log(message: string, serviceOperation?: string, id?: string, callback?: LogCallb
 - **`debug`**: Used for debugging purposes, providing detailed information for diagnosing issues.
 
 - **`warn`**: Indicates potential issues that should be monitored or investigated.
+- **`error`**: Indicates a significant problem that might affect the functionality of the application but does not necessarily cause it to crash immediately.
+- **`fatal`**: a critical problem that has caused the application to abort or terminate.
 
 #### Examples:
 
@@ -202,11 +215,98 @@ In this example:
 - Utilize the optional parameters (`serviceOperation`, `id`, and `callback`) to provide detailed context and functionality as needed.
 - Customize the logger implementation to integrate with your specific logging framework or requirements.
 
+For creating a data view in Kibana, a [guide](./Logging-Data-View.md) is provided.
+
+## Elastic APM Integration
+
+### Overview
+Tazama core processors support integration with Elastic APM for comprehensive Application Performance Monitoring (APM) capabilities which allow for insights into performance metrics.
+
+### Compatibility
+Our application is compatible with [Elastic APM] version 8.11.
+
+### Setup Instructions
+To integrate with [Elastic APM], follow these steps:
+1. Install [Elastic APM] agent in your application environment.
+2. Configure the agent with your [Elastic APM] server URL and credentials.
+3. Enable instrumentation for your application components.
+
+### Features and Benefits
+- Monitor response times, error rates, and other performance metrics.
+- Diagnose bottlenecks and optimize application performance.
+- Gain visibility into distributed traces and dependencies.
+
+For detailed setup instructions and troubleshooting tips, refer to our [integration guide](./Setting-Up-Elastic-APM.md)
+
+### Usage
+In your application, install [frms-coe-lib]:
+
+```sh
+npm install @frmscoe/frms-coe-lib
+```
+
+#### Initialization
+Initialize the APM wrapper (`Apm`) at the earliest point after starting your application. This wrapper simplifies integration with Elastic APM and provides a straightforward interface for monitoring:
+
+```ts
+import { Apm } from '@frmscoe/frms-coe-lib/lib/services/apm';
+
+// Initialize Apm
+const apm = new Apm({
+  serviceName: "myService",
+  secretToken: "myToken",
+  serverUrl: "http://some-host",
+  usePathAsTransactionName: true,
+  active: true,
+  transactionIgnoreUrls: ['/health'], // Ignore healthcheck path
+});
+
+// So we can use this in other files
+export default apm;
+```
+
+##### Configuration Options
+You can configure `Apm` with various options supported by Elastic APM Node.js agent. Refer to the [Elastic APM Node.js documentation](https://www.elastic.co/guide/en/apm/agent/nodejs/current/index.html) for detailed configuration options.
+
+Tazama applications read your environment for [Elastic APM] configuration options.
+
+| Variable           | Purpose                                                                                      | Example                            |
+|--------------------|----------------------------------------------------------------------------------------------|------------------------------------|
+| `APM_ACTIVE`       | Determines if APM (Application Performance Monitoring) is active for the service.            | `true` (APM is active)             |
+| `APM_SERVICE_NAME` | Specifies the name of the monitored service.                                                 | `transaction-monitoring-service`   |
+| `APM_URL`          | URL where APM data is sent (This could be an IP address or hostname with port.)              | `http://apm:8200`                  |
+| `APM_SECRET_TOKEN` | Token used for authentication and authorization with the APM system.                         | `somesecret`                       |
+
+### Example Usage
+Here's an example of how to use `Apm` to monitor a function in your application:
+
+```ts
+import './apm';
+
+function importantFunction() {
+  // Start a span
+   const span = apm.startSpan('calculating sum');
+   const sum = 1 + 1;
+   span.end();
+}
+```
+
+### Troubleshooting
+If you encounter issues during setup or integration, refer to the [Elastic APM Node.js troubleshooting guide](https://www.elastic.co/guide/en/apm/agent/nodejs/current/troubleshooting.html).
+
+### Additional Resources
+For setting up dashboards, consult our [documentation](./Setting-Up-Elastic-APM.md)
+
+
 [pino]: https://github.com/pinojs/pino
 [lumberjack]: https://github.com/frmscoe/lumberjack
 [frms-coe-lib]: https://github.com/frmscoe/frms-coe-lib
 [wire]: https://github.com/frmscoe/lumberjack
 [NATS]: https://nats.io
+[gRPC]: https://grpc.io/
+[Elastic]: https://www.elastic.co/
+[Elastic APM]: https://www.elastic.co/observability/application-performance-monitoring
+[elastic-apm-node]: https://www.npmjs.com/package/elastic-apm-node
 [event-sidecar]: https://github.com/frmscoe/event-sidecar
 [^transport]: [pino-elasticsearch](https://github.com/pinojs/pino-elasticsearch)
 [^lumberjack]: [Lumberjack](https://github.com/frmscoe/lumberjack)
