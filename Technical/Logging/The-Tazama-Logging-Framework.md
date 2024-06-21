@@ -377,6 +377,19 @@ If you encounter issues during setup or integration, refer to the [Elastic APM N
 ### Additional Resources
 For setting up dashboards, consult our [documentation](./Setting-Up-Elastic-APM.md)
 
+## Notes on Kibana:
+
+It is recommended to go through upstream [documentation](https://www.elastic.co/guide/en/kibana/current/introduction.html). For a general implementation, where one can view logs as well as APM data, you may start with the following applications:
+
+### [Discover](https://www.elastic.co/guide/en/kibana/current/discover.html)
+> With Discover, you can quickly search and filter your data, get information about the structure of the fields, and display your findings in a visualization. You can also customize and save your searches and place them on a dashboard.
+
+### [Observability](https://www.elastic.co/guide/en/kibana/current/observability.html)
+> Observability enables you to add and monitor your logs, system metrics, uptime data, and application traces, as a single stack.
+
+### [APM](https://www.elastic.co/guide/en/kibana/current/xpack-apm.html)
+> Allows you to monitor your software services and applications in real-time; visualize detailed performance information on your services, identify and analyze errors, and monitor host-level and APM agent-specific metrics
+
 
 [pino]: https://github.com/pinojs/pino
 [lumberjack]: https://github.com/frmscoe/lumberjack
