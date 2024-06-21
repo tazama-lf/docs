@@ -828,8 +828,8 @@ The dashboard is designed to monitor and visualize the performance and health of
 
 By closely monitoring these metrics, you can maintain the health and performance of your Redis cluster, ensuring it operates efficiently and effectively.
 
-![arangodb-clustering-redis1](/images/arangodb-clustering-redis1.png)
-![arangodb-clustering-redis2](/images/arangodb-clustering-redis12.png)
+![arangodb-clustering-redis1](../../images/arangodb-clustering-redis1.PNG)
+![arangodb-clustering-redis2](../../images/arangodb-clustering-redis12.PNG)
 
 ### Breakdown of the NATS Server Dashboard
 
@@ -888,7 +888,7 @@ The dashboard is designed to monitor and visualize the performance and health of
 
 By closely monitoring these metrics, you can maintain the health and performance of your NATS servers, ensuring they operate efficiently and effectively.
 
-![arangodb-clustering-nats-server-dashboard](/images/arangodb-clustering-nats-server-dashboard.png)
+![arangodb-clustering-nats-server-dashboard](../../images/arangodb-clustering-nats-server-dashboard.PNG)
 ### Summary of JMeter Test Reports
 
 #### What is JMeter?
@@ -910,13 +910,13 @@ Apache JMeter is an open-source software designed to load test functional behavi
 4. **Response Times:** Important to measure the time taken to respond to requests.
 5. **Throughput:** Indicates the number of transactions handled by the TMS per second.
 6. **Network Usage:** Measures the data sent and received during the test.
-![arangodb-clustering-jmeter1](/images/arangodb-clustering-jmeter1.png)
-![arangodb-clustering-jmeter1](/images/arangodb-clustering-jmeter2.png)
-![arangodb-clustering-jmeter1](/images/arangodb-clustering-jmeter3.png)
-![arangodb-clustering-jmeter1](/images/arangodb-clustering-jmeter4.png)
-![arangodb-clustering-jmeter1](/images/arangodb-clustering-jmeter5.png)
-![arangodb-clustering-jmeter1](/images/arangodb-clustering-jmeter6.png)
-![arangodb-clustering-jmeter1](/images/arangodb-clustering-jmeter7.png)
+![arangodb-clustering-jmeter1](../../images/arangodb-clustering-jmeter1.PNG)
+![arangodb-clustering-jmeter1](../../images/arangodb-clustering-jmeter2.PNG)
+![arangodb-clustering-jmeter1](../../images/arangodb-clustering-jmeter3.PNG)
+![arangodb-clustering-jmeter1](../../images/arangodb-clustering-jmeter4.PNG)
+![arangodb-clustering-jmeter1](../../images/arangodb-clustering-jmeter5.PNG)
+![arangodb-clustering-jmeter1](../../images/arangodb-clustering-jmeter6.PNG)
+![arangodb-clustering-jmeter1](../../images/arangodb-clustering-jmeter7.PNG)
 
 ### Breakdown of the ArangoDB Dashboard
 
@@ -996,8 +996,8 @@ The dashboard is designed to monitor and visualize the I/O performance and healt
     - Look for any patterns or changes in lease duration over time.
 
 By closely monitoring these metrics, you can maintain the health and performance of your ArangoDB instances, ensuring they operate efficiently and effectively.
-![arangodb-clustering-arango-dashboard](/images/arangodb-clustering-arango-dashboard.png)
-![arangodb-clustering-arango-dashboard2](/images/arangodb-clustering-arango-dashboard2.png)
+![arangodb-clustering-arango-dashboard](../../images/arangodb-clustering-arango-dashboard.PNG)
+![arangodb-clustering-arango-dashboard2](../../images/arangodb-clustering-arango-dashboard2.PNG)
 
 ### Breakdown of the Arango CPU Utilization Graph
 
@@ -1029,7 +1029,7 @@ The graph is included to monitor and visualize the performance of the ArangoDB c
 4. **Overall CPU Usage:** Pay attention to the overall trend in CPU usage. If the entire cluster is showing high CPU utilization, it might indicate the need for additional resources or a more efficient load balancing strategy.
 
 By closely monitoring and analyzing this graph, you can gain valuable insights into the performance and health of your ArangoDB cluster, enabling you to make informed decisions to improve its efficiency and reliability.
-![arangodb-clustering-cpu-rate](/images/arangodb-clustering-cpu-rate.png)
+![arangodb-clustering-cpu-rate](../../images/arangodb-clustering-cpu-rate.PNG)
 
 ### Breakdown of the AZURE CPU Utilization Graphs
 
@@ -1112,7 +1112,7 @@ The graphs are used to monitor and visualize the CPU usage of different VMs in t
 - **Max Percentage CPU:** 3.58%
 - **Observation:** Low CPU usage overall, with minor fluctuations.
 
-![arangodb-clustering-nats-redis-azure](/images/arangodb-clustering-nats-redis-azure.png)
-![arangodb-clustering-arango-azure](/images/arangodb-clustering-arango-azure.png)
-![arangodb-clustering-tms-tp-crsp-azure](/images/arangodb-clustering-tms-tp-crsp-azure.png)
-![arangodb-clustering-rules-tadp-crsp-azure](/images/arangodb-clustering-rules-tadp-crsp-azure.png)
+![arangodb-clustering-nats-redis-azure](../../images/arangodb-clustering-nats-redis-azure.PNG)
+![arangodb-clustering-arango-azure](../../images/arangodb-clustering-arango-azure.PNG)
+![arangodb-clustering-tms-tp-crsp-azure](../../images/arangodb-clustering-tms-tp-crsp-azure.PNG)
+![arangodb-clustering-rules-tadp-crsp-azure](../../images/arangodb-clustering-rules-tadp-crsp-azure.PNG)

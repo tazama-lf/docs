@@ -51,7 +51,7 @@ This document outlines the architecture of a split database setup using four sep
 
 ## ArangoDB Instances
 
-![arangodb-splitdb-example-diagram](/images/arangodb-splitdb-example-diagram.png)
+![arangodb-splitdb-example-diagram](../../images/arangodb-splitdb-example-diagram.PNG)
 
 <details>
   <summary>Mermaid</summary>
@@ -204,7 +204,7 @@ The deployment configuration for each application across the servers is as follo
 | D96s_v5    | 3     | 13393.99      | 96 CPU / 320 gigs RAM   |
 |<span style="color:green;">**Total**</span>|           | **18194.49**      | 
 
-![arangodb-splitdb-azure-costs](/images/arangodb-splitdb-azure-costs.png)
+![arangodb-splitdb-azure-costs](../../images/arangodb-splitdb-azure-costs.PNG)
 
 ### Test Execution
 #### 1. SplitDB Configuration & Metrics
@@ -769,21 +769,21 @@ By closely monitoring and analyzing these graphs, you can gain valuable insights
 
 By maintaining a close watch on these metrics, you can ensure your AKS cluster operates efficiently, manage resources effectively, and preemptively address any potential performance issues.
 
-![arangodb-splitdb-nats-azure](/images/arangodb-splitdb-nats-azure.png)
+![arangodb-splitdb-nats-azure](../../images/arangodb-splitdb-nats-azure.PNG)
 
-![arangodb-splitdb-redis-azure](/images/arangodb-splitdb-redis-azure.png)
+![arangodb-splitdb-redis-azure](../../images/arangodb-splitdb-redis-azure.PNG)
 
-![arangodb-splitdb-crsp-azure](/images/arangodb-splitdb-crsp-azure.png)
+![arangodb-splitdb-crsp-azure](../../images/arangodb-splitdb-crsp-azure.PNG)
 
-![arangodb-splitdb-rules-azure](/images/arangodb-splitdb-rules-azure.png)
+![arangodb-splitdb-rules-azure](../../images/arangodb-splitdb-rules-azure.PNG)
 
-![arangodb-splitdb-tadp-azure](/images/arangodb-splitdb-tadp-azure.png)
+![arangodb-splitdb-tadp-azure](../../images/arangodb-splitdb-tadp-azure.PNG)
 
-![arangodb-splitdb-tms-azure](/images/arangodb-splitdb-tms-azure.png)
+![arangodb-splitdb-tms-azure](../../images/arangodb-splitdb-tms-azure.PNG)
 
-![arangodb-splitdb-tp-azure](/images/arangodb-splitdb-tp-azure.png)
+![arangodb-splitdb-tp-azure](../../images/arangodb-splitdb-tp-azure.PNG)
 
-![arangodb-splitdb-arango-azure](/images/arangodb-splitdb-arango-azure.png)
+![arangodb-splitdb-arango-azure](../../images/arangodb-splitdb-arango-azure.PNG)
 
 ## Conclusions and Recommendations
 The Tazama project's Azure Cloud servers provide a robust environment for testing and benchmarking the anti-fraud and money laundering system. The use of K8s facilitates efficient management of various critical applications, ensuring high performance and reliability during benchmarking.

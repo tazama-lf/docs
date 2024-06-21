@@ -62,7 +62,7 @@ Before you start, ensure you have the following:
 
 Once JMeter is running, you can load your test file.
 
-![benchmarking-using-jmeter-bin](/images/benchmarking-using-jmeter-bin.png) 
+![benchmarking-using-jmeter-bin](../../images/benchmarking-using-jmeter-bin.PNG) 
 
 ## Download JMeter Starter Kit
 
@@ -88,14 +88,14 @@ In order to modify your test file, you will need to download the starter kit.
 ### 3. Load Test File
 - Use the JMeter GUI to load your test file. Navigate to **File > Open** and select the desired `.jmx` test file.
 
-![benchmarking-using-jmeter-loading-file](/images/benchmarking-using-jmeter-loading-file.png) 
+![benchmarking-using-jmeter-loading-file](../../images/benchmarking-using-jmeter-loading-file.PNG) 
 
 ### 4. Modify the Test
 - Make changes to the loaded test as needed using the GUI interface.
   - Changes can include Number of Threads and loop count that is found in the thread Group.
 - Save the test file after making modifications.
 
- ![benchmarking-using-jmeter-local-run](/images/benchmarking-using-jmeter-local-run.png) 
+ ![benchmarking-using-jmeter-local-run](../../images/benchmarking-using-jmeter-local-run.PNG) 
 
 ## Deploying and Running the JMeter Test on Kubernetes
 
@@ -108,7 +108,7 @@ In order to modify your test file, you will need to download the starter kit.
 ### 3. Ensure Test Scenario Exists
 - Ensure that the scenario directory (e.g., `TP028`) is present within the scenario folder (`.../jmeter-k8s-starterkit/scenario/`), and it contains the relevant `.jmx` test file.
 
-![benchmarking-using-jmeter-scenario](/images/benchmarking-using-jmeter-scenario.png) 
+![benchmarking-using-jmeter-scenario](../../images/benchmarking-using-jmeter-scenario.PNG) 
   
 ### 4. Run the Test
 - Execute the following command to run the test on the Kubernetes cluster:
@@ -141,7 +141,7 @@ You can also run JMeter tests locally on your computer instead of on Kubernetes 
   - `arangoUrl`: Set to the external endpoint URL.
   - `baseUrl`: Set to the external endpoint URL.
 
-![benchmarking-using-jmeter-parameters](/images/benchmarking-using-jmeter-parameters.png)
+![benchmarking-using-jmeter-parameters](../../images/benchmarking-using-jmeter-parameters.PNG)
 
 ### 2. Load and Modify Test File
 - Load your test file into the JMeter GUI as described in the previous section.
@@ -149,7 +149,7 @@ You can also run JMeter tests locally on your computer instead of on Kubernetes 
 ### 3. Run the Test
 - To run the test locally, simply click the green arrow button in the JMeter GUI.
   
-![benchmarking-using-jmeter-local-run](/images/benchmarking-using-jmeter-local-run.png)
+![benchmarking-using-jmeter-local-run](../../images/benchmarking-using-jmeter-local-run.PNG)
 
 ### Conclusion
 
