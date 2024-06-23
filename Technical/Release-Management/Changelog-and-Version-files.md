@@ -19,7 +19,7 @@ Guiding Principles
 - The release date of each version is displayed.
 - The latest release to be made should match the latest version in the changelog.md file at the time of the release.
 
-![](../../images/changelog-file.png)
+![](././images/changelog-file.png)
 
 VERSION File
 
@@ -33,6 +33,6 @@ Guiding Principles
 - Both files must be changed. You can't chnage the version in one and leave the other, be major, minor or patch numbers.
 - The release to be published in github should match the version in the VERSION file at the point of release. (Screenshots attached below)
 
-![](../../images/version-file.png)
+![](./images/version-file.png)
 
-![](../../images/release-file.png)
+![](././images/release-file.png)
