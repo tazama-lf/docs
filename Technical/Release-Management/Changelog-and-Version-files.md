@@ -35,8 +35,10 @@ A VERSION file contains a version number that was appended to the CHANGELOG.md f
 - The latest version should be the match the number in the VERSION file
 - After making changes to Changelogs, ensure you change the version in the VERSION file before making a PR
 - Both files must be changed. You can't chnage the version in one and leave the other, be major, minor or patch numbers
-- The release to be published in github should match the version in the VERSION file at the point of release. (Screenshots attached below)
+- The release to be published in github should match the version in the VERSION file at the point of release. (Screenshots attached for the number in version)
 
 ![alt text](../../images/version-file.png)
+
+(Screenshots attached for the number in the github release)
 
 ![alt text](../../images/release-file.png)
