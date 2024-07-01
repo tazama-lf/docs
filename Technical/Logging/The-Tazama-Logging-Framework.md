@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-The logging stack requires some external services. Some are optional, but if resources are allowing, it is recommended to set up all of them for the most efficient logging experience
+The logging stack depends on some external services to get up and running
 
 ### Dependencies
 
