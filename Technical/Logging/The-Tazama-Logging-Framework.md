@@ -1,3 +1,46 @@
+
+- [Tazama Logging User Guide](#tazama-logging-user-guide)
+  - [Prerequisites](#prerequisites)
+    - [Dependencies](#dependencies)
+  - [Architecture](#architecture)
+    - [processor (something to generate logs)](#processor-something-to-generate-logs)
+    - [NATS](#nats)
+    - [event-sidecar](#event-sidecar)
+        - [Server](#server)
+        - [Client](#client)
+    - [lumberjack](#lumberjack)
+  - [Deployment](#deployment)
+    - [Prerequisites](#prerequisites-1)
+    - [NATS](#nats-1)
+    - [ELK (Elastic Logstash Kibana) Stack](#elk-elastic-logstash-kibana-stack)
+    - [Event Sidecar](#event-sidecar-1)
+      - [Configuration](#configuration)
+      - [Running the Event-Sidecar](#running-the-event-sidecar)
+    - [Lumberjack](#lumberjack-1)
+      - [Configuration](#configuration-1)
+        - [FLUSHBYTES](#flushbytes)
+          - [Considerations:](#considerations)
+          - [Caveats:](#caveats)
+          - [Choosing a Value:](#choosing-a-value)
+          - [Example Scenario:](#example-scenario)
+      - [Running Lumberjack](#running-lumberjack)
+    - [Processor](#processor)
+      - [Configuration](#configuration-2)
+      - [Usage](#usage)
+        - [Available Methods](#available-methods)
+        - [Calling the logger](#calling-the-logger)
+      - [Notes:](#notes)
+  - [APM](#apm)
+    - [Overview](#overview)
+      - [Prerequisites](#prerequisites-2)
+    - [Compatibility](#compatibility)
+    - [Usage](#usage-1)
+      - [Initialisation](#initialisation)
+        - [Configuration Options](#configuration-options)
+    - [Example Usage](#example-usage)
+    - [Troubleshooting](#troubleshooting)
+    - [Additional Resources](#additional-resources)
+
 # Tazama Logging User Guide
 
 ## Prerequisites
@@ -39,18 +82,18 @@ Understanding NATS and gRPC functionalities is crucial for effectively implement
 ## Architecture
 At the heart of Tazama's logging stack, there is [pino], a fast JSON logger which is highly configurable. There are 4 main components involved in the stack:
 
-- ### processor (something to generate logs)
+### processor (something to generate logs)
   This is the main Node.JS application
-- ### [NATS]
-  Used for inter-process communication between the event-sidecar and lumberjack
+### [NATS]
+- Used for inter-process communication between the event-sidecar and lumberjack
 
-- ### [event-sidecar]
-  As per the [pino] recommendation, the [event-sidecar] is a microservice that runs alongside a processor, capturing log events and transmitting them to a set destination [^lumberjack]. 
+### [event-sidecar]
+- As per the [pino] recommendation, the [event-sidecar] is a microservice that runs alongside a processor, capturing log events and transmitting them to a set destination [^lumberjack]. 
 
   As the [event-sidecar] is running in a separate process, some inter-process-communication is required in order to transmit the logs from the main processor, to the [event-sidecar]. This is implemented using [gRPC], which involves two pieces. A [client](#client) and a [server](#server).
 
-  ##### Server
-  The [event-sidecar] itself is a [gRPC] server that listens for requests sent by compatible clients following a specific format. The message sent is defined in a protobuf [format][wire]. An extract:
+##### Server
+- The [event-sidecar] itself is a [gRPC] server that listens for requests sent by compatible clients following a specific format. The message sent is defined in a protobuf [format][wire]. An extract:
 
   ```proto
   enum LogLevel {
@@ -70,11 +113,11 @@ At the heart of Tazama's logging stack, there is [pino], a fast JSON logger whic
   }
   ```
 
-  ##### Client
-  Tazama abstracts away the need to write your own [gRPC] client. Simply initialising a logger and providing it with an address will create a [gRPC] client behind the scenes which will send requests to the address that was provided.
+##### Client
+- Tazama abstracts away the need to write your own [gRPC] client. Simply initialising a logger and providing it with an address will create a [gRPC] client behind the scenes which will send requests to the address that was provided.
 
-- ### [lumberjack]
-  Lumberjack is a microservice that receives all log events before redirecting them to a central place. This microservice utilises [NATS] to listen for incoming messages with a specific subject. The [event-sidecar] sends messages with a specific subject that [lumberjack] listens for. This microservice depends on [pino-elasticsearch](https://github.com/pinojs/pino-elasticsearch), which is what acts as our transport to transform our logs from our wire format (in the protofile), to the format that [Elasticsearch](https://elastic.co) expects. 
+### [lumberjack]
+-  Lumberjack is a microservice that receives all log events before redirecting them to a central place. This microservice utilises [NATS] to listen for incoming messages with a specific subject. The [event-sidecar] sends messages with a specific subject that [lumberjack] listens for. This microservice depends on [pino-elasticsearch](https://github.com/pinojs/pino-elasticsearch), which is what acts as our transport to transform our logs from our wire format (in the protofile), to the format that [Elasticsearch](https://elastic.co) expects. 
   
   
   This microservice has an additional responsibility of batching the received logs before transmission. This has a wide range of benefits as ultimately, I/O operations are reduced which will generally have implications on from improved performance coming from less network calls which can also affect costs in cloud environments.
@@ -145,11 +188,11 @@ docker build . -t event-sidecar
 #### Configuration
 A sample [.env](https://github.com/frmscoe/event-sidecar/blob/feb5e53b0801f60fa746e1720349cfb8c09e6c2b/.env.example) is provided.
 
-| Variable Name  | Purpose                              | Example                    |
-|----------------|--------------------------------------|----------------------------|
-| PORT           | Specifies the port number to use     | `8080`                     |
-| NATS_SERVER    | Specifies the NATS server address    | `nats://localhost:4222`    |
-| NATS_SUBJECT   | Defines the NATS subject/topic name  | `lumberjack`               |
+| Variable Name | Purpose                             | Example                 |
+| ------------- | ----------------------------------- | ----------------------- |
+| PORT          | Specifies the port number to use    | `8080`                  |
+| NATS_SERVER   | Specifies the NATS server address   | `nats://localhost:4222` |
+| NATS_SUBJECT  | Defines the NATS subject/topic name | `lumberjack`            |
 
 > [!NOTE]
 > Adapt the ports as needed in your environment. The `PORT` set in the table above does not need to be `8080`.
@@ -187,15 +230,15 @@ docker build . -t lumberjack
 #### Configuration
 A sample [.env](https://github.com/frmscoe/lumberjack/blob/ce6cda49bade1a0287bc0c603330e5fbb8159455/.env.example) is provided.
 
-| Variable Name         | Purpose                               | Example             |
-|-----------------------|---------------------------------------|---------------------|
-| NATS_SERVER           | Specifies the NATS server address      | `nats://localhost:4222` |
-| NATS_SUBJECT          | Defines the NATS subject/topic name    | `lumberjack`        |
-| ELASTIC_SEARCH_VERSION| Specifies the Elasticsearch version   | `8.11`              |
-| ELASTIC_HOST          | Specifies the Elasticsearch host       | `http://localhost:9200` |
-| ELASTIC_USERNAME      | Username for Elasticsearch authentication | `elastic_user`   |
-| ELASTIC_PASSWORD      | Password for Elasticsearch authentication | `secretpassword` |
-| FLUSHBYTES            | Max size of buffer used to accumulate log messages before they are sent to Elasticsearch | `1024`       |
+| Variable Name          | Purpose                                                                                  | Example                 |
+| ---------------------- | ---------------------------------------------------------------------------------------- | ----------------------- |
+| NATS_SERVER            | Specifies the NATS server address                                                        | `nats://localhost:4222` |
+| NATS_SUBJECT           | Defines the NATS subject/topic name                                                      | `lumberjack`            |
+| ELASTIC_SEARCH_VERSION | Specifies the Elasticsearch version                                                      | `8.11`                  |
+| ELASTIC_HOST           | Specifies the Elasticsearch host                                                         | `http://localhost:9200` |
+| ELASTIC_USERNAME       | Username for Elasticsearch authentication                                                | `elastic_user`          |
+| ELASTIC_PASSWORD       | Password for Elasticsearch authentication                                                | `secretpassword`        |
+| FLUSHBYTES             | Max size of buffer used to accumulate log messages before they are sent to Elasticsearch | `1024`                  |
 
 > [!CAUTION]
 > The `NATS_SERVER` and `NATS_SUBJECT` variables need to match the ones set in the [Event-Sidecar](#configuration) Configuration
@@ -264,9 +307,9 @@ const logger = new LoggerService("localhost:8080"); // here, 8080 is the port we
 > Ensure the event-sidecar AND [lumberjack] start up before the processor so that logs are not missed.
 
 #### Configuration
-| Variable Name         | Purpose                               | Example             |
-|-----------------------|---------------------------------------|---------------------|
-| LOGSTASH_LEVEL        | Specifies the minimum log level to capture logs for      | `warn` |
+| Variable Name  | Purpose                                             | Example |
+| -------------- | --------------------------------------------------- | ------- |
+| LOGSTASH_LEVEL | Specifies the minimum log level to capture logs for | `warn`  |
 
 
 The logging system supports multiple levels of severity. In ascending order of importance:
@@ -375,12 +418,12 @@ You can configure `Apm` with various options supported by Elastic APM Node.js ag
 
 Tazama applications read your environment for Elastic [APM] configuration options.
 
-| Variable           | Purpose                                                                                      | Example                            |
-|--------------------|----------------------------------------------------------------------------------------------|------------------------------------|
-| `APM_ACTIVE`       | Determines if APM (Application Performance Monitoring) is active for the service.            | `true` (APM is active)             |
-| `APM_SERVICE_NAME` | Specifies the name of the monitored service.                                                 | `transaction-monitoring-service`   |
-| `APM_URL`          | URL where APM data is sent (This could be an IP address or hostname with port.)              | `http://apm:8200`                  |
-| `APM_SECRET_TOKEN` | Token used for authentication and authorization with the APM system.                         | `somesecret`                       |
+| Variable           | Purpose                                                                           | Example                          |
+| ------------------ | --------------------------------------------------------------------------------- | -------------------------------- |
+| `APM_ACTIVE`       | Determines if APM (Application Performance Monitoring) is active for the service. | `true` (APM is active)           |
+| `APM_SERVICE_NAME` | Specifies the name of the monitored service.                                      | `transaction-monitoring-service` |
+| `APM_URL`          | URL where APM data is sent (This could be an IP address or hostname with port.)   | `http://apm:8200`                |
+| `APM_SECRET_TOKEN` | Token used for authentication and authorization with the APM system.              | `somesecret`                     |
 
 ### Example Usage
 Here's an example of how to use `Apm` to monitor a function in your application:
