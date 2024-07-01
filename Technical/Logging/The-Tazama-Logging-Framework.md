@@ -1,43 +1,28 @@
-# The Tazama Logging Framework
+# Tazama Logging User Guide
 
-- [The Tazama Logging Framework](#the-tazama-logging-framework)
-   * [Logging](#logging)
-      + [Architecture](#architecture)
-         - [Sequence Diagram](#sequence-diagram)
-         - [Logger](#logger)
-         - [Event-Sidecar](#event-sidecar)
-            * [Server](#server)
-            * [Client](#client)
-         - [Lumberjack](#lumberjack)
-      + [Implementation](#implementation)
-         - [Configuration](#configuration)
-            * [With Event-Sidecar and Lumberjack](#with-event-sidecar-and-lumberjack)
-               + [Lumberjack](#lumberjack-1)
-               + [Event-Sidecar](#event-sidecar-1)
-               + [Processor](#processor)
-            * [Without Event-Sidecar and Lumberjack](#without-event-sidecar-and-lumberjack)
-         - [Usage](#usage)
-            * [Logger Service ](#logger-service)
-               + [Function Signature:](#function-signature)
-            * [Usage:](#usage-1)
-            * [Examples:](#examples)
-         - [Sequence Diagram:](#sequence-diagram-1)
-         - [Notes:](#notes)
-   * [APM](#apm)
-      + [Overview](#overview)
-      + [Compatibility](#compatibility)
-      + [Setup Instructions](#setup-instructions)
-      + [Features and Benefits](#features-and-benefits)
-      + [Usage](#usage-2)
-         - [Initialization](#initialization)
-            * [Configuration Options](#configuration-options)
-      + [Example Usage](#example-usage)
-      + [Troubleshooting](#troubleshooting)
-      + [Additional Resources](#additional-resources)
+## Prerequisites
 
-### Prerequisites
+The logging stack requires some external services. Some are optional, but if resources are allowing, it is recommended to set up all of them for the most efficient logging experience
 
-Before proceeding with this documentation, it is recommended that you familiarise yourself with the following technologies:
+### Dependencies
+
+- #### [NATS]
+  A [NATS] server is required. Follow the [installation instructions](https://docs.nats.io/running-a-nats-service/introduction/installation) from their website
+
+- #### ELK Stack
+  We use the ELK stack for centralised logging and application performance monitoring (APM). You need to have the following services install **[in this specific order](https://www.elastic.co/guide/en/elastic-stack/8.14/installing-elastic-stack.html#install-order-elastic-stack)**: 
+  - [Elasticsearch]:
+      - If installing on a cloud environment, [EKS](https://github.com/frmscoe/EKS-helm/tree/751462cae1c21bf90ec34513934697af647bf357/charts/elasticsearch) and [AKS](https://github.com/frmscoe/AKS-helm/tree/d95ca3002c9d47cbe7ce23c129c80b71ef932c36/charts/elasticsearch) helm charts are available. If installing on a local environment, it is recommended to follow [upstream documentation](https://www.elastic.co/guide/en/elasticsearch/reference/8.14/install-elasticsearch.html) on installation. A [docker guide](https://www.elastic.co/guide/en/elasticsearch/reference/8.14/docker.html) is also provided
+  - [Kibana]:
+      - If installing on a cloud environment, [EKS](https://github.com/frmscoe/EKS-helm/tree/751462cae1c21bf90ec34513934697af647bf357/charts/kibana) and [AKS](https://github.com/frmscoe/AKS-helm/tree/d95ca3002c9d47cbe7ce23c129c80b71ef932c36/charts/kibana) helm charts are available. If installing on a local environment, it is recommended to follow [upstream documentation](https://www.elastic.co/guide/en/kibana/8.14/install.html) on installation. A [docker guide](https://www.elastic.co/guide/en/kibana/8.14/docker.html) is also provided
+
+  - [Logstash]:
+      - If installing on a cloud environment, [EKS](https://github.com/frmscoe/EKS-helm/tree/751462cae1c21bf90ec34513934697af647bf357/charts/logstash) and [AKS](https://github.com/frmscoe/AKS-helm/tree/d95ca3002c9d47cbe7ce23c129c80b71ef932c36/charts/logstash) helm charts are available. If installing on a local environment, it is recommended to follow [upstream documentation](https://www.elastic.co/guide/en/logstash/8.14/installing-logstash.html) on installation. A [docker guide](https://www.elastic.co/guide/en/logstash/8.14/installing-logstash.html#_docker) is also provided
+
+  - [Apm]:
+      - If installing on a cloud environment, [EKS](https://github.com/frmscoe/EKS-helm/tree/751462cae1c21bf90ec34513934697af647bf357/charts/apm) and [AKS](https://github.com/frmscoe/AKS-helm/tree/d95ca3002c9d47cbe7ce23c129c80b71ef932c36/charts/apm) helm charts are available. If installing on a local environment, it is recommended to follow [upstream documentation](https://www.elastic.co/guide/en/observability/current/apm-installing.html) on installation. A [docker guide](https://www.elastic.co/guide/en/observability/current/apm-running-on-docker.html) is also provided
+
+Before proceeding with this documentation, it is recommended that you also familiarise yourself with the following technologies:
 
 - **NATS Messaging System**: This stack utilises [NATS] for message queuing and pub/sub capabilities. Ensure you are familiar with NATS concepts and configuration.
   - [NATS Documentation](https://nats.io)
@@ -46,53 +31,83 @@ Before proceeding with this documentation, it is recommended that you familiaris
   - [gRPC Documentation](https://grpc.io/)
 
 
-### Why Should You Read These Docs First?
-
 Understanding NATS and gRPC functionalities is crucial for effectively implementing and configuring this stack. The documentation provided by NATS and gRPC covers fundamental concepts and advanced configurations that directly impact how logging works. By familiarizing yourself with NATS and gRPC beforehand, you will be better equipped to:
 
 - Configure NATS channels and subscriptions as required by this service.
 - Understand how interprocess communication is implemented with gRPC
 
----
+## Architecture
+At the heart of Tazama's logging stack, there is [pino], a fast JSON logger which is highly configurable. There are 4 main components involved in the stack:
 
-### External Services
-You need a NATS Server and ElasticSearch installation for an implementation of the logging stack
-- [NATS]
-   - [Installation Docs](https://docs.nats.io/running-a-nats-service/introduction/installation)
-- [Elastic]
-   - [Installation Docs](https://www.elastic.co/guide/en/elasticsearch/reference/current/setup.html)
+- ### processor (something to generate logs)
+  This is the main Node.JS application
+- ### [NATS]
+  Used for inter-process communication between the event-sidecar and lumberjack
 
-### Getting Started
+- ### [event-sidecar]
+  As per the [pino] recommendation, the [event-sidecar] is a microservice that runs alongside a processor, capturing log events and transmitting them to a set destination [^lumberjack]. 
 
-Once you have reviewed the NATS and gRPC documentation, you can proceed with the following steps to integrate and configure our logging in your environment
+  As the [event-sidecar] is running in a separate process, some inter-process-communication is required in order to transmit the logs from the main processor, to the [event-sidecar]. This is implemented using [gRPC], which involves two pieces. A [client](#client) and a [server](#server).
 
+  ##### Server
+  The [event-sidecar] itself is a [gRPC] server that listens for requests sent by compatible clients following a specific format. The message sent is defined in a protobuf [format][wire]. An extract:
 
-## Logging
-### Architecture
+  ```proto
+  enum LogLevel {
+    trace = 0;
+    // omitted
+    fatal = 5;
+  }
+  message LogMessage {
+    string message = 1; // A message for the log
+    LogLevel level = 2; // Log level
+    // omitted
+  }
 
-#### Sequence Diagram
-At the heart of Tazama's logging stack, there is [pino], a fast JSON logger which is highly configurable. Tazama also uses the ELK stack for centralised logging of the logs generated by different microservices. There are 3 main components involved in the stack:
+  service Lumberjack {
+    // Take a LogMessage object and an empty message
+    rpc SendLog (LogMessage) returns (google.protobuf.Empty);
+  }
+  ```
 
-- logger (Processor)
-- [lumberjack]
-- [event-sidecar]
-- [nats]
+  ##### Client
+  Tazama abstracts away the need to write your own [gRPC] client. Simply initialising a logger and providing it with an address will create a [gRPC] client behind the scenes which will send requests to the address that was provided.
 
+- ### [lumberjack]
+  Lumberjack is a microservice that receives all log events before redirecting them to a central place. This microservice utilises [NATS] to listen for incoming messages with a specific subject. The [event-sidecar] sends messages with a specific subject that [lumberjack] listens for. This microservice depends on [pino-elasticsearch](https://github.com/pinojs/pino-elasticsearch), which is what acts as our transport to transform our logs from our wire format (in the protofile), to the format that [Elasticsearch](https://elastic.co) expects. 
+  
+  
+  This microservice has an additional responsibility of batching the received logs before transmission. This has a wide range of benefits as ultimately, I/O operations are reduced which will generally have implications on from improved performance coming from less network calls which can also affect costs in cloud environments.
 
 ```mermaid
 sequenceDiagram
+    actor User
     participant Processor
     participant EventSidecar as EventSidecar
+    participant NATS
     participant Lumberjack
     participant Elastic
 
-    Processor->>EventSidecar: Send log events
-    EventSidecar->>EventSidecar: Capture and format logs
+    User->>Processor: Configure log level
+    Processor->>Processor: Emit "warn" log event
 
-    EventSidecar->>Lumberjack: Send logs through NATS
-    
-    Lumberjack->>Lumberjack: Batch logs
-    Lumberjack->>Elastic: transmit logs
+    Processor->>Processor: Check log level settings
+
+    alt Log level allows "warn"
+        Processor-->>EventSidecar: Send Log
+    end
+  
+    EventSidecar->>EventSidecar: Format logs for NATS
+    EventSidecar-->>NATS: Publish to "lumberjack" subject
+    Lumberjack-->>NATS: Subscribe to "lumberjack" subject
+
+    alt Message received
+        Lumberjack-->>Lumberjack: Batch logs
+    end
+
+    alt Required size accumulated
+        Lumberjack-->>Elastic: transmit logs
+    end
 
     Note left of EventSidecar: Uses gRPC<br/>for IPC
     Note right of EventSidecar: EventSidecar is a NATS publisher
@@ -102,165 +117,180 @@ sequenceDiagram
     Note right of Lumberjack: Uses pino-elasticsearch
 ```
 
-> A processor will use gRPC to send logs to the EventSidecar. The EventSidecar will format the logs and send publish them using NATS. Elsewhere, Lumberjack is subscribed (through NATS), to the same subject. Upon reception, logs are batched and them formatted to conform to Elastic's standard. After all that is done, the logs are finally sent to Elastic.
+> A processor will use gRPC to send logs to the [event-sidecar]. The will format the logs and send publish them using NATS. Elsewhere, Lumberjack is subscribed (through NATS), to the same subject. Upon reception, logs are batched and then formatted to conform to Elastic's standard. After all that is done, the logs are finally sent to Elastic.
 
 
-
-
-#### Logger
-Tazama uses [pino] as the core logger. Which, at its core is a `json` logger. Pino utilises **transports** [^transport], which describe components that can be used to transmit and transform log output. Pino [recommends](https://github.com/pinojs/pino/blob/main/docs/transports.md#transports) that:
-
-> ... any log transformation or transmission is performed either in a separate thread or a separate process.
-
-Which is where the [event-sidecar] comes in:
-
-#### Event-Sidecar
-As per the [pino] recommendation, the [event-sidecar] is a microservice that runs alongside a processor, capturing log events and transmitting them to a set destination [^lumberjack]. 
-
-As the [event-sidecar] is running in a separate process, some inter-process-communication is required in order to transmit the logs from the main processor, to the [event-sidecar]. This is implemented using [gRPC], which involves two pieces. A [client](#client) and a [server](#server).
-
-##### Server
-The [event-sidecar] itself, is a [gRPC] server that listens for requests sent by compatible clients following a specific format. The message sent is defined in a protobuf [format][wire]. An extract:
-
-```proto
-enum LogLevel {
-  trace = 0;
-  // omitted
-  fatal = 5;
-}
-message LogMessage {
-  string message = 1; // A message for the log
-  LogLevel level = 2; // Log level
-  // omitted
-}
-
-service Lumberjack {
-  // Take a LogMessage object and an empty message
-  rpc SendLog (LogMessage) returns (google.protobuf.Empty);
-}
+## Deployment
+### Prerequisites
+The [event-sidecar] and [lumberjack] use [`frms-coe-lib`](https://github.com/frmscoe/frms-coe-lib). You need to have a personal access token set up to access that library. Refer back to [microprocessor setup instructions](https://github.com/frmscoe/docs/blob/05e5c292dcff908ec06825481cb99de2ecb31b74/Community/Tazama-Contribution-Guide.md#a-preparation) on how to get one.
+### NATS
+A server can be started with the following command:
+```sh
+docker run --rm -p 4222:4222 nats
 ```
+> [!NOTE]
+> NATS is mapped to port 4222 in the example above. You can read more about [published ports](https://docs.docker.com/network/#published-ports) in the Docker documentation
 
-##### Client
-Tazama abstracts away the need to write your own [gRPC] client. Simply initialising a logger and providing it with an address will create a [gRPC] client behind the scenes which will send requests to the address that was provided.
+### ELK (Elastic Logstash Kibana) Stack
+Refer back to the [Dependencies - ELK Stack](#elk-stack) section on deploying the ELK stack
 
-An example:
+### Event Sidecar
+Each processor is deployed with its own event-sidecar. A [Dockerfile](https://github.com/frmscoe/event-sidecar/blob/feb5e53b0801f60fa746e1720349cfb8c09e6c2b/Dockerfile) is included in the project.
 
-```js
-// No sidecar host is provided in the LoggerService constructor
-const logger = new LoggerService();
+```sh
+git clone https://github.com/frmscoe/event-sidecar.git
+cd event-sidecar
+docker build . -t event-sidecar
 ```
-
-An alternative implementation, **opting into** logging with the sidecar (as well as [lumberjack]) may be:
-```js
-const logger = new LoggerService("192.0.0.1:1234");
-```
-> [!NOTE]  
-> If a sidecar host is provided in the `LoggerService` constructor, you have to ensure your sidecar is live on the address you provided
-
-As [gRPC] is in use, it allows Tazama to be flexible enough to allow logs coming from any client (in any programming language) as long as it adheres to the type that the server expects (defined in the protobuf format above).
-
-After receiving the logs, the [event-sidecar] sends them to [lumberjack] via [NATS]
-
-#### Lumberjack
-Lumberjack is a microservice that receives all log events before redirecting them to a central place. This microservice utilises [NATS] to listen for incoming messages with a specific subject. The [event-sidecar] sends messages with a specific subject that [lumberjack] listens for. This microservice depends on [pino-elasticsearch](https://github.com/pinojs/pino-elasticsearch), which is what acts as our transport to transform our logs from our wire format (in the protofile), to the format that [Elastic] search expects.
-
-This microservice has an additional responsibility of batching the received logs before transmission. This has a wide range of benefits as ultimately, I/O operations are reduced which will generally have implications on from improved performance coming from less network calls which can also affect costs in cloud environments.
-
-### Implementation
-The [event-sidecar] and [lumberjack] are optional components in implementation. Perhaps hardware is limited or there may be some situations whereby running more microservices is not ideal, Tazama will still have a functional logging implementation if the [event-sidecar] and [lumberjack] are excluded from deployment. As mentioned before, you can opt in to using the [event-sidecar] and [lumberjack] for logging by specifying the sidecar host when initialising the logger service.
-
 #### Configuration
-
-##### With Event-Sidecar and Lumberjack
-
-###### Lumberjack
-
-The following services are required:
-
-- [NATS] - requires a [NATS] server to be running
-- [Elastic] - log destination
-
-A sample [.env](https://github.com/frmscoe/lumberjack/blob/ce6cda49bade1a0287bc0c603330e5fbb8159455/.env.example) is provided.
-
-| Variable Name         | Purpose                               | Example             |
-|-----------------------|---------------------------------------|---------------------|
-| NATS_SERVER           | Specifies the NATS server address      | `nats://localhost:4222` |
-| NATS_SUBJECT          | Defines the NATS subject/topic name    | `Lumberjack`        |
-| ELASTIC_SEARCH_VERSION| Specifies the Elasticsearch version   | `8.11`              |
-| ELASTIC_HOST          | Specifies the Elasticsearch host       | `http://localhost:9200` |
-| ELASTIC_USERNAME      | Username for Elasticsearch authentication | `elastic_user`   |
-| ELASTIC_PASSWORD      | Password for Elasticsearch authentication | `secretpassword` |
-| FLUSHBYTES            | Specifies the number of bytes to flush | `1024`              |
-
-
-###### Event-Sidecar
 A sample [.env](https://github.com/frmscoe/event-sidecar/blob/feb5e53b0801f60fa746e1720349cfb8c09e6c2b/.env.example) is provided.
 
 | Variable Name  | Purpose                              | Example                    |
 |----------------|--------------------------------------|----------------------------|
 | PORT           | Specifies the port number to use     | `8080`                     |
 | NATS_SERVER    | Specifies the NATS server address    | `nats://localhost:4222`    |
-| NATS_SUBJECT   | Defines the NATS subject/topic name  | `Lumberjack`               |
+| NATS_SUBJECT   | Defines the NATS subject/topic name  | `lumberjack`               |
+
+> [!NOTE]
+> Adapt the ports as needed in your environment. The `PORT` set in the table above does not need to be `8080`.
 
 > [!CAUTION]
-> Ensure the sidecar and lumberjack are pointing to the same instance of [NATS] and have the same subject
+> Take note of the `NATS_SERVER` and `NATS_SUBJECT` set in this application's configuration. Lumberjack will need a matching configuration
 
-###### Processor
-In your processor, add the [frms-coe-lib] as a dependency:
+#### Running the Event-Sidecar
+```sh
+docker run -p 8080:8080 \
+  -e PORT="8080" \
+  -e NATS_SERVER="nats:localhost:4222" \
+  -e NATS_SUBJECT="lumberjack" \
+  event-sidecar
+```
+Or you can specify an env file:
+```sh
+docker run -p 8080:8080 --env-file .env event-sidecar
+```
+
+### Lumberjack
+
+The following services are required:
+
+- [NATS] - requires a [NATS] server to be running
+- [ELK Stack](#elk-elastic-logstash-kibana-stack)
+
+A [Dockerfile](https://github.com/frmscoe/lumberjack/blob/ce6cda49bade1a0287bc0c603330e5fbb8159455/Dockerfile) is included in the project
 
 ```sh
-npm i @frmscoe/frms-coe-lib
+git clone https://github.com/frmscoe/lumberjack.git
+cd lumberjack
+docker build . -t lumberjack
 ```
+#### Configuration
+A sample [.env](https://github.com/frmscoe/lumberjack/blob/ce6cda49bade1a0287bc0c603330e5fbb8159455/.env.example) is provided.
 
-In your processor, create an instance of a `LoggerService` and specify the [event-sidecar] address:
-
-```ts
-import { LoggerService } from '@frmscoe/frms-coe-lib';
-
-const logger = new LoggerService("localhost:8080");
-```
-> [!CAUTION]
-> Ensure the sidecar AND [lumberjack] start up before the processor so that logs are not missed.
-
-##### Without Event-Sidecar and Lumberjack
-In your processor, add the [frms-coe-lib] as a dependency:
-
-```sh
-npm i @frmscoe/frms-coe-lib
-```
-
-Configure your environment:
 | Variable Name         | Purpose                               | Example             |
 |-----------------------|---------------------------------------|---------------------|
+| NATS_SERVER           | Specifies the NATS server address      | `nats://localhost:4222` |
+| NATS_SUBJECT          | Defines the NATS subject/topic name    | `lumberjack`        |
 | ELASTIC_SEARCH_VERSION| Specifies the Elasticsearch version   | `8.11`              |
 | ELASTIC_HOST          | Specifies the Elasticsearch host       | `http://localhost:9200` |
 | ELASTIC_USERNAME      | Username for Elasticsearch authentication | `elastic_user`   |
 | ELASTIC_PASSWORD      | Password for Elasticsearch authentication | `secretpassword` |
+| FLUSHBYTES            | Max size of buffer used to accumulate log messages before they are sent to Elasticsearch | `1024`       |
 
-In your processor, create an instance of a `LoggerService`:
+> [!CAUTION]
+> The `NATS_SERVER` and `NATS_SUBJECT` variables need to match the ones set in the [Event-Sidecar](#configuration) Configuration
+
+##### FLUSHBYTES
+Choosing the appropriate value for `FLUSHBYTES` depends on several factors, including your application's logging volume, the expected rate of log messages, and the resources available on your system. Here are some considerations and caveats to keep in mind when deciding on a value:
+
+###### Considerations:
+
+1. **Logging Volume**: Estimate the average size of your log messages and the frequency at which they are generated. A higher logging volume might require a larger `FLUSHBYTES` value to reduce the frequency of Elasticsearch writes and optimize performance (I/O operations). Setting a low [logging level](#usage-and-log-levels), such as trace, will increase the volume of logs generated. 
+
+2. **Memory Usage**: Larger `FLUSHBYTES` values will consume more memory because the buffer needs to hold more log messages before flushing. Ensure your system has enough memory to handle the buffer size comfortably, especially during peak usage.
+
+3. **Network Overhead**: Each flush operation sends log messages to Elasticsearch over the network. Larger `FLUSHBYTES` values mean fewer flush operations but potentially larger payloads, impacting network bandwidth and latency.
+
+4. **Latency vs. Throughput**: A smaller `FLUSHBYTES` value can reduce latency in logging because messages are sent to Elasticsearch more frequently. However, this may come at the cost of throughput if the network or Elasticsearch cluster cannot handle frequent small writes efficiently.
+
+5. **Elasticsearch Cluster Configuration**: Consider the configuration of your Elasticsearch cluster, including its capacity to handle bulk writes and its network throughput capabilities. Adjust `FLUSHBYTES` to align with the cluster's optimal performance characteristics.
+
+###### Caveats:
+
+1. **Memory Constraints**: Setting `FLUSHBYTES` too high can lead to increased memory usage, potentially causing memory pressure on your application or server. Monitor memory usage and adjust accordingly.
+
+2. **Network Bottlenecks**: Setting `FLUSHBYTES` too low might increase network overhead due to frequent flush operations. This can lead to network congestion, especially in environments with limited bandwidth.
+
+3. **Performance Testing**: Conduct performance testing with different `FLUSHBYTES` values to find the optimal balance between latency and throughput for your specific use case.
+
+###### Choosing a Value:
+
+- **Start with Defaults**: If unsure, begin with the default value (1000 is the default from `pino-elasticsearch`) and gradually adjust based on performance metrics and system observations.
+  
+- **Monitor**: Continuously monitor system metrics such as memory usage, CPU utilization, and Elasticsearch indexing throughput to gauge the impact of `FLUSHBYTES` changes.
+
+- **Benchmark**: Benchmark different values in a staging or development environment to understand how they affect application performance and Elasticsearch indexing speed.
+
+###### Example Scenario:
+
+- **High Volume Logging**: For applications generating a high volume of log messages, consider setting a larger `FLUSHBYTES` value (e.g., several megabytes) to reduce the frequency of Elasticsearch writes and optimize performance.
+
+- **Low Latency Requirements**: If your application requires low latency in logging, consider setting a smaller `FLUSHBYTES` value to ensure log messages are sent to Elasticsearch more frequently, reducing the delay in visibility.
+
+
+#### Running Lumberjack
+```sh
+docker run --env-file .env event-sidecar
+```
+No port mapping is needed for this application as NATS is used for communication.
+
+> [!CAUTION]
+> Ensure the sidecar and lumberjack are pointing to the same instance of [NATS] and have the same subject
+
+### Processor
+In your processor, add the [frms-coe-lib] as a dependency:
+
+```sh
+npm i @frmscoe/frms-coe-lib
+```
+Then create an instance of a `LoggerService` and specify the [event-sidecar] address (refer back to event-sidecar [configuration](#configuration) and take note of the `PORT` you used):
 
 ```ts
 import { LoggerService } from '@frmscoe/frms-coe-lib';
 
-const logger = new LoggerService();
+const logger = new LoggerService("localhost:8080"); // here, 8080 is the port we used in the example
 ```
-#### Usage
+> [!CAUTION]
+> Ensure the event-sidecar AND [lumberjack] start up before the processor so that logs are not missed.
 
-You may specify a `LOGSTASH_LEVEL` environment variable in your processor to control your logs. The logging system supports multiple levels of severity, listed in ascending order of importance: `trace`, `debug`, `info`, `warn`, `error`, and `fatal`. When configuring the logging level, every log event with that level or a higher severity will be logged. For example, if you set the logging level to `info`, all log events at `info`, `warn`, `error`, and `fatal` levels will be logged. This ensures that important information and higher severity events are captured while filtering out less critical details.
+#### Configuration
+| Variable Name         | Purpose                               | Example             |
+|-----------------------|---------------------------------------|---------------------|
+| LOGSTASH_LEVEL        | Specifies the minimum log level to capture logs for      | `warn` |
+
+
+The logging system supports multiple levels of severity. In ascending order of importance:
+- **`trace`**: Used for very detailed or fine-grained informational events. Example: tracing function calls.
+
+- **`debug`**: Used for debugging purposes, providing detailed information for diagnosing issues.
+- **`log`**: General information that is useful to report on (database write, database read, service starting/stopping)
+- **`warn`**: Indicates potential issues that should be monitored or investigated.
+- **`error`**: Indicates a significant problem that might affect the functionality of the application but does not necessarily cause it to crash immediately.
+- **`fatal`**: a critical problem that has caused the application to abort or terminate.
+
+When configuring the logging level, every log event with that level or a higher severity will be logged. For example, if you set the logging level to `info`, all log events at `info`, `warn`, `error`, and `fatal` levels will be logged. This ensures that important information and higher severity events are captured while filtering out less critical details.
 
 After initialising your logger, you may use the methods available to the `LoggerService` instance.
 
-##### Logger Service 
-
-
-###### Function Signature:
-
+#### Usage
+##### Available Methods
 The custom logger function has the following signature for `trace`, `debug`, `log` and `warn` log levels:
 
 ```typescript
 trace(message: string, serviceOperation?: string, id?: string, callback?: LogCallback): void
 debug(message: string, serviceOperation?: string, id?: string, callback?: LogCallback): void
 log(message: string, serviceOperation?: string, id?: string, callback?: LogCallback): void
+warn(message: string, serviceOperation?: string, id?: string, callback?: LogCallback): void
 ```
 
 - **`message` (required)**: A string that represents the log message to be recorded.
@@ -271,28 +301,17 @@ log(message: string, serviceOperation?: string, id?: string, callback?: LogCallb
 
 - **`callback` (optional)**: A callback function that can be provided to handle asynchronous logging operations or to receive notifications after logging. This parameter is optional and may not be used in all logging scenarios.
 
-Additional Levels:
-`error` and `fatal` levels are also supported but they have a custom signature:
+In addition to the :
+`error` and `fatal` levels are also supported, but they have a signature that is a bit different from their lower severity counterparts:
 
 ```ts
 error(message: string | Error, innerError?: unknown, serviceOperation?: string, id?: string, callback?: LogCallback): void;
+fatal(message: string | Error, innerError?: unknown, serviceOperation?: string, id?: string, callback?: LogCallback): void;
 ```
 
-Which allow an instance of an [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) to be sent as an alternative of the usual `string`, for cases where you may want more information contained in the error itself instead of just the error message (`string`)
+This allows an instance of an [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) to be sent as an alternative of the usual `string`, for cases where you may want more information contained in the error itself instead of just the error message (`string`)
 
-
-
-##### Usage:
-
-- **`trace`**: Used for very detailed or fine-grained informational events. Example: tracing function calls.
-
-- **`debug`**: Used for debugging purposes, providing detailed information for diagnosing issues.
-
-- **`warn`**: Indicates potential issues that should be monitored or investigated.
-- **`error`**: Indicates a significant problem that might affect the functionality of the application but does not necessarily cause it to crash immediately.
-- **`fatal`**: a critical problem that has caused the application to abort or terminate.
-
-##### Examples:
+##### Calling the logger
 
 ```typescript
 // Example usage of the logger function
@@ -304,54 +323,23 @@ In this example:
 - `"Rule901.determineOutcome"` specifies the service operation context.
 - `"12345"` is an optional identifier associated with the log message.
 
----
-
-#### Sequence Diagram For A Log Event:
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant Processor
-    participant Event-Sidecar
-
-    User->>Processor: Set log level to "info"
-
-    Processor->>Processor: Create "warn" log event
-
-    Processor->>Processor: Check log level settings
-
-    alt Log level allows "warn"
-        Processor-->>Event-Sidecar: Send Log
-    end
-```
-Refer to a high level [continuation](#sequence-diagram) of the sequence
 
 #### Notes:
 
-- Ensure to handle log messages appropriately based on their severity and impact on system performance.
-- Utilize the optional parameters (`serviceOperation`, `id`, and `callback`) to provide detailed context and functionality as needed.
-- Customize the logger implementation to integrate with your specific logging framework or requirements.
-
-For creating a data view in Kibana, a [guide](./Logging-Data-View.md) is provided.
+- Ensure to handle log messages appropriately based on their severity and impact on system performance. Remember that lower levels equate to more logs. More log events have an impact on resource usage.
+- Utilise the optional parameters (`serviceOperation`, `id`, and `callback`) to provide detailed context and functionality as needed.
+- Customise the logger implementation to integrate with your specific logging framework or requirements.
 
 ## APM
 
 ### Overview
 Tazama core processors support integration with Elastic APM for comprehensive Application Performance Monitoring (APM) capabilities which allow for insights into performance metrics.
 
+#### Prerequisites
+A running [ELK Stack](#elk-elastic-logstash-kibana-stack) with APM
+
 ### Compatibility
-Our application is compatible with [Elastic APM] version 8.11.
-
-### Setup Instructions
-To integrate with [Elastic APM], follow these steps:
-1. Install [Elastic APM] agent in your application environment.
-2. Configure the agent with your [Elastic APM] server URL and credentials.
-3. Enable instrumentation for your application components.
-
-### Features and Benefits
-- Monitor response times, error rates, and other performance metrics.
-- Diagnose bottlenecks and optimize application performance.
-- Gain visibility into distributed traces and dependencies.
+Our application is compatible with Elastic [APM] version 8.11.
 
 For detailed setup instructions and troubleshooting tips, refer to our [integration guide](./Setting-Up-Elastic-APM.md)
 
@@ -362,8 +350,8 @@ In your application, install [frms-coe-lib]:
 npm install @frmscoe/frms-coe-lib
 ```
 
-#### Initialization
-Initialize the APM wrapper (`Apm`) at the earliest point after starting your application. This wrapper simplifies integration with Elastic APM and provides a straightforward interface for monitoring:
+#### Initialisation
+Initialise the APM wrapper (`Apm`) at the earliest point after starting your application. This wrapper simplifies integration with Elastic APM and provides a straightforward interface for monitoring:
 
 ```ts
 import { Apm } from '@frmscoe/frms-coe-lib/lib/services/apm';
@@ -385,7 +373,7 @@ export default apm;
 ##### Configuration Options
 You can configure `Apm` with various options supported by Elastic APM Node.js agent. Refer to the [Elastic APM Node.js documentation](https://www.elastic.co/guide/en/apm/agent/nodejs/current/index.html) for detailed configuration options.
 
-Tazama applications read your environment for [Elastic APM] configuration options.
+Tazama applications read your environment for Elastic [APM] configuration options.
 
 | Variable           | Purpose                                                                                      | Example                            |
 |--------------------|----------------------------------------------------------------------------------------------|------------------------------------|
@@ -414,29 +402,16 @@ If you encounter issues during setup or integration, refer to the [Elastic APM N
 ### Additional Resources
 For setting up dashboards, consult our [documentation](./Setting-Up-Elastic-APM.md)
 
-## Notes on Kibana:
 
-It is recommended to go through upstream [documentation](https://www.elastic.co/guide/en/kibana/current/introduction.html). For a general implementation, where one can view logs as well as APM data, you may start with the following applications:
-
-### [Discover](https://www.elastic.co/guide/en/kibana/current/discover.html)
-> With Discover, you can quickly search and filter your data, get information about the structure of the fields, and display your findings in a visualization. You can also customize and save your searches and place them on a dashboard.
-
-### [Observability](https://www.elastic.co/guide/en/kibana/current/observability.html)
-> Observability enables you to add and monitor your logs, system metrics, uptime data, and application traces, as a single stack.
-
-### [APM](https://www.elastic.co/guide/en/kibana/current/xpack-apm.html)
-> Allows you to monitor your software services and applications in real-time; visualize detailed performance information on your services, identify and analyze errors, and monitor host-level and APM agent-specific metrics
-
-
-[pino]: https://github.com/pinojs/pino
-[lumberjack]: https://github.com/frmscoe/lumberjack
-[frms-coe-lib]: https://github.com/frmscoe/frms-coe-lib
-[wire]: https://github.com/frmscoe/lumberjack
+[Elasticsearch]: https://www.elastic.co/
+[Logstash]: https://www.elastic.co/logstash
+[Kibana]: https://www.elastic.co/kibana
+[Apm]: https://www.elastic.co/observability/application-performance-monitoring
 [NATS]: https://nats.io
-[gRPC]: https://grpc.io/
-[Elastic]: https://www.elastic.co/
-[Elastic APM]: https://www.elastic.co/observability/application-performance-monitoring
-[elastic-apm-node]: https://www.npmjs.com/package/elastic-apm-node
+[gRPC]: https://grpc.io
+[pino]: https://github.com/pinojs/pino
+[frms-coe-lib]: https://github.com/frmscoe/frms-coe-lib
 [event-sidecar]: https://github.com/frmscoe/event-sidecar
-[^transport]: [pino-elasticsearch](https://github.com/pinojs/pino-elasticsearch)
+[lumberjack]: https://github.com/frmscoe/lumberjack
+[wire]: https://github.com/frmscoe/lumberjack
 [^lumberjack]: [Lumberjack](https://github.com/frmscoe/lumberjack)
