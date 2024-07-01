@@ -30,6 +30,7 @@
         - [Available Methods](#available-methods)
         - [Calling the logger](#calling-the-logger)
       - [Notes:](#notes)
+  - [More Resources](#more-resources)
   - [APM](#apm)
     - [Overview](#overview)
       - [Prerequisites](#prerequisites-2)
@@ -372,6 +373,9 @@ In this example:
 - Ensure to handle log messages appropriately based on their severity and impact on system performance. Remember that lower levels equate to more logs. More log events have an impact on resource usage.
 - Utilise the optional parameters (`serviceOperation`, `id`, and `callback`) to provide detailed context and functionality as needed.
 - Customise the logger implementation to integrate with your specific logging framework or requirements.
+## More Resources
+
+Setup your logging data view in Kibana by following our [guide](./Logging-Data-View.md)
 
 ## APM
 
