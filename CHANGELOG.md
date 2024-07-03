@@ -3,9 +3,9 @@
 
 ## v1.0
 
-## v1.1.0 (future date, 2024)
+## v1.2.0 (future date, 2024)
 
-* Next change summary here
+* Demo a release to the team
 
 ## v1.0.1 (2024-06-14)
 
