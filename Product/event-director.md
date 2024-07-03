@@ -119,3 +119,4 @@ Using the list of unique rules from step 2.4, the Event Director invokes all the
  - Network sub-map (the portion of the network map that defines the in-scope rules and typologies)
 
 See the page on [processor results propagation](https://github.com/frmscoe/docs/blob/main/Product/processor-results-propagation.md) for more information on the payload composition and propagation from one processor to the next.
+
