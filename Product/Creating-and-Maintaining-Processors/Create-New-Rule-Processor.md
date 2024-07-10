@@ -1,6 +1,6 @@
 # Create New Rule Processor
 
-![](../../Images/image-20220902-101425.png)
+![](../../images/image-20220902-101425.png)
 
 # Steps:
 

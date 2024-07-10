@@ -1,6 +1,6 @@
 # Create New Transaction
 
-![](../../Images/image-20220902-104423.png)
+![](../../images/image-20220902-104423.png)
 
 About “Create Processor”:
 

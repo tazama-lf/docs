@@ -1,6 +1,6 @@
 # Mojaloop SDK
 
-![](../../Images/image-20210616-092254.png)
+![](../../images/image-20210616-092254.png)
 
 From the April 2020 Convening, ModusBox presented the [SDK](https://github.com/mojaloop/documentation-artifacts/blob/master/presentations/April%202020%20Community%20Event/Presentations/ModusBox_Community_Update_SDK_FXP_20200423.pptx.pdf)
 

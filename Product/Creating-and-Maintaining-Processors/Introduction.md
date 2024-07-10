@@ -18,7 +18,7 @@
 
 The Tazama evaluation pipeline is intended to be largely configuration driven via external and centralised configuration files, as described in the diagram below:
 
-![](../../Images/image-20220902-102945.png)
+![](../../images/image-20220902-102945.png)
 
 Configuration information is stored in a Configuration database and served to a variety of evaluation processors as required:
 
@@ -72,7 +72,7 @@ The user stories for the creation and maintenance of the processors can be summa
 
 The user stories for the creation of the evaluation pipeline processors will all follow the same basic process flow:
 
-![](../../Images/Tazama_TMS_Processor_CRUD.png)
+![](../../images/Tazama_TMS_Processor_CRUD.png)
 
 Even though there is only one Typology Processor (for example), a new version of the processor can still be created to replace the existing Typology Processor. (Heck, we can even add a new Typology Processor that does something completely different and runs in parallel to the existing processor. We probably wouldn’t want to run a parallel CRSP though, but we may create a replacement for it. Also, Data Preparation is not currently designed to invoke multiple CRSPs and we would need to add some additional routing logic to Data Preparation to run parallel CRSPs… Actually, forget about parallel Highlanders, just like we should all forget about the movie sequels...)
 
