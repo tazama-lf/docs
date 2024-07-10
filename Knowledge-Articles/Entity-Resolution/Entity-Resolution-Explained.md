@@ -115,7 +115,7 @@ The table below lists the data fields available in the Mojaloop messages that co
 | geoCode.latitude | The Latitude of the service initiating Party. | Y   | Y   |     |     |
 | geoCode.longitude | The Longitude of the service initiating Party. | Y   | Y   |     |     |
 
-Ref: [ISO20022 and Tazama | Mojaloop to ISO 20022 mapping](https://lextego.atlassian.net/wiki/spaces/ACTIO/pages/358481974/ISO20022+and+Actio#Mojaloop-to-ISO-20022-mapping)
+Ref: [ISO20022 and Tazama | Mojaloop to ISO 20022 mapping](https://github.com/frmscoe/docs/blob/dev/Knowledge-Articles/iso20022-and-tazama.md#mojaloop-to-iso-20022-mapping)
 
 Ref: [https://docs.mojaloop.io/api-snippets/?urls.primaryName=v1.1](https://docs.mojaloop.io/api-snippets/?urls.primaryName=v1.1)
 
