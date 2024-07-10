@@ -25,7 +25,7 @@ Entity resolution is a process of data disambiguation, which is a fancy way of s
 
 An entity is a thing that exists in the real world or language (i.e. a noun). An entity can be loosely defined by a grouping of related data that collectively defines or describes an object (a *thing*). In a database, an entity may comprise a whole table, and is similar to the “entity” in “Entity Relationship Diagram”. An entity may also be described by other things that may themselves be entities (i.e. a person may be associated with a device, or an account, or an address).
 
-In an Tazama or Mojaloop ecosystem, examples of entities may include:
+In a Tazama or Mojaloop ecosystem, examples of entities may include:
 
 - People / Persons / Individuals (customers, users, employees, etc)
 
