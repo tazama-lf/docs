@@ -11,26 +11,17 @@
     - [2.1 Adherence to Linux Foundation's Code of Conduct](#21-adherence-to-linux-foundations-code-of-conduct)
   - [3. Types of Contributors](#3-types-of-contributors)
     - [3.1 Required Skills and Knowledge](#31-required-skills-and-knowledge)
-      - [Development and developer tools](#development-and-developer-tools)
-      - [Third party Open Source Software components](#third-party-open-source-software-components)
-      - [DevOps](#devops)
-      - [Documentation](#documentation)
     - [3.2 Setting Up the Development Environment](#32-setting-up-the-development-environment)
-      - [Requirements](#requirements)
-      - [Microprocessor setup instructions](#microprocessor-setup-instructions)
-        - [A. Preparation](#a-preparation)
-        - [B. Setting Up a Microservice Processor to Work On](#b-setting-up-a-microservice-processor-to-work-on)
-        - [Additional Configuration (if needed):](#additional-configuration-if-needed)
-      - [Troubleshooting:](#troubleshooting)
-      - [Conclusion:](#conclusion)
+      - [3.2.1. Requirements for setting up the Development Environment](#321-requirements-for-setting-up-the-development-environment)
+      - [3.2.2. Microprocessor setup instructions](#322-microprocessor-setup-instructions)
   - [4. How to Contribute](#4-how-to-contribute)
     - [4.1 Understanding the Project Structure](#41-understanding-the-project-structure)
     - [4.2 Finding Something to Work On](#42-finding-something-to-work-on)
     - [4.3 Contribution Process Overview](#43-contribution-process-overview)
   - [5. Making and Submitting Contributions](#5-making-and-submitting-contributions)
-    - [5.1 Forking and Cloning the Repository](#51-forking-and-cloning-the-repository)
     - [5.2 Making Changes](#52-making-changes)
-      - [5.2.1 Definition of done](#521-definition-of-done)
+      - [5.2.1 Tazama coding practices](#521-tazama-coding-practices)
+      - [5.2.2 Definition of done](#522-definition-of-done)
     - [5.3 Committing Your Changes](#53-committing-your-changes)
     - [5.4 Submitting a Pull Request](#54-submitting-a-pull-request)
     - [5.5 Code Review Process](#55-code-review-process)
@@ -80,19 +71,22 @@ Our product is young; barely out of infancy. We need the help of our fledgling c
 
 Some of those specific areas where we would particularly appreciate help:
 
- - The development of new features.
- - Hunting and squashing bugs in our code, our processes and our documentation.
- - Improving tests and testing.
- - Translation and localization.
- - Implementing Tazama for yourself or others.
- - Creating tutorials and how-to guides.
- - Give a "thumbs up" on issues that are relevant to you.
- - Sponsorship.
+ - The development of new features
+ - Hunting and squashing bugs in our code, our processes and our documentation
+ - Improving tests and testing
+ - Translation and localization
+ - Implementing Tazama for yourself or others
+ - Creating tutorials and how-to guides
+ - Give a "thumbs up" on issues that are relevant to you
+ - Industry knowledge and experience
+ - Sponsorship
 
 ### 1.3 Scope of the Guide
 This contribution guide will take you through the steps to contribute to the Tazama Project and to help your contributions be successfully integrated into the Product.
 
 We'll cover our code of conduct for healthy community participation, and then walk you through everything you need to be able to contribute in the way you would like.
+
+[Top](#contribution-guide)
 
 ## 2. Code of Conduct
 ### 2.1 Adherence to Linux Foundation's Code of Conduct
@@ -104,24 +98,24 @@ References:
 [Linux Kernel Code of Conduct](https://docs.kernel.org/process/code-of-conduct.html)
 [Contributor Covenant](https://www.contributor-covenant.org/)
 
-[Top](#contribution-guide)
-
 ## 3. Types of Contributors
 
 Our contribution guide addresses different kinds of contributors. It is not intended to be an exhaustive or exclusive list, but the classification of contributors helps us to support each contributor according to their specific needs. 
 
- - You are an ***Individual Contributor*** if you are exploring and using our product in an individual, unaffiliated capacity and you want to contribute to the product for its, or your, own sake.
+ - You are an ***Individual Contributor*** if you are exploring and using our product in an individual, unaffiliated capacity, and you want to contribute to the product for its, or your, own sake.
  - You are a ***System Integrator*** if you want to implement the product for your customers, either as a standalone product or as part of your adjacent products, and you'd like to contribute to the product because you are introducing new features that would benefit the product or other users as well.
  - You are a ***Commercial End User*** if you want to implement the product for yourself directly or in partnership with a System Integrator and you are implementing new features that you think would benefit the product or other users as well.
  - You are a ***Big Tech Organization*** or ***Charitable Organization*** who wants to contribute to the product in pursuit of [Digital Public Goods](https://digitalpublicgoods.net/) objectives.
 
-For the most part, because we are an open source software product, we expect that contributors would want to contribute `code` and this guide would be focused on helping you to do that.
+For the most part, because we are an open source software product, we expect that contributors would want to contribute `code`, or documentation on the `code`, and this guide would be focused on helping you to do that.
+
+[Top](#contribution-guide)
 
 ### 3.1 Required Skills and Knowledge
 
 Some experience in the following technologies would make contribution to the Project a little easier.
 
-#### Development and developer tools
+#### Development and developer tools <!-- omit from toc -->
 
  - [GitHub](https://github.com/): Our code is hosted in our own GitHub repository and understanding the basics of GitHub and git processes will help you access, update and submit code to the Project. We also use GitHub issues to document and track user stories.
  - [GitHub Actions](https://github.com/features/actions) to automate some Continuous Integration (CI) processes in support of developer tasks
@@ -132,7 +126,7 @@ Some experience in the following technologies would make contribution to the Pro
  - [Prettier](https://prettier.io/) and [ESLint](https://eslint.org/): Promote and enforce consistent coding practices for the delivery of quality code.
  - [Visual Studio Code](https://code.visualstudio.com/): Though there are many tools available, most of us use VS Code to write our code.
 
-#### Third party Open Source Software components
+#### Third party Open Source Software components <!-- omit from toc -->
 
 The Product is composed out of a wide variety of other Open Source Software components, ranging from industry veterans to young-and-upcoming contenders. Experience in any of the components we use would be very helpful in standing a bit more firmly on the shoulders of giants:
 
@@ -144,7 +138,7 @@ The Product is composed out of a wide variety of other Open Source Software comp
  - [Protocol Buffers](https://protobuf.dev/) for inter-services data serialization
  - [Redis](https://redis.io/) for high-speed in-memory data caching
 
-#### DevOps
+#### DevOps <!-- omit from toc -->
 
 From a DevOps perspective, we make use of the following tools:
 
@@ -154,12 +148,10 @@ From a DevOps perspective, we make use of the following tools:
  - [Newman](https://learning.postman.com/docs/collections/using-newman-cli/command-line-integration-with-newman/) to automatically execute Postman tests as part of the automated build, test and deployment process
  - [YAML](https://yaml.org/) to provide scripting to guide automated deployment processes
 
-#### Documentation
+#### Documentation <!-- omit from toc -->
 
  - [Markdown](https://www.markdownguide.org/) for documentation hosted in GitHub
  - [Mermaid.js](http://mermaid.js.org/#/) for markdown-embedded diagrams in GitHub
- - [Atlassian Confluence](https://www.atlassian.com/software/confluence) is (currently) hosting our project documentation at <https://frmscoe.atlassian.net/wiki/spaces/FRMS/overview>
- - [PlantUML](https://plantuml.com/) for embedded diagrams in Confluence
  - [Drawio](https://www.drawio.com/) for embedded diagrams in GitHub. See [guide for draw.io](/guides/drawio-guide.md)
 
 [Top](#contribution-guide)
@@ -168,7 +160,7 @@ From a DevOps perspective, we make use of the following tools:
 
 (with thanks to @cshezi)
 
-#### Requirements
+#### 3.2.1. Requirements for setting up the Development Environment
 
 Before you begin working on an existing or new Tazama microservice processor, ensure that the following requirements are met on your system:
 
@@ -193,10 +185,10 @@ Before you begin working on an existing or new Tazama microservice processor, en
 
 [Top](#contribution-guide)
 
-#### Microprocessor setup instructions
+#### 3.2.2. Microprocessor setup instructions
 Follow these step-by-step instructions to get your local machine ready to work on a Tazama microservice processor. First we are going to set up the core services that all microservice processors rely on, and then we'll set up a specific microservice and get that ready for you to work on.
 
-##### A. Preparation
+##### A. Preparation <!-- omit from toc -->
 <u>**Step 1**: *Setting up GitHub Token Locally*</u>
  - Generate a GitHub Personal Access Token to access the GitHub API:
    - Visit the GitHub Tokens page while logged into your GitHub account (Click your profile picture in the top right corner, then `Settings`, then `Developer settings`, then `Personal access tokens`, then `Tokens (classic)`)
@@ -230,7 +222,6 @@ Follow these step-by-step instructions to get your local machine ready to work o
       docker network create --driver bridge tazama-net 
       ```
       This command will create a local user-defined bridge network called `tazama-net` that we can use to network our containers together.
-
 
  - **ArangoDB**:
    - Follow the installation instructions for ArangoDB from the official [ArangoDB website](https://docs.arangodb.com/stable/operations/installation/). We recommend that you install the official ArangoDB Docker image for `v3.11.7` via [Docker Hub](https://hub.docker.com/_/arangodb/).
@@ -317,7 +308,7 @@ Follow these step-by-step instructions to get your local machine ready to work o
       ```
 [Top](#contribution-guide)
 
-##### B. Setting Up a Microservice Processor to Work On
+##### B. Setting Up a Microservice Processor to Work On <!-- omit from toc -->
 
 Let's pick an easy microservice processor to use as an example. Tazama is designed to run a number of rule processors to evaluate incoming transactions. By default, the sample rule processor, `Rule 901`, is configured in this development environment through the ArangoDB Postman scripts above. All the rule processors run inside the `Rule Executer` wrapper function, which is itself configured to contain `Rule 901` by default. To run `Rule 901`, we need to run the `Rule Executer`.
 
@@ -404,18 +395,18 @@ Follow the steps below to get the `Rule Executer` on your operating table:
     ```
 [Top](#contribution-guide)
 
-##### Additional Configuration (if needed):
+##### Additional Configuration (if needed): <!-- omit from toc -->
 
 Different microservice processors may need to be set up in slightly different ways. Refer to the project documentation or processor README for any additional configuration instructions.
 
 Check for specific database setup, API keys, or other dependencies.
 
-#### Troubleshooting:
+#### Troubleshooting: <!-- omit from toc -->
  - If you encounter issues during the setup process, refer to the project's issue tracker on GitHub or the documentation for troubleshooting steps.
  - Ensure that your system meets the specified requirements
  - If a shell command fails at first, try running your shell in administrator mode.
 
-#### Conclusion:
+#### Conclusion: <!-- omit from toc -->
 You have successfully set up a Tazama microservice processor on your local machine. If you encounter any difficulties or have questions, refer to the project's documentation or seek help from the project's community on GitHub or Slack. Happy coding!
 
 [Top](#contribution-guide)
@@ -439,77 +430,158 @@ The Project organization on GitHub contains both PUBLIC and PRIVATE repositories
 All of our pre-fabricated rule processors, along with their unit tests and default configurations, are hosted in private repositories. That is not to say that they are not also open source software, but we are hosting them in private repositories because they might allow fraudsters and money launderers to reverse engineer the way the system detects fraud and money laundering "out of the box". Any member of our GitHub organization can access the private repositories to implement and work on the rule processors or their tests.
 
 ### 4.2 Finding Something to Work On
-Guide on how to pick issues or features to work on.
+
+There are many ways to contribute to an open-source software project such as Tazama. Tazama is constantly under development as our community works to improve the software. When we encounter tasks that we think might be a good first issue for someone new to the project to undertake, we create the issue in the [`/tazama-project`](https://github.com/frmscoe/tazama-project) repository and tag it with the label: "good first issue". You can click on the [good first issue](https://github.com/frmscoe/tazama-project/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) label to display all the current issues under this label.
+
+If there are currently no issues under this label, feel free to explore the project on your own and identify possible fixes or enhancements. Make sure to submit your feature or bug fix request to the `/tazama-project` repository as a new issue for consideration by the team. It would be good to reach out to us to discuss your issue before you start though, just in case it's something we have already considered.
 
 ### 4.3 Contribution Process Overview
 
 ```mermaid
 flowchart TB
-  A[1. Create Issue] -->|Optional for External Contributors| B[Fork Repository]
-  B -->|Clone to Local Machine| C(Clone Repository)
-  A -->|For Internal Team Members| C
-  C --> D{2. Feature Branch}
-  D -->|Create| E[3. Develop Feature]
-  E --> F{4. Commit Changes}
-  F -->|Push| G[5. Create Pull Request]
-  G -->|Review| H[6. Code Review]
-  H -->|Approve| I{7. Merge PR}
-  I -->|Merge to Dev| J[8. Close Issue]
-  J --> K[9. Deploy to Production]
-  K --> L[10. Monitor & Feedback]
-  H -->|Request Changes| D
+  A[1. Create Issue] -->B{Contributor}
+  B -->|External Contributors| C[Fork Repository]
+  C --> D
+  B -->|Internal Contributors| D(2. Clone Repository)
+  D -->E(3. Create<br>Feature<br>Branch)
+  E -->F[4. Develop Feature]
+  F -->G[5. Commit Changes]
+  G -->I[6. Create Pull Request]
+  I -->J{7. Code Review}
+  J -->|Request Changes| F
+  J -->|Approve| K[8. Merge PR to Dev]
+  K -->L[9. Close Issue]
+  L -->M[10. Release to Main]
+  M -->N[11. Monitor & Feedback]
 ```
 
 [Top](#contribution-guide)
 
 ## 5. Making and Submitting Contributions
-### 5.1 Forking and Cloning the Repository
-Instructions on forking and cloning the repository.
 
 ### 5.2 Making Changes
 Best practices for making changes.
 
-#### 5.2.1 Definition of done
+#### 5.2.1 Tazama coding practices
 
-**Code Complete** - Source code changes are done for all the features in the “to do” list.” Source code has been commented appropriately. [Developer]
+The definition of done includes adhering to the coding practices below:
 
-**Architecture** – All new code conforms to the agreed architecture (*unless agreed otherwise as part of refactoring existing legacy code). [PR Approver]
+[5.2.1.1. Linting rules](#5211-linting--linting-rules)
+[5.2.1.2. Gather asynchronous requests](#5212-gather-asynchronous-requests)
 
-**Unit testing** - Unit test cases have been created, executed and are working successfully. Follow  [coverage guidelines](/Technical/unit-test-coverage.md). Will create spike where we find some Rule Engine that’s difficult to unit test. [Developer]
+##### 5.2.1.1. Linting & Linting rules <!-- omit from toc -->
 
-**GitHub CI/CD** - Ensure that all GitHub workflows have completed successfully during PR checks, and that the Newman benchmark results have been presented on the PR as a comment. If you notice any spikes in the benchmark, please report the spike or reevaluate the implemented code, if you are using a Fork to contribute please follow: [contribution guidelines](/Technical/contribution-guidelines.md) [Developer] + [PR Approver]
+Tazama uses [ESLint](https://eslint.org/) to enforce consistency and specific rules in our use of TypeScript. We have implemented. We implemented the ESLint "[flat config](https://eslint.org/blog/2022/08/new-config-system-part-2/)" in release 2.0.0 of Tazama.
 
-**Automated Builds** – All code is included in automated builds and any updates to the build scripts have been completed and tested and checked in. Jenkins / CircleCI - Poly vs Mono repo [DevOps]
+###### ESLint Configuration Documentation <!-- omit from toc -->
 
-**Developer Documentation Ready** – There is sufficient and suitable development documentation in place - Sequence Diagram / Swagger in Confluence (NOT GitHub - security reasons) eventually. [Developer]
+This document details the ESLint configuration for TypeScript files as specified in the `eslint.config.mjs` file. The configuration integrates multiple plugins to enforce style and quality standards.
 
-**Code Documentation** – Electronic documentation has been auto-generated (where available) and has been checked for correctness. Also have sufficient code comments. [Developer] + [PR Approver]
+###### Configuration Overview <!-- omit from toc -->
+ 
+- **Files Targeted**: 
+  - Applies to all `.ts` files across the project.
 
-**Licensing comment** Add the following string as a comment ("SPDX-License-Identifier: Apache-2.0") at the top of every file in the organisation in GitHub that is capable of including a comment i.e. extensions="ts" "js" "env" "template" "eslintignore" "yaml" "properties" "npmrc" "editorconfig" "dockerignore" "gitignore" "prettierignore" "md" "helmignore" "Makefile" "sh" "npmignore" "plantuml" "yml" 
+- **Plugins Used**: 
+  - Integrates plugins from `eslint-config-love`, `eslint-plugin-eslint-comments`, `@typescript-eslint/eslint-plugin`, and `@stylistic/eslint-plugin`.
 
-**\*Release Notes / Version Control** - TODO Aaron - figure out what greater ML does - check this
+- **Parser**: 
+  - Uses `@typescript-eslint/parser` for parsing TypeScript files.
 
-**Code Refactoring** - Source code has been refactored to make it comprehensive, maintainable and amenable to change (*unless agreed otherwise as part of refactoring existing legacy code). [Developer]
+- **ECMA Version**: 
+  - Configured for ECMAScript 2022 to support modern JavaScript features.
 
-**Code Check-in** - Source code is checked in to source code control repository and PR process is followed [Developer]
+- **Source Type**: 
+  - Files are treated as ECMAScript modules.
 
-**Code & Peer reviews** (pull requests) – These have been carried out and all improvements implemented and tests completed. [Developer] to follow-up and ensure code gets merged in reasonable time [PR Approver]
+###### Rules Summary <!-- omit from toc -->
 
-**\*Logging** - Configurable log levels - able to switch on verbose logging for debugging purposes? Error logging - where to? [Developer]
+###### Standard and Plugin Rules <!-- omit from toc -->
+- Inherits rules from `eslint-config-love`.
+- Incorporates recommended rules from `eslint-plugin-eslint-comments`.
 
-**All acceptance criteria are met and Testing complete** [Developer]
+###### TypeScript Specific Rules <!-- omit from toc -->
+- `@typescript-eslint/restrict-template-expressions`: Errors on unsafe usage in template literals.
+- `@typescript-eslint/no-non-null-assertion`: Disabled.
+- `@typescript-eslint/strict-boolean-expressions`: Disabled to allow any type in conditions.
+- `@typescript-eslint/no-explicit-any`: Errors when the `any` type is used, promoting type safety.
+- `@typescript-eslint/no-floating-promises`: Allows floating promises without handling.
+- `@typescript-eslint/no-var-requires`: Permits using `require` statements in TypeScript.
+- `@typescript-eslint/no-use-before-define`: Disabled to allow hoisting.
+- `@typescript-eslint/prefer-optional-chain`: Does not enforce using optional chaining.
+
+###### Stylistic Rules (Custom Plugin) <!-- omit from toc -->
+- `@stylistic/indent`: Enforces 2 spaces for indentation.
+- `@stylistic/semi`: Requires semicolons at the end of statements, warning level.
+- `@stylistic/quotes`: Enforces single quotes for strings.
+- `@stylistic/quote-props`: Requires quotes around object properties when necessary.
+- `@stylistic/arrow-parens`: Requires parentheses around arrow function arguments.
+
+###### ESLint Comments Plugin <!-- omit from toc -->
+- `eslint-comments/require-description`: Warns if ESLint directive comments lack a description.
+- `eslint-comments/disable-enable-pair`: Warns to ensure proper use of `eslint-disable` and `eslint-enable` pairs. Sometimes, linting and coding practices collide and a linting override is required to suppress linting alerts over a specific segment of code. While it is possible to override linting for an entire code module, this is not the Tazama way and instead a linting override is expected to only be applied to the specific problematic segment of code via the use of these comment tags above and below the code segment.
+
+###### Ignored Files and Directories <!-- omit from toc -->
+- **Ignored Locations**: 
+  - `**/build/**` or `**/lib/**` // tsc output directory (project)
+  - `**/node_modules/**`
+  - `**/docs/**`
+  - `**/__tests__/**`
+  - `**/coverage/**` // jest coverage
+  - `**/jest.config.ts` // jest main config
+  - `**/jest.testEnv.ts` // jest env config
+
+This setup ensures a robust framework for maintaining high code quality and consistency in TypeScript projects, leveraging ESLint's core capabilities and additional style rules from external plugins.
+
+##### 5.2.1.2. Gather asynchronous requests <!-- omit from toc -->
+
+When you have multiple asynchronous requests to make, Tazama prefers the requests to operate in parallel using [`Promise.all`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all).
+
+[Top](#contribution-guide)
+
+#### 5.2.2 Definition of done
+
+The tasks below must be completed by the code contributor before the Pull Request(PR) is submitted:
+
+**Code Complete** - Source code changes are complete for all items in the acceptance criteria in the issue supporting the story. In Tazama, code is distributed amongst a number of different repositories for specific purposes. Code changes in a single repository should be linked to an issue in that repository. Similar changes that affect a number of different repositories, should be documented as an issue in each of those repositories separately.
+
+**Code Refactoring** - Source code has been refactored to make it comprehensive, maintainable and amenable to change (*unless agreed otherwise as part of refactoring existing legacy code).
+
+**Code Check-in** - Source code is checked in to source code control repository and the PR process is followed.
+
+**Code & Peer reviews** (pull requests) - Code reviews and Peer reviews have been carried out and all improvements implemented and tests completed. Contributor to follow-up and ensure code gets merged in a reasonable time.
+
+**Code Documentation** - Source code has been commented. Complex or compound statements should be explained with a comment, either a comment block (e.g. `/* comment block here */` in TypeScript) or an in-line comment (e.g. `// in-line comment here` in TypeScript). Every function in Tazama must be documented with a preceding [JSDocs docstring](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html).
+
+**Developer Documentation** - The readme.md file in every GitHub code repository must contain documentation in markdown and diagrams, in Mermaid or editable `.svg` or `.png` images (See [guide for draw.io](/guides/drawio-guide.md)), to explain how the code works. 
+
+**Licensing comment** Add the following string as a comment ("SPDX-License-Identifier: Apache-2.0") at the top of every file in the organization in GitHub that is capable of including a comment i.e. extensions="ts" "js" "env" "template" "eslintignore" "yaml" "properties" "npmrc" "editorconfig" "dockerignore" "gitignore" "prettierignore" "md" "helmignore" "Makefile" "sh" "npmignore" "plantuml" "yml".
+
+**Unit testing** - Unit test cases have been created in Jest (https://jestjs.io/), executed and are working successfully. Follow [coverage guidelines](/Technical/unit-test-coverage.md). 
+
+**Processor performance benchmarking** Ensure that the Newman benchmark results have been presented on the PR as a comment. If you notice any spikes in the benchmark, please report the spike or reevaluate the implemented code.
+
+**Automated Builds** - All code is included in automated builds and any updates to the build scripts have been completed and tested and checked in. Jenkins / CircleCI - Poly vs Mono repo
+
+**GitHub CI/CD** - Ensure that all GitHub workflows have completed successfully during PR checks.
+
+**Logging** - Appropriate logging and log levels implemented [Logging framework](/Technical/Logging/The-Tazama-Logging-Framework.md) 
+
+**All acceptance criteria are met and Testing complete**
 
  - **Automated testing** - All existing automated tests have been run successfully
 
- - **Regression testing** – Suitable level of Regression testing has been carried out successfully
+ - **Regression testing** – Regression testing has been carried out successfully
 
-**Closure** - PR is closed, Automated tests ran, Pipeline built successfully, Automated deployments ran, THEN All finished user stories/tasks are marked complete/resolved. [Developer]
+### Guide for maintainers <!-- omit from toc -->
+
+**Architecture** - All new code conforms to the agreed architecture (*unless agreed otherwise as part of refactoring existing legacy code). 
 
 ### 5.3 Committing Your Changes
 
 When committing changes to your development branch you would be required to submit a commit message to describe the change. Depending on the mechanism that you are using to commit your changes, you may have access to a commit message as well as an extended description of your changes, but it is expected that you should complete at least the commit message.
 
-Tazama aims to comply with the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification for adding human and machine-readable meaning to commit messages.
+Tazama aims to comply with the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification for adding human and machine-readable meaning to commit messages (subject to the commit types recommended below).
 
 A commit message must be a short description of the change, prefaced with a commit type:
 
@@ -517,7 +589,7 @@ A commit message must be a short description of the change, prefaced with a comm
 type: short description
 ```
 
-The commit message could also, optionally, include a scope:
+The commit message should also include a scope:
 
 ```
 type(scope): short description
@@ -529,7 +601,7 @@ If the change is a breaking change, the type should be following by an exclamati
 type!: short description
 ```
 
-Recommended commit types are based on the [Angular convention](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#type), summarized for ease of reference:
+Recommended commit types for Tazama are based on the [Angular convention](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#type), summarized for ease of reference:
 
  - **build**: Changes that affect the build system or external dependencies
  - **ci**: Changes to our CI configuration files and scripts
@@ -540,6 +612,8 @@ Recommended commit types are based on the [Angular convention](https://github.co
  - **refactor**: A code change that neither fixes a bug nor adds a feature
  - **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semicolons, etc.)
  - **test**: Adding missing tests or correcting existing tests
+
+Note: **chore** is not in the recommended list of commit types
 
 Scope keywords are tailored to Tazama's specific requirements. Tazama's source code is spread across a number of repositories and as such even small changes often affect a number of separate repositories simultaneously. This complicates source control a bit, since a number of changes across different repositories may all be related to a single requirement. For the sake of proper governance, the requirement would be logged as an issue in each of the affected repositories to outline the acceptance criteria for the change in *that* repository and also to provide an anchor for the eventual Pull Request to implement the change in that repository. From this perspective, the scope is generally either confined to a single repository that represents a single Tazama processor, or a cluster of repositories representing a number of Tazama processors.
 
@@ -566,7 +640,50 @@ Information about regular community calls or meetings.
 Guidelines for contributing to project documentation.
 
 ### 7.2 Documentation Style Guide
-Style and formatting guidelines.
+
+The aim of this style guide section is to ensure that Tazama documentation is consistent, clear and professional, regardless of the number of contributors.
+
+**Location:** General documentation is maintained in the `docs` repository. Developer documentation is maintained in the README in the repository where the source code is located.
+
+**File names** Markdown file names in the `docs` repository should be all lower case with dashes `-` (and no spaces) e.g. rule-processor-overview.md. The README files in the repositories are named with all CAPS.
+
+**Format:** Documentation is created in Markdown files. We recommend using [Markdown All in One by Yu Zhang](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one) 
+
+**Language and Grammar:** Tazama documentation uses American English. We recommend using [LTeX – LanguageTool grammar/spell checking by Julian Valentin](https://valentjn.github.io/ltex) 
+
+**Tone:** Friendly, encouraging, and welcoming. The style should convey openness and support for new contributors, making them feel valued and part of the community.
+
+**Voice:** Use an active voice to engage the reader directly. 
+
+**Clarity:** Ensure that instructions are clear and straightforward. Avoid jargon or overly technical language to make the content accessible to new contributors.
+
+**Terminology:** Update the project [Glossary](/Product/Glossary.md) with acronyms, abbreviations, and industry-specific jargon. Consistent use of terminology helps avoid confusion. 
+
+**Consistency:** Maintain a consistent structure in the text, using bullet points or numbered lists for step-by-step instructions. This helps in readability and easy navigation. We recommend [The Ultimate Markdown Cheat Sheet/ numbered lists and bullets](https://github.com/lifeparticle/Markdown-Cheatsheet?tab=readme-ov-file#lists)
+
+**Headings and Structure:** Use multiple levels of numbered headings, for example in this Contribution Guide. This helps in organizing content logically and makes it easier to navigate. We recommend [The Ultimate Markdown Cheat Sheet/ headings](https://github.com/lifeparticle/Markdown-Cheatsheet?tab=readme-ov-file#headings)
+
+**Table of Contents** Include a table of contents at the top of the page, for example in this Contribution Guide, and link to the top of the page at intervals through the document e.g. [Top](#contribution-guide)
+![Top](../images/contribution-guide-style-top.png)
+
+**Detail:** Provide enough detail to guide the contributor but avoid overwhelming them with information. Include links to additional resources for those who want to dive deeper.
+
+**Code Formatting:** Code snippets should be formatted in its own distinct block, using triple backticks.  Within documentation, JSON should be formatted automatically using `Shift`+`Alt`+`f`.
+![json snippet](../images/contribution-guide-style-json.png)
+
+**Backticks** Single `backticks` ` are used to format inline code, commands, variables, filenames within a sentence. Using backticks appropriately helps in clearly distinguishing code or special text from regular content, enhancing readability and comprehension.
+
+**Links and References:** Set rules for linking to external resources, citing sources, and referencing other parts of the documentation. This includes guidelines on hyperlink text and formatting. We recommend [The Ultimate Markdown Cheat Sheet /links and references](https://github.com/lifeparticle/Markdown-Cheatsheet?tab=readme-ov-file#links)
+
+**Images:** Images should be editable `.svg` or `.png` files. See [guide for draw.io](/guides/drawio-guide.md).  All images should be saved in the docs/images folder.  
+
+![docs/images folder](../images/contribution-guide-style-images-folder.png)
+
+Image file names should be lower case with dashes `-` (and no spaces).  Include the document name and/or section name where the image will be inserted e.g. contribution-guide-style-images-folder.png 
+
+![image name](../images/contribution-guide-style-image-name.png)
+
+[Top](#contribution-guide)
 
 ## 8. Reporting Bugs and Requesting Features
 ### 8.1 How to Report Bugs
@@ -577,7 +694,8 @@ How to propose new features or enhancements.
 
 ## 9. Legal Compliance
 ### 9.1 Licensing Information
-Information about the project's license(s).
+
+You can access the Tazama License here > [SPDX-License-Identifier: Apache-2.0](https://github.com/frmscoe/tazama-project/blob/main/LICENSE)
 
 ### 9.2 Contributor License Agreement (CLA)
 Information about and how to sign the CLA.
@@ -611,5 +729,6 @@ How to contact the core team for assistance.
 | Owner | The person/s who has administrative ownership over the organization or repository (not always the same as the original author ([The Tazama Project](www.tazama.org), a member of the Linux Foundation))
 | Maintainers | Contributors who are responsible for driving the vision and managing the organizational aspects of the project (They may also be authors or owners of the project.)
 | Contributors | Everyone who has contributed something back to the project
-| Community Members | People who use the project. They might be active in conversations or express their opinion on the project’s direction
+| Community Members | People who use the project. They might be active in conversations or express their opinion on the project's direction
 
+Project [Glossary](/Product/Glossary.md)
