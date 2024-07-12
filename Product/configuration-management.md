@@ -19,7 +19,7 @@
   - [2.2. Typology Configuration](#22-typology-configuration)
     - [Introduction](#introduction-1)
     - [Typology configuration metadata](#typology-configuration-metadata)
-    - [The Rules object](#the-rules-object)
+    - [The rules object](#the-rules-object)
     - [The expression object](#the-expression-object)
     - [The workflow object](#the-workflow-object)
     - [Complete example of a typology configuration](#complete-example-of-a-typology-configuration)
@@ -27,7 +27,6 @@
     - [Introduction](#introduction-2)
     - [Network map metadata](#network-map-metadata)
     - [The messages object](#the-messages-object)
-    - [The channels object](#the-channels-object)
     - [The typology object](#the-typology-object)
     - [The rules object](#the-rules-object-1)
     - [Complete network map example](#complete-network-map-example)
@@ -405,7 +404,7 @@ Example of the typology configuration metadata:
   }
 ```
 
-### The Rules object
+### The rules object
 
 The `rules` object is an array that contains an element for every possible outcome for each of the rule results that can be received from the rule processors in scope for the typology.
 
@@ -436,7 +435,7 @@ A rule processor must always produce a result, and only ever a single result fro
 *   bands/cases are typically sequentially numbered (and ".00" is reserved in cases) and will always have at least two.
     
 
-The rule processor must produce one of these results (identified by the result's `subRuleRef`) and when it does, the typology processor must be configured via a typology configuration to "catch" that specific `subRuleRef`. If the rule processor produces a result that the typology processor can't process, the typology processor won't be able to complete the evaluation of that specific typology or the channel that contains the typology or the transaction that contains the channel: the evaluation will "hang". For this reason alone the exit conditions must be represented in the typology configuration and interpreted in the typology processor, even if the interpretation is non-deterministic (false, with a zero weighting), but some (few!) exit conditions actually also have deterministic results that have a weighting.
+The rule processor must produce one of these results (identified by the result's `subRuleRef`) and when it does, the typology processor must be configured via a typology configuration to "catch" that specific `subRuleRef`. If the rule processor produces a result that the typology processor can't process, the typology processor won't be able to complete the evaluation of that specific typology that contains the typology the evaluation will "hang". For this reason alone the exit conditions must be represented in the typology configuration and interpreted in the typology processor, even if the interpretation is non-deterministic (false, with a zero weighting), but some (few!) exit conditions actually also have deterministic results that have a weighting.
 
 Because the `rules` object contains every possible rule result outcome from each of the rule processors allocated to the typology, the typology configuration can become quite verbose, but here's a short example of a rules object for a typology that contains two rules:
 
@@ -615,9 +614,7 @@ The thresholds are located in a workflow object in the typology configuration. I
 
 ### Introduction
 
-The network map associates a specific transaction type with the rules and typologies that will be used to evaluate the incoming transaction. The network map allows for a subdivision of typologies according to themes (channels) as may be appropriate for a specific implementation. For example, typologies can be arranged in channels according to the types of financial crime they aim to detect, or typologies can be arranged according to the speed and performance with which they are required to respond, based on the infrastructure onto which the rules are deployed.
-
-The network map is structured as a decision tree that defines the rules in a typology, the typologies into a channel and the channels into a transaction (by type):
+The network map associates a specific transaction type with the rules and typologies that will be used to evaluate the incoming transaction. The network map is structured as a decision tree that defines the rules in a typology:
 
 ![Tazama network map structure](../images/tazama-network-map-structure.drawio.svg)
 
@@ -685,13 +682,9 @@ The `messages` object is an array that contains information about the transactio
       "typologies": [     
 ```
 
-### The channels object
-
-The `typologies` object is a nested array object inside the transaction element in the `messages` array object. 
-
 ### The typology object
 
-The typology object array contains the following attributes:
+The `typologies` object is a nested array object inside the transaction element in the `messages` array object. The typology object array contains the following attributes:
 
 *   `id` is the unique identifier for the typology processor that will be invoked to aggregate the specified rule results into a typology. It is possible for a transaction to be routed to a unique typology processor[^3] that contains specialized functionality related to calculating the specific typology.
     
