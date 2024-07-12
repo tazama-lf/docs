@@ -41,15 +41,15 @@
 
 System configuration is managed through a number of configuration files, each containing a JSON document that configures a specific processor type (Event director, rules and typologies) and specific processor instance identified by a processor identifier (id@version) and a configuration version.
 
-Changes to a rule processor’s behavior can be made by changing the parameters or rearranging the result bands (or cases).
+Changes to a rule processor's behavior can be made by changing the parameters or rearranging the result bands (or cases).
 
-Changes to the typology processor’s behavior for a specific typology can be made by changing the thresholds for interdiction or alerting or by changing the weighting of the rule results from the rule processors that contribute to the typology score.
+Changes to the typology processor's behavior for a specific typology can be made by changing the thresholds for interdiction or alerting or by changing the weighting of the rule results from the rule processors that contribute to the typology score.
 
-Changes to the network map that is used in the Event Director for routing can add/remove rules to typologies and change the version of a configuration file that is used to calculate a rule or typology result.
+Changes to the network map, that is used in the Event Director for routing, can add/remove rules to typologies and change the version of a configuration file that is used to calculate a rule or typology result.
 
 In a production environment, configurations should never be over-written and new versions of configurations should be issued to supersede older versions. A new network map must then be issued to implement the updated configuration.
 
-In a test or PoC environment, it may sometimes be simpler to just overwrite existing configuration files so that you don’t have to constantly update the network map every time you experiment with a change, *but don’t do this in your production environment*.
+In a test or PoC environment, it may sometimes be simpler to just overwrite existing configuration files so that you don't have to constantly update the network map every time you experiment with a change, *but don't do this in your production environment*.
 
 Configuration documents can be uploaded to the system using the ArangoDB API deployed with the platform.
 
@@ -61,13 +61,13 @@ The core detection capability within the system is distributed across three dist
 
 ![Tazama context end to end](../images/tazama-context-end-to-end.png)
 
-Once data is ingested into the transaction history by the TMS API, the Event Director performs an initial “triage” step to determine if the transaction should be inspected by the system, and in what way. At the moment this is a very simple decision based on the transaction type only (i.e. pain.001, pain.013, pacs.008 and pacs.002), though we envisage that the decision-making here can be more complex in the future by inspecting attributes contained in the message. For now, the ED uses the transaction type to select the typologies that are to be evaluated and triggers the rules required by the typologies. The default configuration of the system only evaluates the pacs.002 as the trigger payload for the rule processors and typologies. The ED routing is configured via a network map that defines the hierarchy of typologies and rules. While not directly influenced by a calibration process at present, the behavior of existing rules and typologies may result in changes to the scope of the evaluation defined in the network map. Some rules or typologies may be deemed to be ineffective in the current configuration and removed or recomposed, and new rules or typologies may be added as new behaviors emerge.
+Once data is ingested into the transaction history by the TMS API, the Event Director performs an initial "triage" step to determine if the transaction should be inspected by the system, and in what way. At the moment this is a very simple decision based on the transaction type only (i.e. pain.001, pain.013, pacs.008 and pacs.002), though we envisage that the decision-making here can be more complex in the future by inspecting attributes contained in the message. For now, the ED uses the transaction type to select the typologies that are to be evaluated and triggers the rules required by the typologies. The default configuration of the system only evaluates the pacs.002 as the trigger payload for the rule processors and typologies. The ED routing is configured via a network map that defines the hierarchy of typologies and rules. While not directly influenced by a calibration process at present, the behavior of existing rules and typologies may result in changes to the scope of the evaluation defined in the network map. Some rules or typologies may be deemed to be ineffective in the current configuration and removed or recomposed, and new rules or typologies may be added as new behaviors emerge.
 
 ![Tazama rule and typology plane](../images/tazama-rule-and-typology-plane.png)
 
-Each rule processor that receives the trigger payload from the  Event Director evaluates the transaction and the historical behavior of its participants according to its specification and configuration. Rule processors are driven by a combination of parameters and result specifications to determine only one of a number of related outcomes. The rule outcome is then submitted to the typology processor for scoring.
+Each rule processor that receives the trigger payload from the Event Director evaluates the transaction and the historical behavior of its participants according to its specification and configuration. Rule processors are driven by a combination of parameters and result specifications to determine only one of a number of related outcomes. The rule outcome is then submitted to the typology processor for scoring.
 
-The typology processor assigns a weighting to each rule outcome as it is received based on the rule’s parent typologies’ configurations. Once all the rule results for a specific typology has been received, the typology adds all the weighted scores together into the typology score. The typology score can be evaluated against an “interdiction” threshold to determine if the client system should be instructed to block a transaction “in flight” and also an investigation threshold to trigger a review process at the end of the transaction evaluation. The typology processor is not currently configured to interdict the transaction when the threshold is breached; only investigations are commissioned once the evaluation of all the typologies are complete.
+The typology processor assigns a weighting to each rule outcome as it is received based on the rule's parent typologies' configurations. Once all the rule results for a specific typology has been received, the typology adds all the weighted scores together into the typology score. The typology score can be evaluated against an "interdiction" threshold to determine if the client system should be instructed to block a transaction "in flight" and also an investigation threshold to trigger a review process at the end of the transaction evaluation. The typology processor is not currently configured to interdict the transaction when the threshold is breached; only investigations are commissioned once the evaluation of all the typologies are complete.
 
 ![Tazama rule and typology processor](../images/tazama-rule-and-typology-processor.drawio.svg)
 
@@ -102,7 +102,7 @@ In this document, we will discuss how the various configuration documents are ex
 
 # 2. Configuration Management
 
-Configuration documents are essentially files that contain a processor-specific configuration object in JSON format. The recommended way to upload the configuration file to the appropriate configuration database (`networkMap` or `configuration`) and collection is via ArangoDB’s HTTP API that is deployed as standard during system deployment.
+Configuration documents are essentially files that contain a processor-specific configuration object in JSON format. The recommended way to upload the configuration file to the appropriate configuration database (`networkMap` or `configuration`) and collection is via ArangoDB's HTTP API that is deployed as standard during system deployment.
 
 The system processes configurations in a specific order to evaluate an incoming transaction. Starting with the Event Director that interprets the network map for routing, then following with the rule processors that interpret their individual rule configurations to determine how to evaluate the transaction, and then concluding with the typology processor that uses a variety of typology configurations to summarize rule results into typologies (fraud or money laundering scenarios).
 
@@ -124,7 +124,7 @@ Finally, the typologies and rules are bound together into the network map and at
 
 ### Introduction
 
-A rule processor is a custom-built module that evaluates an incoming message according to its code. When a new rule processor is developed, the rule designer will specify both the input parameters for the rule, as well as the output results. Changes to these attributes can alter a rule processor’s behavior, and it is expected that these attributes are hosted in the rule configuration so that the rule processor behavior can be altered by updating the configuration instead of changing the rule processor code.
+A rule processor is a custom-built module that evaluates an incoming message according to its code. When a new rule processor is developed, the rule designer will specify both the input parameters for the rule, as well as the output results. Changes to these attributes can alter a rule processor's behavior, and it is expected that these attributes are hosted in the rule configuration so that the rule processor behavior can be altered by updating the configuration instead of changing the rule processor code.
 
 A rule processor configuration document typically contains the following information:
 
@@ -142,9 +142,9 @@ A rule processor configuration document typically contains the following informa
        
 ### Rule configuration metadata
 
-The rule configuration “header” contains metadata that describes the rule. The metadata includes the following attributes:
+The rule configuration "header" contains metadata that describes the rule. The metadata includes the following attributes:
 
-*   `id` identifies the specific rule processor and its version that will use the configuration. It is recommended that the rule processor “name” is drawn from the source-code repository where the rule processor code resides, and the version should match the semantical version of the source code as defined in the source code repository.
+*   `id` identifies the specific rule processor and its version that will use the configuration. It is recommended that the rule processor "name" is drawn from the source-code repository where the rule processor code resides, and the version should match the semantical version of the source code as defined in the source code repository.
     
 *   `cfg` is the unique version of the rule configuration. Multiple different versions of a rule configuration can co-exist simultaneously in the system.
     
@@ -165,7 +165,7 @@ Example of the rule configuration metadata:
 
 ### The configuration object - parameters
 
-A rule processor’s parameters are used to define how a rule processor will operate to evaluate the incoming message. The requirement for the parameters are coded into the rule processor and must be provided in the configuration for the rule processor to deliver a successful outcome. If any of the required parameters are missing, the rule processor will still deliver a result, but it will be a default error outcome. Parameters are given descriptive names to assist the operator in specifying them correctly. Parameters often differ from one rule to the next, but typically define thresholds and time-frames for the historical queries that are executed inside a rule processor. Some notable examples:
+A rule processor's parameters are used to define how a rule processor will operate to evaluate the incoming message. The requirement for the parameters are coded into the rule processor and must be provided in the configuration for the rule processor to deliver a successful outcome. If any of the required parameters are missing, the rule processor will still deliver a result, but it will be a default error outcome. Parameters are given descriptive names to assist the operator in specifying them correctly. Parameters often differ from one rule to the next, but typically define thresholds and time-frames for the historical queries that are executed inside a rule processor. Some notable examples:
 
 | **Parameter** | **Description** |
 | --- | --- |
@@ -191,7 +191,7 @@ If a rule processor does not use any parameters, the parameters object may eithe
 
 ### The configuration object - exit conditions
 
-A rule processor’s exit conditions ensure that a rule processor is always able to produce a result, even if the rule processor is unable to reach a definitive, deterministic outcome. Exit conditions account for non-deterministic exceptions in the rule processor’s behavior. The exit conditions are coded into the rule processor and each exit condition must be provided in the configuration for the rule processor to deliver a successful outcome. If any of the exit conditions are missing, the rule processor will still deliver a result, but it will be error outcome complaining about the missing exit condition related to the specific exit condition code.
+A rule processor's exit conditions ensure that a rule processor is always able to produce a result, even if the rule processor is unable to reach a definitive, deterministic outcome. Exit conditions account for non-deterministic exceptions in the rule processor's behavior. The exit conditions are coded into the rule processor and each exit condition must be provided in the configuration for the rule processor to deliver a successful outcome. If any of the exit conditions are missing, the rule processor will still deliver a result, but it will be error outcome complaining about the missing exit condition related to the specific exit condition code.
 
 By convention, exit condition codes are prefaced with an 'x' to differentiate them from regular rule results that have no prefix.
 
@@ -223,6 +223,7 @@ Example of the `exitConditions` object:
         "reason": "Insufficient transaction history"
       }
     ]
+  }
 ```
 
 Each exit condition contains the same attributes:
@@ -231,8 +232,6 @@ Each exit condition contains the same attributes:
 | --- | --- |
 | `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br> By convention, the exit condition sub-rule references are prefaced with an 'x'. |
 | `reason` | The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. Reason descriptions will be refined during future enhancements[^1] |
-
-
 
 #### The `.err` exit condition
 
@@ -252,7 +251,7 @@ While the parameters and exit conditions may be optional for a specific rule pro
 
 ![Tazama case rule processor](../images/tazama-config-rule-processor-cases.drawio.svg)
 
-The rule processor’s core purpose is to produce a definitive deterministic result based on its programmed behavioral analysis of historical data. The rule configuration defines the bands or values for which rule results can be provided.
+The rule processor's core purpose is to produce a definitive deterministic result based on its programmed behavioral analysis of historical data. The rule configuration defines the bands or values for which rule results can be provided.
 
 > [!WARNING] It is extremely important that the configuration of a rule processor does not leave any gaps in the results, whether banded or cased. Every possible outcome of a rule result must be accounted for, otherwise the rule processor may deliver a result that the typology processor cannot interpret. In the event that a rule processor result misses the configured results, the rule processor will issue an error (`.err`) result with a reason description of `Value provided undefined, so cannot determine rule outcome`.
 
@@ -297,7 +296,7 @@ Each rule result band contains the same information:
 
 | **Attribute** | **Description** |
 | --- | --- |
-| `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br> We have elected to assign a numeric sequence to the sub-rule references for result bands, prefaced with a dot (“.”) separator, but this format is not mandatory for the sub-rule reference string. Any descriptive and unique string would be an acceptable sub-rule reference. |
+| `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br> We have elected to assign a numeric sequence to the sub-rule references for result bands, prefaced with a dot (".") separator, but this format is not mandatory for the sub-rule reference string. Any descriptive and unique string would be an acceptable sub-rule reference. |
 | `lowerLimit` | This attribute defines the lower limit of the band range and is evaluated inclusively (`>=`).<br><br> Where a lower limit is not provided, the rule processor will assume the intended target lower limit is -∞. Unless the very first result band in a configuration has a clear and unambiguous lower limit, it is often omitted. |
 | `upperLimit` | This attribute defines the upper limit of the band range and is evaluated exclusively (`<`).<br><br>Where an upper limit is not provided, the rule processor will assume the intended target upper limit is +∞. Unless the very last result band in a configuration has a clear and unambiguous upper limit, it is often omitted. |
 | `reason`| The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. Reason descriptions will be refined during future enhancements[^1]|
@@ -318,11 +317,11 @@ One of the most frequent limit values in use in the system is based on time-fram
 
 In contrast to the partitioning of a result range as in banded results, cased results are a collection of discrete and explicit outcomes for a rule processor out of which the rule processor will determine the specific result applicable to the evaluation it performed.
 
-Case results do not have upper or lower limits to define a range of values within which a rule result is placed. Instead every case result is simply evaluated with a `=` operator. The rule result is either that specific case value, or a different one.
+Case results do not have upper or lower limits to define a range of values within which a rule result is placed. Instead, every case result is simply evaluated with a `=` operator. The rule result is either that specific case value, or a different one.
 
-It is extremely important that every case-based rule configuration contains a catch-all “else” outcome that defines an outcome for the rule processor if none of the listed case results can be matched. By convention, this “else” outcome is attached to the `.00` sub-rule reference outcome and rule developers and configurers should reserve this sub-rule reference exclusively for this purpose.
+It is extremely important that every case-based rule configuration contains a catch-all "else" outcome that defines an outcome for the rule processor if none of the listed case results can be matched. By convention, this "else" outcome is attached to the `.00` sub-rule reference outcome and rule developers and configurers should reserve this sub-rule reference exclusively for this purpose.
 
-Beyond the default “else” outcome, the cased rule processor configuration can contain any number of results.
+Beyond the default "else" outcome, the cased rule processor configuration can contain any number of results.
 
 The rule result cases are specified in the `config` object in the rule configuration as an array of elements under a `cases` object:
 
@@ -351,8 +350,8 @@ Each rule result case contains the same information:
 
 | **Attribute** | **Description** |
 | --- | --- |
-| `value` | This attribute defines the specific value that will be matched in the rule processor (`=`).<br><br>Every case contains a value, with the exception of the default “else” case.<br><br>Values can be either strings, encapsulated in quotes, or numbers, without quotes. |
-| `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br>We have elected to assign a numeric sequence to the sub-rule references for result cases, prefaced with a dot (“.”) separator, but this format is not mandatory for the sub-rule reference string. Any descriptive and unique string would be an acceptable sub-rule reference.<br><br>By convention, the default “else” outcome has a sub-rule reference of `.00`. |
+| `value` | This attribute defines the specific value that will be matched in the rule processor (`=`).<br><br>Every case contains a value, with the exception of the default "else" case.<br><br>Values can be either strings, encapsulated in quotes, or numbers, without quotes. |
+| `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br> We have elected to assign a numeric sequence to the sub-rule references for result cases, prefaced with a dot (".") separator, but this format is not mandatory for the sub-rule reference string. Any descriptive and unique string would be an acceptable sub-rule reference.<br><br>By convention, the default "else" outcome has a sub-rule reference of `.00`. |
 | `reason`| The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. Reason descriptions will be refined during future enhancements[^1] |
 
 ### Complete example of a rule processor configuration
@@ -379,9 +378,9 @@ A typology processor configuration document typically contains the following inf
     
 ### Typology configuration metadata
 
-The typology configuration “header” contains metadata that describes the typology. The metadata includes the following attributes:
+The typology configuration "header" contains metadata that describes the typology. The metadata includes the following attributes:
 
-*   `id` identifies the specific typology processor and its version that will be used by the configuration. There will typically only be a single typology processor active in the system at a time, but it is possible and conceivable that multiple typology processors and/or versions can co-exist simultaneously. It is recommended that the typology processor “name” is drawn from the source-code repository where the typology processor code resides, and the version should match the semantical version of the source code as defined in the source code.
+*   `id` identifies the specific typology processor and its version that will be used by the configuration. There will typically only be a single typology processor active in the system at a time, but it is possible and conceivable that multiple typology processors and/or versions can co-exist simultaneously. It is recommended that the typology processor "name" is drawn from the source-code repository where the typology processor code resides, and the version should match the semantical version of the source code as defined in the source code.
     
 *   `cfg` is the unique version of the typology configuration. Though unlikely, multiple different versions of a typology configuration can co-exist simultaneously in the system. The configuration consists of two parts: an arbitrary identifier for the typology to differentiate one typology from another, and then, separated by an `@`, a semantical version that defines the specific version of the configuration for that typology, for example `typology-001@1.0.0`.
     
@@ -393,7 +392,7 @@ The combination of the `id` and `cfg` strings forms a unique identifier for ever
 
 A rule processor (defined by its id) is closely paired with its configuration (defined by the `cfg`): the configuration works for that rule processor and no other, and the rule processor won't work with another rule processor's configuration.
 
-A typology processor is a generic “engine” processor. It is not paired with a specific typology the way a rule processor is - it is intended to work for multiple, if not all, typologies. The typology configuration needs another way to reference the specific typology that will be scored by the typology processor. For that reason, the `cfg` attribute is subdivided in the same way as the id into name and a version parts. And remember we can have multiple parallel typology processors if we need them, so the `id` describes the specific typology processor and its version (for routing purposes), and the `cfg` describes the specific typology and the version of its configuration.
+A typology processor is a generic "engine" processor. It is not paired with a specific typology the way a rule processor is - it is intended to work for multiple, if not all, typologies. The typology configuration needs another way to reference the specific typology that will be scored by the typology processor. For that reason, the `cfg` attribute is subdivided in the same way as the id into name and a version parts. And remember we can have multiple parallel typology processors if we need them, so the `id` describes the specific typology processor and its version (for routing purposes), and the `cfg` describes the specific typology and the version of its configuration.
 
 Example of the typology configuration metadata:
 
@@ -414,7 +413,7 @@ The `rules` object is an array that contains an element for every possible outco
 
 ***Every. Possible. Outcome.***
 
-All the possible outcomes from the rule processors are encapsulated in each rule’s configuration, with the exception of the `.err` outcome that is not listed in the rule configuration because the conditions and descriptions are built into the rule processor itself. When composing the typology configuration, the user must remember to include the `.err` outcome, but the rest of the rule results (exit conditions and banded/cased results) can be directly reconciled with the elements in the `rules` object.
+All the possible outcomes from the rule processors are encapsulated in each rule's configuration, with the exception of the `.err` outcome that is not listed in the rule configuration because the conditions and descriptions are built into the rule processor itself. When composing the typology configuration, the user must remember to include the `.err` outcome, but the rest of the rule results (exit conditions and banded/cased results) can be directly reconciled with the elements in the `rules` object.
 
 Each rule result element in the rules array contains the same attributes:
 
@@ -426,7 +425,7 @@ Each rule result element in the rules array contains the same attributes:
 | `wght` | The outcome of the rule result will be assigned a weighting according to the sub-rule reference |
 
 
-**What does “every possible outcome” mean?**
+**What does "every possible outcome" mean?**
 
 A rule processor must always produce a result, and only ever a single result from a number of possible results. The rule result will always fall into one of the following categories: error, exit or band/case. Results across all the categories are mutually exclusive and there can be only one result regardless of the category. Results are uniquely identified via the `subRuleRef` attribute:
 
@@ -437,9 +436,9 @@ A rule processor must always produce a result, and only ever a single result fro
 *   bands/cases are typically sequentially numbered (and ".00" is reserved in cases) and will always have at least two.
     
 
-The rule processor must produce one of these results (identified by the result’s `subRuleRef`) and when it does, the typology processor must be configured via a typology configuration to “catch” that specific `subRuleRef`. If the rule processor produces a result that the typology processor can't process, the typology processor won't be able to complete the evaluation of that specific typology or the channel that contains the typology or the transaction that contains the channel: the evaluation will "hang". For this reason alone the exit conditions must be represented in the typology configuration and interpreted in the typology processor, even if the interpretation is non-deterministic (false, with a zero weighting), but some (few!) exit conditions actually also have deterministic results that have a weighting.
+The rule processor must produce one of these results (identified by the result's `subRuleRef`) and when it does, the typology processor must be configured via a typology configuration to "catch" that specific `subRuleRef`. If the rule processor produces a result that the typology processor can't process, the typology processor won't be able to complete the evaluation of that specific typology or the channel that contains the typology or the transaction that contains the channel: the evaluation will "hang". For this reason alone the exit conditions must be represented in the typology configuration and interpreted in the typology processor, even if the interpretation is non-deterministic (false, with a zero weighting), but some (few!) exit conditions actually also have deterministic results that have a weighting.
 
-Because the `rules` object contains every possible rule result outcome from each of the rule processors allocated to the typology, the typology configuration can become quite verbose, but here’s a short example of a rules object for a typology that contains two rules:
+Because the `rules` object contains every possible rule result outcome from each of the rule processors allocated to the typology, the typology configuration can become quite verbose, but here's a short example of a rules object for a typology that contains two rules:
 
 ```
 "rules": [
@@ -526,7 +525,7 @@ In the system the terms a and b would be represented by their unique `id` and `c
 }
 ```
 
-We don’t have to also supply a specific sub-rule reference: each rule processor only submits one of its possible rule results at a time.
+We don't have to also supply a specific sub-rule reference: each rule processor only submits one of its possible rule results at a time.
 
 If, for example, we wanted to apply an additional multiplier to the formula e.g. `(a + b) * c`, the resulting expression would be structured as follows:
 
@@ -653,7 +652,7 @@ and the evaluation is executed along the defined route in reverse order:
 
 ### Network map metadata
 
-The network map “header” contains metadata that describes the network map. The metadata includes the following attributes:
+The network map "header" contains metadata that describes the network map. The metadata includes the following attributes:
 
 *   `cfg` is the unique version of the network map. The version allows an investigator or auditor to know which version of the network map was used in a specific evaluation.
     
@@ -663,13 +662,14 @@ The network map “header” contains metadata that describes the network map. T
 {
   "active": true,
   "cfg": "1.0.0",
+}
 ```
 
 ### The messages object
 
 The `messages` object is an array that contains information about the transactions that the system is expected to evaluate. Each element in the `messages` object contains the following attributes[^4]:
 
-*   `id` is the unique identifier for the Transaction Aggregation and Decisioning Processor (TADProc) that will be used to ultimately conclude the evaluation of a specific transaction. It is possible for a transaction to be routed to a unique TADProc that contains specialized functionality related to summarizing the transaction’s results[^3]
+*   `id` is the unique identifier for the Transaction Aggregation and Decisioning Processor (TADProc) that will be used to ultimately conclude the evaluation of a specific transaction. It is possible for a transaction to be routed to a unique TADProc that contains specialized functionality related to summarizing the transaction's results[^3]
     
 *   `cfg` is the unique version of the deployed TADProc that will be used to conclude the evaluation of the transaction.
     
@@ -695,16 +695,15 @@ The typology object array contains the following attributes:
 
 *   `id` is the unique identifier for the typology processor that will be invoked to aggregate the specified rule results into a typology. It is possible for a transaction to be routed to a unique typology processor[^3] that contains specialized functionality related to calculating the specific typology.
     
-*   `cfg` defines the unique typology and the version of its configuration. The typology processor is effectively just a generic engine that processes the typology’s configuration to combine rules into a typology in a specific way. From a certain perspective, the typology configuration *is* the typology.
+*   `cfg` defines the unique typology and the version of its configuration. The typology processor is effectively just a generic engine that processes the typology's configuration to combine rules into a typology in a specific way. From a certain perspective, the typology configuration *is* the typology.
     
 *   `rules` defines the first layer of evaluation destinations along the route laid out by the network map for the evaluation.
     
 
 ```
-         {
-          "id": "typology-processor@1.0.0",
-          "cfg": "001@1.0.0",
-          "rules": [
+    "id": "typology-processor@1.0.0",
+    "cfg": "001@1.0.0",
+    "rules": 
 ```
 
 ### The rules object
@@ -744,13 +743,13 @@ Configuration documents in Tazama are strictly structured JSON documents. Each d
 "id": "099@1.0.0"
 ```
 
-The rule would typically be known as “rule 099” and is called the rule name. The deployed version of the rule processor would be “1.0.0” and is called the rule processor version.
+The rule would typically be known as "rule 099" and is called the rule name. The deployed version of the rule processor would be "1.0.0" and is called the rule processor version.
 
-In reality system processors are deployed from their GitHub source code via Jenkins. Rule processors are version- or source-controlled using GitHub’s native source control functionality and changes to a rule processor’s source code are fully accounted for between versions.
+In reality system processors are deployed from their GitHub source code via Jenkins. Rule processors are version- or source-controlled using GitHub's native source control functionality and changes to a rule processor's source code are fully accounted for between versions.
 
-The configuration of a particular processor is handled separately from the processor source code. The configuration of a specific version of a processor may be changed without changing the underlying code and will then result in a new behavior in the rule processor’s execution. The same rule processor version may even be deployed multiple times with a different configuration applied to each of the different instances.
+The configuration of a particular processor is handled separately from the processor source code. The configuration of a specific version of a processor may be changed without changing the underlying code and will then result in a new behavior in the rule processor's execution. The same rule processor version may even be deployed multiple times with a different configuration applied to each of the different instances.
 
-In order to manage multiple consecutive or parallel versions of a processor’s configuration, each configuration file contains a configuration version attribute as well:
+In order to manage multiple consecutive or parallel versions of a processor's configuration, each configuration file contains a configuration version attribute as well:
 
 ```
 "cfg": "1.0.0"
@@ -777,13 +776,13 @@ When a new version of a configuration document is required, the updated version 
 
 | **Collection name** | **Processor Type** |
 | --- | --- |
-| `configuration` | [Rule processor overview - rule config](/product/rule-processor-overview-rule-config.md) |
-| `typologyExpression` | [Typologies](/product/typology-processing.md) |
-| `transactionConfiguration` | [Transaction Aggregation and Decisioning](/product/transaction-aggregation-and-decisioning-processor.md) |
+| `ruleConfiguration` | [Rule processor overview - rule config](/product/rule-processor-overview-rule-config.md) |
+| `typologyConfiguration` | [Typologies](/product/typology-processing.md) |
+
 
 Configuration documents can be posted to the appropriate collection via the ArangoDB API, either in bulk or one-by-one. When posting a new configuration for an existing processor, the database will not allow a user to submit a configuration for an "id" and "cfg" combination that already exists in the database: a new configuration must always be assigned a unique configuration version.
 
-Beyond this constraint imposed by the database, configuration versions are expected to be managed outside the system. Tazama does not currently offer a native user interface for configuration management, though Sybrin, one of the FRMS Centre of Excellence’s System Integrator partners, have created a user interface that allows for the creation of configuration documents as well as the automated management of configuration versions between iterations of a configuration document.
+Beyond this constraint imposed by the database, configuration versions are expected to be managed outside the system. Tazama does not currently offer a native user interface for configuration management, though Sybrin, one of the FRMS Centre of Excellence's System Integrator partners, have created a user interface that allows for the creation of configuration documents as well as the automated management of configuration versions between iterations of a configuration document.
 
 Once a configuration document has been created or updated and uploaded to the configuration database, the configuration is ready to be used, but not in use yet. To activate a new configuration (or version), the configuration must be linked to the processor in the network map.
 
@@ -799,11 +798,11 @@ Unlike the processor configuration documents, the network map does not contain a
 
 The network map that is used to perform a particular evaluation is dynamically determined in the Event Director and is always encapsulated in the payload that is evaluated by all downstream processors. The processor uses the network map to retrieve the correct configuration and also accompanies the results of the evaluation so that the network map that was used for the evaluation is always explicitly traceable.
 
-There can only be one network map in an “active” state in the system at a time. A new network map can be posted to the network map database via the ArangoDB API. An existing network map’s “active” state can also be changed via the API.
+There can only be one network map in an "active" state in the system at a time. A new network map can be posted to the network map database via the ArangoDB API. An existing network map's "active" state can also be changed via the API.
 
 As with other configuration documents, a network map is never intended to be updated. A new iteration (or version) of the network map must be uploaded and then the existing active network map must be deactivated, and the new network map must be activated.
 
-The unique “true” state of the active flag is expected to be enforced outside the system. Sybrin have also embedded this functionality in their configuration management utility.
+The unique "true" state of the active flag is expected to be enforced outside the system. Sybrin have also embedded this functionality in their configuration management utility.
 
 The active network map ultimately defines the scope of a particular evaluation, right down to the specific processors and their versions that are going to be used, as well as the specific version of the processor configuration required. If any of the components in a network map changes, a new network map must be deployed and activated to replace the previous iteration of the network map.
 
@@ -818,6 +817,6 @@ The active network map ultimately defines the scope of a particular evaluation, 
     
 
     
-[^3]: In its default deployment, the system contains a single version of the “core” system processors (the typology processor and TADProc) at a time. Though it is possible to deploy and maintain multiple parallel versions of these processors and manage routing to these processors through the network map, this guide will only focus on singular core processors for now.
+[^3]: In its default deployment, the system contains a single version of the "core" system processors (the typology processor and TADProc) at a time. Though it is possible to deploy and maintain multiple parallel versions of these processors and manage routing to these processors through the network map, this guide will only focus on singular core processors for now.
     
 [^4]: Before our implementation of NATS, Tazama processors were implemented as RESTful microservices. The `host` attributes in the network map contained the URL where the processors could be addressed. With our initial implementation of NATS, the routing information was moved into environment variables that were read into the processors when they were deployed, or restarted in the event of a processor failure. We have now removed the need to specify the host property for a processor - the routing is automatically determined from the network map at processor startup - see [https://github.com/frmscoe/General-Issues/issues/310](https://github.com/frmscoe/General-Issues/issues/310) for details.
