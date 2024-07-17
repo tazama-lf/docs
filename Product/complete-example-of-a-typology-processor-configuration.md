@@ -8,96 +8,80 @@ Building on the example rule configurations provided here:
 
 ## Typology configuration for a typology with two rules
 
-```
+```JSON
 {
-  "desc": "Double-payment to a merchant.",
-  "id": "typology-processor@1.0.0",
-  "cfg": "001@1.0.0",
-  "rules": [
-    {
-      "id": "006@1.0.0",
-      "cfg": "1.0.0",
-      "ref": ".err",
-      "wght": 0
-    },
-    {
-      "id": "006@1.0.0",
-      "cfg": "1.0.0",
-      "ref": ".x00",
-      "wght": 100
-    },
-    {
-      "id": "006@1.0.0",
-      "cfg": "1.0.0",
-      "ref": ".x01",
-      "wght": 100
-    },
-    {
-      "id": "006@1.0.0",
-      "cfg": "1.0.0",
-      "ref": ".01",
-      "wght": 0
-    },
-    {
-      "id": "006@1.0.0",
-      "cfg": "1.0.0",
-      "ref": ".02",
-      "wght": 200
-    },
-    {
-      "id": "006@1.0.0",
-      "cfg": "1.0.0",
-      "ref": ".03",
-      "wght": 300
-    },
-    {
-      "id": "078@1.0.0",
-      "cfg": "1.0.0",
-      "ref": ".err",
-      "wght": 0
-    },
-    {
-      "id": "078@1.0.0",
-      "cfg": "1.0.0",
-      "ref": ".00",
-      "wght": 0
-    },
-    {
-      "id": "078@1.0.0",
-      "cfg": "1.0.0",
-      "ref": ".01",
-      "wght": 0
-    },
-    {
-      "id": "078@1.0.0",
-      "cfg": "1.0.0",
-      "ref": ".02",
-      "wght": 1
-    },
-    {
-      "id": "078@1.0.0",
-      "cfg": "1.0.0",
-      "ref": ".03",
-      "wght": 0
+    "desc": "Double-payment to a merchant.",
+    "id": "typology-processor@1.0.0",
+    "cfg": "001@1.0.0",
+    "rules": [
+        {
+            "id": "006@1.0.0",
+            "cfg": "1.0.0",
+            "termId": "v006at100at100",
+            "wghts": [
+                {
+                    "ref": ".err",
+                    "wght": 0
+                },
+                {
+                    "ref": ".x00",
+                    "wght": 100
+                },
+                {
+                    "ref": ".x01",
+                    "wght": 100
+                },
+                {
+                    "ref": ".01",
+                    "wght": 0
+                },
+                {
+                    "ref": ".02",
+                    "wght": 200
+                },
+                {
+                    "ref": ".03",
+                    "wght": 300
+                },
+            ]
+        },
+        {
+            "id": "078@1.0.0",
+            "cfg": "1.0.0",
+            "termId": "v078at100at100",
+            "wghts": [
+                {
+                    "ref": ".err",
+                    "wght": 0
+                },
+                {
+                    "ref": ".00",
+                    "wght": 0
+                },
+                {
+                    "ref": ".01",
+                    "wght": 0
+                },
+                {
+                    "ref": ".02",
+                    "wght": 1
+                },
+                {
+                    "ref": ".03",
+                    "wght": 0
+                }
+            ],
+            "expression": [
+                "add",
+                "v006at100at100",
+                "v078at100at100"
+            ]
+        }
+    ],
+    "workflow": {
+        "alertThreshold": 200,
+        "interdictionThreshold": 300
     }
-  ],
-  "expression": {
-    "operator": "\*",
-    "terms": [
-      {
-        "id": "006@1.0.0",
-        "cfg": "1.0.0"
-      },
-      {
-        "id": "078@1.0.0",
-        "cfg": "1.0.0"
-      }
-    ]
-  },
-  "workflow": {
-    "alertThreshold": 200,
-    "interdictionThreshold": 300
-  }
 }
 ```
 
