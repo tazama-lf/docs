@@ -8,7 +8,7 @@ The purpose of Transaction Monitoring Service (TMS) API is to facilitate the sub
 
 The Tazama system is designed to be able to take on transaction messages from customer systems, evaluate these messages for specific behaviors, and deliver an assessment of the evidence of financial crime inherent in the transaction.
 
-Tazama can be deployed to service the needs of a single Financial Service Provider (FSP), an intermediary system such as a clearing house or payment switch, and also a combination of FSP and switching participants in what we call a “semi-attached” configuration:
+Tazama can be deployed to service the needs of a single Financial Service Provider (FSP), an intermediary system such as a clearing house or payment switch, and also a combination of FSP and switching participants in what we call a "semi-attached" configuration:
 
 ![semi-attached-detection](../images/tazama-semi-attached.png)
 

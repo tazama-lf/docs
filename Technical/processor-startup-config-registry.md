@@ -28,7 +28,7 @@ These environment variables are used across processors in the system. The specif
 | `TRANSACTION_HISTORY_DATABASE_PASSWORD` | Password for accessing the transaction history database | `password123` |
 | `TRANSACTION_HISTORY_DATABASE_URL` | URL for accessing the transaction history database | `http://localhost:8529` |
 | `CONFIG_DATABASE_CERT_PATH` | Path to the certificate for the configuration database | `certs/config_db_cert.pem` |
-| `CONFIG_DATABASE` | Name of the configuration database | `Configuration` |
+| `CONFIG_DATABASE` | Name of the configuration database | `configuration` |
 | `CONFIG_DATABASE_USER` | Username for accessing the configuration database | `root` |
 | `CONFIG_DATABASE_URL` | URL for accessing the configuration database | `http://localhost:8529` |
 | `CONFIG_DATABASE_PASSWORD` | Password for accessing the configuration database | `configPass123` |

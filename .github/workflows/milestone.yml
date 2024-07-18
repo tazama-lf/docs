@@ -1,0 +1,39 @@
+# SPDX-License-Identifier: Apache-2.0
+
+name: Milestone Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      milestoneId:
+        description: 'Milestone ID'
+        required: true
+        default: '1'
+
+jobs:
+  close_milestone:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        
+      - name: Close Milestone
+        run: |
+          ACCESS_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+          MILESTONE_NUMBER=${{ github.event.inputs.milestoneId }}
+          API_URL="https://api.github.com"
+          
+          curl -X PATCH \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: Bearer $ACCESS_TOKEN" \
+            -d '{"state": "closed"}' \
+            $API_URL/repos/${{ github.repository }}/milestones/$MILESTONE_NUMBER
+            
+      - name: Trigger Release Workflow
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          event-type: release
+          client-payload: '{"milestone_number": "${{ github.event.inputs.milestoneId }}"}'

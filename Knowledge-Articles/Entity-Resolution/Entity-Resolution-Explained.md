@@ -25,7 +25,7 @@ Entity resolution is a process of data disambiguation, which is a fancy way of s
 
 An entity is a thing that exists in the real world or language (i.e. a noun). An entity can be loosely defined by a grouping of related data that collectively defines or describes an object (a *thing*). In a database, an entity may comprise a whole table, and is similar to the “entity” in “Entity Relationship Diagram”. An entity may also be described by other things that may themselves be entities (i.e. a person may be associated with a device, or an account, or an address).
 
-In an Tazama or Mojaloop ecosystem, examples of entities may include:
+In a Tazama or Mojaloop ecosystem, examples of entities may include:
 
 - People / Persons / Individuals (customers, users, employees, etc)
 
@@ -115,7 +115,7 @@ The table below lists the data fields available in the Mojaloop messages that co
 | geoCode.latitude | The Latitude of the service initiating Party. | Y   | Y   |     |     |
 | geoCode.longitude | The Longitude of the service initiating Party. | Y   | Y   |     |     |
 
-Ref: [ISO20022 and Tazama | Mojaloop to ISO 20022 mapping](https://lextego.atlassian.net/wiki/spaces/ACTIO/pages/358481974/ISO20022+and+Actio#Mojaloop-to-ISO-20022-mapping)
+Ref: [ISO20022 and Tazama | Mojaloop to ISO 20022 mapping](https://github.com/frmscoe/docs/blob/dev/Knowledge-Articles/iso20022-and-tazama.md#mojaloop-to-iso-20022-mapping)
 
 Ref: [https://docs.mojaloop.io/api-snippets/?urls.primaryName=v1.1](https://docs.mojaloop.io/api-snippets/?urls.primaryName=v1.1)
 
