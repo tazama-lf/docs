@@ -20,7 +20,7 @@
     - [Introduction](#introduction-1)
     - [Typology configuration metadata](#typology-configuration-metadata)
     - [The rules object](#the-rules-object)
-    - [The weight list object](#the-weight-list-object)
+    - [The weights object](#the-weights-object)
     - [The expression object](#the-expression-object)
     - [The workflow object](#the-workflow-object)
     - [Complete example of a typology configuration](#complete-example-of-a-typology-configuration)
@@ -371,7 +371,7 @@ A typology processor configuration document typically contains the following inf
 *   Typology configuration metadata
     
 *   A `rules` object, that specifies the rule identifier, configuration version and term identifier
-*   A `wghts` object, that specifies the weighting for each rule result by sub-rule reference
+*   A `wghts` object, that is a component of the `rules` object, that specifies the weighting for each rule result by sub-rule reference
     
 *   An `expression` object, that defines the formula for calculating the typology score out of the rule result weightings
     
@@ -408,7 +408,7 @@ Example of the typology configuration metadata:
 
 ### The rules object
 
-The `rules` object is an array that contains each rule in scope for the typology, and within each rule there is an array for every possible outcome for the rule results that can be received from the rule processors
+The `rules` object is an array that contains each rule in scope for the typology, and within each rule there is an array for every possible outcome for the rule results that can be received from the rule processors.
 
 Each rule result element in the rules array contains the attributes:
 
@@ -418,9 +418,9 @@ Each rule result element in the rules array contains the attributes:
 | `cfg` | The configuration version attribute specifies the unique version of the rule configuration that was used by the processor to determine this result. |
 | `termId` | The unique identifier for the rule outcome. |
 
-### The weight list object
+### The weights object
 
-The `wghts` object is an array that contains the sub-rule references and the associated weights for each rule outcome
+The `wghts` object is an array that contains the sub-rule references and the associated weights for each rule outcome.
 
 | **Attribute** | **Description** |
 | `ref` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each unique outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others.<br><br>The unique combination of `id`, `cfg` and `ref` attributes references a unique outcome from each rule processor and allows the typology processor to apply a unique weighting to that specific outcome. |
@@ -478,7 +478,7 @@ Because the `rules` object contains every possible rule result outcome from each
                 {
                     "ref": ".03",
                     "wght": 300
-                },
+                }
             ]
         },
         {
@@ -506,24 +506,26 @@ Because the `rules` object contains every possible rule result outcome from each
                     "ref": ".03",
                     "wght": 0
                 }
-            ],
+            ]
         }
     ]
 ```
 
 ### The expression object
 
-The expression object in the typology processor defines the formula that is used to calculate the typology score. The expression is able to accommodate any formula composed out of a combination of multiplication (`multiply`), division (`divide`), addition (`add`) and subtraction (`subtract`) operations.  The expression object uses an  abbreviated [MathJSON](https://cortexjs.io/math-json/) _<sup>L</sup><sub>A</sub><sup>T</sup><sub>E</sub><sup>X</sup>_ format. 
+The expression object in the typology processor defines the formula that is used to calculate the typology score. The expression is able to accommodate any formula composed out of a combination of multiplication ("`Multiply`"), division ("`Divide`"), addition ("`Add`") and subtraction ("`Subtract`") operations.  The expression object uses an  abbreviated [MathJSON](https://cortexjs.io/math-json/) _<sup>L</sup><sub>A</sub><sup>T</sup><sub>E</sub><sup>X</sup>_ format. 
 
 In its most basic implementation, the expression is merely a sum of all the weighted rule results. This also means that every deterministic rule listed in the `rules` array object in the typology configuration must be represented in the expression as a term, otherwise the rule weighting will not be taken into account during the score calculation.
 
-The `expression` object contains the operators and terms that make up the typology scoring formula. Operators and their associated terms are defined as a series of nested objects in the JSON structure. For example, if we wanted to add two terms, a and b, I would start the expression with the operator and then nest the terms beneath it, as follows:
+The `termId` e.g. `"v006t100at100"` in the `rules` object is the variable that holds the rule weighting that is used in the expression.
+
+The `expression` object contains the operators and terms that make up the typology scoring formula. Operators and their associated terms are defined as a series of nested objects in the JSON structure. For example, if we wanted to add two terms, a and b, we would start the expression with the operator and then nest the terms beneath it, as follows:
 
 `a + b`
 
 ```JSON
   "expression": [
-    "add",
+    "Add",
     "v006t100at100",
     "v078t100at100"
   ]
@@ -535,9 +537,9 @@ If, for example, we wanted to apply an additional multiplier to the formula e.g.
 
 ```
 "expression": [
-  "multiply",
+  "Multiply",
   "c",
-    ["add",
+    ["Add",
     "a",
      "b"]
   ]
@@ -547,7 +549,7 @@ For example, a complete expression for a typology that relies on 4 rule results 
 
 ```JSON
 "expression": [
-  "add",
+  "Add",
   "v001at100at100",
   "v002at100at100",
   "v003at100at100",

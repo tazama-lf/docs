@@ -120,7 +120,7 @@ The archetypical scam typology (typology 28) contains 18 different rules that fe
         {
             "id": "003@1.1.0",
             "cfg": "1.1.0",
-            "termid": "v003at100at100",
+            "termId": "v003at100at100",
             "wghts": [
                 {
                     "ref": ".01",
@@ -137,13 +137,13 @@ The archetypical scam typology (typology 28) contains 18 different rules that fe
                 {
                     "ref": ".00",
                     "wght": "100"
-                },
+                }
             ]
         }
         {
             "id": "084@1.1.0",
             "cfg": "1.1.0",
-            "termid": "v084at100at100",
+            "termId": "v084at100at100",
             "wghts": [
                 {
                     "ref": ".00",
