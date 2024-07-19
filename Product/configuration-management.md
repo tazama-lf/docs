@@ -20,6 +20,7 @@
     - [Introduction](#introduction-1)
     - [Typology configuration metadata](#typology-configuration-metadata)
     - [The rules object](#the-rules-object)
+    - [The weights object](#the-weights-object)
     - [The expression object](#the-expression-object)
     - [The workflow object](#the-workflow-object)
     - [Complete example of a typology configuration](#complete-example-of-a-typology-configuration)
@@ -369,7 +370,8 @@ A typology processor configuration document typically contains the following inf
 
 *   Typology configuration metadata
     
-*   A `rules` object, that specifies the weighting for each rule result by sub-rule reference
+*   A `rules` object, that specifies the rule identifier, configuration version and term identifier
+*   A `wghts` object, that is a component of the `rules` object, that specifies the weighting for each rule result by sub-rule reference
     
 *   An `expression` object, that defines the formula for calculating the typology score out of the rule result weightings
     
@@ -406,23 +408,30 @@ Example of the typology configuration metadata:
 
 ### The rules object
 
-The `rules` object is an array that contains an element for every possible outcome for each of the rule results that can be received from the rule processors in scope for the typology.
+The `rules` object is an array that contains each rule in scope for the typology, and within each rule there is an array for every possible outcome for the rule results that can be received from the rule processors.
+
+Each rule result element in the rules array contains the attributes:
+
+| **Attribute** | **Description** |
+| --- | --- |
+| `id` | The rule processor that was used to determine the rule result is uniquely identified by this identifier attribute. |
+| `cfg` | The configuration version attribute specifies the unique version of the rule configuration that was used by the processor to determine this result. |
+| `termId` | The unique identifier for the rule outcome. |
+
+### The weights object
+
+The `wghts` object is an array that contains the sub-rule references and the associated weights for each rule outcome.
+
+| **Attribute** | **Description** |
+| `ref` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each unique outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others.<br><br>The unique combination of `id`, `cfg` and `ref` attributes references a unique outcome from each rule processor and allows the typology processor to apply a unique weighting to that specific outcome. |
+| `wght` | The outcome of the rule result will be assigned a weighting according to the sub-rule reference |
+
 
 ![Tazama rule processor](../images/tazama-rule-and-typology-processor-detail.drawio.svg)
 
 ***Every. Possible. Outcome.***
 
 All the possible outcomes from the rule processors are encapsulated in each rule's configuration, with the exception of the `.err` outcome that is not listed in the rule configuration because the conditions and descriptions are built into the rule processor itself. When composing the typology configuration, the user must remember to include the `.err` outcome, but the rest of the rule results (exit conditions and banded/cased results) can be directly reconciled with the elements in the `rules` object.
-
-Each rule result element in the rules array contains the same attributes:
-
-| **Attribute** | **Description** |
-| --- | --- |
-| `id` | The rule processor that was used to determine the rule result is uniquely identified by this identifier attribute. |
-| `cfg` | The configuration version attribute specifies the unique version of the rule configuration that was used by the processor to determine this result. |
-| `ref` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each unique outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others.<br><br>The unique combination of `id`, `cfg` and `ref` attributes references a unique outcome from each rule processor and allows the typology processor to apply a unique weighting to that specific outcome. |
-| `wght` | The outcome of the rule result will be assigned a weighting according to the sub-rule reference |
-
 
 **What does "every possible outcome" mean?**
 
@@ -439,89 +448,87 @@ The rule processor must produce one of these results (identified by the result's
 
 Because the `rules` object contains every possible rule result outcome from each of the rule processors allocated to the typology, the typology configuration can become quite verbose, but here's a short example of a rules object for a typology that contains two rules:
 
-```
-"rules": [
-  {
-    "id": "001@1.0.0",
-    "cfg": "1.0.0",
-    "ref": ".err",
-    "Wght": 0
-  },
-  {
-    "id": "001@1.0.0",
-    "cfg": "1.0.0",
-    "ref": ".x01",
-    "wght": 100
-  },
-  {
-    "id": "001@1.0.0",
-    "cfg": "1.0.0",
-    "ref": ".01",
-    "wght": 200
-  },
-  {
-    "id": "001@1.0.0",
-    "cfg": "1.0.0",
-    "ref": ".02",
-    "wght": 100
-  },
-  {
-    "id": "002@1.0.0",
-    "cfg": "1.0.0",
-    "ref": ".err",
-    "wght": 0
-  },
-  {
-    "id": "002@1.0.0",
-    "cfg": "1.0.0",
-    "ref": ".x01",
-    "wght": 100
-  },
-  {
-    "id": "002@1.0.0",
-    "cfg": "1.0.0",
-    "ref": ".x02",
-    "wght": 100
-  },
-  {
-    "id": "002@1.0.0",
-    "cfg": "1.0.0",
-    "ref": ".01",
-    "wght": 100
-  },
-  {
-    "id": "002@1.0.0",
-    "cfg": "1.0.0",
-    "ref": ".02",
-    "wght": 200
-  }
-]
+```JSON
+    "rules": [
+        {
+            "id": "001@1.0.0",
+            "cfg": "1.0.0",
+            "termId": "v001at100at100",
+            "wghts": [
+                {
+                    "ref": ".err",
+                    "wght": 0
+                },
+                {
+                    "ref": ".x00",
+                    "wght": 100
+                },
+                {
+                    "ref": ".x01",
+                    "wght": 100
+                },
+                {
+                    "ref": ".01",
+                    "wght": 0
+                },
+                {
+                    "ref": ".02",
+                    "wght": 200
+                },
+                {
+                    "ref": ".03",
+                    "wght": 300
+                }
+            ]
+        },
+        {
+            "id": "002@1.0.0",
+            "cfg": "1.0.0",
+            "termId": "v002t100at100",
+            "wghts": [
+                {
+                    "ref": ".err",
+                    "wght": 0
+                },
+                {
+                    "ref": ".00",
+                    "wght": 0
+                },
+                {
+                    "ref": ".01",
+                    "wght": 0
+                },
+                {
+                    "ref": ".02",
+                    "wght": 1
+                },
+                {
+                    "ref": ".03",
+                    "wght": 0
+                }
+            ]
+        }
+    ]
 ```
 
 ### The expression object
 
-The expression object in the typology processor defines the formula that is used to calculate the typology score. The expression is able to accommodate any formula composed out of a combination of multiplication (`*`), division (`/`), addition (`+`) and subtraction (`-`) operations.
+The expression object in the typology processor defines the formula that is used to calculate the typology score. The expression is able to accommodate any formula composed out of a combination of multiplication ("`Multiply`"), division ("`Divide`"), addition ("`Add`") and subtraction ("`Subtract`") operations.  The expression object uses an  abbreviated [MathJSON](https://cortexjs.io/math-json/) _<sup>L</sup><sub>A</sub><sup>T</sup><sub>E</sub><sup>X</sup>_ format. 
 
 In its most basic implementation, the expression is merely a sum of all the weighted rule results. This also means that every deterministic rule listed in the `rules` array object in the typology configuration must be represented in the expression as a term, otherwise the rule weighting will not be taken into account during the score calculation.
 
-The `expression` object contains the operators and terms that make up the typology scoring formula. Operators and their associated terms are defined as a series of nested objects in the JSON structure. For example, if we wanted to add two terms, a and b, I would start the expression with the operator and then nest the terms beneath it, as follows:
+The `termId` e.g. `"v006t100at100"` in the `rules` object is the variable that holds the rule weighting that is used in the expression.
+
+The `expression` object contains the operators and terms that make up the typology scoring formula. Operators and their associated terms are defined as a series of nested objects in the JSON structure. For example, if we wanted to add two terms, a and b, we would start the expression with the operator and then nest the terms beneath it, as follows:
 
 `a + b`
 
-```
-"expression": {
-  "operator": "+",
-  "terms": ["a", "b"]
-}
-```
-
-In the system the terms a and b would be represented by their unique `id` and `cfg` combination:
-
-```
-{
-  "id": "001@1.0.0",
-  "cfg": "1.0.0"
-}
+```JSON
+  "expression": [
+    "Add",
+    "v006t100at100",
+    "v078t100at100"
+  ]
 ```
 
 We don't have to also supply a specific sub-rule reference: each rule processor only submits one of its possible rule results at a time.
@@ -529,39 +536,25 @@ We don't have to also supply a specific sub-rule reference: each rule processor 
 If, for example, we wanted to apply an additional multiplier to the formula e.g. `(a + b) * c`, the resulting expression would be structured as follows:
 
 ```
-"expression": {
-  "operator": "\*",
-  "terms": ["c",
-    "operator":"+",
-    "terms": ["a", "b"]
+"expression": [
+  "Multiply",
+  "c",
+    ["Add",
+    "a",
+     "b"]
   ]
-}
 ```
 
 For example, a complete expression for a typology that relies on 4 rule results and calculates the typology score as a sum of the rule result weightings would be composed as follows:
 
-```
-"expression": {
-  "operator": "+",
-  "terms": [
-    {
-      "id": "001@1.0.0",
-      "cfg": "1.0.0"
-    },
-    {
-      "id": "002@1.0.0",
-      "cfg": "1.0.0"
-    },
-    {
-      "id": "003@1.0.0",
-      "cfg": "1.0.0"
-    },
-    {
-      "id": "004@1.0.0",
-      "cfg": "1.0.0"
-    },    
+```JSON
+"expression": [
+  "Add",
+  "v001at100at100",
+  "v002at100at100",
+  "v003at100at100",
+  "v004at100at100"
   ]
-}
 ```
 
 Mathematically, this expression would translate to:
