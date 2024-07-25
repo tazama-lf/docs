@@ -32,10 +32,10 @@ By default, Tazama is set up to evaluate four transactions composed into a two-s
 
 With Tazama and the TMS API up and running, you can send the messages to their respective endpoints:
 
- - `host:port/execute` - receives a [pain.001 message](https://www.iso20022.org/standardsrepository/type/pain.001.001.11) to initiate a **quote request**
- - `host:port/quoteReply` - receives a [pain.013 message](https://www.iso20022.org/standardsrepository/type/pain.013.001.08) for the **quote response**
- - `host:port/transfer` - receives a [pacs.008 message](https://www.iso20022.org/standardsrepository/type/pacs.008.001.09) to initiate a **transfer request**
- - `host:port/transfer-response` - receives a [pacs.002 message](https://www.iso20022.org/standardsrepository/type/pacs.002.001.11) for the **transfer response**
+ - `host:port/v1/evaluate/iso20022/pain.001.001.13` - receives a [pain.001 message](https://www.iso20022.org/standardsrepository/type/pain.001.001.11) to initiate a **quote request**
+ - `host:port/v1/evaluate/iso20022/pain.013.001.09` - receives a [pain.013 message](https://www.iso20022.org/standardsrepository/type/pain.013.001.08) for the **quote response**
+ - `host:port/tv1/evaluate/iso20022/pacs.008.001.10` - receives a [pacs.008 message](https://www.iso20022.org/standardsrepository/type/pacs.008.001.09) to initiate a **transfer request**
+ - `host:port/v1/evaluate/iso20022/pacs.002.001.12` - receives a [pacs.002 message](https://www.iso20022.org/standardsrepository/type/pacs.002.001.11) for the **transfer response**
 
 The TMS API follows the OpenAPI specification and each incoming message is validated using a Swagger document to ensure that the message meets the requirements to be ISO 20022 compliant, and also that the information that is necessary for a successful evaluation is provided.
 
