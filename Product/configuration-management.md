@@ -11,7 +11,7 @@
     - [Rule configuration metadata](#rule-configuration-metadata)
     - [The configuration object - parameters](#the-configuration-object---parameters)
     - [The configuration object - exit conditions](#the-configuration-object---exit-conditions)
-      - [The `.err` exit condition](#the-err-exit-condition)
+      - [The `.err` condition](#the-err-condition)
     - [The configuration object - rule results](#the-configuration-object---rule-results)
       - [Rule results - banded results](#rule-results---banded-results)
       - [Rule results - cased results](#rule-results---cased-results)
@@ -233,7 +233,7 @@ Each exit condition contains the same attributes:
 | `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br> By convention, the exit condition sub-rule references are prefaced with an 'x'. |
 | `reason` | The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. Reason descriptions will be refined during future enhancements[^1] |
 
-#### The `.err` exit condition
+#### The `.err` condition
 
 All rule processors are encoded with an error condition outcome that accounts for exceptions that do not fall into any of the exit conditions above, or the rule results below. These error conditions reflect a fatal error that occurred during the execution of the rule processor, such as, for example, if the database is inaccessible or if some expected data dependency had not been met due to an error during data ingestion or transformation.
 
