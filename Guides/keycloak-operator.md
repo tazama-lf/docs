@@ -206,6 +206,7 @@ If you do not want the user to interact to the UI components of KeyCloak this wo
 
    </details>
 </details>
+
 ---
 
 #### Deleting users
