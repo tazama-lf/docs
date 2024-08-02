@@ -102,7 +102,7 @@ GH_TOKEN=${GH_TOKEN}
 
 # Branches
 TMS_BRANCH=main
-CRSP_BRANCH=main
+ED_BRANCH=main
 TP_BRANCH=main
 TADP_BRANCH=main
 RULE_901_BRANCH=main
@@ -241,7 +241,7 @@ cd Full-Stack-Docker-Tazama
 Execute the following command to deploy the core processors:
 
 ```
-docker compose up -d tms crsp tp tadp
+docker compose up -d tms ed tp tadp
 ```
 
 This command will install:

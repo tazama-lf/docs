@@ -1,14 +1,12 @@
-# SPDX-License-Identifier: Apache-2.0
-
 services:
-  # Cache
+  # CACHE
   redis:
     image: "redis:latest"
     hostname: redis
     ports:
       - 16379:6379
 
-  # Database
+  # DATABASE
   arango:
     image: "arangodb/arangodb:latest"
     environment:
@@ -29,6 +27,52 @@ services:
       - '14222:4222'
       - '16222:6222'
       - '18222:8222'
+
+  # NATS-UTILITIES
+  nats-utilities:
+    build:
+      context: https://github.com/frmscoe/nats-utilities.git#${NATS_UTILITIES_BRANCH}
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/nats-utilities.env
+      - .env
+    restart: always
+    depends_on:
+      - nats
+    ports:
+      - '4000:4000'
+
+  # TMS
+  tms:
+    build:
+      context: https://github.com/frmscoe/tms-service.git#${TMS_BRANCH}
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/tms.env
+      - .env
+    restart: always
+    ports:
+      - ${TMS_PORT}:3000
+    depends_on:
+      - redis
+      - arango
+      - nats
+
+  # RULE 901
+  rule-901:
+    build:
+      context: https://github.com/frmscoe/rule-executer.git#${RULE_EXECUTER_BRANCH}
+      args:
+        - GH_TOKEN
+    env_file:
+      - env/rule-executer.env
+      - .env
+    restart: always
+    depends_on:
+      - redis
+      - arango
 
   # Rule 001
   rule-001:
@@ -492,31 +536,14 @@ services:
       - redis
       - arango
 
-  # TMS
-  tms:
+  # EVENT DIRECTOR
+  ed:
     build:
-      context: https://github.com/frmscoe/tms-service.git#${TMS_BRANCH}
+      context: https://github.com/frmscoe/event-director.git#${ED_BRANCH}
       args:
         - GH_TOKEN
     env_file:
-      - env/tms.env
-      - .env
-    restart: always
-    ports:
-      - ${TMS_PORT}:3000
-    depends_on:
-      - redis
-      - arango
-      - nats
-
-  # CRSP
-  crsp:
-    build:
-      context: https://github.com/frmscoe/channel-router-setup-processor.git#${CRSP_BRANCH}
-      args:
-        - GH_TOKEN
-    env_file:
-      - env/crsp.env
+      - env/ed.env
       - .env
     restart: always
     depends_on:
@@ -524,7 +551,7 @@ services:
       - arango
       - nats
 
-  # Typology Processor
+  # TYPOLOGY PROCESSOR
   tp:
     build:
       context: https://github.com/frmscoe/typology-processor.git#${TP_BRANCH}

@@ -1,37 +1,257 @@
 # SPDX-License-Identifier: Apache-2.0
 
-# Please do not attempt to edit this flow without the direct consent from the Tazama team. This file is managed centrally.
-
-# This workflow should only be run when while on the main branch
-# Create a tag locally using "git tag vx.x.x" supposed to match latest version in changelog.md
-# Then push the release tag created above by running "git push origin vx.x.x"
-# The tag will be set on the release page on github with changes made
-
-name: Create a New Release
+name: Release Workflow
 
 on:
-  push:
-    tags:
-      - "v*"
-
-permissions:
-  contents: write
+  repository_dispatch:
+    types: [release]
+    properties:
+      milestone_number:
+        type: string
 
 jobs:
   release:
-    name: Release pushed tag
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
-      - name: Create release
+      # Checkout the main branch with all history
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          ref: main
+          fetch-depth: 0 # Fetch all tags
+
+      # Fetch merged pull request and determine release labels
+      - uses: actions-ecosystem/action-get-merged-pull-request@v1
+        id: get-merged-pull-request
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions-ecosystem/action-release-label@v1
+        id: release-label
+        if: ${{ steps.get-merged-pull-request.outputs.title != null }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Get the latest tag in the repository
+      - uses: actions-ecosystem/action-get-latest-tag@v1
+        id: get-latest-tag
+        if: ${{ steps.release-label.outputs.level != null }}
+        with:
+          semver_only: true
+        
+      # Determine the release type (major, minor, patch) based on commit messages  
+      - name: Determine Release Type
+        id: determine_release
+        run: |
+          PREV_VERSION=$(git describe --abbrev=0 --tags)
+          echo "Previous Version: $PREV_VERSION"
+          
+          COMMIT_MESSAGES=$(git log $PREV_VERSION^..HEAD --format=%B)
+          echo "Commit Messages: $COMMIT_MESSAGES"
+          
+          # Determine release type based on commit messages and labels
+          RELEASE_TYPE="patch"  # Default to patch
+          
+          if echo "$COMMIT_MESSAGES" | grep -q -e "BREAKING CHANGE:"; then
+            RELEASE_TYPE="major"
+          elif echo "$COMMIT_MESSAGES" | grep -q -e "feat!:"; then
+            RELEASE_TYPE="major"
+          elif echo "$COMMIT_MESSAGES" | grep -q -e "feat:"; then
+            RELEASE_TYPE="minor"
+          elif echo "$COMMIT_MESSAGES" | grep -q -e "feat:" && (echo "$COMMIT_MESSAGES" | grep -q -e "fix:" || echo "$COMMIT_MESSAGES" | grep -q -e "enhancement:" || echo "$COMMIT_MESSAGES" | grep -q -e "docs:" || echo "$COMMIT_MESSAGES" | grep -q -e "refactor:" || echo "$COMMIT_MESSAGES" | grep -q -e "chore:"); then
+            RELEASE_TYPE="minor"
+          elif echo "$COMMIT_MESSAGES" | grep -q -e "fix:" -e "enhancement:" -e "docs:" -e "refactor:" -e "chore:" -e "build:" -e "ci:" -e "perf:" -e "style:" -e "test:" -e "chore(deps):" -e "chore(deps-dev):"; then
+            RELEASE_TYPE="patch"
+          fi
+          
+          echo "Release Type: $RELEASE_TYPE"
+          echo "::set-output name=release_type::$RELEASE_TYPE"
+        
+      # Bump the version based on the determined release type
+      - name: Bump Version
+        id: bump_version
+        run: |
+          PREV_VERSION=$(git describe --abbrev=0 --tags)
+          echo "Previous Version: $PREV_VERSION"
+          
+          RELEASE_TYPE=${{ steps.determine_release.outputs.release_type }}
+          echo "Release Type: $RELEASE_TYPE"
+          
+          # Strip the 'v' from the version if it exists
+          PREV_VERSION=${PREV_VERSION#v}
+          
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$PREV_VERSION"
+          
+          if [[ $RELEASE_TYPE == "major" ]]; then
+            MAJOR=$((MAJOR + 1))
+            MINOR=0
+            PATCH=0
+          elif [[ $RELEASE_TYPE == "minor" ]]; then
+            MINOR=$((MINOR + 1))
+            PATCH=0
+          else
+            PATCH=$((PATCH + 1))
+          fi
+          
+          NEW_VERSION="v$MAJOR.$MINOR.$PATCH"
+          echo "New Version: $NEW_VERSION"
+          echo "::set-output name=new_version::$NEW_VERSION"
+
+      # Get the milestone details
+      - name: Get Milestone Details
+        id: get_milestone
+        run: |
+          # Retrieve the milestone ID from the workflow input
+          MILESTONE_ID=${{ github.event.client_payload.milestone_number }}
+          MILESTONE_RESPONSE=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/milestones/${MILESTONE_ID}")
+          MILESTONE_TITLE=$(echo "$MILESTONE_RESPONSE" | jq -r '.title')
+          MILESTONE_DESCRIPTION=$(echo "$MILESTONE_RESPONSE" | jq -r '.description')
+          MILESTONE_DATE=$(echo "$MILESTONE_RESPONSE" | jq -r '.due_on')
+          echo "::set-output name=milestone_title::$MILESTONE_TITLE"
+          echo "::set-output name=milestone_description::$MILESTONE_DESCRIPTION"
+          echo "::set-output name=milestone_date::$MILESTONE_DATE"
+
+      # Generate the changelog based on commit messages and labels
+      - name: Generate Changelog
+        id: generate_changelog
+        run: |
+          # Generate Changelog Script
+          # Constants
+          CHANGELOG_FILE="/home/runner/work/changelog.txt"
+          LABEL_BUG="fix:"
+          LABEL_FEATURE="feat:"
+          LABEL_ENHANCEMENT="enhancement:"
+          LABEL_DOCS="docs:"
+          LABEL_REFACTOR="refactor:"
+          LABEL_CHORE="chore:"
+          LABEL_BUILD="build:"
+          LABEL_CI="ci:"
+          LABEL_PERFORMANCE="perf:"
+          LABEL_STYLE="style:"
+          LABEL_TEST="test:"
+          LABEL_BREAKING_CHANGE="BREAKING CHANGE:"
+          LABEL_FEAT_BREAKING="feat!:"
+          LABEL_DEPS="chore(deps):"
+          LABEL_DEPS_DEV="chore(deps-dev):"
+          # Get the last release tag
+          LAST_RELEASE_TAG=$(git describe --abbrev=0 --tags)
+          echo "Last Release Tag: $LAST_RELEASE_TAG"
+          # Get the milestone details from the output of the previous step
+          MILESTONE_TITLE="${{ steps.get_milestone.outputs.milestone_title }}"
+          MILESTONE_DESCRIPTION="${{ steps.get_milestone.outputs.milestone_description }}"
+          MILESTONE_DATE="${{ steps.get_milestone.outputs.milestone_date }}"
+          # Append the milestone details to the changelog file
+          echo "## Milestone: $MILESTONE_TITLE" >> "$CHANGELOG_FILE"
+          echo "Date: $MILESTONE_DATE" >> "$CHANGELOG_FILE"
+          echo "Description: $MILESTONE_DESCRIPTION" >> "$CHANGELOG_FILE"
+          echo "" >> "$CHANGELOG_FILE"
+          # Function to append section to the changelog file
+          append_section() {
+            local section_title="$1"
+            local section_label="$2"
+            local section_icon="$3"
+            # Get the commit messages with the specified label between the last release and the current release
+            local commit_messages=$(git log --pretty=format:"- %s (Linked Issues: %C(yellow)%H%Creset)" "$LAST_RELEASE_TAG..HEAD" --grep="$section_label" --no-merges --decorate --decorate-refs=refs/issues)
+            # If there are commit messages, append the section to the changelog file
+            if [ -n "$commit_messages" ]; then
+              # Remove duplicate commit messages
+              local unique_commit_messages=$(echo "$commit_messages" | awk '!seen[$0]++')
+              echo "### $section_icon $section_title" >> "$CHANGELOG_FILE"
+              echo "" >> "$CHANGELOG_FILE"
+              echo "$unique_commit_messages" >> "$CHANGELOG_FILE"
+              echo "" >> "$CHANGELOG_FILE"
+            fi
+          }
+          # Append sections to the changelog file based on labels
+          append_section "Bug Fixes" "$LABEL_BUG" "🐞"
+          append_section "New Features" "$LABEL_FEATURE" "⭐️"
+          append_section "Enhancements" "$LABEL_ENHANCEMENT" "✨"
+          append_section "Documentation" "$LABEL_DOCS" "📚"
+          append_section "Refactorings" "$LABEL_REFACTOR" "🔨"
+          append_section "Chores" "$LABEL_CHORE" "⚙️"
+          append_section "Build" "$LABEL_BUILD" "🏗️"
+          append_section "CI" "$LABEL_CI" "⚙️"
+          append_section "Performance" "$LABEL_PERFORMANCE" "🚀"
+          append_section "Style" "$LABEL_STYLE" "💅"
+          append_section "Tests" "$LABEL_TEST" "🧪"
+          append_section "Breaking Changes" "$LABEL_BREAKING_CHANGE" "💥"
+          append_section "Feature Breaking Changes" "$LABEL_FEAT_BREAKING" "💥"
+          append_section "Dependencies" "$LABEL_DEPS" "📦"
+          append_section "Dev Dependencies" "$LABEL_DEPS_DEV" "🔧"
+          
+          # Function to append non-labeled commits to the changelog file
+          append_non_labeled_commits() {
+            # Get the commit messages that do not match any conventional commit labels between the last release and the current release
+            local non_labeled_commit_messages=$(git log --pretty=format:"- %s (Linked Issues: %C(yellow)%H%Creset)" "$LAST_RELEASE_TAG..HEAD" --invert-grep --grep="^fix:\|^feat:\|^enhancement:\|^docs:\|^refactor:\|^chore:\|^build:\|^ci:\|^perf:\|^style:\|^test:\|^BREAKING CHANGE:\|^feat!:\|^chore(deps):\|^chore(deps-dev):")
+            # If there are non-labeled commit messages, append the section to the changelog file
+            if [ -n "$non_labeled_commit_messages" ]; then
+              # Remove duplicate commit messages
+              local unique_commit_messages=$(echo "$non_labeled_commit_messages" | awk '!seen[$0]++')
+              echo "### 📝 Other Changes" >> "$CHANGELOG_FILE"
+              echo "" >> "$CHANGELOG_FILE"
+              echo "$unique_commit_messages" >> "$CHANGELOG_FILE"
+              echo "" >> "$CHANGELOG_FILE"
+            fi
+          }
+          # Append non-labeled commits to the changelog file
+          append_non_labeled_commits
+
+          echo "::set-output name=changelog_file::$CHANGELOG_FILE"
+
+      # Read changelog contents into a variable
+      - name: Read Changelog Contents
+        id: read_changelog
+        run: |
+          echo "::set-output name=changelog_contents::$(cat /home/runner/work/changelog.txt)"
+      
+      # Display changelog
+      - name: Display Changelog
+        run: cat /home/runner/work/changelog.txt
+      
+      # Attach changelog as an artifact
+      - name: Attach Changelog to Release
+        uses: actions/upload-artifact@v2
+        with:
+          name: Changelog
+          path: /home/runner/work/changelog.txt
+      
+      # Create release while including the changelog
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref_name }}
-        run: |
-          gh release create "$tag" \
-              --repo="$GITHUB_REPOSITORY" \
-              --title="${tag#v}" \
-              --generate-notes
+        with:
+          tag_name: ${{ steps.bump_version.outputs.new_version }}
+          release_name: ${{ steps.bump_version.outputs.new_version }}
+          body_path: /home/runner/work/changelog.txt
+          draft: false
+          prerelease: false
 
-# Usage (while on main branch)
-# git tag v1.0.0
-# git push origin v1.0.0
+      # Update the CHANGELOG.md file in the repository
+      - name: Update CHANGELOG.md
+        run: |
+          NEW_VERSION=${{ steps.bump_version.outputs.new_version }}
+          CHANGELOG_CONTENTS=$(cat /home/runner/work/changelog.txt)
+          # Prepend the new changelog content to the existing CHANGELOG.md below SPDX-License-Identifier section
+          echo -e "$(head -n 2 CHANGELOG.md)\n\n## $NEW_VERSION\n\n$CHANGELOG_CONTENTS\n\n$(tail -n +3 CHANGELOG.md)" > CHANGELOG.md
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md
+          git commit -m "chore: Update CHANGELOG.md for $NEW_VERSION"
+          git push origin HEAD:main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+      # Update the VERSION file
+      - name: Update VERSION file
+        run: |
+          NEW_VERSION=${{ steps.bump_version.outputs.new_version }}
+          echo -e "# SPDX-License-Identifier: Apache-2.0\n\n$NEW_VERSION" > VERSION
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add VERSION
+          git commit -m "chore: Update VERSION to $NEW_VERSION"
+          git push origin HEAD:main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
