@@ -8,7 +8,7 @@ services:
 
   # DATABASE
   arango:
-    image: "arangodb/arangodb:latest"
+    image: "arangodb/arangodb:l3.11.10.1"
     environment:
       - ARANGO_NO_AUTH=1
     command:
