@@ -35,7 +35,7 @@ This guide will take you through the steps to deploy Tazama in a Docker containe
 
 Tazama is composed of a number of third party and custom-built open source components. While all our Tazama components are also open source software, the rules that we have built to detect fraud and money laundering behaviour are hidden from public (and nefarious) view in private repositories on GitHub.
 
-The guide in the [Full-Stack-Docker-Tazama repository](https://github.com/frmscoe/Full-Stack-Docker-Tazama) will show you how to install the system using only the publicly available open source software components. This guide will show you how to install everything, including the hidden, private rules, if you have access to them.
+The guide in the [Full-Stack-Docker-Tazama repository](https://github.com/tazama-lf/Full-Stack-Docker-Tazama) will show you how to install the system using only the publicly available open source software components. This guide will show you how to install everything, including the hidden, private rules, if you have access to them.
 
 This guide is specific to the Windows 10 operating system.
 
@@ -53,7 +53,7 @@ The pre-requisites that are essential to be able to follow this guide to the let
  - Member access to the Tazama GitHub Organization
  - A GitHub personal access token with `packages:read` permissions
    - Ensure that your GitHub Personal Access Token is added as a Windows Environment Variable called "`GH_TOKEN`".
-   - Instructions for creating the GH_TOKEN environment variable can be found in the [Tazama Contribution Guide (A. Preparation)](https://github.com/frmscoe/docs/blob/main/Community/Tazama-Contribution-Guide.md#a-preparation)
+   - Instructions for creating the GH_TOKEN environment variable can be found in the [Tazama Contribution Guide (A. Preparation)](https://github.com/tazama-lf/docs/blob/main/Community/Tazama-Contribution-Guide.md#a-preparation)
 
      - We will be referencing your GitHub Personal Access Token throughout the installation process as your `GH_TOKEN`. It is not possible to retrieve the token from GitHub after you initially created it, but if the token had been set in Windows as an environment variable, you can retrieve it with the following command from a Windows Command Prompt:
 
@@ -70,7 +70,7 @@ The pre-requisites that are essential to be able to follow this guide to the let
 In a Windows Command Prompt, navigate to the folder where you want to store a copy of the source code. Then clone the repository with the following command:
 
 ```
-git clone https://github.com/frmscoe/Full-Stack-Docker-Tazama -b main
+git clone https://github.com/tazama-lf/Full-Stack-Docker-Tazama -b main
 ```
 
 **Output:**
@@ -129,7 +129,7 @@ Filename: `rule999.env`
 
 Setting up individual `rule.env` files is rather tedious and instead you can copy the `rulexxx.env` files from the following location into the `Full-Stack-Docker-Tazama/env` to save some time:
 
-<https://github.com/frmscoe/docs/blob/main/files/full-stack-docker-tazama/rulexxx.zip>
+<https://github.com/tazama-lf/docs/blob/main/files/full-stack-docker-tazama/rulexxx.zip>
 
 Download the rulexxx.zip file and then unzip the contents into your local `Full-Stack-Docker-Tazama/env` folder.
 
@@ -157,7 +157,7 @@ For each private rule processor, create a copy of the `# Rule 901` environment v
 
 Once again, copy-pasting and string-replacing can be rather tedious, and you are welcome to just download this pre-prepared `docker-compose.yaml` file into your `Full-Stack-Docker-Tazama` folder from:
 
-<https://github.com/frmscoe/docs/blob/main/files/full-stack-docker-tazama/docker-compose.yaml>
+<https://github.com/tazama-lf/docs/blob/main/files/full-stack-docker-tazama/docker-compose.yaml>
 
 [Top](#introduction)
 
@@ -206,7 +206,7 @@ git clone https://github.com/frmscoe/tms-configuration -b main
 In addition to cloning the configuration repository, we also need to clone the Tazama `Postman` repository so that we can utilize the Postman environment file that is hosted there:
 
 ```
-git clone https://github.com/frmscoe/postman -b main
+git clone https://github.com/tazama-lf/postman -b main
 ```
 
 **Output:**
@@ -282,7 +282,7 @@ Each rule processor must be wrapped in its own rule-executer. The rule executer 
 First, we have to clone the rule-executer itself. From your source code folder, in a Command Prompt, execute:
 
 ```
-git clone https://github.com/frmscoe/rule-executer -b main
+git clone https://github.com/tazama-lf/rule-executer -b main
 ```
 
 By default, the rule executer is configured to build rule 901, the public sample rule processor, but we want it to build each private rule processor instead.
@@ -387,7 +387,7 @@ Instead of deploying all the private rule processors by hand, you can run the on
 
 For Windows download the Windows batch file `deploy-all-tazama-rule-processors.bat` file into your source code root folder from:
 
-<https://github.com/frmscoe/docs/blob/main/files/full-stack-docker-tazama/deploy-all-tazama-rule-processors.bat>
+<https://github.com/tazama-lf/docs/blob/main/files/full-stack-docker-tazama/deploy-all-tazama-rule-processors.bat>
 
 From a Command Prompt, from the source code root folder, execute the batch file as follows:
 
