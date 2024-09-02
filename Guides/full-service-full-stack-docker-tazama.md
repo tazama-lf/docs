@@ -1,5 +1,8 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
+## Table of Contents
+
+- [Table of Contents](#table-of-contents)
 - [Introduction](#introduction)
 - [Pre-requisites:](#pre-requisites)
 - [Installation steps](#installation-steps)
@@ -41,7 +44,8 @@ This guide is specific to the Windows 10 operating system.
 
 ## Pre-requisites:
 
-Set up your development environment as recommended in the [Tazama Contribution Guide](../Community/Tazama-Contribution-Guide.md#32-setting-up-the-development-environment).
+Set up your development environment as recommended in the [Tazama Contribution Guide](https://github.com/tazama-lf/.github/blob/main/CONTRIBUTING.md#32-setting-up-the-development-environment) section 3.2.1.
+
 
 The pre-requisites that are essential to be able to follow this guide to the letter are:
 
@@ -51,9 +55,9 @@ The pre-requisites that are essential to be able to follow this guide to the let
  - Newman
  - A code editor (this guide will assume you are using VS Code)
  - Member access to the Tazama GitHub Organization
- - A GitHub personal access token with `packages:read` permissions
+ - A GitHub personal access token with `packages:write` and `read:org` permissions
    - Ensure that your GitHub Personal Access Token is added as a Windows Environment Variable called "`GH_TOKEN`".
-   - Instructions for creating the GH_TOKEN environment variable can be found in the [Tazama Contribution Guide (A. Preparation)](https://github.com/tazama-lf/docs/blob/main/Community/Tazama-Contribution-Guide.md#a-preparation)
+   - Instructions for creating the GH_TOKEN environment variable can be found in the [Tazama Contribution Guide (A. Preparation)](https://github.com/tazama-lf/.github/blob/main/CONTRIBUTING.md#a-preparation-)
 
      - We will be referencing your GitHub Personal Access Token throughout the installation process as your `GH_TOKEN`. It is not possible to retrieve the token from GitHub after you initially created it, but if the token had been set in Windows as an environment variable, you can retrieve it with the following command from a Windows Command Prompt:
 
