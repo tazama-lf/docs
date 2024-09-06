@@ -38,135 +38,135 @@ cp -R rule-executer rule-executer-091
 echo "Rule Executer folders duplicated."
 
 echo "Modifying rule-executer-001 files..."
-sed -i '' 's/rule-901@latest/rule-001@latest/' rule-executer-001/package.json
+sed -i '' 's/rule-901@2.0.0/rule-001@2.0.0/' rule-executer-001/package.json
 sed -i '' 's/901/001/' rule-executer-001/Dockerfile
 
 echo "Modifying rule-executer-002 files..."
-sed -i '' 's/rule-901@latest/rule-002@latest/' rule-executer-002/package.json
+sed -i '' 's/rule-901@2.0.0/rule-002@2.0.0/' rule-executer-002/package.json
 sed -i '' 's/901/002/' rule-executer-002/Dockerfile
 
 echo "Modifying rule-executer-003 files..."
-sed -i '' 's/rule-901@latest/rule-003@latest/' rule-executer-003/package.json
+sed -i '' 's/rule-901@2.0.0/rule-003@2.0.0/' rule-executer-003/package.json
 sed -i '' 's/901/003/' rule-executer-003/Dockerfile
 
 echo "Modifying rule-executer-004 files..."
-sed -i '' 's/rule-901@latest/rule-004@latest/' rule-executer-004/package.json
+sed -i '' 's/rule-901@2.0.0/rule-004@2.0.0/' rule-executer-004/package.json
 sed -i '' 's/901/004/' rule-executer-004/Dockerfile
 
 echo "Modifying rule-executer-006 files..."
-sed -i '' 's/rule-901@latest/rule-006@latest/' rule-executer-006/package.json
+sed -i '' 's/rule-901@2.0.0/rule-006@2.0.0/' rule-executer-006/package.json
 sed -i '' 's/901/006/' rule-executer-006/Dockerfile
 
 echo "Modifying rule-executer-007 files..."
-sed -i '' 's/rule-901@latest/rule-007@latest/' rule-executer-007/package.json
+sed -i '' 's/rule-901@2.0.0/rule-007@2.0.0/' rule-executer-007/package.json
 sed -i '' 's/901/007/' rule-executer-007/Dockerfile
 
 echo "Modifying rule-executer-008 files..."
-sed -i '' 's/rule-901@latest/rule-008@latest/' rule-executer-008/package.json
+sed -i '' 's/rule-901@2.0.0/rule-008@2.0.0/' rule-executer-008/package.json
 sed -i '' 's/901/008/' rule-executer-008/Dockerfile
 
 echo "Modifying rule-executer-010 files..."
-sed -i '' 's/rule-901@latest/rule-010@latest/' rule-executer-010/package.json
+sed -i '' 's/rule-901@2.0.0/rule-010@2.0.0/' rule-executer-010/package.json
 sed -i '' 's/901/010/' rule-executer-010/Dockerfile
 
 echo "Modifying rule-executer-011 files..."
-sed -i '' 's/rule-901@latest/rule-011@latest/' rule-executer-011/package.json
+sed -i '' 's/rule-901@2.0.0/rule-011@2.0.0/' rule-executer-011/package.json
 sed -i '' 's/901/011/' rule-executer-011/Dockerfile
 
 echo "Modifying rule-executer-016 files..."
-sed -i '' 's/rule-901@latest/rule-016@latest/' rule-executer-016/package.json
+sed -i '' 's/rule-901@2.0.0/rule-016@2.0.0/' rule-executer-016/package.json
 sed -i '' 's/901/016/' rule-executer-016/Dockerfile
 
 echo "Modifying rule-executer-017 files..."
-sed -i '' 's/rule-901@latest/rule-017@latest/' rule-executer-017/package.json
+sed -i '' 's/rule-901@2.0.0/rule-017@2.0.0/' rule-executer-017/package.json
 sed -i '' 's/901/017/' rule-executer-017/Dockerfile
 
 echo "Modifying rule-executer-018 files..."
-sed -i '' 's/rule-901@latest/rule-018@latest/' rule-executer-018/package.json
+sed -i '' 's/rule-901@2.0.0/rule-018@2.0.0/' rule-executer-018/package.json
 sed -i '' 's/901/018/' rule-executer-018/Dockerfile
 
 echo "Modifying rule-executer-020 files..."
-sed -i '' 's/rule-901@latest/rule-020@latest/' rule-executer-020/package.json
+sed -i '' 's/rule-901@2.0.0/rule-020@2.0.0/' rule-executer-020/package.json
 sed -i '' 's/901/020/' rule-executer-020/Dockerfile
 
 echo "Modifying rule-executer-021 files..."
-sed -i '' 's/rule-901@latest/rule-021@latest/' rule-executer-021/package.json
+sed -i '' 's/rule-901@2.0.0/rule-021@2.0.0/' rule-executer-021/package.json
 sed -i '' 's/901/021/' rule-executer-021/Dockerfile
 
 echo "Modifying rule-executer-024 files..."
-sed -i '' 's/rule-901@latest/rule-024@latest/' rule-executer-024/package.json
+sed -i '' 's/rule-901@2.0.0/rule-024@2.0.0/' rule-executer-024/package.json
 sed -i '' 's/901/024/' rule-executer-024/Dockerfile
 
 echo "Modifying rule-executer-025 files..."
-sed -i '' 's/rule-901@latest/rule-025@latest/' rule-executer-025/package.json
+sed -i '' 's/rule-901@2.0.0/rule-025@2.0.0/' rule-executer-025/package.json
 sed -i '' 's/901/025/' rule-executer-025/Dockerfile
 
 echo "Modifying rule-executer-026 files..."
-sed -i '' 's/rule-901@latest/rule-026@latest/' rule-executer-026/package.json
+sed -i '' 's/rule-901@2.0.0/rule-026@2.0.0/' rule-executer-026/package.json
 sed -i '' 's/901/026/' rule-executer-026/Dockerfile
 
 echo "Modifying rule-executer-027 files..."
-sed -i '' 's/rule-901@latest/rule-027@latest/' rule-executer-027/package.json
+sed -i '' 's/rule-901@2.0.0/rule-027@2.0.0/' rule-executer-027/package.json
 sed -i '' 's/901/027/' rule-executer-027/Dockerfile
 
 echo "Modifying rule-executer-028 files..."
-sed -i '' 's/rule-901@latest/rule-028@latest/' rule-executer-028/package.json
+sed -i '' 's/rule-901@2.0.0/rule-028@2.0.0/' rule-executer-028/package.json
 sed -i '' 's/901/028/' rule-executer-028/Dockerfile
 
 echo "Modifying rule-executer-030 files..."
-sed -i '' 's/rule-901@latest/rule-030@latest/' rule-executer-030/package.json
+sed -i '' 's/rule-901@2.0.0/rule-030@2.0.0/' rule-executer-030/package.json
 sed -i '' 's/901/030/' rule-executer-030/Dockerfile
 
 echo "Modifying rule-executer-044 files..."
-sed -i '' 's/rule-901@latest/rule-044@latest/' rule-executer-044/package.json
+sed -i '' 's/rule-901@2.0.0/rule-044@2.0.0/' rule-executer-044/package.json
 sed -i '' 's/901/044/' rule-executer-044/Dockerfile
 
 echo "Modifying rule-executer-045 files..."
-sed -i '' 's/rule-901@latest/rule-045@latest/' rule-executer-045/package.json
+sed -i '' 's/rule-901@2.0.0/rule-045@2.0.0/' rule-executer-045/package.json
 sed -i '' 's/901/045/' rule-executer-045/Dockerfile
 
 echo "Modifying rule-executer-048 files..."
-sed -i '' 's/rule-901@latest/rule-048@latest/' rule-executer-048/package.json
+sed -i '' 's/rule-901@2.0.0/rule-048@2.0.0/' rule-executer-048/package.json
 sed -i '' 's/901/048/' rule-executer-048/Dockerfile
 
 echo "Modifying rule-executer-054 files..."
-sed -i '' 's/rule-901@latest/rule-054@latest/' rule-executer-054/package.json
+sed -i '' 's/rule-901@2.0.0/rule-054@2.0.0/' rule-executer-054/package.json
 sed -i '' 's/901/054/' rule-executer-054/Dockerfile
 
 echo "Modifying rule-executer-063 files..."
-sed -i '' 's/rule-901@latest/rule-063@latest/' rule-executer-063/package.json
+sed -i '' 's/rule-901@2.0.0/rule-063@2.0.0/' rule-executer-063/package.json
 sed -i '' 's/901/063/' rule-executer-063/Dockerfile
 
 echo "Modifying rule-executer-074 files..."
-sed -i '' 's/rule-901@latest/rule-074@latest/' rule-executer-074/package.json
+sed -i '' 's/rule-901@2.0.0/rule-074@2.0.0/' rule-executer-074/package.json
 sed -i '' 's/901/074/' rule-executer-074/Dockerfile
 
 echo "Modifying rule-executer-075 files..."
-sed -i '' 's/rule-901@latest/rule-075@latest/' rule-executer-075/package.json
+sed -i '' 's/rule-901@2.0.0/rule-075@2.0.0/' rule-executer-075/package.json
 sed -i '' 's/901/075/' rule-executer-075/Dockerfile
 
 echo "Modifying rule-executer-076 files..."
-sed -i '' 's/rule-901@latest/rule-076@latest/' rule-executer-076/package.json
+sed -i '' 's/rule-901@2.0.0/rule-076@2.0.0/' rule-executer-076/package.json
 sed -i '' 's/901/076/' rule-executer-076/Dockerfile
 
 echo "Modifying rule-executer-078 files..."
-sed -i '' 's/rule-901@latest/rule-078@latest/' rule-executer-078/package.json
+sed -i '' 's/rule-901@2.0.0/rule-078@2.0.0/' rule-executer-078/package.json
 sed -i '' 's/901/078/' rule-executer-078/Dockerfile
 
 echo "Modifying rule-executer-083 files..."
-sed -i '' 's/rule-901@latest/rule-083@latest/' rule-executer-083/package.json
+sed -i '' 's/rule-901@2.0.0/rule-083@2.0.0/' rule-executer-083/package.json
 sed -i '' 's/901/083/' rule-executer-083/Dockerfile
 
 echo "Modifying rule-executer-084 files..."
-sed -i '' 's/rule-901@latest/rule-084@latest/' rule-executer-084/package.json
+sed -i '' 's/rule-901@2.0.0/rule-084@2.0.0/' rule-executer-084/package.json
 sed -i '' 's/901/084/' rule-executer-084/Dockerfile
 
 echo "Modifying rule-executer-090 files..."
-sed -i '' 's/rule-901@latest/rule-090@latest/' rule-executer-090/package.json
+sed -i '' 's/rule-901@2.0.0/rule-090@2.0.0/' rule-executer-090/package.json
 sed -i '' 's/901/090/' rule-executer-090/Dockerfile
 
 echo "Modifying rule-executer-091 files..."
-sed -i '' 's/rule-901@latest/rule-091@latest/' rule-executer-091/package.json
+sed -i '' 's/rule-901@2.0.0/rule-091@2.0.0/' rule-executer-091/package.json
 sed -i '' 's/901/091/' rule-executer-091/Dockerfile
 echo "Files modified."
 
