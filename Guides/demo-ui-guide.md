@@ -57,8 +57,9 @@ To delete an entity (debtor or creditor), hover over the entity or it's accounts
 To edit an entity (debtor or creditor) or an account, click on the edit icon 
 ![edit-entity-account](../images/demo-edit-entity-account.png)  
 
-On the entity pop-up modal it is possible to edit the Full name, Birth Date, City of Birth and Country of Birth.
+On the entity pop-up modal it is possible to edit the Full name, Birth Date, City of Birth, Country of Birth and Mobile number.
 ![edit-entity-info](../images/demo-edit-entity-info.png)  
+Note: The mobile number format is validated according to the ISO20022 standard https://www.iso20022.org/standardsrepository/type/PhoneNumber
 
 It is also possible to edit the Account Name on the account pop-up modal.
 ![edit-account-info](../images/demo-edit-account-info.png)
