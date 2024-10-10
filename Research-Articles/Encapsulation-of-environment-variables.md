@@ -1,8 +1,9 @@
 # Environment variable encapsulation
 ## Third party service based
 
-Desc: The encapsulation of environment variables entails moving the configuration from each service to the frms-coe-lib library. Due to additional service-based environment variables not being pre-defined in the library, this process allows us to move only the third-party service environment variables
-each service when created from the processor side we aim to validate every environment variable as early as possible to ensure that each third-party service has every required environment variable for communication which Tazama
+Desc: The encapsulation of environment variables involves centralizing configuration management within the `frms-coe-lib` library, reducing the need for each service to manage its own environment variables independently. Since additional service-based environment variables are not predefined in the library, this approach allows us to focus on external, third-party service variables.
+
+When a service is instantiated from the processor side, the goal is to validate all necessary environment variables as early as possible to ensure that each third-party service has the required configuration for effective communication. This validation process is especially crucial in projects like Tazama, where reliable interaction with external services is key to maintaining system integrity and performance.
 
 These are the third-party services used by Tazama
 | Service | Library |
@@ -57,7 +58,11 @@ Reading environment variables within a library can be a useful approach but shou
 
    ## Service based
    
-Desc: encapsulation takes another look when focusing on the environment variables that are service-based, on this side variables are classified into two categories we have common service-based variables and additional service variables. Let us discuss common service-based variables first these are variables that are expected to be used by every processor that is importing the frms-coe-lib and using the validation of the processor that the library supplies to list them we have `FUNCTION_NAME`,`MAX_CPU` and `NODE_ENV` these are all mandatory for processor based validation and ideally we trigger this validation as early as possible in the startup process of each service. Now additional service variables are variables that can be listed by the processor and passed in as arguments from the parameter of processor validation and these can be as many as necessary for the processor using them the function will validate the common variables and additional variables and this function should return an array of object that has key pair of name of the variable and value of the variable this internal will be reduced to the configuration object that has just the keys as Variables names and Values as values of the variable that was found from the file of the .env.
+Desc: Encapsulation takes on a new dimension when focusing on service-based environment variables. These variables are categorized into two groups: common service-based variables and additional service-specific variables.
+
+Let's first discuss the common service-based variables. These are essential variables expected to be used by every processor that imports the `frms-coe-lib` library and utilizes the processor validation supplied by the library. Key variables in this category include `FUNCTION_NAME`, `MAX_CPU`, and `NODE_ENV`. These are mandatory for processor-based validation, and it is recommended to trigger this validation as early as possible during the service startup process.
+
+On the other hand, additional service variables are specific to each processor and can be passed in as arguments during processor validation. These variables can vary in number, depending on the needs of the processor. The validation function will validate both common and additional variables. It returns an array of objects, each containing a key-value pair representing the variable name and its corresponding value. Internally, this array is reduced to a configuration object, where the keys are the variable names and the values are the corresponding values extracted from the `.env` file.
 
 Diagram of how service-based variables work:
 ![image](https://github.com/user-attachments/assets/c11610f9-0b48-4a90-9e9b-bee518b3e609)
