@@ -93,6 +93,8 @@ A rule can be used to assess more than one outcome, such as age bands if needed,
 
 Rule processors are templated so that logging, data input, determined outcomes, data output and telemetry are consistently applied by all rule processors. It is just the specific rule’s logic, including the queries that retrieve transaction history according to the rule requirements, that changes between rules. Rules must be developed individually, but the parameters used in the calculation of a rule and its outcomes are contained in a configuration file. The rule behavior can be configured independent of the rule code, reducing the operational burden for modifying a rule to a mere configuration process.
 
+The event flow rule processor (EFRuP) is a specialised rule processor that enables the system to exert operational control over evaluations based on the outcome of business processes and prior evaluations. The system is able to block or override a transaction event based on the evaluation of conditions against one of the transaction event attributes.
+
 Once the rule has completed its evaluation, the output is forwarded to the Typology Processor.
 
 Further information on the role of the Rules Processor is available on the [Rule Processor Overview](/Product/rule-processor-overview.md) page.
@@ -101,7 +103,7 @@ Further information on the role of the Rules Processor is available on the [Rule
 
 ## 3.4. Typology Processor
 
-The typology processor is designed to aggregate and assess the outcomes from the all rules within the scope of a specific typology. The scope of a typology is defined in a typology configuration specific to each typology. The typology processor scores the combined effect of a typology’s rules to determine if the weighted aggregation of the rule outcomes has reached a predefined threshold for raising a fraud or money laundering alert. Each rule’s weighted contribution to the typology score, as well as the scoring predicate, or formula, is also defined in the typology configuration.
+The typology processor is designed to aggregate and assess the outcomes from the all rules within the scope of a specific typology. The scope of a typology is defined in a typology configuration specific to each typology. The typology processor scores the combined effect of a typology's rules to determine if the weighted aggregation of the rule outcomes has reached a predefined threshold for raising a fraud or money laundering alert. Each rule's weighted contribution to the typology score, as well as the scoring predicate, or formula, is also defined in the typology configuration.
 
 Returning to our earlier example of a phishing scam where rules are implemented to assess an elderly person, sending a large amount of funds to a new payee (or creditor). The three rules being assessed in this example are:
 
