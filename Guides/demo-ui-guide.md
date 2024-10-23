@@ -20,6 +20,9 @@
     - [Rule Panel Analysis](#rule-panel-analysis)
     - [Typology Panel Analysis](#typology-panel-analysis)
 - [UI Configuration](#ui-configuration)
+- [Deployment instructions](#deployment-instructions)
+    - [Pre-requisites](#pre-requisites)
+    - [Installation instructions](#installation-instructions)
 
 ## Introduction
 
@@ -194,6 +197,85 @@ The `reset` button restores the settings back to the variables defined in the de
 ![configuration UI](../images/demo-config-ui.png)
 
 [Top](#top)
+
+## Deployment instructions
+
+#### Pre-requisites
+
+ - Docker Desktop for Windows application should be running 
+ - A public deployment of the Tazama system should be running in docker [Tazama public deployment instructions](https://github.com/tazama-lf/Full-Stack-Docker-Tazama) OR the full service with all private rules should be deployed and running in docker [Tazama full service deployment instructions](full-service-full-stack-docker-tazama.md)
+
+#### Installation instructions
+
+**1. Clone the Full-Stack-Docker-Tazama Repository to Your Local Machine**
+
+In a Windows Command Prompt, navigate to the full-stack-docker-tazama folder, then clone the repository with the following command:
+
+```
+git clone https://github.com/tazama-lf/tazama-demo -b dev
+```
+
+**2. Create the demo.env file**
+
+Via VS Code, create a new demo.env file in the full-stack-docker-tazama/env folder with the following contents:
+
+```
+# SPDX-License-Identifier: Apache-2.0
+
+NODE_ENV=dev
+NEXT_PUBLIC_URL="http://localhost:3001"
+PORT="3001"
+NEXT_PUBLIC_TMS_SERVER_URL="http://localhost:5000"
+NEXT_PUBLIC_TMS_KEY=""
+NEXT_PUBLIC_CMS_NATS_HOSTING="nats://nats:4222"
+NEXT_PUBLIC_NATS_USERNAME=""
+NEXT_PUBLIC_NATS_PASSWORD=""
+NEXT_PUBLIC_ARANGO_DB_HOSTING="http://localhost:18529"
+NEXT_PUBLIC_DB_USER="root"
+NEXT_PUBLIC_DB_PASSWORD=""
+NEXT_PUBLIC_WS_URL="http://localhost:3001"
+
+NEXT_PUBLIC_NATS_SUBSCRIPTIONS="['connection', '>', 'typology-999@1.0.0']"
+```
+
+![demo.env file](../images/demo-env-file.png)
+
+
+**3. Edit the docker-compose.yaml file**
+
+In the full-stack-docker-tazama folder, open the docker-compose.yaml file and add the following text between 2 other processors
+
+```
+  # DEMO
+  demo:
+    image: tazamaorg/demo-ui:v1.0.16
+    env_file:
+      - path: ./env/demo.env
+        required: true
+    restart: always
+    depends_on:
+      - tms
+      - arango
+      - nats
+    ports:
+      - '3001:3001'
+
+```
+
+>> NOTE: the alignment of #DEMO should align with the other headings e.g. #TMS or #NATS-UTILITIES
+
+![docker-compose.yaml file](../images/demo-docker-compose.png)
+
+
+**3. Deploy the Demo**
+
+From your Windows Command Prompt and from inside the `Full-Stack-Docker-Tazama` folder, execute the following command:
+
+```
+docker compose up demo -d
+```
+
+![docker compose up](../images/demo-docker-compose-up.png)
 
 
 
