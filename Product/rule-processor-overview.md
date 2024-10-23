@@ -5,13 +5,13 @@
       - [Payload](#payload)
     - [3.1 Set up rule processor](#31-set-up-rule-processor)
     - [3.2 Execute request](#32-execute-request)
-    - [3.3.1 Check for early exit conditions](#331-check-for-early-exit-conditions)
-    - [3.3.2 Set up behavioral query](#332-set-up-behavioral-query)
-    - [3.3.3 Execute behavioral query](#333-execute-behavioral-query)
-    - [3.3.4 Prepare query results for classification](#334-prepare-query-results-for-classification)
-    - [3.4 Classify rule results](#34-classify-rule-results)
-      - [3.4.1 Banded rule processor results](#341-banded-rule-processor-results)
-      - [3.4.2 Cased rule processor results](#342-cased-rule-processor-results)
+    - [3.3 Check for early exit conditions](#33-check-for-early-exit-conditions)
+    - [3.4 Set up behavioral query](#34-set-up-behavioral-query)
+    - [3.5 Execute behavioral query](#35-execute-behavioral-query)
+    - [3.6 Prepare query results for classification](#36-prepare-query-results-for-classification)
+    - [3.7 Classify rule results](#37-classify-rule-results)
+      - [3.7.1 Banded rule processor results](#371-banded-rule-processor-results)
+      - [3.7.2 Cased rule processor results](#372-cased-rule-processor-results)
     - [4. Score transaction evaluation](#4-score-transaction-evaluation)
 
 
@@ -90,7 +90,7 @@ Once the setup is complete, the rule executer invokes the rule-specific `handleT
 
 The rule-specific portion of the rule processor receives the request from the rule executer and performs the following functions to complete the behavioral assessment:
 
-### 3.3.1 Check for early exit conditions
+### 3.3 Check for early exit conditions
 
 Tazama aims to spare system resources whenever possible to optimize performance. In particular, database queries are expensive in terms of performance and Tazama seizes opportunities to avoid costly database queries through this initial step.
 
@@ -98,7 +98,7 @@ The purpose of this step is to see if there is any information included in the i
 
 See the page on [Standard Rule Processing Exit and Error Conditions](https://github.com/frmscoe/docs/blob/main/Technical/Processors/Rule-Processors/standard-rule-processor-exit-and-error-conditions.md) for examples of exit conditions prevalent in Tazama.
 
-### 3.3.2 Set up behavioral query
+### 3.4 Set up behavioral query
 
 This step composes the database query to retrieve the behavioral history in an injection-safe way, including the specified parameters from the rule configuration.
 
@@ -110,23 +110,23 @@ Examples are the minimum number of documents to retrieve for a viable result, or
 
 See the page on [configuration management](https://github.com/frmscoe/docs/blob/main/Product/configuration-management.md) for more information on how Tazama's processors are configured.
 
-### 3.3.3 Execute behavioral query
+### 3.5 Execute behavioral query
 
 This step simply executes the composed query and retrieves the behavioral data from the database in support of the rule processor's purpose.
 
 In some rare instances a rule processor result is entirely dependent on only information contained in the incoming payload and no historical query is performed. In such instances no database query is composed or executed and the rule processor proceeds straight to the classification of the rule results.
 
-### 3.3.4 Prepare query results for classification
+### 3.6 Prepare query results for classification
 
 As a design principle, the Tazama rule queries are intended to do much of the heavy lifting in assessing the behavior evident in the transaction. As such the queries usually aim to deliver a result that can be classified immediately, but occasionally the rule processor has to perform a few extra steps to properly format the results for classification.
 
 One common task that is often performed in this step is the arrangement of the query results into a statistical analysis of some sort, such as a histogram over which a behavioral trend can be mapped.
 
-### 3.4 Classify rule results
+### 3.7 Classify rule results
 
 As mentioned previously, each rule is configured through an external configuration document hosted in the Tazama configuration database. One of the primary functions of the external configuration file is to define the classification of the query results and form what will be the rule processor's results. Tazama classifies the query results in one of two ways:
 
-#### 3.4.1 Banded rule processor results
+#### 3.7.1 Banded rule processor results
 
 Banded rule processor results are subdivisions of a contiguous range of values, theoretically from –infinity to +infinity. Banded rule results are by far the most common type of rule processor result in Tazama.
 
@@ -148,7 +148,7 @@ This way we can always ensure that the bands are contiguous and there are no acc
 
 See the page on [configuration management](https://github.com/frmscoe/docs/blob/main/Product/configuration-management.md) for more information on how rule processor banded results are configured.
 
-#### 3.4.2 Cased rule processor results
+#### 3.7.2 Cased rule processor results
 
 Cased rule processor results form an explicit list of values and includes a specific outcome for "none of the above".
 
