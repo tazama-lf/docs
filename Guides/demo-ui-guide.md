@@ -41,6 +41,8 @@ The Tazama Demo UI is desgined to be browser-based and presented in a single-pag
 
 The demo opens on the following page
 
+<br>
+
  ![demo-landing-page](../images/demo-landing-page.png)
 
 The UI is instantiated with a pre-fabricated debtor and creditor and associated accounts. When an entity is created, one associated account is also created. The UI has space for 4 debtor entities and 4 creditor entities and 4 accounts each.
@@ -49,20 +51,37 @@ The system configuration is read from an environment file when the UI starts up 
 
 ## Create debtors and creditors
 
-![create-entity](../images/demo-create-entity.png) Click on this icon to replace a pre-fabricated entity with a new randomized entity, and to create up to 4 debtors and creditors.
+![create-entity](../images/demo-create-entity.png) Click on this icon in the demo UI to replace a pre-fabricated entity with a new randomized entity, and to create up to 4 debtors and creditors.
+
+<br>
 
 Click on plus icon to create a new account, creating up to 4 accounts per entity with randomized information.
-![create-account](../images/demo-create-account.png)  
+
+![create-account](../images/demo-create-account.png) 
+
+<br>
 
 To delete an entity (debtor or creditor), hover over the entity or it's accounts and click on the dustbin icon that appears on the right.
-![delete-entity](../images/demo-delete-entity.png)  
+
+![delete-entity](../images/demo-delete-entity.png) 
+
+<br>
 
 To edit an entity (debtor or creditor) or an account, click on the edit icon 
+
 ![edit-entity-account](../images/demo-edit-entity-account.png)  
 
+<br>
+
 On the entity pop-up modal it is possible to edit the Full name, Birth Date, City of Birth, Country of Birth and Mobile number.
+
+<br>
+
 ![edit-entity-info](../images/demo-edit-entity-info.png)  
+
 Note: The mobile number format is validated according to the ISO20022 standard https://www.iso20022.org/standardsrepository/type/PhoneNumber
+
+<br>
 
 It is also possible to edit the Account Name on the account pop-up modal.
 ![edit-account-info](../images/demo-edit-account-info.png)
@@ -74,8 +93,12 @@ It is possible to copy an entity from a debtor to a creditor role, or vice versa
 In the first scenario below, Alice is the debtor and Electra is the creditor.
 ![transpose-start](../images/demo-transpose-1.png)
 
+<br>
+
 By clicking on Alice (anywhere on the debtor entity or account icons) and dragging the debtor across to the creditors panel, the debitor Alice becomes a creditor, or vice versa.
 ![transpose-end](../images/demo-transpose-2.png)
+
+<br>
 
 [Top](#top)
 
@@ -83,15 +106,17 @@ By clicking on Alice (anywhere on the debtor entity or account icons) and draggi
 
 The user can compose a transaction between selected debtor and creditor accounts by clicking on the `new transaction` button and submitting the transaction for evaluation by clicking on the `send` button. The transaction is submitted to the Tazama TMS API and the evaluation process is being triggered. The flow of the transaction is tracked visually on the UI dashboard.
 
+<br>
+
 ![new-transaction](../images/demo-new-transaction.png)
 Each click on the `new transaction` button replaces the transaction details with a new randomized transaction.
-
+<br>
 Click on the `edit` icon to change the transaction details manually.
 ![edit-transaction-1](../images/demo-edit-tx-button.png)
-
+<br>
 The Amount, Description and Latitude & Longitude can be edited and saved.
 ![edit-transaction](../images/demo-edit-transaction.png)
-
+<br>
 When the `SEND` button is clicked, the UI composes and posts the pacs.008 message to the Tazama TMS API, waits for a success (200 OK) response from the API, and then composes and posts the pacs.002 message to the Tazama TMS API, after which the UI renders the evaluation results from every processor involved in the evaluation.
 ![send-transaction](../images/demo-send-button.png)
 
@@ -101,20 +126,23 @@ When the `SEND` button is clicked, the UI composes and posts the pacs.008 messag
 The images used in the examples below are from a scenario where two transactions are performed, with the same debtor and creditor, soon after each other.
 
 #### Event Director (ED) Panel Overview
-![ed-panel](../images/demo-ed-panel.png)
 
+![ed-panel](../images/demo-ed-panel.png)
+<br>
 - When the UI receives a 200 OK response from the Tazama TMS API after the submission of the pacs.008 message, the ED light is set to orange
 - When the UI receives a 200 OK response from the Tazama TMS API after the submission of the pacs.002 message, the ED light is set to green
 - If either the pacs.008 or pacs.002 messages renders a response other than 200 OK, the ED light is set to red
 
 ![ed-panel-error](../images/demo-ed-panel-error.png)
+<br>
 In this case, the UI is attempting to send the exact same transaction that has just been sent.  Click on `New Transaction` to generate a new transaction.
 
 [Top](#top)
 
 #### Rules Panel Overview
-![rules-panel](../images/demo-rules-panel.png)
 
+![rules-panel](../images/demo-rules-panel.png)
+<br>
 Each rule processor will publish its results onto its own NATS subject to which the UI will be subscribed. When the rule result is published by the rule processor, the UI reads and interprets the rule result and updates the rule processor's corresponding light on the dashboard.  
 
 The colour of the light is determined by whether or not the specific rule result reference defined by the subRuleRef value in the rule result is assigned a weighting by the typology processor for ANY typology.
@@ -124,8 +152,9 @@ The colour of the light is determined by whether or not the specific rule result
 [Top](#top)
 
 #### Typology Panel Overview
-![typology-panel](../images/demo-typology-panel.png)
 
+![typology-panel](../images/demo-typology-panel.png)
+<br>
 The typology processor publishes a typology result for each completed typology onto the TADProc's NATS subscription subject to which the UI is subscribed. When the typology result is published by the typology processor, the UI reads and interprets the typology result and updates the typology's corresponding light on the dashboard. 
 
 - If the typology result value is less than alert threshold value, the typology light is set to green
@@ -135,14 +164,15 @@ The typology processor publishes a typology result for each completed typology o
 [Top](#top)
 
 #### TADPROC Panel Overview
-![tadproc-panel](../images/demo-tadproc-panel.png)
 
+![tadproc-panel](../images/demo-tadproc-panel.png)
+<br>
 The Transaction Aggregation and Decisioning Processor (TADPROC) publishes a completed evaluation result onto the TADROC's publishing/CMS subscription subject on NATS to which the UI is subscribed. When the evaluation result is published by the TADProc, the UI reads and interprets the evaluation result and updates the TADProc light on the dashboard. 
 - If the report status is `ALRT` (alert), the TADProc light is set to red
 - If the report status is `NALT` (not alert), the TADProc light is set to green
 
 ![tadproc-panel](../images/demo-tadproc-red.png)
-
+<br>
 If the report status is `ALRT`, a `stop` sign is displayed between the debtor and credit mobile devices indicated that the transaction should be interdicted.
 ![result-stop](../images/demo-result-stop.png)
 
