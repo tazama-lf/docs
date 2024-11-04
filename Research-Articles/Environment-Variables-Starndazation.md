@@ -119,7 +119,7 @@ Rules and Processors currently follow an approach to environmental variables whe
   Cons
     - Will requite some way to determine which processors require which config.
 
-- When validating environmental variables, use diffrent levels , ie - Error message when database is missing, but warning if nats env is missing.
+- When validating environmental variables, use different levels, i.e - Error message when database is missing, but warning if NATS env is missing.
 
 ![Environmental Refresh](../images/Environmental-Variables-Validate-proposal.png)
 
