@@ -117,7 +117,7 @@ Rules and Processors currently follow an approach to environmental variables whe
     - Single verify function to be called, can use optional parameters to determine what to check
 
   Cons
-    - Will requite some way to determine which processors require which config.
+    - Will require some way to determine which processors require which config.
 
 - When validating environmental variables, use different levels, i.e - Error message when database is missing, but warning if NATS env is missing.
 
