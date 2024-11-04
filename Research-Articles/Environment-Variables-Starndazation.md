@@ -110,7 +110,7 @@ Rules and Processors currently follow an approach to environmental variables whe
 
 # Recomendations - Short Term
 
-- Unify env naming conventions accross all processors - maybe use the library to store config classes and validate provided config.
+- Unify env naming conventions across all processors - maybe use the library to store config classes and validate provided config.
 
   Pros
     - Will be able to use the same environmental variables throughout the solution.
