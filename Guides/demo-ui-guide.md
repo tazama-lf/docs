@@ -110,14 +110,19 @@ The user can compose a transaction between selected debtor and creditor accounts
 
 ![new-transaction](../images/demo-new-transaction.png)
 Each click on the `new transaction` button replaces the transaction details with a new randomized transaction.
+
 <br>
 Click on the `edit` icon to change the transaction details manually.
+
+<br>
 ![edit-transaction-1](../images/demo-edit-tx-button.png)
 <br>
 The Amount, Description and Latitude & Longitude can be edited and saved.
+<br>
 ![edit-transaction](../images/demo-edit-transaction.png)
 <br>
 When the `SEND` button is clicked, the UI composes and posts the pacs.008 message to the Tazama TMS API, waits for a success (200 OK) response from the API, and then composes and posts the pacs.002 message to the Tazama TMS API, after which the UI renders the evaluation results from every processor involved in the evaluation.
+<br>
 ![send-transaction](../images/demo-send-button.png)
 
 [Top](#top)
@@ -201,19 +206,25 @@ Once a state is persisted by clicking on a rule, hovering over other rules, high
 #### Typology Panel Analysis
 
 The user can hover over a specific typology light to temporarily display a summary of the typology result. In the example, below the cursor is hovering over typology 095, as can be seen by the light grey highlight, and the typology result modal for typology 095 pops up on the right of the list of typologies.
+
+<br>
 ![typology-panel-analysis](../images/demo-typology-panel-analysis.png)
 
 In this case, typology 095 light is red, and the typology result panel shows the typology result of 800, an alert threshold of 500 and an interdiction threshold of 600.
+<br>
 ![rule-typology-red](../images/demo-typology-result-red.png)
 
 While hovering over a specific typology light to temporarily display a summary of the typology result, the rules which contribute to the typology result are simultaneously highlighted.
 In the example below, while hovering over typology 095, rules 006, 007, 008, 024, 026, 074 and 075 are highlighted in light grey.
+<br>
 ![typology-hover-rules](../images/demo-typology-hover-rules.png)
 
 If the user hovers over a rule light, the information is displayed temporarily, but not persisted. In other words, when the user hovers somewhere else that is not a rule light, the previous selected state is restored. If the user clicks on the rule light or description the selected state is displayed persistently. In the example below, after clicking on typology 095, rules 006, 007, 008, 024, 026, 074 and 075 are highlighted in a darker shade of grey.
+<br>
 ![typology-click-rules](../images/demo-typology-click-rules.png)
 
 Once a state is persisted by clicking on a typology, hovering over other typologies, highlights the rules that contribute to the second typology result, in a lighter shade of grey.  In this case, hovering over typology 024 (after clicking on typology 095), highlights rules 002, 016, 017, 021, 025, 027, 054, 063, 084, 090 091 in a lighter shade of grey.
+<br>
 ![typology-hover-rules2](../images/demo-typology-hover-rules2.png)
 
 [Top](#top)
