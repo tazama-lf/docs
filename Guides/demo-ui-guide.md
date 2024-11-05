@@ -115,14 +115,23 @@ Each click on the `new transaction` button replaces the transaction details with
 Click on the `edit` icon to change the transaction details manually.
 
 <br>
+
 ![edit-transaction-1](../images/demo-edit-tx-button.png)
+
 <br>
+
 The Amount, Description and Latitude & Longitude can be edited and saved.
+
 <br>
+
 ![edit-transaction](../images/demo-edit-transaction.png)
+
 <br>
+
 When the `SEND` button is clicked, the UI composes and posts the pacs.008 message to the Tazama TMS API, waits for a success (200 OK) response from the API, and then composes and posts the pacs.002 message to the Tazama TMS API, after which the UI renders the evaluation results from every processor involved in the evaluation.
+
 <br>
+
 ![send-transaction](../images/demo-send-button.png)
 
 [Top](#top)
