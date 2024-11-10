@@ -118,5 +118,5 @@ Using the list of unique rules from step 2.4, the Event Director invokes all the
  - Metadata (process information picked up in the TMS API and Event Director)
  - Network sub-map (the portion of the network map that defines the in-scope rules and typologies)
 
-See the page on [processor results propagation](https://github.com/frmscoe/docs/blob/main/Product/processor-results-propagation.md) for more information on the payload composition and propagation from one processor to the next.
+See the page on [processor results propagation](https://github.com/tazama-lf/docs/blob/main/Product/processor-results-propagation.md) for more information on the payload composition and propagation from one processor to the next.
 
