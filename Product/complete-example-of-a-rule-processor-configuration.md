@@ -2,9 +2,9 @@
 
 # Complete example of a rule processor configurations
 
-## A “banded” rule configuration:
+## A "banded" rule configuration:
 
-```
+```JSON
 {
     "id": "006@1.0.0",
     "cfg": "1.0.0",
@@ -46,9 +46,9 @@
   }
 ```
 
-## A “cased" rule configuration
+## A "cased" rule configuration
 
-```
+```JSON
 {
     "id": "078@1.0.0",
     "cfg": "1.0.0",
@@ -83,7 +83,7 @@
 
 ## EFRuP rule configuration
 
-```
+```JSON
 {
     "id": "EFRuP@1.0.0",
     "cfg": "none",

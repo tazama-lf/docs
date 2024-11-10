@@ -6,7 +6,7 @@ Building on the example rule configurations provided here:
 
 [Complete example of a rule processor configuration](/product/complete-example-of-a-rule-processor-configuration.md)
 
-## Typology configuration for a typology with two rules
+## Typology configuration for a typology with two rules plus the event flow rule processor
 
 ```JSON
 {
