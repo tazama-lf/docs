@@ -2,9 +2,9 @@
 
 ## Current Functionality
 
-### Sending in Preparation messages pain001, pain013, pacs008
-### Allow Quoting while sending Preparation message pacs008
-### Sending pacs008 for Tazama Fraud Evaluation
+#### 1. Sending in Preparation messages pain001, pain013, pacs008
+#### 2. Allow Quoting while sending Preparation message pacs008
+#### 3. Sending pacs008 for Tazama Fraud Evaluation
 
 ### Additional Functionality
 
