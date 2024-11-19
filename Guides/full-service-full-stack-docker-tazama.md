@@ -329,8 +329,16 @@ To skip ahead to the batch process, click: [batch process alternative](#batch-pr
 
 Navigate one folder up to your source code folder and copy the entire `rule-executer` folder to a new folder called `rule-executer-001`:
 
+This command is for users on windows
+
 ```
 xcopy rule-executer rule-executer-001 /E /I /H
+```
+
+MacOs and Linux users 
+
+```
+cp -R rule-executer rule-executer-001
 ```
 
 **Output:**
