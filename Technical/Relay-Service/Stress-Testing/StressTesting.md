@@ -10,19 +10,19 @@
 
 - [**Process**](#process)
 
-    - [2.1 Configuration](#21-configuration)
+  - [2.1 Configuration](#21-configuration)
 
-    - [2.2 Stress Testing Approach for RabbitMQ and NATS](#22-stress-testing-approach-for-rabbitMQ-and-NATS)
+  - [2.2 Stress Testing Approach for RabbitMQ and NATS](#22-stress-testing-approach-for-rabbitMQ-and-NATS)
 
-    - [2.3 Stress Testing Approach for REST API](#23-stress-testing-approach-for-REST-API)
+  - [2.3 Stress Testing Approach for REST API](#23-stress-testing-approach-for-REST-API)
 
 - [**Results**](#2-system-architecture)
 
-    - [3.1 NATS Results](#31-NATS-results)
+  - [3.1 NATS Results](#31-NATS-results)
 
-    - [3.2 RabbitMQ Results](#32-RabbitMQ-results)
+  - [3.2 RabbitMQ Results](#32-RabbitMQ-results)
 
-    - [3.3 REST API Results](#33-REST-API-results)
+  - [3.3 REST API Results](#33-REST-API-results)
 
 ## **_Overview_**
 
@@ -71,38 +71,38 @@ All results are detailed below. Note that the total count of sent messages is 60
 
 ### 3.1 NATS Results
 
-| Title                           | Results             |
-| ------------------------------- | ------------------- |
+| Title                           | Results                |
+| ------------------------------- | ---------------------- |
 | First Read Time                 | 2024-10-30 15:42:08 PM |
 | Last Write Time                 | 2024-10-30 15:42:28 PM |
-| Total Duration for Read & Write | 20 seconds          |
-| Throughput (TPS)                | 3,000               |
+| Total Duration for Read & Write | 20 seconds             |
+| Throughput (TPS)                | 3,000                  |
 
 ### 3.2 RabbitMQ Results
 
-| Title                           | Results             |
-| ------------------------------- | ------------------- |
+| Title                           | Results                |
+| ------------------------------- | ---------------------- |
 | First Read Time                 | 2024-10-30 15:56:08 PM |
 | Last Write Time                 | 2024-10-30 15:56:26 PM |
-| Total Duration for Read & Write | 18 seconds          |
-| Throughput (TPS)                | 3,333            |
+| Total Duration for Read & Write | 18 seconds             |
+| Throughput (TPS)                | 3,333                  |
 
 ### 3.3 REST API Results
 
-| Title                           | Results             |
-| ------------------------------- | ------------------- |
+| Title                           | Results                |
+| ------------------------------- | ---------------------- |
 | First Write Time from JMeter    | 2024-10-30 16:20:14 PM |
 | Last Read Time on NGINX         | 2024-10-30 16:21:08 PM |
-| Total Duration for Read & Write | 23 seconds          |
-| Throughput (TPS)                | 2,649               |
+| Total Duration for Read & Write | 23 seconds             |
+| Throughput (TPS)                | 2,649                  |
 
 For a comprehensive view of all required details, please refer to the detailed results files (in CSV format) available at the links below:
 
 - **NATS to NATS Relay Service**  
-  File: [@NATS to NATS Relay Service](https://paysyslabs-my.sharepoint.com/:x:/r/personal/usama_manan_paysyslabs_com/_layouts/15/Doc.aspx?sourcedoc=%7B3E45BD8A-35E2-473A-A20F-632EB1F77423%7D&file=Tazama-Nats-Result.xlsx&action=default&mobileredirect=true)
+  File: [Tazama-Nats-Results.xlsx](./Tazama-Nats-Result.xlsx)
 
 - **NATS to RabbitMQ Relay Service**  
-  File: [@NATS to RabbitMQ Relay Service](https://paysyslabs-my.sharepoint.com/:x:/r/personal/usama_manan_paysyslabs_com/Documents/Tazama%20Relay%20Service%20Stress%20Testing/Tazama-Rabbit-Results.xlsx?d=w32cb29b878354672893b6a239e7c8668&csf=1&web=1&e=1a20T2)
+  File: [Tazama-Rabbit-Results.xlsx](./Tazama-Rabbit-Results.xlsx)
 
 - **NATS to REST API Relay Service**  
-  File: [@NATS to REST API Relay Service](https://paysyslabs-my.sharepoint.com/:x:/r/personal/usama_manan_paysyslabs_com/Documents/Tazama%20Relay%20Service%20Stress%20Testing/Tazama-http-Results.xlsx?d=wb3bc42f4405f48d7b87a120733006e2b&csf=1&web=1&e=3qP9nD)
+  File: [Tazama-http-Results.xlsx](./Tazama-http-Results.xlsx)
