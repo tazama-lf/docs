@@ -1,10 +1,10 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-# Complete example of a rule processor configuration
+# Complete example of a rule processor configurations
 
-## A “banded” rule configuration:
+## A "banded" rule configuration:
 
-```
+```JSON
 {
     "id": "006@1.0.0",
     "cfg": "1.0.0",
@@ -46,9 +46,9 @@
   }
 ```
 
-## A “cased" rule configuration
+## A "cased" rule configuration
 
-```
+```JSON
 {
     "id": "078@1.0.0",
     "cfg": "1.0.0",
@@ -79,4 +79,36 @@
       ]
     }
   }
+```
+
+## EFRuP rule configuration
+
+```JSON
+{
+    "id": "EFRuP@1.0.0",
+    "cfg": "none",
+    "termId": "vEFRuPat100atnone",
+    "wghts": [
+        {
+            "ref": ".err",
+            "wght": "0"
+        },
+        {
+            "ref": "override",
+            "wght": "0"
+        },
+        {
+            "ref": "non-overridable-block",
+            "wght": "0"
+        },
+        {
+            "ref": "overridable-block",
+            "wght": "0"
+        },
+        {
+            "ref": "none",
+            "wght": "0"
+        }
+    ]
+}
 ```
