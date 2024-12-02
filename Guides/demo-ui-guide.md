@@ -32,7 +32,7 @@ The Tazama system is provided as a software engine and as such is generally impl
  
 The basic narrative of the demo is to set up a number of light-weight identities and then simulate transactions from a debtor to a creditor via a mocked up mobile device interface. The user interface then reports the outcomes of the various system processes for rule and typology evaluation, and then allow the narrator to highlight interesting elements of the evaluation outcomes, such as the result of a specific rule, the composition of a typology and the outcome of the typology scoring, and whether a transaction is blocked or whether an investigation alert was raised.
 
-For more information on the Tazama system, see the [Product Overview](https://github.com/frmscoe/docs)
+For more information on the Tazama system, see the [Product Overview](https://github.com/tazama-lf/docs)
 
 #### Display Format <!-- omit in toc -->
 The Tazama Demo UI is desgined to be browser-based and presented in a single-page 'dashboard' in full HD (1080p) or greater resolution with an aspect ratio of 16:9.

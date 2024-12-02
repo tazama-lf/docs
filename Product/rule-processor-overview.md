@@ -35,7 +35,7 @@ Once a rule has completed its execution, it will pass its result, along with the
 
 Tazama is preconfigured with a number of rule processors, but these rule processors are not publicly accessible to protect them from prying, unscrupulous eyes. Uncontrolled access to rule processors, and the typologies they belong to, may allow fraudsters to reverse-engineer the detection mechanisms that are designed to prevent fraud. Tazama has provided one rule processor as a publicly available example of a rule processor, and we will use this rule processor as a reference rule in our documentation.
 
-Our reference rule is [Rule 901 - Number of transactions performed by the debtor](https://github.com/frmscoe/rule-901).
+Our reference rule is [Rule 901 - Number of transactions performed by the debtor](https://github.com/tazama-lf/rule-901).
 
 ## The rule executer
 
@@ -82,7 +82,7 @@ Using a list of unique rules, the Event Director invokes all the unique rule pro
 
 The rule executer acts as a wrapper function for the rule-specific code that conducts the behavioral assessment of the transaction. The rule executer performs a number of generic tasks that applies to all rule processors.
 
-See the documentation for the rule executer in the [rule executer repository readme](https://github.com/frmscoe/rule-executer) for more information.
+See the documentation for the rule executer in the [rule executer repository readme](https://github.com/tazama-lf/rule-executer) for more information.
 
 Once the setup is complete, the rule executer invokes the rule-specific `handleTransaction` to initiate the behavioral assessment of the transaction.
 
@@ -96,7 +96,7 @@ Tazama aims to spare system resources whenever possible to optimize performance.
 
 The purpose of this step is to see if there is any information included in the incoming payload the disqualifies the rule processor's results as non-viable, perhaps because the outcome may be non-deterministic for (i.e. have no impact on) the typologies associated with the rule.
 
-See the page on [Standard Rule Processing Exit and Error Conditions](https://github.com/frmscoe/docs/blob/main/Technical/Processors/Rule-Processors/standard-rule-processor-exit-and-error-conditions.md) for examples of exit conditions prevalent in Tazama.
+See the page on [Standard Rule Processing Exit and Error Conditions](https://github.com/tazama-lf/docs/blob/main/Technical/Processors/Rule-Processors/standard-rule-processor-exit-and-error-conditions.md) for examples of exit conditions prevalent in Tazama.
 
 ### 3.4 Set up behavioral query
 
@@ -108,7 +108,7 @@ Among other things, the rule configuration may contain specific parameters that 
 
 Examples are the minimum number of documents to retrieve for a viable result, or the timeframe over which the query must be executed.
 
-See the page on [configuration management](https://github.com/frmscoe/docs/blob/main/Product/configuration-management.md) for more information on how Tazama's processors are configured.
+See the page on [configuration management](https://github.com/tazama-lf/docs/blob/main/Product/configuration-management.md) for more information on how Tazama's processors are configured.
 
 ### 3.5 Execute behavioral query
 
@@ -146,7 +146,7 @@ As a Tazama design principle, the assessment of a value within a band is always:
 
 This way we can always ensure that the bands are contiguous and there are no accidental overlaps between the different bands.
 
-See the page on [configuration management](https://github.com/frmscoe/docs/blob/main/Product/configuration-management.md) for more information on how rule processor banded results are configured.
+See the page on [configuration management](https://github.com/tazama-lf/docs/blob/main/Product/configuration-management.md) for more information on how rule processor banded results are configured.
 
 #### 3.7.2 Cased rule processor results
 
@@ -166,7 +166,7 @@ An example of a cased rule might be if the rule processor is required to evaluat
 
 The cased rule processor configuration would specify the codes from the list that are of interest to the behavioral modelling, and then also a catch-all "else" value if the data contains none of the codes of interest (e.g. "AGT", "ATM", or "BRN").
 
-See the page on [configuration management](https://github.com/frmscoe/docs/blob/main/Product/configuration-management.md) for more information on how rule processor cased results are configured.
+See the page on [configuration management](https://github.com/tazama-lf/docs/blob/main/Product/configuration-management.md) for more information on how rule processor cased results are configured.
 
 ### 4. Score transaction evaluation
 
@@ -179,4 +179,4 @@ Outgoing payload:
  - Network sub-map (the portion of the network map that defines the in-scope rules and typologies)
  - The rule processor evaluation result
 
-https://github.com/frmscoe/docs/blob/main/Product/processor-results-propagation.md
+https://github.com/tazama-lf/docs/blob/main/Product/processor-results-propagation.md
