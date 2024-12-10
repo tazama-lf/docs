@@ -20,9 +20,14 @@
     - [Rule Panel Analysis](#rule-panel-analysis)
     - [Typology Panel Analysis](#typology-panel-analysis)
 - [UI Configuration](#ui-configuration)
-- [Deployment instructions](#deployment-instructions)
-    - [Pre-requisites](#pre-requisites)
-    - [Installation instructions](#installation-instructions)
+- [Demo deployment instructions](#demo-deployment-instructions)
+- [Demo UI installation steps for a full service deployment](#demo-ui-installation-steps-for-a-full-service-deployment)
+    - [1. Clone the Full-Stack-Docker-Tazama Repository to Your Local Machine](#1-clone-the-full-stack-docker-tazama-repository-to-your-local-machine)
+    - [2. Deploy the Core Services via script](#2-deploy-the-core-services-via-script)
+    - [3. Configure Tazama for the demo UI](#3-configure-tazama-for-the-demo-ui)
+- [5. Restart core processors](#5-restart-core-processors)
+- [Test the end-to-end deployment of the demo UI configuration](#test-the-end-to-end-deployment-of-the-demo-ui-configuration)
+- [Configure the demo UI setup](#configure-the-demo-ui-setup)
 
 ## Introduction
 
@@ -248,85 +253,147 @@ The `reset` button restores the settings back to the variables defined in the de
 
 [Top](#top)
 
-## Deployment instructions
+## Demo deployment instructions
 
-#### Pre-requisites
+The demo UI can be deployed as an optional addon for a public deployment in which case it will include Rule-901 and Typology-999 - link to full-stack-docker readme
 
- - Docker Desktop for Windows application should be running 
- - A public deployment of the Tazama system should be running in docker [Tazama public deployment instructions](https://github.com/tazama-lf/Full-Stack-Docker-Tazama) OR the full service with all private rules should be deployed and running in docker [Tazama full service deployment instructions](full-service-full-stack-docker-tazama.md)
+OR 
 
-#### Installation instructions
+The default full service deployment configuration is not currently compatible with the demo UI and the following additional steps are required to run the Tazama demo UI
 
-**1. Clone the Full-Stack-Docker-Tazama Repository to Your Local Machine**
+## Demo UI installation steps for a full service deployment
 
-In a Windows Command Prompt, navigate to the full-stack-docker-tazama folder, then clone the repository with the following command:
+#### 1. Clone the Full-Stack-Docker-Tazama Repository to Your Local Machine
 
-```
-git clone https://github.com/tazama-lf/tazama-demo -b dev
-```
-
-**2. Create the demo.env file**
-
-Via VS Code, create a new demo.env file in the full-stack-docker-tazama/env folder with the following contents:
+In a Windows Command Prompt, navigate to the folder where you want to store a copy of the source code. For example, the source code root folder path I have been using to compile this guide is C:\Tazama\GitHub. Once in your source code root folder, clone (copy) the repository with the following command:
 
 ```
-# SPDX-License-Identifier: Apache-2.0
-
-NODE_ENV=dev
-NEXT_PUBLIC_URL="http://localhost:3001"
-PORT="3001"
-NEXT_PUBLIC_TMS_SERVER_URL="http://localhost:5000"
-NEXT_PUBLIC_TMS_KEY=""
-NEXT_PUBLIC_CMS_NATS_HOSTING="nats://nats:4222"
-NEXT_PUBLIC_NATS_USERNAME=""
-NEXT_PUBLIC_NATS_PASSWORD=""
-NEXT_PUBLIC_ARANGO_DB_HOSTING="http://localhost:18529"
-NEXT_PUBLIC_DB_USER="root"
-NEXT_PUBLIC_DB_PASSWORD=""
-NEXT_PUBLIC_WS_URL="http://localhost:3001"
-
-NEXT_PUBLIC_NATS_SUBSCRIPTIONS="['connection', '>', 'typology-999@1.0.0']"
+git clone https://github.com/tazama-lf/Full-Stack-Docker-Tazama -b main
 ```
 
-![demo.env file](../images/demo-env-file.png)
+**Output:**
+
+![clone-the-repo](../images/full-stack-docker-tazama-clone-repo.png)
+
+#### 2. Deploy the Core Services via script
+
+First, start the Docker Desktop for Windows application.
+
+With Docker Desktop running: from your Windows Command Prompt and from inside the `Full-Stack-Docker-Tazama` folder, execute the following command and follow the prompts:
+
+**Windows**  
+Command Prompt: `start.bat` 
+Powershell: `.\start.bat`
+
+**Unix (Linux/MacOS)** <!-- omit in toc -->
+Any terminal: `./start.sh`
+
+> [!IMPORTANT]  
+> Ensure the script has the correct permissions to run. You may need to run `chmod +x start.sh` beforehand.
+
+**Output:**
+
+![start-services-1](/images/full-stack-docker-tazama-start-bat-1.png)
+
+Select `2` from the start.bat docker deployment menu option
+
+![start-services-4](/images/full-stack-docker-tazama-start-bat-4.png)
+
+For option 2 (Full service DockerHub deployment) the output will be as follows:
+
+![full-service-deployed](/images/full-stack-docker-tazama-full-service-option.png)
 
 
-**3. Edit the docker-compose.yaml file**
+[Top](#introduction)
 
-In the full-stack-docker-tazama folder, open the docker-compose.yaml file and add the following text between 2 other processors
+#### 3. Configure Tazama for the demo UI
+
+Tazama is configured by loading the network map, rules and typology configurations required to evaluate a transaction via the ArangoDB API. The configuration information is hidden in a private repository and if you are a member of the Tazama `frmscoe` Organization on GitHub, you'll be able to clone this repository onto your local machine with the following command:
+
+Change the current folder back to your root source code folder:
+```
+cd ..
+```
+
+Clone the `tms-configuration` repository:
 
 ```
-  # DEMO
-  demo:
-    image: tazamaorg/demo-ui:v1.0.16
-    env_file:
-      - path: ./env/demo.env
-        required: true
-    restart: always
-    depends_on:
-      - tms
-      - arango
-      - nats
-    ports:
-      - '3001:3001'
-
+git clone https://github.com/frmscoe/tms-configuration -b main
 ```
 
->> NOTE: the alignment of #DEMO should align with the other headings e.g. #TMS or #NATS-UTILITIES
-
-![docker-compose.yaml file](../images/demo-docker-compose.png)
-
-
-**3. Deploy the Demo**
-
-From your Windows Command Prompt and from inside the `Full-Stack-Docker-Tazama` folder, execute the following command:
+In addition to cloning the configuration repository, we also need to clone the Tazama `Postman` repository so that we can utilize the Postman environment file that is hosted there:
 
 ```
-docker compose up demo -d
+git clone https://github.com/tazama-lf/postman -b main
 ```
 
-![docker compose up](../images/demo-docker-compose-up.png)
+**Output:**
 
+![clone-config](../images/full-stack-docker-tazama-clone-config.png)
+
+Now that these two repositories are cloned, we can perform the following Newman command to load the specific DEMO UI configuration into the ArangoDB databases and collections:
+
+```
+newman run collection-file -e environment-file --timeout-request 10200
+```
+
+ - The `collection-file` is the full path to the location on your local machine where the `tms-configuration\demo\full-service-config-sans-EFRuP.postman_collection.json` file is located.
+ - The `environment-file` is the full path to the location on your local machine where the `postman\environments\Tazama-Docker-Compose-LOCAL.postman_environment.json` file is located.
+ - If the path contains spaces, wrap the string in double-quotes.
+
+**Output:**
+
+![execute-config](../images/full-stack-docker-tazama-execute-config.png)
+
+[Top](#introduction)
+
+## 5. Restart core processors
+
+Now that the system is configured with the private rules and configuration, we need to restart our core processors in order to load the updated configuration. The main reason the configuration needs to preceed the deployment of the processors is that the processors read the network map at startup to set up the NATS pub/sub routes for the evaluation flow.  
+
+Navigate back to the `full-stack-docker-tazama` folder:
+```
+cd Full-Stack-Docker-Tazama
+```
+
+Execute the following command to restart the core processors:
+
+**Output: TO BE FIXED**
+
+```
+docker compose restart --no-deps ed tp tadp
+```
+
+**Output:**
+
+
+[Top](#introduction)
+
+## Test the end-to-end deployment of the demo UI configuration
+
+You should be able to submit a test transaction to the Transaction Monitoring Service API and then be able to see the result of a complete end-to-end evaluation in the database. We can run the following Postman test via Newman to see if our deployment was successful:
+
+```
+newman run collection-file -e environment-file --timeout-request 10200 --delay-request 500
+```
+
+ - The `collection-file` is the full path to the location on your local machine where the `tms-configuration\demo\demo-tms-config-test.postman_collection.json` file is located.
+ - The `environment-file` is the full path to the location on your local machine where the `postman\environments\Tazama-Docker-Compose-LOCAL.postman_environment.json` file is located.
+ - If the path contains spaces, wrap the string in double-quotes.
+ - We add the `--delay-request` option to delay each individual test by 500 milliseconds to give them evaluation time to complete before we look for the result in the database.
+
+**Output:**
+
+![great-success](../images/full-stack-docker-tazama-great-success.png)
+
+
+## Configure the demo UI setup
+
+Change the UI configuration setting from 'localhost' to your ip address. 
+
+![localhost](../images/demo-config-localhost.png)
+
+![ipaddress](../images/demo-config-ipaddress.png)
 
 
 
