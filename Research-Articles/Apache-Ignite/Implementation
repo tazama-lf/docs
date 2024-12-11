@@ -1,0 +1,102 @@
+# Apache Ignite PoC Implementation
+
+## Introduction
+
+The Apache Poc Consists of the TMS service, a subset of rules and a database config file found [here](https://github.com/tazama-lf/ignite-poc)
+
+## Getting Started
+
+We will be deploying Apache ignite via Docker, but you are free to install natively as well if you wish. 
+
+## Setting Up Apache Ignite
+
+### Using Docker Desktop
+
+1. Starting of, open your docker desktop. Navigate to images on the left-hand side, and click on the search bar at the top.
+
+![Docker Desktop Search](Images/ApacheIgniteInstall_1.png)
+
+2. Search for: "ApacheIgnite" and select the latest apacheignite/ignite image. Click on the pull command. 
+
+![alt text](Images/ApacheIgniteInstall_2.png)
+
+3. Once it is done, you want to navigate back to images to ensure your image was pulled correctly. Once you see it, you want to click on the little play button inline with the image.
+
+![alt text](Images/ApacheIgniteInstall_3.png)
+
+4. When running the image, you will be greeting with a config screen, expand the "Optional Settings". You will now see a range of ports, a volume bind and environmental variables.
+
+It is reccomnded to expose all the ports. For the volume host you want to navigate to a location on your server for the persistent data, and link it to the: "/storage" location, since this is the location our ignite will use.
+
+Next you want to configure the "CONFIG_URI" environmental variable and pass it the path from the Ignite home directory to the working directory. The easiest way to do this is to also put your config file in the storage location.
+
+![alt text](Images/ApacheIgniteInstall_4.png)
+
+5. Once you're done and you ran the image, you will be able to navigate to the containers tab and see your database running - 
+
+![alt text](Images/ApacheIgniteInstall_5.png)
+
+
+### Using Docker CLI
+
+## Database Management Software
+
+For our database management software we used [dbeaver](https://dbeaver.io/download/). You can use whichever database management software works for you. 
+
+### Ensuring your db was deployed correctly
+
+We will use dbeaver for these instructions. 
+
+1. Open the database connection model - if this is your first database on the system, it will open automaticaly.
+
+![alt text](Images/dbeaver_1.png)
+
+2. Search for Apache, you should see the filter show you Apache ignite. Select it. 
+
+![alt text](Images/dbeaver_2.png)
+
+3. Switch to URL and enter your URL (By default this will be localhost:10800 if you're hosting this on your local machine). This should start with the pre-pend value they add automatically.
+
+![alt text](Images/dbeaver_3.png)
+
+4. If this is the first time using Apache Ignite connection, you will have to install the drivers for it. Dbeaver will automaticaly find them and prompt you to install them. 
+
+![alt text](Images/dbeaver_4.png)
+
+5. Once successful, your database should be visible in the left-hand side panel. You can expand the IGNITE option, and you should see the following databases: 
+
+![alt text](Images/dbeaver_5.png)
+
+## Setting Cluster to Active
+
+To set the Apache-Ignite cluster to Active, which will allow you to execute SQL queries as well as perform operations as the tms, you will need to execute the following commands in the Apache Ignite Pod. 
+
+``
+cd apache-ignite/bin
+./control.sh --set-state ACTIVE
+``
+
+Follow the on screen prompt to enable the cluster. 
+
+## Running TMS
+
+Next step is to run the TMS service found [here](https://github.com/tazama-lf/ignite-poc/tree/dev/TMS)
+
+You can use a local run if you want to debug, by cloning the solution and running the following npm commands: 
+
+``
+npm run build
+npm run start
+``
+
+You can also run the docker file if you want a containerized version. 
+
+Most of the normal env variables are still required, baring any arango ones, but a new one is now present: 
+
+``
+DATABASE_URL='127.0.0.1:10800'
+``
+
+This is your Ignite db url. Please note - During the time of the PoC there is no security enabled.
+
+## Running the Rules
