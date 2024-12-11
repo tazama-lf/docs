@@ -22,10 +22,6 @@
 - [UI Configuration](#ui-configuration)
 - [Demo deployment instructions](#demo-deployment-instructions)
 - [Demo UI installation steps for a full service deployment](#demo-ui-installation-steps-for-a-full-service-deployment)
-    - [1. Clone the Full-Stack-Docker-Tazama Repository to Your Local Machine](#1-clone-the-full-stack-docker-tazama-repository-to-your-local-machine)
-    - [2. Deploy the Core Services via script](#2-deploy-the-core-services-via-script)
-    - [3. Configure Tazama for the demo UI](#3-configure-tazama-for-the-demo-ui)
-- [5. Restart core processors](#5-restart-core-processors)
 - [Test the end-to-end deployment of the demo UI configuration](#test-the-end-to-end-deployment-of-the-demo-ui-configuration)
 - [Configure the demo UI setup](#configure-the-demo-ui-setup)
 
@@ -255,15 +251,13 @@ The `reset` button restores the settings back to the variables defined in the de
 
 ## Demo deployment instructions
 
-The demo UI can be deployed as an optional addon for a public deployment in which case it will include Rule-901 and Typology-999 - link to full-stack-docker readme
+The demo UI can be deployed as an optional addon for a public deployment in which case it will include Rule-901 and Typology-999. Follow the guide in the [Full-Stack-Docker-Tazama repository](https://github.com/tazama-lf/Full-Stack-Docker-Tazama)
 
-OR 
-
-The default full service deployment configuration is not currently compatible with the demo UI and the following additional steps are required to run the Tazama demo UI
+The demo UI can also be deployed with the full service deployment, but the configuration is not currently compatible with the demo UI and the following additional steps are required to run the Tazama demo UI.
 
 ## Demo UI installation steps for a full service deployment
 
-#### 1. Clone the Full-Stack-Docker-Tazama Repository to Your Local Machine
+#### 1. Clone the Full-Stack-Docker-Tazama Repository to Your Local Machine <!-- omit in toc -->
 
 In a Windows Command Prompt, navigate to the folder where you want to store a copy of the source code. For example, the source code root folder path I have been using to compile this guide is C:\Tazama\GitHub. Once in your source code root folder, clone (copy) the repository with the following command:
 
@@ -275,7 +269,7 @@ git clone https://github.com/tazama-lf/Full-Stack-Docker-Tazama -b main
 
 ![clone-the-repo](../images/full-stack-docker-tazama-clone-repo.png)
 
-#### 2. Deploy the Core Services via script
+#### 2. Deploy the Core Services via script <!-- omit in toc -->
 
 First, start the Docker Desktop for Windows application.
 
@@ -306,7 +300,7 @@ For option 2 (Full service DockerHub deployment) the output will be as follows:
 
 [Top](#introduction)
 
-#### 3. Configure Tazama for the demo UI
+#### 3. Configure Tazama for the demo UI <!-- omit in toc -->
 
 Tazama is configured by loading the network map, rules and typology configurations required to evaluate a transaction via the ArangoDB API. The configuration information is hidden in a private repository and if you are a member of the Tazama `frmscoe` Organization on GitHub, you'll be able to clone this repository onto your local machine with the following command:
 
@@ -331,7 +325,7 @@ git clone https://github.com/tazama-lf/postman -b main
 
 ![clone-config](../images/full-stack-docker-tazama-clone-config.png)
 
-Now that these two repositories are cloned, we can perform the following Newman command to load the specific DEMO UI configuration into the ArangoDB databases and collections:
+Once these two repositories are cloned, we can perform the following Newman command to load the specific DEMO UI configuration into the ArangoDB databases and collections:
 
 ```
 newman run collection-file -e environment-file --timeout-request 10200
@@ -347,9 +341,9 @@ newman run collection-file -e environment-file --timeout-request 10200
 
 [Top](#introduction)
 
-## 5. Restart core processors
+#### 4. Restart core processors <!-- omit in toc -->
 
-Now that the system is configured with the private rules and configuration, we need to restart our core processors in order to load the updated configuration. The main reason the configuration needs to preceed the deployment of the processors is that the processors read the network map at startup to set up the NATS pub/sub routes for the evaluation flow.  
+Now that the demo configuration has been loaded we need to restart our core processors. The main reason the configuration needs to preceed the deployment of the processors is that the processors read the network map at startup to set up the NATS pub/sub routes for the evaluation flow.  
 
 Navigate back to the `full-stack-docker-tazama` folder:
 ```
@@ -358,7 +352,7 @@ cd Full-Stack-Docker-Tazama
 
 Execute the following command to restart the core processors:
 
-**Output: TO BE FIXED**
+**Command TO BE FIXED**
 
 ```
 docker compose restart --no-deps ed tp tadp
@@ -389,9 +383,11 @@ newman run collection-file -e environment-file --timeout-request 10200 --delay-r
 
 ## Configure the demo UI setup
 
-Change the UI configuration setting from 'localhost' to your ip address. 
+Change the default UI configuration settings from 'localhost' to your ip address.  You can confirm your ip address by using the command `ipiconfig` from the command line.
 
 ![localhost](../images/demo-config-localhost.png)
+
+**Output:**
 
 ![ipaddress](../images/demo-config-ipaddress.png)
 
