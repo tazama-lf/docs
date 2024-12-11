@@ -379,10 +379,21 @@ newman run collection-file -e environment-file --timeout-request 10200 --delay-r
 
 ![great-success](../images/full-stack-docker-tazama-great-success.png)
 
-
 ## Configure the demo UI setup
 
-Change the default UI configuration settings from 'localhost' to your ip address.  You can confirm your ip address by using the command `ipconfig` from the command line.
+The Demo UI can be accessed via browser via localhost
+
+```
+localhost:3001
+```
+
+Change the URL and default UI configuration settings from 'localhost' to your ip address.  You can confirm your ip address by using the command `ipconfig` from the command line.
+
+![ip:3001](../images/demo-ipaddress.png)
+
+Click on the `settings` icon to update the UI configuration variables 
+![demo-settings-icon](../images/demo-settings-icon.png)
+
 
 ![localhost](../images/demo-config-localhost.png)
 
