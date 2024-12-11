@@ -1,21 +1,21 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-# Typology Processing
+# Typology Processing <!-- omit in toc -->
 
-- [Typology Processing](#typology-processing)
-  - [Introduction](#introduction)
-  - [Typology Processor Context](#typology-processor-context)
-    - [4. Submit rule results](#4-submit-rule-results)
-    - [5.1. Determine beneficiary typologies](#51-determine-beneficiary-typologies)
-    - [5.2. Determine all rules](#52-determine-all-rules)
-    - [5.3.1 Fetch rule results](#531-fetch-rule-results)
-    - [5.3.2. Check rule completion](#532-check-rule-completion)
-    - [5.4. Append rule result](#54-append-rule-result)
-    - [5.5. Read typology configuration](#55-read-typology-configuration)
-        - [5.5.1. The Typology Configuration](#551-the-typology-configuration)
-    - [5.6. Calculate typology score](#56-calculate-typology-score)
-    - [5.7. Submit typology results](#57-submit-typology-results)
-    - [5.8 A note on typology interdiction](#58-a-note-on-typology-interdiction)
+- [Introduction](#introduction)
+- [Typology Processor Context](#typology-processor-context)
+  - [4. Submit rule results](#4-submit-rule-results)
+  - [5.1. Determine beneficiary typologies](#51-determine-beneficiary-typologies)
+  - [5.2. Determine all rules](#52-determine-all-rules)
+  - [5.3.1 Fetch rule results](#531-fetch-rule-results)
+  - [5.3.2. Check rule completion](#532-check-rule-completion)
+  - [5.4. Append rule result](#54-append-rule-result)
+  - [5.5. Read typology configuration](#55-read-typology-configuration)
+      - [5.5.1. The Typology Configuration](#551-the-typology-configuration)
+  - [5.6. Calculate typology score](#56-calculate-typology-score)
+  - [5.7. Submit typology results](#57-submit-typology-results)
+    - [Event flow processing](#event-flow-processing)
+  - [5.8 A note on typology interdiction](#58-a-note-on-typology-interdiction)
 
 ## Introduction
 
@@ -34,6 +34,10 @@ Once each typology has been scored, the result of the typology will be passed to
 ## Typology Processor Context
 
 ![Typology processor context](../images/tazama-context-typology-processor.png)
+
+<div style="text-align: right">
+    <a href="#introduction">Top</a>
+</div>
 
 ### 4. Submit rule results
 
@@ -103,6 +107,10 @@ IF(071.outcome THEN 071.score) +
 
 IF(078.outcome THEN 078.score)
 
+<div style="text-align: right">
+    <a href="#introduction">Top</a>
+</div>
+
 ##### 5.5.1. The Typology Configuration
 
 The typology configuration contains two sections: the first (**rules**) defines all the rules and their outcomes, along with the weighted score attributed to each true or false outcome; the second (**expression**) defines the expression that combines the rule results into the typology score.
@@ -164,6 +172,8 @@ The archetypical scam typology (typology 28) contains 18 different rules that fe
 }
 ```
 
+The event flow processor is a special processor that is defined differently in the typology configuration. [EFRuP Typology configuration](./event-flow-rule-processor.md#2-typology-configuration)
+
 ### 5.6. Calculate typology score
 
 For each beneficiary typology with a complete set of rule results, and using the typology expression and the associated score values, the Typology Processor must calculate the typology score for the typology.
@@ -172,12 +182,18 @@ For each beneficiary typology with a complete set of rule results, and using the
 
 Once the calculation of the typology score is complete, the Typology Processor must pass the typology result, including the transaction information, Network Sub-map, typology results and rule results to the Transaction Aggregation and Decisioning Processor.
 
+#### Event flow processing
+
+If a typology score is equal to or greater than the threshold value and there is an override in place, the Typology Processor will not trigger an interdiction workflow to instruct the client system to block the transaction event.
+
+If the normal typology processing results in an alert, then review will be true. If EFRuP results in a different outcome to normal typology processing, then `review` will be `true` and this will enable a fraud analyst to review the result of the evaluation.
+
 ### 5.8 A note on typology interdiction
 
-It makes sense for the typology processor to be able to interdict a transaction directly, if the threshold for interdiction has been met.
+It makes sense for the typology processor to be able to interdict a transaction directly, if the threshold for interdiction has been met unless there is an override in place, in which case the Typology Processor will not trigger an interdiction.
 
 1. For a given typology, a specific threshold value must be linked to the typology for the following workflow outcomes:
-    1. **Interdiction**: If a typology score is equal to or greater than this value, the Typology Processor will trigger an interdiction workflow to instruct the client system to block the transaction.
-    2. **Review**: If a typology score is equal to or greater than this value, the Typology Processor will trigger an alert to the Case Management System to initiate an investigation into the transaction.
+    1. **Interdiction**: If a typology score is equal to or greater than this value, the Typology Processor will trigger an interdiction workflow to instruct the client system to block the transaction, unless there is an override in place, in which case the Typology Processor will not trigger an interdiction.
+    2. **Review**: If a typology score is equal to or greater than this value, the Typology Processor will trigger an alert to the Case Management System to initiate an investigation into the transaction. In the case where the  [event flow processor](./event-flow-rule-processor.md) results in a different outcome to normal typology processing, then `review` will also be `true`.
     3. **None**: If a typology score is less than the Review threshold, no triggered action is taken by the Typology Processor.
 2. The threshold for interdiction and investigation will be defined in the typology configuration.

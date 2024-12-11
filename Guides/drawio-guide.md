@@ -1,5 +1,8 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
+## Guide for including diagrams in markdown files <!-- omit in toc -->
+
+
 - [Introduction](#introduction)
 - [Tazama Template](#tazama-template)
 - [Create and Update diagrams in draw.io](#create-and-update-diagrams-in-drawio)

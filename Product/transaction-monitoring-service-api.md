@@ -1,6 +1,14 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-# The Transaction Monitoring Service API
+
+# Transaction Monitoring Service (TMS) API <!-- omit in toc -->
+
+- [Introduction](#introduction)
+- [Data preparation](#data-preparation)
+- [Message transmission](#message-transmission)
+- [Payment Platform Adapters](#payment-platform-adapters)
+
+## Introduction
 
 ![tazama-context-tmsapi](../images/tazama-context-tmsapi.png)
 
@@ -18,6 +26,10 @@ To facilitate this configuration, the Tazama system exposes its services through
 
 ![tazama-context](../images/tazama-context.png)
 
+<div style="text-align: right">
+    <a href="#introduction">Top</a>
+</div>
+
 The TMS API implements ISO 20022 message formats to facilitate Payment Initiation messages `pain.001` and `pain.013` and Payment Settlement messages `pacs.008` and `pacs.002`.
 
 ISO20022 is traditionally an XML-based standard, but Tazama has implemented an abridged JSON message format to minimize the message payload to increase the performance and reduce bandwidth requirements.
@@ -32,12 +44,16 @@ By default, Tazama is set up to evaluate four transactions composed into a two-s
 
 With Tazama and the TMS API up and running, you can send the messages to their respective endpoints:
 
- - `host:port/execute` - receives a [pain.001 message](https://www.iso20022.org/standardsrepository/type/pain.001.001.11) to initiate a **quote request**
- - `host:port/quoteReply` - receives a [pain.013 message](https://www.iso20022.org/standardsrepository/type/pain.013.001.08) for the **quote response**
- - `host:port/transfer` - receives a [pacs.008 message](https://www.iso20022.org/standardsrepository/type/pacs.008.001.09) to initiate a **transfer request**
- - `host:port/transfer-response` - receives a [pacs.002 message](https://www.iso20022.org/standardsrepository/type/pacs.002.001.11) for the **transfer response**
+ - `host:port/v1/evaluate/iso20022/pain.001.001.13` - receives a [pain.001 message](https://www.iso20022.org/standardsrepository/type/pain.001.001.11) to initiate a **quote request**
+ - `host:port/v1/evaluate/iso20022/pain.013.001.09` - receives a [pain.013 message](https://www.iso20022.org/standardsrepository/type/pain.013.001.08) for the **quote response**
+ - `host:port/tv1/evaluate/iso20022/pacs.008.001.10` - receives a [pacs.008 message](https://www.iso20022.org/standardsrepository/type/pacs.008.001.09) to initiate a **transfer request**
+ - `host:port/v1/evaluate/iso20022/pacs.002.001.12` - receives a [pacs.002 message](https://www.iso20022.org/standardsrepository/type/pacs.002.001.11) for the **transfer response**
 
 The TMS API follows the OpenAPI specification and each incoming message is validated using a Swagger document to ensure that the message meets the requirements to be ISO 20022 compliant, and also that the information that is necessary for a successful evaluation is provided.
+
+<div style="text-align: right">
+    <a href="#introduction">Top</a>
+</div>
 
 ## Data preparation
 
@@ -79,17 +95,23 @@ For improved performance, rule processors that require this basic information ca
 
 The following information is currently contained in the `DataCache` object:
 
+ 
 ```json
-{
+"DataCache": {
   "cdtrId": "<creditor identifier>",
   "dbtrId": "<debtor identifier>",
   "cdtrAcctId": "<creditor account identifier>",
   "dbtrAcctId": "<debtor account identifier>",
   "creDtTm": "<timestamp of the earliest message in the chain>",
-  "amt": {
-    "amt": "<the transaction amount>",
-    "ccy": "<the transaction currency>"
-  }
+  "instdAmt": {
+    "amt": 17.01,
+    "ccy": "ZAR"
+  },
+  "intrBkSttlmAmt": {
+    "amt": 0.97,
+    "ccy": "USD"
+  },
+  "xchgRate": 17.536082
 }
 ```
 
@@ -101,6 +123,10 @@ Firstly, we create a `traceParent` attribute that will generate an over-arching 
 
 Secondly, we record the time it took to process the transaction inside the TMS API and Data Preparation into a `prcgTmDP` attribute.
 
+<div style="text-align: right">
+    <a href="#introduction">Top</a>
+</div>
+
 ## Message transmission
 
 On the conclusion of the Data Preparation process, the complete message payload is sent from the Transaction Monitoring Service API to the Event Director.
@@ -109,6 +135,6 @@ On the conclusion of the Data Preparation process, the complete message payload 
 
 If a Tazama client system is unable to submit messages in the required ISO 20022 format, client organizations would need to submit their transactions to a custom-built adaptor so that their transaction can be transformed and then passed to the Tazama system to meet the specification of the Tazama Transaction Monitoring Service (TMS) API.
 
-A [Mojaloop](https://mojaloop.io) Payment Platform Adapter has been developed and is hosted in the [Tazama GitHub Payment Platform Adapter repository](https://github.com/frmscoe/payment-platform-adapter).
+A [Mojaloop](https://mojaloop.io) Payment Platform Adapter has been developed and is hosted in the [Tazama GitHub Payment Platform Adapter repository](https://github.com/tazama-lf/payment-platform-adapter).
 
-Technical documentation for the implementation of the TMS API is covered in the [Transaction Monitoring Service (TMS) repository](https://github.com/frmscoe/tms-service).
+Technical documentation for the implementation of the TMS API is covered in the [Transaction Monitoring Service (TMS) repository](https://github.com/tazama-lf/tms-service).

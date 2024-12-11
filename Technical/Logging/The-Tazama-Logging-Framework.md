@@ -56,15 +56,15 @@ The logging stack depends on some external services to get up and running
 - #### ELK Stack
   We use the ELK stack for centralised logging and application performance monitoring (APM). You need to have the following services install **[in this specific order](https://www.elastic.co/guide/en/elastic-stack/8.14/installing-elastic-stack.html#install-order-elastic-stack)**: 
   - [Elasticsearch]:
-      - If installing on a cloud environment, [EKS](https://github.com/frmscoe/EKS-helm/tree/751462cae1c21bf90ec34513934697af647bf357/charts/elasticsearch) and [AKS](https://github.com/frmscoe/AKS-helm/tree/d95ca3002c9d47cbe7ce23c129c80b71ef932c36/charts/elasticsearch) helm charts are available. If installing on a local environment, it is recommended to follow [upstream documentation](https://www.elastic.co/guide/en/elasticsearch/reference/8.14/install-elasticsearch.html) on installation. A [docker guide](https://www.elastic.co/guide/en/elasticsearch/reference/8.14/docker.html) is also provided
+      - If installing on a cloud environment, [EKS](https://github.com/tazama-lf/EKS-helm/tree/751462cae1c21bf90ec34513934697af647bf357/charts/elasticsearch) and [AKS](https://github.com/tazama-lf/AKS-helm/tree/d95ca3002c9d47cbe7ce23c129c80b71ef932c36/charts/elasticsearch) helm charts are available. If installing on a local environment, it is recommended to follow [upstream documentation](https://www.elastic.co/guide/en/elasticsearch/reference/8.14/install-elasticsearch.html) on installation. A [docker guide](https://www.elastic.co/guide/en/elasticsearch/reference/8.14/docker.html) is also provided
   - [Kibana]:
-      - If installing on a cloud environment, [EKS](https://github.com/frmscoe/EKS-helm/tree/751462cae1c21bf90ec34513934697af647bf357/charts/kibana) and [AKS](https://github.com/frmscoe/AKS-helm/tree/d95ca3002c9d47cbe7ce23c129c80b71ef932c36/charts/kibana) helm charts are available. If installing on a local environment, it is recommended to follow [upstream documentation](https://www.elastic.co/guide/en/kibana/8.14/install.html) on installation. A [docker guide](https://www.elastic.co/guide/en/kibana/8.14/docker.html) is also provided
+      - If installing on a cloud environment, [EKS](https://github.com/tazama-lf/EKS-helm/tree/751462cae1c21bf90ec34513934697af647bf357/charts/kibana) and [AKS](https://github.com/tazama-lf/AKS-helm/tree/d95ca3002c9d47cbe7ce23c129c80b71ef932c36/charts/kibana) helm charts are available. If installing on a local environment, it is recommended to follow [upstream documentation](https://www.elastic.co/guide/en/kibana/8.14/install.html) on installation. A [docker guide](https://www.elastic.co/guide/en/kibana/8.14/docker.html) is also provided
 
   - [Logstash]:
-      - If installing on a cloud environment, [EKS](https://github.com/frmscoe/EKS-helm/tree/751462cae1c21bf90ec34513934697af647bf357/charts/logstash) and [AKS](https://github.com/frmscoe/AKS-helm/tree/d95ca3002c9d47cbe7ce23c129c80b71ef932c36/charts/logstash) helm charts are available. If installing on a local environment, it is recommended to follow [upstream documentation](https://www.elastic.co/guide/en/logstash/8.14/installing-logstash.html) on installation. A [docker guide](https://www.elastic.co/guide/en/logstash/8.14/installing-logstash.html#_docker) is also provided
+      - If installing on a cloud environment, [EKS](https://github.com/tazama-lf/EKS-helm/tree/751462cae1c21bf90ec34513934697af647bf357/charts/logstash) and [AKS](https://github.com/tazama-lf/AKS-helm/tree/d95ca3002c9d47cbe7ce23c129c80b71ef932c36/charts/logstash) helm charts are available. If installing on a local environment, it is recommended to follow [upstream documentation](https://www.elastic.co/guide/en/logstash/8.14/installing-logstash.html) on installation. A [docker guide](https://www.elastic.co/guide/en/logstash/8.14/installing-logstash.html#_docker) is also provided
 
   - [Apm]:
-      - If installing on a cloud environment, [EKS](https://github.com/frmscoe/EKS-helm/tree/751462cae1c21bf90ec34513934697af647bf357/charts/apm) and [AKS](https://github.com/frmscoe/AKS-helm/tree/d95ca3002c9d47cbe7ce23c129c80b71ef932c36/charts/apm) helm charts are available. If installing on a local environment, it is recommended to follow [upstream documentation](https://www.elastic.co/guide/en/observability/current/apm-installing.html) on installation. A [docker guide](https://www.elastic.co/guide/en/observability/current/apm-running-on-docker.html) is also provided
+      - If installing on a cloud environment, [EKS](https://github.com/tazama-lf/EKS-helm/tree/751462cae1c21bf90ec34513934697af647bf357/charts/apm) and [AKS](https://github.com/tazama-lf/AKS-helm/tree/d95ca3002c9d47cbe7ce23c129c80b71ef932c36/charts/apm) helm charts are available. If installing on a local environment, it is recommended to follow [upstream documentation](https://www.elastic.co/guide/en/observability/current/apm-installing.html) on installation. A [docker guide](https://www.elastic.co/guide/en/observability/current/apm-running-on-docker.html) is also provided
 
 Before proceeding with this documentation, it is recommended that you also familiarise yourself with the following technologies:
 
@@ -166,7 +166,7 @@ sequenceDiagram
 
 ## Deployment
 ### Prerequisites
-The [event-sidecar] and [lumberjack] use [`frms-coe-lib`](https://github.com/frmscoe/frms-coe-lib). You need to have a personal access token set up to access that library. Refer back to [microprocessor setup instructions](https://github.com/frmscoe/docs/blob/05e5c292dcff908ec06825481cb99de2ecb31b74/Community/Tazama-Contribution-Guide.md#a-preparation) on how to get one.
+The [event-sidecar] and [lumberjack] use [`frms-coe-lib`](https://github.com/tazama-lf/frms-coe-lib). You need to have a personal access token set up to access that library. Refer back to [microprocessor setup instructions](https://github.com/tazama-lf/docs/blob/05e5c292dcff908ec06825481cb99de2ecb31b74/Community/Tazama-Contribution-Guide.md#a-preparation) on how to get one.
 ### NATS
 A server can be started with the following command:
 ```sh
@@ -179,15 +179,15 @@ docker run --rm -p 4222:4222 nats
 Refer back to the [Dependencies - ELK Stack](#elk-stack) section on deploying the ELK stack
 
 ### Event Sidecar
-Each processor is deployed with its own event-sidecar. A [Dockerfile](https://github.com/frmscoe/event-sidecar/blob/feb5e53b0801f60fa746e1720349cfb8c09e6c2b/Dockerfile) is included in the project.
+Each processor is deployed with its own event-sidecar. A [Dockerfile](https://github.com/tazama-lf/event-sidecar/blob/feb5e53b0801f60fa746e1720349cfb8c09e6c2b/Dockerfile) is included in the project.
 
 ```sh
-git clone https://github.com/frmscoe/event-sidecar.git
+git clone https://github.com/tazama-lf/event-sidecar.git
 cd event-sidecar
 docker build . -t event-sidecar
 ```
 #### Configuration
-A sample [.env](https://github.com/frmscoe/event-sidecar/blob/feb5e53b0801f60fa746e1720349cfb8c09e6c2b/.env.example) is provided.
+A sample [.env](https://github.com/tazama-lf/event-sidecar/blob/feb5e53b0801f60fa746e1720349cfb8c09e6c2b/.env.example) is provided.
 
 | Variable Name | Purpose                             | Example                 |
 | ------------- | ----------------------------------- | ----------------------- |
@@ -221,15 +221,15 @@ The following services are required:
 - [NATS] - requires a [NATS] server to be running
 - [ELK Stack](#elk-elastic-logstash-kibana-stack)
 
-A [Dockerfile](https://github.com/frmscoe/lumberjack/blob/ce6cda49bade1a0287bc0c603330e5fbb8159455/Dockerfile) is included in the project
+A [Dockerfile](https://github.com/tazama-lf/lumberjack/blob/ce6cda49bade1a0287bc0c603330e5fbb8159455/Dockerfile) is included in the project
 
 ```sh
-git clone https://github.com/frmscoe/lumberjack.git
+git clone https://github.com/tazama-lf/lumberjack.git
 cd lumberjack
 docker build . -t lumberjack
 ```
 #### Configuration
-A sample [.env](https://github.com/frmscoe/lumberjack/blob/ce6cda49bade1a0287bc0c603330e5fbb8159455/.env.example) is provided.
+A sample [.env](https://github.com/tazama-lf/lumberjack/blob/ce6cda49bade1a0287bc0c603330e5fbb8159455/.env.example) is provided.
 
 | Variable Name          | Purpose                                                                                  | Example                 |
 | ---------------------- | ---------------------------------------------------------------------------------------- | ----------------------- |
@@ -295,12 +295,12 @@ No port mapping is needed for this application as NATS is used for communication
 In your processor, add the [frms-coe-lib] as a dependency:
 
 ```sh
-npm i @frmscoe/frms-coe-lib
+npm i @tazama-lf/frms-coe-lib
 ```
 Then create an instance of a `LoggerService` and specify the [event-sidecar] address (refer back to event-sidecar [configuration](#configuration) and take note of the `PORT` you used):
 
 ```ts
-import { LoggerService } from '@frmscoe/frms-coe-lib';
+import { LoggerService } from '@tazama-lf/frms-coe-lib';
 
 const logger = new LoggerService("localhost:8080"); // here, 8080 is the port we used in the example
 ```
@@ -394,14 +394,14 @@ For detailed setup instructions and troubleshooting tips, refer to our [integrat
 In your application, install [frms-coe-lib]:
 
 ```sh
-npm install @frmscoe/frms-coe-lib
+npm install @tazama-lf/frms-coe-lib
 ```
 
 #### Initialisation
 Initialise the APM wrapper (`Apm`) at the earliest point after starting your application. This wrapper simplifies integration with Elastic APM and provides a straightforward interface for monitoring:
 
 ```ts
-import { Apm } from '@frmscoe/frms-coe-lib/lib/services/apm';
+import { Apm } from '@tazama-lf/frms-coe-lib/lib/services/apm';
 
 // Initialize Apm
 const apm = new Apm({
@@ -457,8 +457,8 @@ For setting up dashboards, consult our [documentation](./Setting-Up-Elastic-APM.
 [NATS]: https://nats.io
 [gRPC]: https://grpc.io
 [pino]: https://github.com/pinojs/pino
-[frms-coe-lib]: https://github.com/frmscoe/frms-coe-lib
-[event-sidecar]: https://github.com/frmscoe/event-sidecar
-[lumberjack]: https://github.com/frmscoe/lumberjack
-[wire]: https://github.com/frmscoe/lumberjack
-[^lumberjack]: [Lumberjack](https://github.com/frmscoe/lumberjack)
+[frms-coe-lib]: https://github.com/tazama-lf/frms-coe-lib
+[event-sidecar]: https://github.com/tazama-lf/event-sidecar
+[lumberjack]: https://github.com/tazama-lf/lumberjack
+[wire]: https://github.com/tazama-lf/lumberjack
+[^lumberjack]: [Lumberjack](https://github.com/tazama-lf/lumberjack)

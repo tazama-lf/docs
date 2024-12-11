@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-# Configuration management
- [TL;DR](#tldr)
-- [Configuration management](#configuration-management)
+# Configuration management <!-- omit in toc -->
+
 - [TL;DR](#tldr)
 - [1. Overview of the detection methodology](#1-overview-of-the-detection-methodology)
 - [2. Configuration Management](#2-configuration-management)
@@ -11,7 +10,7 @@
     - [Rule configuration metadata](#rule-configuration-metadata)
     - [The configuration object - parameters](#the-configuration-object---parameters)
     - [The configuration object - exit conditions](#the-configuration-object---exit-conditions)
-      - [The `.err` exit condition](#the-err-exit-condition)
+      - [The `.err` condition](#the-err-condition)
     - [The configuration object - rule results](#the-configuration-object---rule-results)
       - [Rule results - banded results](#rule-results---banded-results)
       - [Rule results - cased results](#rule-results---cased-results)
@@ -23,6 +22,7 @@
     - [The weights object](#the-weights-object)
     - [The expression object](#the-expression-object)
     - [The workflow object](#the-workflow-object)
+    - [Event Flow typology configuration](#event-flow-typology-configuration)
     - [Complete example of a typology configuration](#complete-example-of-a-typology-configuration)
   - [2.3. The Network Map](#23-the-network-map)
     - [Introduction](#introduction-2)
@@ -53,7 +53,9 @@ In a test or PoC environment, it may sometimes be simpler to just overwrite exis
 
 Configuration documents can be uploaded to the system using the ArangoDB API deployed with the platform.
 
-[Top](#configuration-management)
+<div style="text-align: right">
+    <a href="#configuration-management">Top</a>
+</div>
 
 # 1. Overview of the detection methodology
 
@@ -98,7 +100,9 @@ In the typology processor:
 
 In this document, we will discuss how the various configuration documents are expected to be updated to influence evaluation behavior.
 
-[Top](#configuration-management)
+<div style="text-align: right">
+    <a href="#configuration-management">Top</a>
+</div>
 
 # 2. Configuration Management
 
@@ -118,7 +122,9 @@ Finally, the typologies and rules are bound together into the network map and at
 
 ![Tazama typology config](../images/tazama-config-typology-config.drawio.svg)
 
-[Top](#configuration-management)
+<div style="text-align: right">
+    <a href="#configuration-management">Top</a>
+</div>
 
 ## 2.1. Rule Processor Configuration
 
@@ -225,6 +231,10 @@ Example of the `exitConditions` object:
     ]
   }
 ```
+<div style="text-align: right">
+    <a href="#configuration-management">Top</a>
+</div>
+
 
 Each exit condition contains the same attributes:
 
@@ -233,7 +243,7 @@ Each exit condition contains the same attributes:
 | `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br> By convention, the exit condition sub-rule references are prefaced with an 'x'. |
 | `reason` | The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. Reason descriptions will be refined during future enhancements[^1] |
 
-#### The `.err` exit condition
+#### The `.err` condition
 
 All rule processors are encoded with an error condition outcome that accounts for exceptions that do not fall into any of the exit conditions above, or the rule results below. These error conditions reflect a fatal error that occurred during the execution of the rule processor, such as, for example, if the database is inaccessible or if some expected data dependency had not been met due to an error during data ingestion or transformation.
 
@@ -358,7 +368,9 @@ Each rule result case contains the same information:
 
 [Complete example of a rule processor configuration](/product/complete-example-of-a-rule-processor-configuration.md)
 
-[Top](#configuration-management)
+<div style="text-align: right">
+    <a href="#configuration-management">Top</a>
+</div>
 
 ## 2.2. Typology Configuration
 
@@ -590,18 +602,66 @@ If a specific type of threshold is not required, the threshold should be omitted
 
 The thresholds are located in a workflow object in the typology configuration. If, for example, the system is expected to alert on a typology score of 500 or more, and interdict on a typology score of 1000 or more, the workflow object would be composed as follows:
 
-```
+```JSON
 "workflow": {
   "alertThreshold": 500,
   "interdictionThreshold": 1000
 }
 ```
 
+### Event Flow typology configuration 
+
+If the event flow processor is applicable to a typology, the EFRuP rule must be added to the list of rules in the typology configuration and EFRuP `"flowProcessor": "EFRuP@1.0.0"` should be added to the workflow object. `flowProcessor` may be omitted from the workflow object and the rules list in which case a particular typology is not affected by EFRuP results.
+
+**EFRuP workflow object**
+
+```JSON
+        "workflow": {
+            "alertThreshold": 200,
+            "interdictionThreshold": 400,
+            "flowProcessor": "EFRuP@1.0.0"
+        }
+```
+
+**EFRuP rule object**
+
+```JSON
+            {
+                "id": "EFRuP@1.0.0",
+                "cfg": "none",
+                "termId": "vEFRuPat100atnone",
+                "wghts": [
+                    {
+                        "ref": ".err",
+                        "wght": "0"
+                    },
+                    {
+                        "ref": "override",
+                        "wght": "0"
+                    },
+                    {
+                        "ref": "non-overridable-block",
+                        "wght": "0"
+                    },
+                    {
+                        "ref": "overridable-block",
+                        "wght": "0"
+                    },
+                    {
+                        "ref": "none",
+                        "wght": "0"
+                    }
+                ]
+            }
+```
+
 ### Complete example of a typology configuration
 
 [Complete example of a typology processor configuration](/product/complete-example-of-a-typology-processor-configuration.md)
 
-[Top](#configuration-management)
+<div style="text-align: right">
+    <a href="#configuration-management">Top</a>
+</div>
 
 ## 2.3. The Network Map
 
@@ -702,22 +762,35 @@ The rules object array contains the following attributes:
     
 
 ```
-              "rules": [
-                {
-                  "id": "002@1.0.0",
-                  "cfg": "1.0.0"
-                },
+"rules": [
+  {
+     "id": "002@1.0.0",
+     "cfg": "1.0.0"
+  }
 ```
+
+Example of the rules object for the event flow processor
+
+```JSON
+{
+  "id": "EFRuP@1.0.0",
+  "cfg": "none"
+}
+```
+
+By adding the EFRuP processor to the network map, the event director will route transactions to the event flow rule processor in addition to the other rules specified in the typologies array. 
 
 ### Complete network map example
 
 [Complete example of a network map](/product/complete-example-of-a-network-map.md)
 
-[Top](#configuration-management)
+<div style="text-align: right">
+    <a href="#configuration-management">Top</a>
+</div>
 
 ## 2.4. Updating configurations via the ArangoDB API
 
-# 3\. Version Management
+# 3. Version Management
 
 ## 3.1. Introduction and Basics
 
@@ -794,7 +867,9 @@ The active network map ultimately defines the scope of a particular evaluation, 
 
 * * *
 
-[Top](#configuration-management)
+<div style="text-align: right">
+    <a href="#configuration-management">Top</a>
+</div>
 
 [^1]: We have found during our performance testing that the text-based descriptions in our processor results undermines the performance gains we achieved with our ProtoBuff implementation. We will be removing the unabridged reason and processor descriptions from the configuration documents in favor of shorter look-up codes that will then also be used to introduce regionalized/language-specific descriptions.
    
@@ -805,4 +880,4 @@ The active network map ultimately defines the scope of a particular evaluation, 
     
 [^3]: In its default deployment, the system contains a single version of the "core" system processors (the typology processor and TADProc) at a time. Though it is possible to deploy and maintain multiple parallel versions of these processors and manage routing to these processors through the network map, this guide will only focus on singular core processors for now.
     
-[^4]: Before our implementation of NATS, Tazama processors were implemented as RESTful microservices. The `host` attributes in the network map contained the URL where the processors could be addressed. With our initial implementation of NATS, the routing information was moved into environment variables that were read into the processors when they were deployed, or restarted in the event of a processor failure. We have now removed the need to specify the host property for a processor - the routing is automatically determined from the network map at processor startup - see [https://github.com/frmscoe/General-Issues/issues/310](https://github.com/frmscoe/General-Issues/issues/310) for details.
+[^4]: Before our implementation of NATS, Tazama processors were implemented as RESTful microservices. The `host` attributes in the network map contained the URL where the processors could be addressed. With our initial implementation of NATS, the routing information was moved into environment variables that were read into the processors when they were deployed, or restarted in the event of a processor failure. We have now removed the need to specify the host property for a processor - the routing is automatically determined from the network map at processor startup - see [https://github.com/tazama-lf/General-Issues/issues/310](https://github.com/tazama-lf/General-Issues/issues/310) for details.
