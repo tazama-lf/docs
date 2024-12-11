@@ -140,14 +140,13 @@ cd Full-Stack-Docker-Tazama
 
 Execute the following command to restart the core processors:
 
-**Output: TO BE FIXED**
-
 ```
-docker compose restart --no-deps ed tp tadp
+docker restart tazama-ed-1 tazama-tp-1 tazama-tadp-1
 ```
 
 **Output:**
 
+![processors-restart](../images/demo-processors-restart.png)
 
 [Top](#introduction)
 
