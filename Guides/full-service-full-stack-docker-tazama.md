@@ -8,7 +8,7 @@
     - [1. Clone the Full-Stack-Docker-Tazama Repository to Your Local Machine](#1-clone-the-full-stack-docker-tazama-repository-to-your-local-machine)
     - [2. Deploy the Core Services via script](#2-deploy-the-core-services-via-script)
     - [3. Configure Tazama](#3-configure-tazama)
-- [5. Restart core processors](#5-restart-core-processors)
+    - [4. Restart core processors](#4-restart-core-processors)
 - [Test the end-to-end deployment](#test-the-end-to-end-deployment)
 
 ## Introduction
@@ -129,7 +129,7 @@ newman run collection-file -e environment-file --timeout-request 10200
 
 [Top](#introduction)
 
-## 5. Restart core processors
+#### 4. Restart core processors
 
 Now that the system is configured with the private rules and configuration, we need to restart our core processors in order to load the updated configuration. The main reason the configuration needs to preceed the deployment of the processors is that the processors read the network map at startup to set up the NATS pub/sub routes for the evaluation flow.  
 
@@ -164,6 +164,6 @@ newman run collection-file -e environment-file --timeout-request 10200 --delay-r
  - If the path contains spaces, wrap the string in double-quotes.
  - We add the `--delay-request` option to delay each individual test by 500 milliseconds to give them evaluation time to complete before we look for the result in the database.
 
-**Output: TO BE FIXED**
+**Output:**
 
 ![to be fixed great-success](../images/full-stack-docker-tazama-great-success.png)
