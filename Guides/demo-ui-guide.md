@@ -352,14 +352,13 @@ cd Full-Stack-Docker-Tazama
 
 Execute the following command to restart the core processors:
 
-**Command TO BE FIXED**
-
 ```
-docker compose restart --no-deps ed tp tadp
+docker restart tazama-ed-1 tazama-tp-1 tazama-tadp-1
 ```
 
 **Output:**
 
+![processors-restart](../images/demo-processors-restart.png)
 
 [Top](#introduction)
 
@@ -383,7 +382,7 @@ newman run collection-file -e environment-file --timeout-request 10200 --delay-r
 
 ## Configure the demo UI setup
 
-Change the default UI configuration settings from 'localhost' to your ip address.  You can confirm your ip address by using the command `ipiconfig` from the command line.
+Change the default UI configuration settings from 'localhost' to your ip address.  You can confirm your ip address by using the command `ipconfig` from the command line.
 
 ![localhost](../images/demo-config-localhost.png)
 
@@ -391,8 +390,9 @@ Change the default UI configuration settings from 'localhost' to your ip address
 
 ![ipaddress](../images/demo-config-ipaddress.png)
 
+Select the `update` button for the changes to take effect
 
-
+ ![demo-landing-page](../images/demo-landing-page.png)
 
 
 
