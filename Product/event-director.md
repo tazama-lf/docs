@@ -18,7 +18,6 @@
 
 The foundation of the Tazama Transaction Monitoring service is its ability to evaluate incoming transactions for financial crime behaviors through the execution of a number of conditional statements (rules) that are then combined into typologies that describe the nature of the financial crime that the system is trying to detect. 
 
-
 The Event Director is responsible for determining which typologies a transaction must be submitted to for the transaction to be evaluated. As part of this process, the Event Director determines which rules must receive the transaction and then which typologies are to be scored. The Event Director then routes the transaction to the individual rule processors.
 
 ## Event Director Context
@@ -98,7 +97,7 @@ The pruned network sub-map will accompany the transaction message to the rule pr
 
 ### 2.4. De-duplicate Rules
 
-A single rule could be used to evaluate more than one typology. One of the primary advantages and reasons for the config-driven approach is to be able to minimize the number of times that a specific rule has to be executed. To achieve this objective, the Event Director will draft a list of all the rules in the network map and then eliminate duplicate rules from the list (the “Highlander” principle).
+A single rule could be used to evaluate more than one typology. One of the primary advantages and reasons for the config-driven approach is to be able to minimize the number of times that a specific rule has to be executed. To achieve this objective, the Event Director will draft a list of all the rules in the network map and then eliminate duplicate rules from the list (the 'Highlander' principle).
 
 Each rule in the network map can be uniquely described by the combination of the following attributes:
 

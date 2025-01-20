@@ -831,13 +831,7 @@ Given a version number **MAJOR.MINOR.PATCH (99.999.9999)**, increment the:
 
 Every rule processor, typology processor and transaction aggregation and decisioning processor (TADProc) is guided by its own configuration document. The specific version of a configuration document that is required to operate a processor is defined in the network map when the evaluation routing is specified. When a processor receives an instruction from its predecessor in the evaluation flow, the processor checks the network map to determine which configuration document and version to use to perform its tasks.
 
-When a new version of a configuration document is required, the updated version must be deployed to the appropriate configuration collection in the configuration database:
-
-| **Collection name** | **Processor Type** |
-| --- | --- |
-| `ruleConfiguration` | [Rule processor overview - rule config](/product/rule-processor-overview-rule-config.md) |
-| `typologyConfiguration` | [Typologies](/product/typology-processing.md) |
-
+When a new version of a configuration document is required, the updated version must be deployed to the appropriate configuration collection in the configuration database.
 
 Configuration documents can be posted to the appropriate collection via the ArangoDB API, either in bulk or one-by-one. When posting a new configuration for an existing processor, the database will not allow a user to submit a configuration for an "id" and "cfg" combination that already exists in the database: a new configuration must always be assigned a unique configuration version.
 

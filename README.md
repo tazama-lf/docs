@@ -2,11 +2,10 @@
 
 ![Tazama](/images/Tazama-logo-banner.png)
 
-# <a name='top'></a>Welcome to the Tazama Project!
+# <a name='top'></a>Welcome to the Tazama Project! <!-- omit in toc -->
 
 The sections below provide a brief overview of the Tazama system, with links to pages that contain more detailed information.
 
-- [Welcome to the Tazama Project!](#welcome-to-the-tazama-project)
 - [1.  What is Tazama](#1--what-is-tazama)
 - [2. Understanding typologies and rules](#2-understanding-typologies-and-rules)
 - [3. Core components](#3-core-components)
@@ -26,7 +25,7 @@ Tazama is designed to ingest transaction data in real-time through its Transacti
 
 Ingested transactions are stored in the Tazama database from where it will be used to support real-time modelling of participant behavior through a number of rule processors that will evaluate the transaction and its participants to look for suspicious behavior. Rule results will be summarized into fraud and money-laundering scenarios, called typologies.
 
-If the rules and typologies show sufficient evidence of suspicious behavior, an investigation alert will be issued to an external case management system and in extreme cases, the transaction can also be blocked to prevent the transfer of funds.
+If the rules and typologies show sufficient evidence of suspicious behavior, an investigation alert will be issued to an external case management system and in extreme cases, the transaction can also be blocked to prevent the transfer of funds. Through the event flow (EFRuP) feature it is possible to configure the system to override the blocking of transactions under certain conditions.  The EFRuP also enables operational control to be configured in the form of non-overridable blocks and overrideable blocks specified for an entity or account.
 
 In the following pages, we intend to give you a clear understanding of the Tazama Transaction Monitoring System, and how all the components of the system work together to detect fraud and money laundering.
 
@@ -44,7 +43,7 @@ By assessing the transfer to the fraudsters, it is possible to identify more hig
 
 If the Fraudster recipient was the customer being monitored it is likely they will receive the funds, and quickly move it to the next person in their money laundering chain. This would be captured in a Layering Typology which would include age of the account or dormant account suddenly becoming active instead of age of the participant.
 
-In the creation of a typology, it is worth highlighting that our phishing example can also create a false positive when a grandparent sends a large sum for an important life event to one of their grandchildren. Previously gifts had been sent via the parents and as such no historical financial relationship had been established. It is for this reason that a rule such as “allow-list of sender and receiver pairs” can be implemented. The typology will then assess if this transaction can be progressed because it is approved in the override request. It is worth noting that a diligent fraudster would look to circumnavigate this control by sending a small transaction that would be allowed, and then moving larger amounts once the history had been established. It is therefore important that an understanding of the customers in a given FSP is developed, as finding the balance of low false positives and managing the activity of fraudsters “testing the boundaries” are critical to the success of an implementation.
+In the creation of a typology, it is worth highlighting that our phishing example can also create a false positive when a grandparent sends a large sum for an important life event to one of their grandchildren. Previously gifts had been sent via the parents and as such no historical financial relationship had been established. It is for this reason that a rule such as 'allow-list of sender and receiver pairs' can be implemented. The typology will then assess if this transaction can be progressed because it is approved in the override request. It is worth noting that a diligent fraudster would look to circumnavigate this control by sending a small transaction that would be allowed, and then moving larger amounts once the history had been established. It is therefore important that an understanding of the customers in a given FSP is developed, as finding the balance of low false positives and managing the activity of fraudsters 'testing the boundaries' are critical to the success of an implementation.
 
 <div style="text-align: right"><a href="#top">Top</a></div>
 
@@ -91,11 +90,11 @@ A rule processor is designed to address a singular scenario, but its output migh
 
 A rule can be used to assess more than one outcome, such as age bands if needed, as the same source data is used as the only variable in the calculation.
 
-Rule processors are templated so that logging, data input, determined outcomes, data output and telemetry are consistently applied by all rule processors. It is just the specific rule’s logic, including the queries that retrieve transaction history according to the rule requirements, that changes between rules. Rules must be developed individually, but the parameters used in the calculation of a rule and its outcomes are contained in a configuration file. The rule behavior can be configured independent of the rule code, reducing the operational burden for modifying a rule to a mere configuration process.
+Rule processors are templated so that logging, data input, determined outcomes, data output and telemetry are consistently applied by all rule processors. It is just the specific rule's logic, including the queries that retrieve transaction history according to the rule requirements, that changes between rules. Rules must be developed individually, but the parameters used in the calculation of a rule and its outcomes are contained in a configuration file. The rule behavior can be configured independent of the rule code, reducing the operational burden for modifying a rule to a mere configuration process.
 
-The event flow rule processor (EFRuP) is a specialised rule processor that enables the system to exert operational control over evaluations based on the outcome of business processes and prior evaluations. The system is able to block or override a transaction event based on the evaluation of conditions against one of the transaction event attributes.
+The event flow rule processor (EFRuP) is a specialised rule processor that enables the system to exert operational control over evaluations based on the outcome of business processes and prior evaluations. The system is able to block or override a transaction event based on the evaluation of conditions against one of the transaction event attributes. Further information on EFRUP is available on the [Event Flow Processor Overview](/Product/event-flow-rule-processor.md) page.
 
-Once the rule has completed its evaluation, the output is forwarded to the Typology Processor.
+Once the rule processor has completed its evaluation, the output is forwarded to the Typology Processor.
 
 Further information on the role of the Rules Processor is available on the [Rule Processor Overview](/Product/rule-processor-overview.md) page.
 
@@ -103,7 +102,7 @@ Further information on the role of the Rules Processor is available on the [Rule
 
 ## 3.4. Typology Processor
 
-The typology processor is designed to aggregate and assess the outcomes from the all rules within the scope of a specific typology. The scope of a typology is defined in a typology configuration specific to each typology. The typology processor scores the combined effect of a typology's rules to determine if the weighted aggregation of the rule outcomes has reached a predefined threshold for raising a fraud or money laundering alert. Each rule's weighted contribution to the typology score, as well as the scoring predicate, or formula, is also defined in the typology configuration.
+The typology processor is designed to aggregate and assess the outcomes from the all rules within the scope of a specific typology. The scope of a typology is defined in a typology configuration specific to each typology. The typology processor scores the combined effect of a typology's rules to determine if the aggregation of the rule outcomes has reached a predefined threshold for raising a fraud or money laundering alert. Each rule's contribution to the typology score, as well as the scoring predicate, or formula, is also defined in the typology configuration.
 
 Returning to our earlier example of a phishing scam where rules are implemented to assess an elderly person, sending a large amount of funds to a new payee (or creditor). The three rules being assessed in this example are:
 
@@ -118,6 +117,8 @@ If a suspicious transaction is identified, there are a number of actions that ca
  - **High** - the transaction can be interdicted (blocked) immediately, with an alert sent to the FSP transacting and/or case management systems;
  - **Moderate** - an investigation alert to a case management systems can be created once the evaluation of all the typologies are complete;
  - **Low** - the transaction will pass without intervention, but the evaluation outcome will be stored for future retrieval.
+
+The typology score is evaluated against an 'interdiction' threshold to determine if the client system should be instructed to block a transaction 'in flight'. The Event Flow processor can be configured to override the interdiction outcome for a typology for a specific account or entity. 
 
 Further information on the role of the Typology Processor is available on the [Typology Processing](/Product/typology-processing.md) page.
 
