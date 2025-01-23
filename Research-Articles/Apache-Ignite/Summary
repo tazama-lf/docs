@@ -1,0 +1,57 @@
+# Apache Ignite PoC
+
+## Introduction
+
+Due to the changes in Arango DB's license structure, we have to look at alternatives. Apache Ignite was selected for a PoC.
+
+## What is Apache Ignite? 
+
+Ignite by default is used as a Cacheing software, from their website - "Ignite scales up and out across memory and disk. By default, Ignite operates in a pure in-memory mode." However, you can change it to persist on disk, functioning like a traditional database.
+
+## Implementation Notes and Findings - 
+
+### Weak JS / TS Support.
+
+Important to note is the fact that Tazama's processors run on Nodejs and typescript. Currently Apache ignite only has a thin JS library, with no Typescript libraries. This causes implementation and ongoing support to be difficult as developers are going in "Blind". Apache Ignite prefers C# and Java as implementation languages, and have comprehensive documentation for those languages. The Thin clients are also very limited, and doesn't receive a lot of support in the community.
+
+It also doesn't seem like the .js client supports client pooling out of the gate.
+
+### Relational Database Structure.
+
+Our current database is a NoSQL Database, which means ignite is a shift to a relational database. Should we decide to continue with apache ignite, we will need to model a proper data structure, as currently we're just saving the entire layed JSON structure in Arango.
+
+### No JSON Querying support. 
+
+Apache Ignite does not support saving entire JSON structures to the database. They have a binary object, but it will have to be deserialized before querying and that will have massive performance impact.
+
+### Apache License
+
+Apache Ignite uses the Apache License 2.0, which is preferable for us.
+
+### Missing writes
+
+Due to a ongoing bug with Apache Ignite, sometimes a transaction will fail with the message: 
+
+'Ignite client is not in an appropriate state for the requested operation'
+
+This is similiar to open issues on the Apache Ignite Jira Board: https://issues.apache.org/jira/browse/IGNITE-14550
+
+This issue has been open since 2021, as well as similiar duplicate issues being created: https://issues.apache.org/jira/browse/IGNITE-14551
+
+### Very Limited SQL Functionality. 
+
+For example, more comples queries such as: 
+
+``INSERT INTO PSEUDONYMSSCHEMA.ENTITIES (ID, ID_ORIGINAL, CREDTTM) VALUES(?, ?, ?) WHERE NOT EXISTS (SELECT * FROM PSEUDONYMSSCHEMA.ENTITIES WHERE ID = ?)``
+
+is not supported, neither is certain keywords such as IGNORE. They even state in their documentation, that the subset of SQL they provide is all they support.
+
+(Available SQL)[https://ignite.apache.org/docs/latest/sql-reference/dml]
+
+### Performance 
+
+This is the final item to be assessed. 
+
+## Conclusion
+
+I would not reccomend Apache Ignite as a database replacement. While it does have the license we require, the downsides are numerous. It could be quite difficult to maintain due to our language mismatch. It will limit our rule functionality with it's limited SQL support. Support and Work being done on Apache Ignite also seems quite slow, with version 3.0 being in development for over a year, and no tickets on their github being responded to in over 3 months. Performance pending, and only a strong performance increase will sway my opinion towards it.  
