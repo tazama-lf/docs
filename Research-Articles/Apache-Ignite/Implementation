@@ -26,7 +26,7 @@ We will be deploying Apache ignite via Docker, but you are free to install nativ
 
 4. When running the image, you will be greeting with a config screen, expand the "Optional Settings". You will now see a range of ports, a volume bind and environmental variables.
 
-It is reccomnded to expose all the ports. For the volume host you want to navigate to a location on your server for the persistent data, and link it to the: "/storage" location, since this is the location our ignite will use.
+It is recommended to expose all the ports. For the volume host you want to navigate to a location on your server for the persistent data, and link it to the: "/storage" location, since this is the location our ignite will use.
 
 Next you want to configure the "CONFIG_URI" environmental variable and pass it the path from the Ignite home directory to the working directory. The easiest way to do this is to also put your config file in the storage location.
 
