@@ -164,7 +164,7 @@ Once the calculation of the typology score is complete, the Typology Processor m
 
 ### 5.8 A note on typology interdiction
 
-It makes sense for the typology processor to be able to interdict a transaction directly, if the threshold for interdiction has been met,s unless there is an override in place, in which case the Typology Processor will not trigger an interdiction.
+The typology processor will interdict a transaction directly if the threshold for interdiction has been met, unless there is an override in place in which case the typology processor will not trigger an interdiction.
 
 1. For a given typology, a specific threshold value must be linked to the typology for the following workflow outcomes:
     1. **Interdiction**: If a typology score is equal to or greater than this value, the Typology Processor will trigger an interdiction workflow to instruct the client system to block the transaction, unless there is an override in place, in which case the Typology Processor will not trigger an interdiction.

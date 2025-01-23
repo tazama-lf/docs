@@ -15,7 +15,7 @@
 
 The event flow rule processor (EFRuP) is a special rule processor that operates alongside all the other rule processors and enables operational control over the normal Tazama system functioning, for example, to be able to block a customer from transacting from any account or to override an interdiction and allow a transaction where it would otherwise have been blocked.
 
-The EFRuP can be configured to block or allow a transaction based on the evaluation of conditions against one of the transaction attributes. There are two types of conditions that can control event flow in the Tazama system, that can be created on a debtor or creditor: 
+The EFRuP can be configured to block or allow a transaction based on the evaluation of conditions against one of the transaction attributes. There are two types of conditions that can control event flow in the Tazama system. These conditions can be created on a debtor or creditor: 
 1.	Blocking conditions
     - non-overridable-block conditions (red)
     - overridable-block conditions (amber)
@@ -207,6 +207,10 @@ sequenceDiagram
 If a typology score is equal to or greater than the threshold value and there is an override in place, the Typology Processor will not trigger an interdiction workflow to instruct the client system to block the transaction event.
 
 **Note** The event flow rule processor result does not have a weight `wght` and will not be added to the typology score. 
+
+If the event flow processor is applicable to a typology, the EFRuP rule must be added to the list of rules in the typology configuration and EFRuP `"flowProcessor": "EFRuP@1.0.0"` will be added to the workflow object.
+
+`flowProcessor` may be omitted from the workflow object and the rules list in which case a particular typology is not affected by EFRuP results.
  
 **Sample output**
 

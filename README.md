@@ -43,7 +43,7 @@ By assessing the transfer to the fraudsters, it is possible to identify more hig
 
 If the Fraudster recipient was the customer being monitored it is likely they will receive the funds, and quickly move it to the next person in their money laundering chain. This would be captured in a Layering Typology which would include age of the account or dormant account suddenly becoming active instead of age of the participant.
 
-In the creation of a typology, it is worth highlighting that our phishing example can also create a false positive when a grandparent sends a large sum for an important life event to one of their grandchildren. Previously gifts had been sent via the parents and as such no historical financial relationship had been established. It is for this reason that a rule such as 'allow-list of sender and receiver pairs' can be implemented. The typology will then assess if this transaction can be progressed because it is approved in the override request. It is worth noting that a diligent fraudster would look to circumnavigate this control by sending a small transaction that would be allowed, and then moving larger amounts once the history had been established. It is therefore important that an understanding of the customers in a given FSP is developed, as finding the balance of low false positives and managing the activity of fraudsters 'testing the boundaries' are critical to the success of an implementation.
+In the creation of a typology, it is worth highlighting that our phishing example can also create a false positive when a grandparent sends a large sum for an important life event to one of their grandchildren. Previously gifts had been sent via the parents and as such no historical financial relationship had been established. It is important that an understanding of the customers in a given FSP is developed, as finding the balance of low false positives and managing the activity of fraudsters 'testing the boundaries' are critical to the success of an implementation.
 
 <div style="text-align: right"><a href="#top">Top</a></div>
 
@@ -92,7 +92,7 @@ A rule can be used to assess more than one outcome, such as age bands if needed,
 
 Rule processors are templated so that logging, data input, determined outcomes, data output and telemetry are consistently applied by all rule processors. It is just the specific rule's logic, including the queries that retrieve transaction history according to the rule requirements, that changes between rules. Rules must be developed individually, but the parameters used in the calculation of a rule and its outcomes are contained in a configuration file. The rule behavior can be configured independent of the rule code, reducing the operational burden for modifying a rule to a mere configuration process.
 
-The event flow rule processor (EFRuP) is a specialised rule processor that enables the system to exert operational control over evaluations based on the outcome of business processes and prior evaluations. The system is able to block or override a transaction event based on the evaluation of conditions against one of the transaction event attributes. Further information on EFRUP is available on the [Event Flow Processor Overview](/Product/event-flow-rule-processor.md) page.
+The event flow rule processor (EFRuP) is a specialised rule processor that enables the system to exert operational control over evaluations based on the outcome of business processes and prior evaluations. The system is able to block or override a transaction event based on the evaluation of conditions against one of the transaction event attributes. Further information on EFRuP is available on the [Event Flow Rule Processor Overview](/Product/event-flow-rule-processor.md) page.
 
 Once the rule processor has completed its evaluation, the output is forwarded to the Typology Processor.
 
@@ -118,7 +118,7 @@ If a suspicious transaction is identified, there are a number of actions that ca
  - **Moderate** - an investigation alert to a case management systems can be created once the evaluation of all the typologies are complete;
  - **Low** - the transaction will pass without intervention, but the evaluation outcome will be stored for future retrieval.
 
-The typology score is evaluated against an 'interdiction' threshold to determine if the client system should be instructed to block a transaction 'in flight'. The Event Flow processor can be configured to override the interdiction outcome for a typology for a specific account or entity. 
+The typology score is evaluated against an 'interdiction' threshold to determine if the client system should be instructed to block a transaction 'in flight'. The Event Flow rule processor can be configured to override the interdiction outcome for a typology for a specific account or entity. 
 
 Further information on the role of the Typology Processor is available on the [Typology Processing](/Product/typology-processing.md) page.
 
