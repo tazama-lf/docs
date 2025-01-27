@@ -34,57 +34,30 @@ Where interdiction is required, either option 1 and 2 above is the most suitable
 
 The TADProc must retrieve the typology triggers from the Tazama configuration so that the TADProc can determine if any of the typologies results warrant an investigation.
 
-The typology triggers must define a specific threshold value linked to each of the typologies that defines the following workflow outcomes:
+##### 7.2 The typology configuration
 
-1. **Review**: If a typology score is equal to or greater than this value, the TADProc will trigger an alert to an adjacent Case Management System via egress API to initiate an investigation into the transaction.
-
-2. **None**: If a typology score is less than the Review threshold, no triggered action is taken by the TADProc.
-
-Additionally, if a transaction configuration for a transaction cannot be found, or is empty, no investigation will be triggered out of the transaction.
-
-##### 7.2 The transaction configuration
-
-The transaction configuration defines the typology alert thresholds for each of the typologies in the platform. The structure of the transaction configuration models that of the network map.
+The typology configuration defines the typology alert and interdiction thresholds for each of the typologies in the platform. 
 
 **Example**:
 
 ```json
-{
-    "messages": [
-        {
-            "id": "004@1.0.0",
-            "cfg": "1.0.0",
-            "txTp": "pacs.002.001.12",
-            {
-                "id": "001@1.0.0",
-                "cfg": "1.0.0",
-                "typologies": [
-                    {
-                        "id": "001@1.0.0",
-                        "cfg": "1.0.0",
-                        "threshold": 500
-                    },
-                    {
-                        "id": "216@1.0.0",
-                        "cfg": "1.0.0",
-                        "threshold": 400
-                    }
-                ]
-            }
-        }
-    ]
-}
+  "typology_name": "Rule-901-Typology-999",
+  "id": "typology-processor@1.0.0",
+  "cfg": "999@1.0.0",
+  "workflow": {
+    "alertThreshold": 200,
+    "interdictionThreshold": 400,
+    "flowProcessor": "EFRuP@1.0.0"
+  }
 ```
 
 #### 7.3 Check typology triggers
 
-If all typology results had been received, evaluate each typology against the transaction configuration to determine if an investigation is required. The outcomes of the evaluation depends on the typology score against the defined thresholds and may be to create (or update) an investigation case, or to do nothing.
-
-The evaluation outcome of a typology against its thresholds must be logged for each typology, i.e. that the typology was evaluated, what the threshold was, and what the determination was (Review, or None).
+If all typology results had been received, the typology processor evaluate each typology against the typology configuration to determine if an investigation is required. The outcomes of the evaluation depends on the typology score against the defined alertThreshold. If the typology score is equal to or greater than the alertThreshold, the typology processor sets the typology review flag to `true`.
 
 ##### 7.4 Create investigation case
 
-If the typology score is equal to or greater than the review threshold defined for the typology in the TADProc configuration, the TADProc will trigger a review message in JSON format to an adjacent Case Management System to flag the transaction for review.
+If any typology `review` flag is `true`, the TADProc will trigger a review message in JSON format to an adjacent Case Management System to flag the transaction for review.
 
 The outgoing alert message contains:
 
@@ -100,63 +73,57 @@ Sample output message:
 
 ```json
 {
-    "transaction": { ...
+  "transactionID": "d71103b09a4a47a987e4fa6d5f5497a7",
+  "transaction": {
+ ...
+  },
+  "networkMap": {
+...
+  },
+  "report": {
+    "evaluationID": "548ac93a-69e9-4acf-b804-85f7ff2c57db",
+    "metaData": {
+      "prcgTmDP": 12166572,
+      "prcgTmED": 236381
     },
-    "networkMap": { ...
-    },
-    "transactionResult": {
-        "resultId": "9f896062-41d4-4a66-8ecc-b16fc6146919",
-        "dateTime": "2021-12-09T11:13:06.000Z",
-        "id": "004@1.0.0",
-        "cfg": "1.0.0",
-        "status": "ALRT",
-        "description": "Alert triggered",
-        "typologyResults": [
+    "status": "ALRT",
+    "timestamp": "2025-01-17T08:15:10.433Z",
+    "tadpResult": {
+      "id": "004@1.0.0",
+      "cfg": "1.0.0",
+      "typologyResult": [
+        {
+          "id": "typology-processor@1.0.0",
+          "cfg": "999@1.0.0",
+          "result": 200,
+          "ruleResults": [
             {
-                "id": "001@1.0.0",
-                "cfg": "1.0.0",
-                "result": 700,
-                "threshold": 400,
-                "ruleResults": [
-                    {
-                        "id": "002@1.0.0",
-                        "cfg": "1.0.0",
-                        "subRuleRef": ".01",
-                        "wght": 100,
-                        "reason": "Debtor received < 10 transactions within the last 72 hours"
-                    },
-                    {
-                        "id": "016@1.0.0",
-                        "cfg": "1.0.0",
-                        "subRuleRef": ".01",
-                        "wght": 100,
-                        "reason": "Creditor received >= 10 transactions within the last 24 hours"
-                    },
-                    {
-                        "id": "018@1.0.0",
-                        "cfg": "1.0.0",
-                        "subRuleRef": ".01",
-                        "wght": 100,
-                        "reason": "Debtor transfered an amount >= the historical maximum threshold over the last 3 months"
-                    },
-                    {
-                        "id": "027@1.0.0",
-                        "cfg": "1.0.0",
-                        "subRuleRef": ".01",
-                        "wght": 100,
-                        "reason": "Immediate transaction mirorring detected for debtor account"
-                    },
-                    {
-                        "id": "045@1.0.0",
-                        "cfg": "1.0.0",
-                        "subRuleRef": ".01",
-                        "wght": 300,
-                        "reason": "First recorded successful and complete incoming transaction received by the creditor"
-                    }
-                ]
+              "id": "EFRuP@1.0.0",
+              "cfg": "none",
+              "subRuleRef": "none",
+              "prcgTm": 6052681,
+              "wght": 0
             },
-        ]
+            {
+              "id": "901@1.0.0",
+              "cfg": "1.0.0",
+              "subRuleRef": ".02",
+              "prcgTm": 17682366,
+              "wght": 200
+            }
+          ],
+          "prcgTm": 8754078,
+          "review": true,
+          "workflow": {
+            "alertThreshold": 200,
+            "interdictionThreshold": 400,
+            "flowProcessor": "EFRuP@1.0.0"
+          }
+        }
+      ],
+      "prcgTm": 6509701
     }
+  }
 }
 ```
 

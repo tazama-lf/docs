@@ -25,6 +25,9 @@ The Event Director is responsible for determining which typologies are applicabl
 
 The rules receive the transaction, as well as the portion of the Network Map that was used to identify the rules as recipients (and by association also identifies which typologies are beneficiaries of the rule results).
 
+The event flow rule processor (EFRuP) is a special rule processor that operates differently from all the other rule processors that are described on this page.  Further information on EFRUP is available on the [Event Flow Processor Overview](/Product/event-flow-rule-processor.md) page.
+
+
 Each rule executes as a discrete and bespoke function in the evaluation process. It is a Tazama design principle that any given rule in the system has as small a purpose as possible and seeks to answer a single and very specific behavioral question about the transaction it is evaluation, for example:
 
  - How many transactions were made by the debtor?
@@ -39,7 +42,7 @@ Our reference rule is [Rule 901 - Number of transactions performed by the debtor
 
 ## The rule executer
 
-Individual rule processors are wrapped in a rule executer shell that handles common functions for all rule processors in a common way. While this makes rule processors easier to maintain by abstracting common code into the rule executer and leaving unique code in the rule processor, it does make the deployment process a little more complicated and onerous. In a production setting we would automate the deployment of the rule processors via Helm charts, but for our Docker Compose deployment, the process is a little more manual.
+Individual rule processors are wrapped in a rule executer shell that handles common functions for all rule processors in a common way. While this makes rule processors easier to maintain by abstracting common code into the rule executer and leaving unique code in the rule processor.
 
 ![rule-executer-design](../images/tazama-rule-executer.png)
 
