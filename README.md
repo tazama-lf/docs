@@ -43,7 +43,7 @@ By assessing the transfer to the fraudsters, it is possible to identify more hig
 
 If the Fraudster recipient was the customer being monitored it is likely they will receive the funds, and quickly move it to the next person in their money laundering chain. This would be captured in a Layering Typology which would include age of the account or dormant account suddenly becoming active instead of age of the participant.
 
-In the creation of a typology, it is worth highlighting that our phishing example can also create a false positive when a grandparent sends a large sum for an important life event to one of their grandchildren. Previously gifts had been sent via the parents and as such no historical financial relationship had been established. It is important that an understanding of the customers in a given FSP is developed, as finding the balance of low false positives and managing the activity of fraudsters 'testing the boundaries' are critical to the success of an implementation.
+In the creation of a typology, it is worth highlighting that our phishing example can also create a false positive when a grandparent sends a large sum for an important life event to one of their grandchildren. Previously gifts had been sent via the parents and as such no historical financial relationship had been established. It is important that an understanding of the customers in a given FSP is developed, as finding the balance of low false positives and managing the activity of fraudsters "testing the boundaries" are critical to the success of an implementation.
 
 <div style="text-align: right"><a href="#top">Top</a></div>
 
@@ -118,7 +118,7 @@ If a suspicious transaction is identified, there are a number of actions that ca
  - **Moderate** - an investigation alert to a case management systems can be created once the evaluation of all the typologies are complete;
  - **Low** - the transaction will pass without intervention, but the evaluation outcome will be stored for future retrieval.
 
-The typology score is evaluated against an 'interdiction' threshold to determine if the client system should be instructed to block a transaction 'in flight'. The Event Flow rule processor can be configured to override the interdiction outcome for a typology for a specific account or entity. 
+The typology score is evaluated against an "interdiction" threshold to determine if the client system should be instructed to block a transaction "in flight". The Event Flow rule processor can be configured to override the interdiction outcome for a typology for a specific account or entity. 
 
 Further information on the role of the Typology Processor is available on the [Typology Processing](/Product/typology-processing.md) page.
 

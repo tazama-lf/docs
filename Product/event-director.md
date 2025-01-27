@@ -97,7 +97,7 @@ The pruned network sub-map will accompany the transaction message to the rule pr
 
 ### 2.4. De-duplicate Rules
 
-A single rule could be used to evaluate more than one typology. One of the primary advantages and reasons for the config-driven approach is to be able to minimize the number of times that a specific rule has to be executed. To achieve this objective, the Event Director will draft a list of all the rules in the network map and then eliminate duplicate rules from the list (the 'Highlander' principle).
+A single rule could be used to evaluate more than one typology. One of the primary advantages and reasons for the config-driven approach is to be able to minimize the number of times that a specific rule has to be executed. To achieve this objective, the Event Director will draft a list of all the rules in the network map and then eliminate duplicate rules from the list (the "Highlander" principle).
 
 Each rule in the network map can be uniquely described by the combination of the following attributes:
 
