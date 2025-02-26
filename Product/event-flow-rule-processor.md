@@ -10,7 +10,6 @@
     - [Event flow rule processor](#event-flow-rule-processor-1)
     - [Typology processor](#typology-processor)
 
-
 ## Introduction
 
 The event flow rule processor (EFRuP) is a special rule processor that operates alongside all the other rule processors and enables operational control over the normal Tazama system functioning, for example, to be able to block a customer from transacting from any account or to override an interdiction and allow a transaction where it would otherwise have been blocked.
