@@ -16,6 +16,7 @@
   - [5.7. Submit typology results](#57-submit-typology-results)
   - [5.8 A note on typology interdiction](#58-a-note-on-typology-interdiction)
 
+
 ## Introduction
 
 The foundation of the Tazama Transaction Monitoring service is its ability to evaluate incoming transactions for financial crime risk through the execution of a number of conditional statements (rules) that are then combined into typologies that describe the nature of the financial crime that the system is trying to detect.
