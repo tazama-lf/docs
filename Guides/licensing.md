@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-## Licensing <!-- omit in toc -->
+## Licensing Guide <!-- omit in toc -->
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -12,7 +12,7 @@
 
 ## Overview
 
-The Tazama project is licensed under the Apache License, Version 2.0 (Apache-2.0). This allows for open collaboration while ensuring that all contributions and modifications are properly licensed under an open-source standard. The Tazama Design Principle, [Open Source First](/guides/tazama-design-principles.md), provides more context and background information on Tazama licensing.
+The Tazama project is licensed under the Apache License, Version 2.0 (Apache-2.0). This allows for open collaboration while ensuring that all contributions and modifications are properly licensed under an open-source standard. The Tazama Design Principle, [Open Source First](https://github.com/tazama-lf/docs/blob/dev/Guides/tazama-design-principles.md), provides more context and background information on Tazama licensing.
 
 ## License Information
 
