@@ -260,3 +260,11 @@ newman run collection-file -e environment-file --timeout-request 10200 --delay-r
 **Output:**
 
 ![to be fixed great-success](../images/full-stack-docker-tazama-great-success.png)
+
+## Demo UI
+
+Navigate to http://vm-ip-address:5000 to test functionality of the TMS URL. You must get a `STATUS :UP` response in the browser.
+
+Navigate to http://vm-ip-address:18529 to arango db dashboard.
+
+Navigate to http://vm-ip-address:3001 to access the demo UI. You'll need to configure env-vars for Arango url, Nats url, TMS url and websocket API for the demo UI to be funtional settings.
