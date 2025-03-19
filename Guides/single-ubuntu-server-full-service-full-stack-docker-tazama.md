@@ -31,81 +31,81 @@ The pre-requisites that are essential to be able to follow this guide to the let
 #### 1. Create a virtual machine running ubuntu
 
 - Create a Virtual Machine running ubuntu on any platform of choice.
-   - Ensure the machine has about 8gb RAM and about 30 gb storage volume.
-   - While creating the VM, enable ssh, http and https connections (ports `22`, `443` and `80`)
-   - Navigate to the security groups and open TCP connections on the following ports (`5000` for TMS, `14222` fo nats, `3001` for the UI and `18529` for Arango DB)
-   - ssh to the VM. This can be done either through a remote conection with ssh keys or in the platform UI. Please note all commands in the following sections are to be run in this ssh session.
-   - Update your system by running the following command.
+- Ensure the machine has about 8gb RAM and about 30 gb storage volume.
+- While creating the VM, enable ssh, http and https connections (ports `22`, `443` and `80`)
+- Navigate to the security groups and open TCP connections on the following ports (`5000` for TMS, `14222` fo nats, `3001` for the UI and `18529` for Arango DB)
+- ssh to the VM. This can be done either through a remote conection with ssh keys or in the platform UI. Please note all commands in the following sections are to be run in this ssh session.
+- Update your system by running the following command.
 
-      ```
-      sudo apt update && sudo apt upgrade -y
-      ```
+  ```
+  sudo apt update && sudo apt upgrade -y
+  ```
 
 #### 2. Install Docker Compose
 
 - Install Docker 
 
-    ```
-    sudo apt install -y docker.io
-    ```
+  ```
+  sudo apt install -y docker.io
+  ```
 
 - Download Docker Compose
 
-    ```
-    sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    ```
+  ```
+  sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  ```
 
 - Give Execute Permissions 
 
-    ```
-    sudo chmod +x /usr/local/bin/docker-compose
-    ```
+  ```
+  sudo chmod +x /usr/local/bin/docker-compose
+  ```
 
 - Verify the Installation
 
-    ```
-    docker-compose --version
-    ```
+  ```
+  docker-compose --version
+  ```
 
 - Enable Docker & Start It on Boot 
 
-    ```
-    sudo systemctl enable --now docker
-    ```
+  ```
+  sudo systemctl enable --now docker
+  ```
 
 - Add your user to the docker group to avoid using sudo every time
 
-    ```
-    sudo usermod -aG docker $USER
-    ```
+  ```
+  sudo usermod -aG docker $USER
+  ```
 
 - Apply the changes (log out and back in, or run)
 
-    ```
-    newgrp docker
-    ```
+  ```
+  newgrp docker
+  ```
 
 #### 3. Install Git
 
 - Git is available in Ubuntu’s default repositories. Install it with;
 
-      ```
-      sudo apt install -y git
-      ```
+  ```
+  sudo apt install -y git
+  ```
 
 - Verify the installtion with the following command
 
-    ```
-    git --version
-    ```
+  ```
+  git --version
+  ```
 
 #### 4. Install Newman
 
 - Newman requires Node.js and npm. Install them first:
 
-    ```
-    sudo apt install -y nodejs npm
-    ```
+  ```
+  sudo apt install -y nodejs npm
+  ```
 
 - Now, install Newman globally using npm: 
 
@@ -122,14 +122,14 @@ The pre-requisites that are essential to be able to follow this guide to the let
 #### 5. Set Personal Github Access Token
 
 - A GitHub personal access token with `packages:write` and `read:org` permissions
-   - Ensure that your GitHub Personal Access Token is added as a Windows Environment Variable called "`GH_TOKEN`".
-   - Instructions for creating the GH_TOKEN environment variable can be found in the [Tazama Contribution Guide (A. Preparation)](https://github.com/tazama-lf/.github/blob/main/CONTRIBUTING.md#a-preparation-)
+- Ensure that your GitHub Personal Access Token is added as a Windows Environment Variable called "`GH_TOKEN`".
+- Instructions for creating the GH_TOKEN environment variable can be found in the [Tazama Contribution Guide (A. Preparation)](https://github.com/tazama-lf/.github/blob/main/CONTRIBUTING.md#a-preparation-)
 
-     - Note that your token needs to be exported everytime you ssh to the server in a new session
+- Note that your token needs to be exported everytime you ssh to the server in a new session
 
-        ```
-        export GH_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxsOxxxx
-        ```
+  ```
+  export GH_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxsOxxxx
+  ```
 
 [Top](#introduction)
 
