@@ -136,17 +136,17 @@ Follow these step-by-step instructions to get your local machine ready to work o
       docker run -p 4222:4222 -p 8222:8222 -p 6222:6222 --network=tazama-net --name nats-server -dti nats:latest
       ```
 
- - **redis**:
-   - Follow the installation instructions for redis from the official [redis website](https://redis.io/docs/install/install-redis/). We recommend that you install the official redis Docker image for the `latest` version via [Docker Hub](https://hub.docker.com/_/redis).
+ - **valkey**:
+   - Follow the installation instructions for [Valkey guide](https://valkey.io/topics/installation). We recommend that you install the official valkey Docker image for the `latest` version via [valkey docker guide](https://hub.docker.com/r/valkey/valkey)
      - Start the Docker Desktop in Windows
      - In a Windows Command Prompt:
       ```
-      docker pull redis/redis-stack-server
+      docker pull valkey/valkey
       ```
-   - Start the redis server in a Docker container:
+   - Start the valkey server in a Docker container:
      - In a Windows Command Prompt:
       ```
-      docker run -p 6379:6379 --network=tazama-net --name redis-stack-server -d redis/redis-stack-server:latest
+      docker run --name valkey -d valkey/valkey
       ```
 
  - **Tazama NATS REST Proxy**:
@@ -163,7 +163,7 @@ Follow these step-by-step instructions to get your local machine ready to work o
       ```
       docker pull ghcr.io/tazama-lf/nats-utilities:latest
       ```
-   - Start the redis server in a Docker container:
+   - Start the NATS server in a Docker container:
      - In a Windows Command Prompt:
       ```
       docker run -p 3000:3000 --network=tazama-net -e NODE_ENV=dev -e SERVER_URL=nats-server:4222 -d --name nats-utilities ghcr.io/tazama-lf/nats-utilities:latest
