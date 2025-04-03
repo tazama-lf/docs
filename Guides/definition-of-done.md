@@ -18,7 +18,7 @@ The tasks below must be completed by the code contributor before the Pull Reques
 
 **Code Documentation** - Source code has been commented. Complex or compound statements should be explained with a comment, either a comment block (e.g. `/* comment block here */` in TypeScript) or an in-line comment (e.g. `// in-line comment here` in TypeScript). Every function in Tazama must be documented with a preceding [JSDocs docstring](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html).
 
-**Developer Documentation** - The `readme.md` file in every GitHub code repository must contain documentation to explain how the code works, in markdown and in diagrams, either in Mermaid or editable `.svg` or `.png` images. See [guide for draw.io](https://github.com/tazama-lf/docs/blob/dev/Guides/drawio-guide.md)
+**Developer Documentation** - The `README.md` file in every GitHub code repository must contain documentation to explain how the code works, in markdown and in diagrams, either in Mermaid or editable `.svg` or `.png` images. See [guide for draw.io](https://github.com/tazama-lf/docs/blob/dev/Guides/drawio-guide.md)
 
 **Licensing comment** Add the following string as a comment ("SPDX-License-Identifier: Apache-2.0") at the top of every file in the organization in GitHub that is capable of including a comment i.e. extensions="ts" "js" "env" "template" "eslintignore" "yaml" "properties" "npmrc" "editorconfig" "dockerignore" "gitignore" "prettierignore" "md" "helmignore" "Makefile" "sh" "npmignore" "plantuml" "yml".
 
