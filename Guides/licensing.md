@@ -9,6 +9,7 @@
 - [SPDX License Header](#spdx-license-header)
 - [Developer Certificate of Origin (DCO)](#developer-certificate-of-origin-dco)
 - [Contributing](#contributing)
+- [Further reading](#further-reading)
 
 ## Overview
 
@@ -48,8 +49,8 @@ Before making a contribution, please:
 
 - Sign off all your commits following the DCO requirements.
 
-- Read the [CONTRIBUTING guide](https://github.com/tazama-lf/.github/blob/main/CONTRIBUTING.md) for more details on the contribution process.
+## Further reading
 
-- If you have any questions about licensing or contribution requirements, feel free to open an issue or reach out to the maintainers.
+Read the [CONTRIBUTING guide](https://github.com/tazama-lf/.github/blob/main/CONTRIBUTING.md) for more details on the contribution process.
 
-Thank you for contributing!
+Thank you for contributing to Tazama! Your efforts help make our platform smarter, safer, and more insightful for financial ecosystems everywhere. Need assistance? [Open a Discussion](https://github.com/tazama-lf/tazama-project/discussions) or [raise an Issue](https://github.com/tazama-lf/tazama-project/issues).
