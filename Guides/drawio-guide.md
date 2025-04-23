@@ -7,6 +7,7 @@
 - [Tazama Template](#tazama-template)
 - [Create and Update diagrams in draw.io](#create-and-update-diagrams-in-drawio)
 - [Embed diagrams in markdown files](#embed-diagrams-in-markdown-files)
+- [Further reading](#further-reading)
 
 ## Introduction
 
@@ -52,3 +53,9 @@ Copy the file from your local location where you cloned the docs repository to y
 ## Embed diagrams in markdown files
 
 ![draw.io embed diagram in markdown](../images/draw.io-embed-diagram.png)
+
+## Further reading
+
+Read the [CONTRIBUTING guide](https://github.com/tazama-lf/.github/blob/main/CONTRIBUTING.md) for more details on the contribution process.
+
+Thank you for contributing to Tazama! Your efforts help make our platform smarter, safer, and more insightful for financial ecosystems everywhere. Need assistance? [Open a Discussion](https://github.com/tazama-lf/tazama-project/discussions) or [raise an Issue](https://github.com/tazama-lf/tazama-project/issues).
