@@ -95,13 +95,13 @@ Defined in [.github/workflows](https://github.com/tazama-lf/workflows):
 | ------------- | ---------------- | ---------------------------------------- |
 | `codacy.yml `   | Push/PR | Security scan            |
 | `codeql.yml`    | Push/PR      | Scanning code for vulnerabilities      |
-| `conventional-commits.yml`   | Push/PR   | Checks whether each commit in a pull request (PR) has a "Signed-off-by" line, ensuring compliance with the Developer Certificate of Origin (DCO) |
-| `dco-check.yml` | Merge to main  | Deploys infrastructure, publishes, tags release   |
+| `conventional-commits.yml`   | Push/PR   | Checks whether the PR title is valid |
+| `dco-check.yml` | Merge to main  | Checks whether each commit in a pull request (PR) has a "Signed-off-by" line, ensuring compliance with the Developer Certificate of Origin (DCO)   |
 | `dependency-review.yml` | Push/PR  | Reviews the dependencies of a project   |
 | `dockerfile-linter.yml` | Merge to main  | Automates the linting of Dockerfiles using Hadolint and uploads the results to GitHub in SARIF format for further analysis   |
 | `dockerhub-image-build.yml` | Push/PR  | Automates the process of building, tagging, and pushing Docker images to Docker Hub whenever a new release is published.   |
 | `gpg-verify.yml` | Push/PR  | verifies the GPG signatures of commits in a pull request   |
-| `milestone.yml` | Manually  | Closes a specific milestone on GitHub and trigger a release workflow.   |
+| `milestone.yml` | Manually in the Github UI under Issues  | Closes a specific milestone on GitHub and trigger a release workflow.   |
 | `njsscan.yml` | Push/PR  | Designed to run the njsscan code scanning tool and upload the results as a SARIF   |
 | `node.js.yml` | Push/PR  | Builds the project, checks the code style, and runs tests.   |
 | `release.yml` | mileston.yml  | Automates the process of creating a new release   |
@@ -111,7 +111,7 @@ Defined in [.github/workflows](https://github.com/tazama-lf/workflows):
 
 * A `workflow-docs` folder exists in the workflows repo with details explanations about each workflow.
 
-* Secrets: Managed via GitHub Secrets. Contact the DevOps team for access.
+* Secrets: Managed via GitHub Secrets. Contact the DevOps team for access. Some of the secrets we manage include `Docker variable`s, `Authentication write and read tokens`, `Slack webhook urls`, `Emails`, `Usernames`, `Repository Urls` etc
 
 **Local Testing:**
 
@@ -183,7 +183,7 @@ git push origin feat/my-feature
 ### Prepare
 
 * Create PRs from dev to main
-* Create milestones manually in each repository that's to have a release inluding the private rules repos. Note th milestone ID
+* Create milestones manually in each repository that's to have a release inluding the private rules repos. Note the milestone ID
 
 ### Submit
 
@@ -194,7 +194,7 @@ git push origin feat/my-feature
 ### Post-release
 
 * Release workflow will run and create the release
-* Check that a new release version will be establoshed on each repository
+* Check that a new release version will be established on each repository
 * The dockerhub publish workflow will tag build and tag a new image with the release version number and push it to dockerhub. Check they exist
 * Slack notifiations alerting the new release will be sent in the slack channel `tazama-project-notifications`
 
