@@ -245,7 +245,9 @@ Every file with infrastructure configuration must have this header.
 | Helm chart errors     | Run helm lint                        |
 | Permission denied     | Reach out to Tazama Team                |
 
-**Local Testing:** Use kind or k3s.
+**Tips:**
+
+* There are `deployment` and `welcome` channels in [slack](https://slack.tazama.org/); incase you need help.
 
 ---
 
