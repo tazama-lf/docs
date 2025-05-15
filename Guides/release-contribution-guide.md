@@ -168,7 +168,7 @@ git push origin feat/my-feature
 
 **Tips:**
 
-* Rules: No direct pushes to dev or main. Signed commits required.
+* Rules: No direct pushes to dev or main. Signed commits required. We also do have an automated DCO check
 
 ## ✅ Good to Know
 
@@ -219,6 +219,7 @@ git push origin feat/my-feature
 
 * **License:** [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0)
 
+* Here is a [link](https://github.com/tazama-lf/docs/blob/dev/Guides/licensing.md) to our licencing guide.
   
 * **SPDX Header:**
 
