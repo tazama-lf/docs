@@ -1,6 +1,6 @@
 # DevOps / Release Engineering Contribution Guide for Tazama
 
-Welcome to the **Tazama-LF** open-source community! This guide equips new contributors with everything needed to navigate and contribute to our infrastructure specifications. From github actions to Helm charts to Terraform scripts, CI/CD pipelines to release workflows, this document ensures you can confidently build, test, and deploy multi-cloud Kubernetes infrastructure.
+Welcome to the **Tazama-LF** open-source community! This guide equips new contributors with everything needed to navigate and contribute to our infrastructure specifications. From GitHub Actions to Helm charts to Terraform scripts, CI/CD pipelines to release workflows, this document ensures you can confidently build, test, and deploy multi-cloud Kubernetes infrastructure.
 
 Let’s create automated, scalable and reliable systems together! 🚀
 
@@ -35,7 +35,7 @@ Let’s create automated, scalable and reliable systems together! 🚀
 * Automate releases via GitHub Actions pipelines.
 * Foster a collaborative, transparent open-source community.
 
-**Audience:** DevOps engineers, Developers and contributors interested in automation, cloud, release management and infrastructure-as-code (IaC), Kubernetes.
+**Audience:** DevOps engineers, Developers and contributors interested in automation, cloud, release management, infrastructure-as-code (IaC), and Kubernetes.
 
 ---
 
@@ -64,9 +64,9 @@ All code is hosted in the [tazama-lf](https://github.com/tazama-lf) GitHub organ
 | EKS-helm      | Helm charts for Kubernetes deployments     | [EKS](https://github.com/tazama-lf/EKS-helm) |
 | AKS-helm      | Helm charts for Kubernetes deployments     | [AKS](https://github.com/frmscoe/AKS-helm) |
 | GKE-helm      | Helm charts for Kubernetes deployments     | [GKE](https://github.com/tazama-lf/GKE-helm) |
-| infra-terraform | Terraform modules for cloud infrastructure | [EKS TF](https://github.com/tazama-lf/EKS-helm/tree/dev/eks-terraform)        |
-| infra-ci        | GitHub Actions workflows for CI/CD         | [GitHub Actions](https://github.com/tazama-lf/workflows)                     |
-| infra-docs      | Documentation for infrastructure specs     | [DevOps Docs](https://github.com/tazama-lf/docs/tree/dev/Technical/Release-Management)              |
+| infrastructure-terraform | Terraform modules for cloud infrastructure | [EKS TF](https://github.com/tazama-lf/EKS-helm/tree/dev/eks-terraform)        |
+| infrastructure-ci        | GitHub Actions workflows for CI/CD         | [GitHub Actions](https://github.com/tazama-lf/workflows)                     |
+| infrastructure-docs      | Documentation for infrastructure specs     | [DevOps Docs](https://github.com/tazama-lf/docs/tree/dev/Technical/Release-Management)              |
 
 **Tips:**
 
@@ -96,7 +96,7 @@ Defined in [.github/workflows](https://github.com/tazama-lf/workflows):
 | `codacy.yml `   | Push/PR | Security scan            |
 | `codeql.yml`    | Push/PR      | Scanning code for vulnerabilities      |
 | `conventional-commits.yml`   | Push/PR   | Checks whether each commit in a pull request (PR) has a "Signed-off-by" line, ensuring compliance with the Developer Certificate of Origin (DCO) |
-| `dco-check.yml` | Merge to main  | Deploys infra, publishes, tags release   |
+| `dco-check.yml` | Merge to main  | Deploys infrastructure, publishes, tags release   |
 | `dependency-review.yml` | Push/PR  | Reviews the dependencies of a project   |
 | `dockerfile-linter.yml` | Merge to main  | Automates the linting of Dockerfiles using Hadolint and uploads the results to GitHub in SARIF format for further analysis   |
 | `dockerhub-image-build.yml` | Push/PR  | Automates the process of building, tagging, and pushing Docker images to Docker Hub whenever a new release is published.   |
@@ -252,17 +252,18 @@ Every file with infrastructure configuration must have this header.
 ## Community & Contributions
 
 * Start with `good first issues`
-* Bi-weekly CICD working group calls
-* Updates via PRs to infra related repositories
-* There are `deployment` and `welcome` channels in slack that you can make use of incase you have any questions.
+* Bi-weekly CI/CD working group calls
+* Updates via PRs to infrastructure related repositories
+* There are `deployment` and `welcome` channels in [slack](https://slack.tazama.org/); incase you have any questions.
 
 --- 
-
 
 ## 🤝 Need Help?
 
 * Start a [GitHub Discussion](https://github.com/tazama-lf/tazama-project/discussions)
 * Join our [Slack](https://slack.tazama.org/)
-* Email engineering@tazama.org directly if you need to inquire about anything from the team.
+* [Email](engineering@tazama.org) us directly if you need to inquire about anything from the team.
+
+---
 
 ❤️ Thank you for joining Tazama-LF and for helping build **Tazama-LF** infrastructure! 🚀! Your contributions drive our mission.
