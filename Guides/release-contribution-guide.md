@@ -50,6 +50,7 @@ These are the major tools that we use in our infrastructure setup.
 | Terraform     | Provision cloud infrastructure             | [Terraform Docs](https://developer.hashicorp.com/terraform/docs) |
 | Docker         | Build and publish container images         | [Docker Docs](https://docs.docker.com/)                          |
 | Kubernetes     | Orchestrate containerized applications     | [Kubernetes Docs](https://kubernetes.io/docs/)                   |
+| Jenkins     | Cloud deployment     | [Jenkins Docs](https://www.jenkins.io/doc/book/installing/)                   |
 
 **Setup:** Install these tools locally (`helm`, `docker`, `kubectl`, `git`, `terraform`).
 
@@ -77,7 +78,7 @@ All code is hosted in the [tazama-lf](https://github.com/tazama-lf) GitHub organ
 
 ## Cloud Infrastructure
 
-We support multi-cloud Kubernetes deployments:
+We support multi-cloud Kubernetes deployments with Jenkins:
 
 | Cloud Provider | Cluster Type       | Terraform Module | Helm Chart   |
 | -------------- | ------------------ | ---------------- | ------------ |
@@ -269,4 +270,8 @@ Every file with infrastructure configuration must have this header.
 
 ---
 
-❤️ Thank you for joining Tazama-LF and for helping build **Tazama-LF** infrastructure! 🚀! Your contributions drive our mission.
+## Further reading
+
+Read the [CONTRIBUTING guide](https://github.com/tazama-lf/.github/blob/main/CONTRIBUTING.md) for more details on the contribution process.
+
+Thank you for contributing to Tazama and helping build **Tazama-LF** infrastructure! 🚀! Your efforts help make our platform smarter, safer, and more insightful for financial ecosystems everywhere. Need assistance? [Open a Discussion](https://github.com/tazama-lf/tazama-project/discussions) or [raise an Issue](https://github.com/tazama-lf/tazama-project/issues).
