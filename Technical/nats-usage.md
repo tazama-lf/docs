@@ -15,6 +15,9 @@ messages<sup>[1](https://docs.nats.io/nats-concepts/what-is-nats)</sup>. Tazama 
 NATS also provides a wide variety of libraries across different programming languages including a NodeJS library, which is leveraged by Tazama processors. Tazama processors then act as NATS clients which will connect to the NATS server process to carry out message transmission in the platform
 
 ## 2. Architecture Diagram
+![Architecture diagram](../images/nats-architecture.png)
+<details>
+<summary>Mermaid source</summary>
 
 ```mermaid
 stateDiagram
@@ -44,6 +47,7 @@ stateDiagram
         end note  
     }
 ```
+</details>
 
 From the diagram above, the transaction-monitoring-service (TMS) receives the transaction first from an external entity through HTTP.
 
