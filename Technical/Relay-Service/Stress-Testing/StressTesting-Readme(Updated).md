@@ -17,7 +17,7 @@
 - [**Results**](#2-system-architecture)
 
   - [3.1 NATS Results](#31-NATS-results)
-
+  - [3.2 RabbitMQ Results](#32-RabbitMQ-results)
 
 ## **_Overview_**
 
@@ -59,11 +59,24 @@ All results are detailed below. Note that the total count of sent messages is 42
 | Total Duration for First & Last Timestamp | 16 seconds   |
 | Throughput (TPS)                | 2,625                  |
 
-
 For a comprehensive view of all required details, please refer to the detailed results files (in CSV format) available at the link below:
 
 - **NATS to NATS Relay Service**  
   File: [Tazama-Nats-Results.xlsx](https://github.com/tazama-lf/docs/blob/Relay-Service-Enhancement-Stress-Testing/Technical/Relay-Service/Stress-Testing/NATS-Stress%20Testing-Results.xlsx)
+
+### 3.2 RabbitMQ Results
+
+| Title                           | Results                |
+| ------------------------------- | ---------------------- |
+| First Read Time                 | 2025-06-13 15:52:55 PM |
+| Last Write Time                 | 2025-06-13 15:53:14 PM |
+| Total Duration for First & Last Timestamp | 19 seconds   |
+| Throughput (TPS)                | 2,136                  |
+
+For a comprehensive view of all required details, please refer to the detailed results files (in CSV format) available at the link below:
+
+- **NATS to RabbitMQ Relay Service**  
+  File: [Tazama-RabbitMQ-Results.xlsx](https://github.com/tazama-lf/docs/blob/Relay-Service-Enhancement-Stress-Testing/Technical/Relay-Service/Stress-Testing/RabbitMQ-Stress%20-Testing-Results.csv)
 
 
 **Note: This README will be updated with RabbitMQ and REST API results once testing is complete. Thank you!**
