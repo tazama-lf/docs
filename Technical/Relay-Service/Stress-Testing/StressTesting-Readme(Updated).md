@@ -18,6 +18,8 @@
 
   - [3.1 NATS Results](#31-NATS-results)
   - [3.2 RabbitMQ Results](#32-RabbitMQ-results)
+  - [3.3 Kafka Results](#33-RabbitMQ-results)
+  - [3.4 REST API Results](#34-RabbitMQ-results)
 
 ## **_Overview_**
 
@@ -54,29 +56,34 @@ All results are detailed below. Note that the total count of sent messages is 42
 
 | Title                           | Results                |
 | ------------------------------- | ---------------------- |
-| First Read Time                 | 2025-06-11 07:59:52 PM |
-| Last Write Time                 | 2025-06-11 08:00:08 PM |
+| First Read Time                 | 2025-06-11 07:59:52 |
+| Last Write Time                 | 2025-06-11 08:00:08 |
 | Total Duration for First & Last Timestamp | 16 seconds   |
 | Throughput (TPS)                | 2,625                  |
-
-For a comprehensive view of all required details, please refer to the detailed results files (in CSV format) available at the link below:
-
-- **NATS to NATS Relay Service**  
-  File: [Tazama-Nats-Results.xlsx](https://github.com/tazama-lf/docs/blob/Relay-Service-Enhancement-Stress-Testing/Technical/Relay-Service/Stress-Testing/NATS-Stress%20Testing-Results.xlsx)
 
 ### 3.2 RabbitMQ Results
 
 | Title                           | Results                |
 | ------------------------------- | ---------------------- |
-| First Read Time                 | 2025-06-13 15:52:55 PM |
-| Last Write Time                 | 2025-06-13 15:53:14 PM |
+| First Read Time                 | 2025-06-13 15:52:55 |
+| Last Write Time                 | 2025-06-13 15:53:14 |
 | Total Duration for First & Last Timestamp | 19 seconds   |
 | Throughput (TPS)                | 2,136                  |
 
-For a comprehensive view of all required details, please refer to the detailed results files (in CSV format) available at the link below:
+### 3.3 Kakfa Results
 
-- **NATS to RabbitMQ Relay Service**  
-  File: [Tazama-RabbitMQ-Results.xlsx](https://github.com/tazama-lf/docs/blob/Relay-Service-Enhancement-Stress-Testing/Technical/Relay-Service/Stress-Testing/RabbitMQ-Stress%20-Testing-Results.csv)
+| Title                           | Results                |
+| ------------------------------- | ---------------------- |
+| First Read Time                 | 2025-06-17 15:58:12 |
+| Last Write Time                 | 2025-06-17 15:58:22 |
+| Total Duration for First & Last Timestamp | 10 seconds   |
+| Throughput (TPS)                | 1,500                  |
 
+### 3.4 REST API Results
 
-**Note: This README will be updated with RabbitMQ and REST API results once testing is complete. Thank you!**
+| Title                           | Results                |
+| ------------------------------- | ---------------------- |
+| First Read Time                 | 2025-06-17 20:26:36 |
+| Last Write Time                 | 2025-06-17 20:26:43 |
+| Total Duration for First & Last Timestamp | 07 seconds   |
+| Throughput (TPS)                | 1,485                  |
