@@ -64,7 +64,15 @@ Transport plugins must adhere to the following structural requirements:
 4. **Dependency Management**: Include required dependencies and peer dependencies
 5. **Configuration Standards**: Follow environment variable naming conventions
 6. **Init Method**: Must implement async initialization logic,
-must also accept `loggerService` and `apm` parameters.
+   must also accept `loggerService` and `apm` parameters, and assigns value to the variables.
+
+```typescript
+init(loggerService?: LoggerService, apm?: Apm) {
+  this.apm = apm;
+  this.loggerService = loggerService;
+}
+```
+
 7. **Relay Method**: Must implement message forwarding logic
 8. **Error Handling**: Implement proper error handling and logging integration
    Errors specific to relay service and _fatal_ errors should be thrown back
@@ -94,6 +102,7 @@ Plugins can access environment variables and should follow the naming convention
 ### **1. Setup Project**
 
 Initialize with `npm init` and configure `.npmrc` for @tazama-lf npm registry. Set up GH_TOKEN with package:write and read permissions.
+Reference this [document](https://github.com/tazama-lf/docs/blob/dev/Guides/dev-set-up-environment.md#311-step-1-setting-up-github-token-locally) as a guide.
 Install required dependencies (e.g., @tazama-lf/frms-coe-lib, protocol SDK, dotenv, etc.).
 
 ### **2. Implement Plugin Interface**
@@ -128,7 +137,7 @@ export interface ExtendedConfig {
 In `src/service/<YourTransportPlugin>.ts`:
 
 - **Init**: Accept loggerService and apm as parameters.
-Establish client connections, initialize resources.
+  Establish client connections, initialize resources.
 - **Relay**: Accept data and forward to destination.
 
 Example excerpt:
@@ -139,15 +148,17 @@ import { Apm } from '@tazama-lf/frms-coe-lib/lib/services/apm';
 import { additionalEnvironmentVariables, type Configuration } from '../config';
 
 export default class CustomTransport implements ITransportPlugin {
-  constructor(private loggerService: LoggerService, private apm: Apm) {}
+  constructor() {}
 
   async init(loggerService?: LoggerService, apm?: Apm): Promise<void> {
     // Initialize loggerService and apm if needed.
+    this.loggerService = loggerService;
+    this.apm = apm;
     // Initialize connection, setup configurations
     this.loggerService.log('Custom transport initialized');
   }
 
-  async relay(data: Uint8Array): Promise<void> {
+  async relay(data: Uint8Array | string): Promise<void> {
     // Implement message forwarding logic
     this.loggerService.log('Relaying message via custom transport');
     // Forward message to your destination
