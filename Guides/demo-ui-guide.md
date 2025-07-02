@@ -8,9 +8,9 @@
 
 - [1. Introduction](#1-introduction)
 - [2. Demo deployment instructions](#2-demo-deployment-instructions)
-- [3. Access the demo UI](#3-access-the-demo-ui)
-- [4. Configure the demo UI](#4-configure-the-demo-ui)
-- [5. Using the demo](#5-using-the-demo)
+- [3. Access the Demo UI](#3-access-the-demo-ui)
+- [4. Configure the Demo UI](#4-configure-the-demo-ui)
+- [5. Using the Demo UI](#5-using-the-demo-ui)
     - [Create debtors and creditors](#create-debtors-and-creditors)
     - [Transpose debtors and creditors](#transpose-debtors-and-creditors)
     - [Create and send transactions](#create-and-send-transactions)
@@ -18,6 +18,7 @@
       - [Create conditions](#create-conditions)
       - [View conditions](#view-conditions)
       - [Expire conditions](#expire-conditions)
+      - [Expire-date](#expire-date)
   - [Evaluation result dashboard overview](#evaluation-result-dashboard-overview)
     - [Event Director (ED) Panel Overview](#event-director-ed-panel-overview)
     - [Rules Panel Overview](#rules-panel-overview)
@@ -44,21 +45,13 @@ For more information on the Tazama system, see the [Product Overview](https://gi
 #### Display Format <!-- omit in toc -->
 The Tazama Demo UI is desgined to be browser-based and presented in a single-page 'dashboard' in full HD (1080p) or greater resolution with an aspect ratio of 16:9.
 
-
-
-
-
 ## 2. Demo deployment instructions
 
 The demo UI can be deployed as an optional addon for a public deployment in which case it will include Rule-901 and Typology-999. The demo UI is deployed by default with the full service deployment option. Follow the guide in the [Full-Stack-Docker-Tazama repository](https://github.com/tazama-lf/Full-Stack-Docker-Tazama) 
 
+## 3. Access the Demo UI 
 
-
-
-
-## 3. Access the demo UI 
-
-The Demo UI can be accessed via browser via localhost
+Once the Demo UI has been deployed as part of the Full Stack Docker deployment, the Demo UI can be accessed via browser via localhost
 
 ```
 localhost:3001
@@ -71,28 +64,24 @@ The demo UI opens on the following page
 
  ![demo-landing-page](../images/demo-landing-page.png)
 
+[Top](#top)
 
-## 4. Configure the demo UI
+## 4. Configure the Demo UI
 
-Click on the `settings` icon to update the UI configuration variables 
+Click on the `settings` icon on the right of the screen to update the UI configuration variables 
 ![demo-settings-icon](../images/demo-settings-icon.png)
 
 The `reset` button restores the settings back to the variables defined in the ui.env file. 
 ![configuration UI](../images/demo-config-ui.png)
 
 The settings can be manually edited and saved by clicking on the `update` button.
-If the demo UI is running at a different location to localhost, change the URL and default UI configuration settings from 'localhost' to the ip address where the demo UI is running.  You can confirm the ip address by using the command `ipconfig` from the command line.
+If the demo UI is running at a different location to localhost, change the URL and default UI configuration settings from 'localhost' to the ip address where the demo UI is running.  
 
-![localhost](../images/demo-config-localhost.png)
+You can confirm the ip address by using the command `ipconfig` from the command line.
 
-**change nats://nats:4222 RE_DO image**
+[Top](#top)
 
-Select the `update` button for the changes to take effect
-
-
-
-
-## 5. Using the demo
+## 5. Using the Demo UI
 
 The demo UI opens on the following page
 
@@ -107,7 +96,7 @@ The system configuration is read from an environment file when the UI starts up 
 #### Create debtors and creditors
 <br>
 
-![create-entity](../images/demo-create-entity.png) Click on this icon in the demo UI to replace a pre-fabricated entity with a new randomized entity, and to create up to 4 debtors and creditors.
+![create-entity](../images/demo-create-entity.png) Click on the circled icon in the demo UI to replace a pre-fabricated entity with a new randomized entity, and to create up to 4 debtors and creditors.
 
 <br>
 
@@ -196,7 +185,7 @@ When the `SEND` button is clicked, the UI composes and posts the pacs.008 messag
 ![send-transaction](../images/demo-send-button.png)
 <br>
 
-Go straight to the [Evaluation result dashboard overview](#evaluation-result-dashboard-overview) or read on for an overview of event flow and conditions first.
+Go straight to the [Evaluation result dashboard overview](#evaluation-result-dashboard-overview) or read on for an overview of event flow and conditions functionality first.
 
 [Top](#top)
 
@@ -246,7 +235,7 @@ The light indicator next to the type of condition, will be
  - Red for an active condition
  - Grey for a condition that has expired and is no longer applicable
 
-Close the panel by selecting one of the highlighted buttons
+Close the panel by selecting one of the highlighted buttons below
 
 <br>
 
@@ -257,9 +246,7 @@ Close the panel by selecting one of the highlighted buttons
 The `close` button will close the condition panel as well as the update entity panel, while the other two buttons will close the condition panel only.
 
 
-Close the panel by selecting one of the highlighted buttons below
-
-Click the hightlighted button below on the Update Debtor/ Creditor Entity panel to view the conditions for the account or entity selected.
+If you are on Update Debtor/ Creditor Entity panel, click the hightlighted button below, to view the conditions for the account or entity selected.
 
 <br>
 
@@ -273,7 +260,7 @@ From the conditions view, a condition can be expired immediately by selecting th
 
 <br>
 
-![condition-expire](../images/demo-condition-expire-now.png)
+![condition-expire-now](../images/demo-condition-expire-now.png)
 
 <br>
 
@@ -281,14 +268,16 @@ Click on the save button to confirm expiring the condition now.
 
 <br>
 
-![condition-expire-now](../images/demo-condition-expire-now-confirm.png)
+![condition-expire-now-confirm](../images/demo-condition-expire-now-confirm.png)
 
 <br>
+
+##### Expire-date
 
 The end date on a condition can also be future dated by manually typing the date and time or using the date and picker, and then selecting the `x` next to the end date.
 <br>
 
-![condition-expire-now](../images/demo-condition-expire-date.png)
+![condition-expire](../images/demo-condition-expire-date.png)
 
 <br>
 
@@ -355,6 +344,7 @@ The Transaction Aggregation and Decisioning Processor (TADPROC) publishes a comp
 <br>
 If the interdiction is overridden, the TADProc light will flash green and red and the text `interdiction overridden` will be displayed below the TADProc light.
 <br>
+
 ![tadproc-panel-override](../images/demo-tadproc-override.png)
 
 If the transaction is blocked, the TADProc light will be amber (if the report status is not alert) or red (if the report status is alert) and the text `blocked` will be displayed below the TADProc light.
@@ -383,6 +373,12 @@ While hovering over a specific rule light to temporarily display a summary of th
 Once a state is persisted by clicking on a rule, hovering over other rules, highlights the typologies that depend on the second rule result, in a lighter shade of grey. In this case, hovering over rule 030 (after clicking on rule 008), highlights typologies 037, 047, 105, 044, 045, 214 in a lighter shade of grey.
 ![rules-hover-typology2](../images/demo-rules-hover-typology2.png)
 
+If there is an override condition applicable and the EFRuP rule is configured in the network map, the ERFuP rule results will show a description of `override` 
+
+<br>
+
+![rule-typology-red](../images/demo-rules-efrup.png)
+
 [Top](#top)
 
 #### Typology Panel Analysis
@@ -409,16 +405,10 @@ If the user hovers over a rule light, the information is displayed temporarily, 
 
 ![typology-click-rules](../images/demo-typology-click-rules.png)
 
-Once a state is persisted by clicking on a typology, hovering over other typologies, highlights the rules that contribute to the second typology result, in a lighter shade of grey.  In this case, hovering over typology 024 (after clicking on typology 095), highlights rules 002, 016, 017, 021, 025, 027, 054, 063, 084, 090 091 in a lighter shade of grey.
+Once a state is persisted by clicking on a typology, hovering over other typologies, highlights the rules that contribute to the second typology result, in a lighter shade of grey.  In this case, hovering over typology 024 (after clicking on typology 095), highlights rules 002, 016, 017, 021, 025, 027, 054, 063, 084, 090, 091 in a lighter shade of grey.
 <br>
 
 ![typology-hover-rules2](../images/demo-typology-hover-rules2.png)
-
-If there is an override condition applicable and the EFRuP rule is configured in teh network map, the ERFuP rule results will show a description of `override` 
-
-<br>
-
-![rule-typology-red](../images/demo-rules-efrup.png)
 
 If the interdiction alert for a typology is overridden, the typology score that was overridden (in this case 095) shows an override icon next to the score.
 
@@ -429,7 +419,7 @@ If the interdiction alert for a typology is overridden, the typology score that 
 [Top](#top)
 
 ### Clear all
-The `clear all` button resets the entire demo and allows the user to start a new demo with a fresh screen
+The `clear all` button resets the entire demo and allows the user to start a new demo with a fresh screen.
 <br>
 
 ![clear-all](../images/demo-clear-all.png)
@@ -443,17 +433,23 @@ See below for `clear all` result
 [Top](#top)
 
 ## 6. Troubleshooting
-#### Broswers to avoid <!-- omit in toc -->
 
+#### Browsers to avoid <!-- omit in toc -->
 
+There are known issues with date picker fields in Safari and Firefox browsers which may cause an error when selecting an expiry date for a condition. Check that the date and time is captured (manually type if necessary) before selecting the [expire button](#expire-date)
 
 #### Setup dependencies (pre-full stack docker) <!-- omit in toc -->
 
-The following 2 files must be created or updated before the start.bat file is run from full-stack-docker. The demo will not deploy successfully without them. The full instructions are in the guide [Full-Stack-Docker-Tazama repository](https://github.com/tazama-lf/Full-Stack-Docker-Tazama) 
+The `ui.env` and `docker-compose.dev.ui.yaml` must be created or updated in the full stack docker folder before the start.bat file is run from full-stack-docker. The demo will not deploy successfully without them. The full instructions are in the guide [Full-Stack-Docker-Tazama repository readme.md](https://github.com/tazama-lf/Full-Stack-Docker-Tazama) 
 
-**IMAGE here**
 
-##### ui.env <!-- omit in toc -->
+##### FILE 1: ui.env  <!-- omit in toc -->
+
+The `ui.env` file should exist in the following location (as shown below in a code editor such as VSCode)
+
+![location of ui.env file](../images/demo-uienv-location.png)
+
+The `ui.env` file should contain the following contents
 
 ```JSON
 # SPDX-License-Identifier: Apache-2.0
@@ -476,9 +472,15 @@ NEXT_PUBLIC_EVENT_TYPES="['pacs.008.001.10', 'pacs.002.001.12', 'pain.001.001.11
 NEXT_PUBLIC_CONDITION_REASONS="['Suspicion of Money Laundering', 'Violation of KYC/AML Requirements', 'Suspicion of Terrorist Financing', 'Tax Evasion Concerns', 'Regulatory Reporting Thresholds', 'Unusual Transaction Patterns', 'High-Risk Countries', 'Multiple Failed Login Attempts', 'Fraudulent Activity', 'Phishing or Account Takeover', 'Suspicious Beneficiaries', 'System Errors', 'Exceeding Limits', 'Legal Holds or Court Orders', 'Adverse media reports', 'Dormant or Inactive Accounts', 'Internal Bank Policies']"
 ```
 
-**IMAGE here**
+The list of possible values in the condition reason drop-down field are picked up from the list in `NEXT_PUBLIC_CONDITION_REASONS`. Change the order or add values to the drop-down here.
 
-##### docker-compose.dev.ui.yaml <!-- omit in toc -->
+##### FILE 2: docker-compose.dev.ui.yaml <!-- omit in toc -->
+
+The `docker-compose.dev.ui.yaml` file should exist in the following location (as shown below in a code editor such as VSCode)
+
+![location of ui.env file](../images/demo-ui-yaml-location.png)
+
+The `docker-compose.dev.ui.yaml` file should contain the following contents
 
 ```JSON
 services:
