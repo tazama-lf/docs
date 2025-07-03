@@ -18,7 +18,6 @@
       - [Create conditions](#create-conditions)
       - [View conditions](#view-conditions)
       - [Expire conditions](#expire-conditions)
-      - [Expire-date](#expire-date)
   - [Evaluation result dashboard overview](#evaluation-result-dashboard-overview)
     - [Event Director (ED) Panel Overview](#event-director-ed-panel-overview)
     - [Rules Panel Overview](#rules-panel-overview)
@@ -272,7 +271,7 @@ Click on the save button to confirm expiring the condition now.
 
 <br>
 
-##### Expire-date
+##### Expire-date <!-- omit in toc -->
 
 The end date on a condition can also be future dated by manually typing the date and time or using the date and picker, and then selecting the `x` next to the end date.
 <br>
