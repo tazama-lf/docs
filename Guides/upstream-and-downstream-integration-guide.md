@@ -76,7 +76,7 @@ The Mojaloop PPA is not currently in service, but is due to be updated for an up
 
 ![tazama relay service](/images/tazama-integration-relay-service.drawio.svg)
 
-Tazama delivers evaluation results directly out of various processors in its internal evaluation flow. Messages between internal processors are basically in JSON format, but are transmitted via protocol puffers from one processor to the next. As an evaluation is performed, each processor plane adds its own evaluation results to the message payload.
+Tazama delivers evaluation results directly out of various processors in its internal evaluation flow. Messages between internal processors are basically in JSON format, but are transmitted via protocol buffers from one processor to the next. As an evaluation is performed, each processor plane adds its own evaluation results to the message payload.
 
 ![tazama message payload](/images/tazama-integration-output.drawio.svg)
 
