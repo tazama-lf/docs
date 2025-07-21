@@ -227,7 +227,7 @@ In the client scope configuration:
 
 Navigate to Groups and select the group you want to assign a tenant ID to (e.g., "paysys"). Go to the "Attributes" tab and add the tenant information.
 
-![tenant-id-group-attributes](images/keycloak/tenant-id-group-attributes.png)
+<img width="1919" height="867" alt="tenant-id-group-attributes" src="https://github.com/user-attachments/assets/c1572788-60b7-4fa4-b623-f57b7a877f1d" />
 
 Add a new attribute:
 1. **Key**: `TENANT_ID`
