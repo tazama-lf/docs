@@ -201,7 +201,8 @@ To support multi-tenancy in Tazama, we need to configure Keycloak to include ten
 
 First, navigate to your client settings and go to the "Client scopes" tab, then select "Dedicated scopes" and click on your client scope (e.g., `auth-lib-client-dedicated`).
 
-![tenant-id-mapper-step1](images/keycloak/tenant-id-mapper-step1.png)
+<img width="1906" height="871" alt="tenant-id-mapper-step1" src="https://github.com/user-attachments/assets/54bfda68-390d-4c7c-8490-e32676f35bb9" />
+
 
 In the client scope configuration:
 1. **Mapper type**: Select "User Attribute" 
