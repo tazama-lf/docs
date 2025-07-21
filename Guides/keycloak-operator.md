@@ -1,12 +1,50 @@
-### KeyCloak Operator Guide for Tazama
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+# Auth-Lib-Provider-Keycloak
+
+## Overview
+
+A provider to be used to bridge Tazama Authentication with a keycloak backend. This provider is reliant on the [auth-lib](https://github.com/tazama-lf/auth-lib) package to function.
+
+## Installation
+
+A personal access token is required to install this repository. For more information read the following.
+https://docs.github.com/en/packages/learn-github-packages/about-permissions-for-github-packages#about-scopes-and-permissions-for-package-registries
+
+Make sure you've got an .npmrc file in the root of your project, specifying where the @tazama-lf repo is. 
+```
+@tazama-lf:registry=https://npm.pkg.github.com
+```
+
+Thereafter you can run 
+  > npm install @tazama-lf/auth-lib 
+  > npm install @tazama-lf/auth-lib-provider-keycloak 
+
+## Usage
+
+Ensure whichever application consumes this provider alongside auth-lib set the environmental variables unique to this provider as defined below
+
+##### Environment variables
+
+| Variable | Purpose | Example
+| ------ | ------ | ------ |
+| `AUTH_URL` | Base URL where KeyCloak is hosted | `https://keycloak.example.com:8080`
+| `KEYCLOAK_REALM` | KeyCloak Realm for Tazama | `tazama`
+| `CLIENT_ID` | KeyCloak defined client for auth-lib | `auth-lib-client`
+| `CLIENT_SECRET` | The secret of the KeyCloak client | `someClientGeneratedSecret123`
+
+---
+
+## KeyCloak Operator Guide for Tazama
 
 Official documentation found [here](https://www.keycloak.org/docs/23.0.6/server_admin/index.html)
-#### Logging into Admin Console
+
+### Logging into Admin Console
 
 An admin account would have been created with KeyCloak deployment and management console is reached at the following endpoint:
 `{keycloak_url}/admin/master/console`
 
-#### Creating a Realm
+### Creating a Realm
 First we need to create a Realm for Tazama to house our management of users and credentials. Realm creation is available at the KeyCloak web admin panel. Note a default master realm will exist but we will want a realm for our custom entity.
 
 <details open>
@@ -28,7 +66,7 @@ First we need to create a Realm for Tazama to house our management of users and 
 
 ---
 
-#### Creating a Client
+### Creating a Client
 We want to create a client to be able to authenticate and authorize using KeyCloak. In our scenario we are using the `auth lib` in Tazama. So we want to create a client for this purpose.
 To create a client first ensure we are on the right realm on the dropdown top left then navigate to the create client button under Clients.
 
@@ -81,7 +119,7 @@ We have now created the following variables for auth-lib.
 
 ---
 
-#### Creating roles 
+### Creating roles 
 Roles are permissions to define varying scope of access for users (also clients) in a KeyCloak realm. Roles can either be created on the realm level or in the individual client level. For this use case we will only be using realm roles.
 To create a realm role navigate to Realm roles and click on Create role button.
 
@@ -109,7 +147,7 @@ We can repeat this process for `POST_V1_EVALUATE_ISO20022_PAIN_013_001_09`, `POS
 
 ---
 
-#### Creating groups
+### Creating groups
 Now that we have a roles defined we can create a group with roles assigned to them. To create a group navigate to Groups and click on create group button.
 
 <details open>
@@ -153,7 +191,60 @@ We now have a tazama-tms group but no users. Let's create some users next.
 
 ---
 
-#### Creating users
+### Configuring Tenant ID in Tokens
+To support multi-tenancy in Tazama, we need to configure Keycloak to include tenant information in the JWT tokens. This is achieved by creating a custom user attribute mapper that adds the TENANT_ID claim to access tokens.
+
+<details open>
+    <summary> 
+      Step 1: Create User Attribute Mapper
+    </summary>
+
+First, navigate to your client settings and go to the "Client scopes" tab, then select "Dedicated scopes" and click on your client scope (e.g., `auth-lib-client-dedicated`).
+
+![tenant-id-mapper-step1](images/keycloak/tenant-id-mapper-step1.png)
+
+In the client scope configuration:
+1. **Mapper type**: Select "User Attribute" 
+2. **Name**: Set to "tenant_id" (this will be the claim name in the token)
+3. **User Attribute**: Set to "TENANT_ID" (this should match the attribute name in user profiles)
+4. **Token Claim Name**: Set to "tenant_id" (this is how it appears in the JWT)
+5. **Claim JSON Type**: Select "String"
+6. **Add to ID token**: Toggle "On" 
+7. **Add to access token**: Toggle "On"
+8. **Add to lightweight access token**: Can be left "Off" for this use case
+9. **Add to userinfo**: Toggle "On"
+10. **Add to token introspection**: Toggle "On"
+11. **Multivalued**: Toggle "Off" (since tenant_id should be a single value)
+12. **Aggregate attribute values**: Toggle "Off"
+
+</details>
+
+<details open>
+    <summary> 
+      Step 2: Configure Group Attributes for Tenant ID
+    </summary>
+
+Navigate to Groups and select the group you want to assign a tenant ID to (e.g., "paysys"). Go to the "Attributes" tab and add the tenant information.
+
+![tenant-id-group-attributes](images/keycloak/tenant-id-group-attributes.png)
+
+Add a new attribute:
+1. **Key**: `TENANT_ID`
+2. **Value**: The actual tenant identifier (e.g., `tenant_value_005`)
+
+This ensures that all users in this group will inherit this tenant ID, which will then be included in their JWT tokens through the mapper configured in Step 1.
+
+**Important Notes:**
+- Each group can have its own TENANT_ID attribute value
+- Users will inherit the TENANT_ID from their primary group
+- The Tazama auth library will use this tenant_id claim for multi-tenant authorization
+- Make sure the TENANT_ID attribute name matches exactly what's configured in the user attribute mapper
+
+</details>
+
+---
+
+### Creating users
 Users are individuals that will authenticate through KeyCloak to obtain permissions to use Tazama.
 To create a user in KeyCloak navigate to the Users section and click on add user button.
 
@@ -209,7 +300,7 @@ If you do not want the user to interact to the UI components of KeyCloak this wo
 
 ---
 
-#### Deleting users
+### Deleting users
 Deleting users are simple.
 We navigate to the Users section
 
@@ -235,7 +326,7 @@ The user is deleted.
 
 ---
 
-#### Local Deployment
+### Local Deployment
 <details>
     <summary>
         <strong>Docker Compose</strong>
@@ -305,9 +396,3 @@ KEYCLOAK_ADMIN_PASSWORD=admin
 ```
    </details>
 </details>
-
-
-
-
-
-
