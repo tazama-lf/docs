@@ -494,25 +494,3 @@ The KeyCloak provider works as part of the Tazama authentication architecture:
 The auth-service container runs independently and is configured via the `.env` file shown above. Other Tazama services then call the auth-service endpoint (typically `http://auth-service:3020`) to validate tokens and check permissions.
 
 ---
-
-### User Management Best Practices
-
-When managing users in a multi-tenant Tazama environment, follow these guidelines:
-
-**For Tenant Users:**
-1. Always create users within the appropriate tenant group first
-2. Verify the tenant group has the correct TENANT_ID attribute configured
-3. Test that the user receives the correct tenant_id claim in their JWT token
-4. Ensure the user can only access data from their assigned tenant
-
-**For Operator Users:**
-1. Create users in the general tazama-tms group for system-wide access
-2. Grant minimal necessary permissions following the principle of least privilege
-3. Consider creating sub-groups for different operator roles (e.g., read-only operators, full administrators)
-4. Document operator access for audit purposes
-
-**Security Considerations:**
-- Regular audit of user group memberships
-- Periodic review of tenant group TENANT_ID attributes
-- Monitor for users accidentally assigned to multiple tenant groups
-- Implement strong password policies and MFA where possible
