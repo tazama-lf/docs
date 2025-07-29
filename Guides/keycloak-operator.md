@@ -27,16 +27,48 @@ Thereafter you can run
 
 ## Usage
 
-Ensure whichever application consumes this provider alongside auth-lib set the environmental variables unique to this provider as defined below
+Ensure whichever application consumes this provider alongside auth-lib set the environmental variables unique to this provider as defined below. These variables are typically configured in the `.env` file of your Tazama deployment or in the environment configuration of your auth-service container.
 
 ##### Environment variables
 
-| Variable | Purpose | Example
-| ------ | ------ | ------ |
-| `AUTH_URL` | Base URL where KeyCloak is hosted | `https://keycloak.example.com:8080`
-| `KEYCLOAK_REALM` | KeyCloak Realm for Tazama | `tazama`
-| `CLIENT_ID` | KeyCloak defined client for auth-lib | `auth-lib-client`
-| `CLIENT_SECRET` | The secret of the KeyCloak client | `someClientGeneratedSecret123`
+| Variable | Purpose | Example | Tazama Default Configuration
+| ------ | ------ | ------ | ------ |
+| `AUTH_URL` | Base URL where KeyCloak is hosted | `https://keycloak.example.com:8080` | `http://keycloak:8080` (internal Docker network) |
+| `KEYCLOAK_REALM` | KeyCloak Realm for Tazama | `tazama` | `tazama` |
+| `CLIENT_ID` | KeyCloak defined client for auth-lib | `auth-lib-client` | `auth-lib-client` |
+| `CLIENT_SECRET` | The secret of the KeyCloak client | `someClientGeneratedSecret123` | Generated during client creation (see security note below) |
+
+##### Complete .env configuration example for Tazama auth-service:
+
+This example shows the complete `.env` file used to deploy the auth-service component in the Tazama ecosystem. The auth-service acts as the authentication gateway that integrates with KeyCloak using this provider.
+
+```bash
+# SPDX-License-Identifier: Apache-2.0
+
+# Service Configuration
+FUNCTION_NAME=auth-service
+NODE_ENV=dev
+MAX_CPU=1
+
+# Fastify Web Server Configuration
+PORT=3020
+HOST=0.0.0.0
+
+# Auth Library Configuration
+AUTH_PROVIDER=@tazama-lf/auth-lib-provider-keycloak
+CERT_PATH_PRIVATE=private-key.pem
+CERT_PATH_PUBLIC=public-key.pem
+
+# KeyCloak Provider Configuration
+AUTH_URL=http://keycloak.your-domain.com:8080
+KEYCLOAK_REALM=tazama
+CLIENT_SECRET=your-generated-client-secret-here
+CLIENT_ID=your-client-id-here
+KEYCLOAK_CLIENT_ID=your-client-id-here
+KEYCLOAK_CLIENT_SECRET=your-generated-client-secret-here
+```
+**Deployment:**
+This `.env` file is used when deploying the auth-service container, which serves as the authentication endpoint that other Tazama services call to validate tokens and permissions. The auth-service uses this provider to communicate with your KeyCloak instance configured following the steps in this guide.
 
 ---
 
@@ -118,7 +150,7 @@ We have now created the following variables for auth-lib.
 | Variable  | Value               | 
 |-----------|---------------------|
 | **client_id**  | auth-lib-client    | 
-| **client_secret** | sqqabDGAxJD8z01FhqOqPxJrYYmC1ViH    | 
+| **client_secret** | your-generated-client-secret-here    | 
 
 </details>
 
@@ -251,8 +283,16 @@ This ensures that all users in this group will inherit this tenant ID, which wil
 ---
 
 ### Creating users
-Users are individuals that will authenticate through KeyCloak to obtain permissions to use Tazama.
-To create a user in KeyCloak navigate to the Users section and click on add user button.
+Users are individuals that will authenticate through KeyCloak to obtain permissions to use Tazama. There are two types of users in the Tazama ecosystem:
+
+1. **Tenant Users**: Users who belong to specific tenant organizations and inherit tenant-specific permissions and tenant ID attributes
+2. **Operator Users**: Administrative users who manage the Tazama system across multiple tenants
+
+#### Creating Tenant Users
+
+For tenant-specific users, follow these steps to ensure proper multi-tenancy setup:
+
+To create a tenant user in KeyCloak navigate to the Users section and click on add user button.
 
 <details open>
     <summary> 
@@ -261,15 +301,20 @@ To create a user in KeyCloak navigate to the Users section and click on add user
 
 ![13-users-nav](../images/keycloak/13-users-nav.png)
 
-Then let's fill in the user details and additionally let the user join the tazama-tms group.
+When creating tenant users, ensure you assign them to the appropriate tenant group (e.g., "paysys" with TENANT_ID "tenant_value_005").
 </details>
 
 <details open>
     <summary> 
-      Create User and Join Group
+      Create Tenant User and Join Tenant Group
     </summary>
 
 ![14-users-create-and-group-join](../images/keycloak/14-users-create-and-group-join.png)
+
+**Important**: For tenant users, make sure to:
+- Assign them to the correct tenant group (not the general tazama-tms group)
+- Verify the group has the proper TENANT_ID attribute configured
+- The user will automatically inherit the TENANT_ID from their group membership
 
 While the user is created a password was not yet set. So let's create a password for the newly created user under Credentials
 </details>
@@ -283,9 +328,35 @@ While the user is created a password was not yet set. So let's create a password
 ---
 ![16-users-set-password-extra](../images/keycloak/16-users-set-password-extra.png)
 
-Congratulations. You now have a user with the appropriate roles to interact with Tazama TMS.
+#### Creating Operator Users
 
-If you do not want the user to interact to the UI components of KeyCloak this would be the end.
+For operator-specific users who need cross-tenant access or system-wide management capabilities:
+
+1. **Create the user** following the same navigation steps above
+2. **Assign them to a group**
+3. **Do NOT assign a tenant-specific group** (or assign a special operator tenant ID if required)
+
+**Operator User Configuration:**
+- Group membership: None
+- TENANT_ID: None
+- Permissions: Cross-tenant visibility and system administration
+- Use case: System administrators, support staff, cross-tenant analysts
+
+**User Type Summary:**
+
+| User Type | Group Assignment | TENANT_ID | Access Scope | Use Case |
+|-----------|-----------------|-----------|--------------|----------|
+| **Tenant Users** | Tenant-specific group (e.g., "paysys") | Inherited from group (e.g., "tenant_value_005") | Restricted to tenant data only | End users, tenant administrators |
+| **Operator Users** | None |
+
+**Important Multi-Tenancy Notes:**
+- Tenant users can ONLY access data associated with their tenant ID
+- Operator users can access system-wide data and configurations
+- The auth-lib will automatically enforce tenant restrictions based on the user's token claims
+- Each tenant group should have a unique TENANT_ID attribute value
+- Users can only be members of one tenant group at a time to avoid conflicts
+
+Congratulations. You now have users configured for the appropriate access level to interact with Tazama TMS.
 </details>
 
 <details>
@@ -402,3 +473,46 @@ KEYCLOAK_ADMIN_PASSWORD=admin
 ```
    </details>
 </details>
+
+## Integration with Tazama Ecosystem
+
+The KeyCloak provider works as part of the Tazama authentication architecture:
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Client App    │───▶│  Auth-Service   │───▶│    KeyCloak     │
+│                 │    │ (using this     │    │   (Identity     │
+│                 │    │  provider)      │    │   Provider)     │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
+
+1. **Client applications** (TMS API, other Tazama services) send authentication requests
+2. **Auth-service** validates these requests using this KeyCloak provider
+3. **KeyCloak** performs the actual authentication and returns tokens
+4. **Auth-service** processes the response and provides tokens back to clients
+
+The auth-service container runs independently and is configured via the `.env` file shown above. Other Tazama services then call the auth-service endpoint (typically `http://auth-service:3020`) to validate tokens and check permissions.
+
+---
+
+### User Management Best Practices
+
+When managing users in a multi-tenant Tazama environment, follow these guidelines:
+
+**For Tenant Users:**
+1. Always create users within the appropriate tenant group first
+2. Verify the tenant group has the correct TENANT_ID attribute configured
+3. Test that the user receives the correct tenant_id claim in their JWT token
+4. Ensure the user can only access data from their assigned tenant
+
+**For Operator Users:**
+1. Create users in the general tazama-tms group for system-wide access
+2. Grant minimal necessary permissions following the principle of least privilege
+3. Consider creating sub-groups for different operator roles (e.g., read-only operators, full administrators)
+4. Document operator access for audit purposes
+
+**Security Considerations:**
+- Regular audit of user group memberships
+- Periodic review of tenant group TENANT_ID attributes
+- Monitor for users accidentally assigned to multiple tenant groups
+- Implement strong password policies and MFA where possible
