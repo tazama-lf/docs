@@ -192,7 +192,7 @@ We now have a tazama-tms group but no users. Let's create some users next.
 ---
 
 ### Configuring Tenant ID in Tokens
-To support multi-tenancy in Tazama, we need to configure Keycloak to include tenant information in the JWT tokens. This is achieved by creating a custom user attribute mapper that adds the TENANT_ID claim to access tokens.
+To support multi-tenancy in Tazama, we need to configure Keycloak to include tenant information in the JWT tokens. This is achieved by creating a custom user attribute mapper that adds the TENANT_ID attribute to access tokens.
 
 <details open>
     <summary> 
