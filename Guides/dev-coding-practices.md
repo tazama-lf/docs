@@ -79,6 +79,23 @@ This document details the ESLint configuration for TypeScript files as specified
 
 This setup ensures a robust framework for maintaining high code quality and consistency in TypeScript projects, leveraging ESLint's core capabilities and additional style rules from external plugins.
 
+#### Running Linting
+
+Eslint rules should run by default if husky is set up correctly. Through lint-staged as well as husky's hooks folder for pre-commit and pre-push hooks specifically. If any errors occurs it will prevent a successful commit/push to a branch as errors need to be addressesd before proceeding.
+
+Linting rules can also be manually trigged by developers by running one of the linting scripts found in the package.json usually called `npm run lint:eslint` or `npm run fix` (to also include prettier formatting)
+
+#### Disabling a linting rule
+
+Sometimes linting errors need to be ignored or cannot be addressed and in such cases we allow for inline eslint-disable rules. Accompanied by every eslint-disable a eslint-enable should follow, full file eslint-disables are not allowed. The linter will then error if a justifiable comment is not given alongside the eslint-disable
+
+eg. 
+```typescript
+/* eslint-disable @typescript-eslint/disallow-funky-code -- <Justified comment here> */
+// funky code here
+/* eslint-enable @typescript-eslint/disallow-funky-code */
+```
+
 <div style="text-align: right"><a href="#top">Top</a></div>
 
 ## 2. Gather asynchronous requests 
