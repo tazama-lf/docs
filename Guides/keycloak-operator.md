@@ -1,4 +1,4 @@
-### KeyCloak Operator Guide for Tazama
+# KeyCloak Operator Guide for Tazama
 
 
 <!-- SPDX-License-Identifier: Apache-2.0 -->
