@@ -37,7 +37,7 @@ The Tazama system is provided as a software engine and as such is generally impl
  
 The basic narrative of the demo is to set up a number of light-weight identities and then simulate transactions from a debtor to a creditor via a mocked up mobile device interface. The user interface then reports the outcomes of the various system processes for rule and typology evaluation, and then allow the narrator to highlight interesting elements of the evaluation outcomes, such as the result of a specific rule, the composition of a typology and the outcome of the typology scoring, and whether a transaction is blocked or whether an investigation alert was raised.
 
-The latest version of the demo available is v2.1.0
+The latest version of the demo available is v2.2.0
 
 For more information on the Tazama system, see the [Product Overview](https://github.com/tazama-lf/docs)
 
@@ -484,7 +484,7 @@ The `docker-compose.dev.ui.yaml` file should contain the following contents
 ```JSON
 services:
   ui:
-    image: tazamaorg/demo-ui:v2.1.0
+    image: tazamaorg/demo-ui:v2.2.0
     restart: always
     env_file:
       - env/ui.env
