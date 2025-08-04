@@ -1,4 +1,4 @@
-SPDX-License-Identifier: Apache-2.0 
+<!-- SPDX-License-Identifier: Apache-2.0 -->
 
 # KeyCloak Operator Guide for Tazama
 
@@ -270,9 +270,9 @@ Add a new attribute:
 This ensures that all users in this group will inherit this tenant ID, which will then be included in their JWT tokens through the mapper configured in Step 1.
 
 **Important Notes:**
-- Each group can have its own TENANT_ID attribute value
+- Each group must have its own TENANT_ID attribute value
 - Users will inherit the TENANT_ID from their primary group
-- The Tazama auth library will use this tenant_id claim for multi-tenant authorization
+- The Tazama auth library will use this TENANT_ID attribute for multi-tenant authorization
 - Make sure the TENANT_ID attribute name matches exactly what's configured in the user attribute mapper
 
 </details>
@@ -309,7 +309,7 @@ When creating tenant users, ensure you assign them to the appropriate tenant gro
 ![14-users-create-and-group-join](../images/keycloak/14-users-create-and-group-join.png)
 
 **Important**: For tenant users, make sure to:
-- Assign them to the correct tenant group (not the general tazama-tms group)
+- Assign them to the correct tenant group, assigning the user to tenant will add tenant roles to the user and add the TENANT_ID to their token.
 - Verify the group has the proper TENANT_ID attribute configured
 - The user will automatically inherit the TENANT_ID from their group membership
 
