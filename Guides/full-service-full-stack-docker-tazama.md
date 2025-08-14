@@ -1,5 +1,8 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
+<a id="top"></a>
+
+
 ## Table of Contents <!-- omit in toc -->
 
 - [Introduction](#introduction)
@@ -21,7 +24,7 @@ The guide in the [Full-Stack-Docker-Tazama repository](https://github.com/tazama
 
 ## Pre-requisites:
 
-Set up your development environment as recommended in the [Tazama Contribution Guide](https://github.com/tazama-lf/.github/blob/main/CONTRIBUTING.md#32-setting-up-the-development-environment) section 3.2.1.
+Set up your development environment as recommended in the [Setting up the development environment guide](../Guides/dev-set-up-environment.md)
 
 The pre-requisites that are essential to be able to follow this guide to the letter are:
 
@@ -31,7 +34,7 @@ The pre-requisites that are essential to be able to follow this guide to the let
  - A code editor (this guide will assume you are using VS Code)
  - A GitHub personal access token with `packages:write` and `read:org` permissions
    - Ensure that your GitHub Personal Access Token is added as a Windows Environment Variable called "`GH_TOKEN`".
-   - Instructions for creating the GH_TOKEN environment variable can be found in the [Tazama Contribution Guide (A. Preparation)](https://github.com/tazama-lf/.github/blob/main/CONTRIBUTING.md#a-preparation-)
+   - Instructions for creating the GH_TOKEN environment variable can be found in the [Setting up GitHub Token Locally](../Guides/dev-set-up-environment.md)
 
      - We will be referencing your GitHub Personal Access Token throughout the installation process as your `GH_TOKEN`. It is not possible to retrieve the token from GitHub after you initially created it, but if the token had been set in Windows as an environment variable, you can retrieve it with the following command from a Windows Command Prompt:
 
@@ -39,7 +42,7 @@ The pre-requisites that are essential to be able to follow this guide to the let
         set GH_TOKEN
         ```
 
-[Top](#introduction)
+<div style="text-align: right"><a href="#top">Top</a></div>
 
 ## Installation steps
 
@@ -86,7 +89,7 @@ For option 2 (Full service DockerHub deployment) the output will be as follows:
 ![full-service-deployed](/images/full-stack-docker-tazama-full-service-option.png)
 
 
-[Top](#introduction)
+<div style="text-align: right"><a href="#top">Top</a></div>
 
 #### 3. Configure Tazama
 
@@ -127,7 +130,7 @@ newman run collection-file -e environment-file --timeout-request 10200
 
 ![execute-config](../images/full-stack-docker-tazama-execute-config.png)
 
-[Top](#introduction)
+<div style="text-align: right"><a href="#top">Top</a></div>
 
 #### 4. Restart core processors
 
@@ -148,7 +151,7 @@ docker restart tazama-ed-1 tazama-tp-1 tazama-tadp-1
 
 ![processors-restart](../images/demo-processors-restart.png)
 
-[Top](#introduction)
+<div style="text-align: right"><a href="#top">Top</a></div>
 
 ## Test the end-to-end deployment
 
@@ -166,3 +169,5 @@ newman run collection-file -e environment-file --timeout-request 10200 --delay-r
 **Output:**
 
 ![to be fixed great-success](../images/full-stack-docker-tazama-great-success.png)
+
+<div style="text-align: right"><a href="#top">Top</a></div>

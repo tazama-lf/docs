@@ -1,168 +1,161 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
+###### Top
 
-# Design Principles
+# Tazama Design Principles <!-- omit in toc -->
+- [Introduction](#introduction)
+- [1. Open Source First](#1-open-source-first)
+- [2. Do Not Reinvent a Serviceable Wheel](#2-do-not-reinvent-a-serviceable-wheel)
+- [3. High Performance at Low Total Cost of Ownership](#3-high-performance-at-low-total-cost-of-ownership)
+- [4. Keep it Simple to Keep it Inclusive](#4-keep-it-simple-to-keep-it-inclusive)
+- [5. Design for Failure](#5-design-for-failure)
+- [6. Appropriate Best Practices](#6-appropriate-best-practices)
 
-In order to ensure that the system is built on good foundations, we follow a number of design principles for Tazama.
+## Introduction
 
-- [Design Principles](#design-principles)
-  - [Open-source](#open-source)
-  - [Cloud-native / Cloud agnostic](#cloud-native--cloud-agnostic)
-    - [Containerized](#containerized)
-    - [Dynamically orchestrated](#dynamically-orchestrated)
-    - [Microservices oriented](#microservices-oriented)
-  - [Reduce Total Cost of Ownership](#reduce-total-cost-of-ownership)
-    - [Time to Production](#time-to-production)
-    - [Infrastructure costs](#infrastructure-costs)
-    - [Operational / Maintenance (excluding Infrastructure) costs](#operational--maintenance-excluding-infrastructure-costs)
-  - [Keep a constant eye on technical debt](#keep-a-constant-eye-on-technical-debt)
-  - [Design for Large scale as well as Low budget infrastructure](#design-for-large-scale-as-well-as-low-budget-infrastructure)
-  - [Security-first / defence in depth](#security-first--defence-in-depth)
-  - [Smart state management](#smart-state-management)
-  - [Design for automation](#design-for-automation)
-  - [Preserve Ambiguity](#preserve-ambiguity)
-  - [Always be architecting / Never stop architecting](#always-be-architecting--never-stop-architecting)
+One of our first tasks as a project in The Linux Foundation in 2024 was to collaborate with our community and determine what our design principles were going to be to make sure we continue to build Tazama responsibly and deliberately, while keeping our eye on the mission for financial inclusion. Our community defined the following principles for the design and development of Tazama.
 
-## Open-source
+## 1. Open Source First
 
-Tazama system is an open-source system where anyone can deploy and run it in their infrastructure without responsibility to pay for any tool upfront or via subscription. If one has an existing infrastructure then they pay $0 to run the Tazama system.
+Imagine you're building a house. You have access to free, high-quality materials, but there's a catch: some of these materials might suddenly become unavailable, or worse, might now come with strings attached. This uncertainty can turn your dream project into a nightmare. This is the reality we face in the world of software development, and it's why we've embraced the "Open Source First" principle for our project, Tazama.
 
-## Cloud-native / Cloud agnostic
+At first glance, the idea of prioritizing open source software might seem straightforward. After all, open source means free and open, right? Unfortunately, our experience has taught us that open source isn't always as open as it seems.
 
-Cloud-native / Cloud agnostic design implies the open source computing stack to be:
+#### The Freedom of Apache 2.0 <!-- omit in toc -->
+Tazama is available for free under the Apache 2.0 license, a "permissive" license that offers flexibility and freedom. This means you can use Tazama with minimal restrictions, and even build your own commercial products around it. But to maintain this freedom, we need to ensure that the software we integrate into Tazama is equally permissive.
 
-1. Containerized
-2. Dynamically orchestrated
-3. Microservices oriented
+#### Navigating Licensing Pitfalls <!-- omit in toc -->
+One of the biggest risks we face is relying on software from organizations that might change their licensing terms. Imagine building a key feature with a tool, only to find out later that you now need to pay for it. To avoid this, we steer clear of software from companies offering commercial versions of their open source products. Instead, we rely on software licensed under MIT or BSD, which tend to be safer bets.
+ 
+#### Ensuring Upstream Transparency <!-- omit in toc -->
+When we incorporate open source software, we dig deep into its dependencies. We want to be sure that we're not exposing ourselves or our users to hidden compliance risks. This means verifying that all upstream dependencies are transparent and compliant with our standards.
 
-### Containerized
+#### Beyond the Code: Evaluating Open Source Products <!-- omit in toc -->
+When selecting open source software, we look beyond the code itself. Here are some key attributes we consider:
+- Community Support: Is there an active and supportive community?
+- Stability: Is the product well-established, and has the development team been around for a while?
+- Documentation: How useful is the documentation in helping us implement the software?
+- Scalability: Can the software meet our growing and dynamic performance needs?
 
-Each component of the Tazama system is containerized. Whether it is OpenFaaS services or ArangoDB or Druid. This facilities reproducibility, scalability, transparency, and resource isolation. It also solves a lot of the deployment concerns by including all the dependencies in the container.
+#### Why It Matters <!-- omit in toc -->
+By adhering to the "Open Source First" principle, we ensure that Tazama remains a robust, flexible, and truly open product. This commitment not only benefits us as developers but also provides our users with the peace of mind that Tazama will remain free and open.
 
-### Dynamically orchestrated
+<div style="text-align: right"><a href="#top">Top</a></div>
 
-All the containers are orchestrated using Kubernetes. Containers are actively scheduled and managed to optimize resource utilization. This helps automate the following:
+## 2. Do Not Reinvent a Serviceable Wheel
 
-1. Monitoring of the system (including all components)
-2. bringing the components (containers) up and down
-3. ensure all configurations are properly setup and dependencies are included
-4. load balancing
-5. sharing authentication secrets between containers
+As software engineers, we love to build things; sometimes with so much enthusiasm that we don't always stop to check if our grand idea or solution is original!
 
-### Microservices oriented
+At Tazama we quickly learned that in the world of open-source development, the principle "Do not reinvent a serviceable wheel" must be a guiding beacon. It underscores the importance of harnessing existing solutions, maintaining flexibility, and avoiding unnecessary custom development. We firmly believe in this principle, which drives our approach to building robust, scalable, and efficient software.
 
-The system is segmented into Microservices. Rule, Typology and Channel implementations are as a microservice. Each microservice performs a specific function. Each microservice is atomic. This design increases the overall agility and maintainability of the system. At the same time, this design makes it easy to develop the overall system by division of labour amongst the members of the development team who work on different microservices reducing multiple developers working on the same code base minimising code conflicts.
+#### Harnessing Existing Open Source Solutions <!-- omit in toc -->
+One of our core beliefs is to reuse good work already performed in open source projects to solve common problems. The open-source community is filled with brilliant solutions developed by talented individuals and organizations. By integrating these solutions, we can focus on our unique challenges while benefiting from the collective wisdom and experience of the community. For example, we use NATS.io for our messaging needs, a tool that has proven its reliability, scalability and efficiency across numerous projects. This not only saves us development time but also ensures we are using a battle-tested solution.
 
-## Reduce Total Cost of Ownership
+#### Abstraction for Flexibility <!-- omit in toc -->
+We aim to abstract our use of, and integration into, third-party software to make it easier to change our minds if we find something better or if an existing solution is no longer suitable. This approach allows us to stay agile and responsive to new developments in technology. For instance, our modular architecture means we can easily switch from one authentication solution to another without significant rewrites. This flexibility is crucial for adapting to changing requirements and leveraging the best tools available.
 
-Total Cost of ownership (TCO) is all cost incurred at the asset level from its conception through to disposal at the end of its useful life. Reducing TCO is a no-brainer but at the same time very easy to lose sight of while going through the development process.
+#### Don't Fork! <!-- omit in toc -->
+Forking someone else's product to adapt it to our requirements can lead to significant maintenance burdens and divergence from the main project. Instead, we strive to use the officially published packages for our products without modification. For example, Tazama can be deployed with the versions of Redis, NATS, and ArangoDB published on Docker Hub to make our deployments simple and straightforward for our users.
 
-These elements factors into the TCO:
+#### Custom Solutions as a Last Resort <!-- omit in toc -->
+Building custom software to solve a known problem should always be a last resort. Custom development is time-consuming and resource-intensive, and it often introduces new risks and maintenance challenges. Whenever possible, we prefer to adopt existing tools and frameworks that have already been tested and proven. For instance, instead of developing a custom logging framework, we chose to integrate with Elasticsearch, Logstash, and Kibana (ELK Stack), which offers comprehensive logging and monitoring capabilities out of the box.
 
-1. Time to Production
-2. Infrastructure costs
-3. Operational / Maintenance (excluding Infrastructure) costs
+#### Why it Matters <!-- omit in toc -->
+The principle of "Do not reinvent a serviceable wheel" is about smart resource management and capitalizing on the strengths of the open-source community. By enforcing this principle in our design decisions, we can focus on building the really cool things that make Tazama unique and simultaneously also fill a niche that our users and other open-source projects can benefit from.
 
-### Time to Production
+<div style="text-align: right"><a href="#top">Top</a></div>
 
-We save time from concept to production by doing the following:
+## 3. High Performance at Low Total Cost of Ownership
 
-1. We do not re-invent any wheels.
-2. We use popular open-source products.
-3. We POC them to ensure they fulfil the business requirements of the Tazama system.
-4. We do minimal customization. Most of the effort is spent in designing and writing the business logic.
-5. We re-use as much code as possible.
+In a rural community in Malaysia, a community bank aims to provide essential financial services to its members, many of whom have limited access to traditional banking. The bank plans to introduce digital banking but faces challenges due to the high costs of implementing a robust transaction monitoring system. This situation highlights a critical issue in digital financial services: balancing performance and affordability. At Tazama, we believe that protecting financially vulnerable customers shouldn't come at an exaggerated cost to those same customers. This is the cornerstone of our design principle, "High Performance at Low Total Cost of Ownership."
 
-> :warning: 1. We do not re-invent any wheels. *We used Kubernetes*
-> 2. We use popular open-source products. *Example: OpenFaaS, ArangoDB, Druid etc*
-> 3. We POC them to ensure they fulfil the business requirements of the Tazama system. *Example: ArangoDB, Linkerd etc*
-> 4. We do minimal customization. Most of the effort is spent in designing and writing the business logic. *Example: Linkerd comes packaged with Prometheus and Grafana. We did not customize Prometheus or Grafana. We did not customize Linkerd. We used OpenFaaS as recommended and wrote Rules and Typologies (business logic)*
-> 5. We re-use as much code as possible. *Example: All the Rules follow a standard coding template. The Rules only differ in the business logic. The same applies to Typologies.*
+#### Real-Time Interdiction <!-- omit in toc -->
+Real-time interdiction is vital for detecting and potentially blocking fraudulent transactions instantly. At Tazama, we emphasize real-time monitoring to ensure immediate responses to suspicious activities, without impacting the customer experience with undue delays.
 
-### Infrastructure costs
+#### Scalability in Response to Load <!-- omit in toc -->
+As digital banking grows and cycles, transaction volumes can ebb and flow. A system that scales effectively is crucial to avoid high base fees. Tazama's must be designed to idle at low cost and handle increased loads on demand without a significant rise in costs to ensure efficient, reliable, and cost-effective service regardless of transaction volume.
 
-We understand that some of the users of the open source Tazama system will not have budget or access to extensive infrastructure. We therefore designed Tazama to support smaller budgets, without compromising on functionality.
+#### Low Cost to Operate (Total Cost of Ownership) <!-- omit in toc -->
+Total cost of ownership (TCO) includes setup, maintenance, and operational costs. Tazama prioritizes cost-effectiveness by using open-source components and building automated and configurable processes to reduce the need for specialized personnel. Costs saved by the operator translates to costs saved by the customer.
 
-At the same time, there will be some users who will want to use Tazama system to scale to higher volumes, and have the appropriate resources to deliver. Tazama system supports these users too.
+#### Efficient Use of Resources <!-- omit in toc -->
+Resource management is key to reducing costs and maintaining performance. Tazama must optimize computational and storage resources through efficient workflows and data management strategies. New features must minimize hardware requirements, making the system accessible even for institutions with limited resources.
 
-Example: In the POC phase, we observed (and measured) that Kafka scaling required an expensive infrastructure as well as maintenance. In the MVP phase, we looked at Kafka alternatives; the alternatives were not just another set of MQ products but rather that the design alternatives to reduce the infrastructure costs.
+#### Avoid Obvious Bottlenecks <!-- omit in toc -->
+Bottlenecks, such as data processing delays, can impair system performance. Avoiding obvious bottlenecks seems, well, obvious, but a deliberate and proactive approach will ensure that we don't do something obviously sub-optimal just because we're not paying attention.
 
-### Operational / Maintenance (excluding Infrastructure) costs
+#### Benchmark New Features <!-- omit in toc -->
+Benchmarking is essential for maintaining high standards in new features. Tazama automatically conducts performance regression tests when GitHub Pull requests are submitted to ensure changes maintain (or improve!) performance against expectations.
 
-Once in Production, if not checked, the Operations / Maintenance costs of running the Tazama system can become significant. Here is what we have done to help keep these costs to a minimum:
+#### Why It Matters <!-- omit in toc -->
+"High Performance at Low Total Cost of Ownership" is central to Tazama's mission. We focus on deliberate consideration of the requirements for real-time interdiction, scalability, cost-efficiency, and thorough benchmarking to provide a transaction monitoring solution that is performant and promotes accessible digital financial services. Robust digital banking protections should be available to all, regardless of their financial situation.
 
-1. Containerized - these are mostly compact OS containers that have the own dependencies and configurations. So it is easier to trobleshoot, modify or customize.
-2. Kubernetes Orchestrated - scaling up or down the number of containers can be a laborious and expensive task if not automated. Kubernetes solves that challenge.
-3. Standard products / tools - we have used industry popular products and tools (example: Linkerd, OpenFaaS) etc, so there is reliable information available publicly to support the overall Tazama system.
-4. Separation of configuration and code - we have designed and coded the Tazama system to keep configuration and code separate to enable efficient and effective maintenance.
-5. Separation of computing and business logic code - we have designed and coded the Tazama system to keep the technical / computing pieces of code and the business logic code as separate as possible. This makes it easy to update / build-new the business logic in less time and cost.
+At Tazama, we are dedicated to creating a safer and more inclusive digital financial ecosystem. We invite you to join our community and contribute to this transformative journey, making high-quality financial services accessible to everyone.
 
-## Keep a constant eye on technical debt
+<div style="text-align: right"><a href="#top">Top</a></div>
 
-Technical debt is unavoidable in Software / system development. What we can do is keep it to a minimum. Here are the following actions we have taken (and will continue to do so):
+## 4. Keep it Simple to Keep it Inclusive
 
-1. Use standard products / tools
-2. Modularized code
-3. Code re-use
-4. Products / tools POC to ensure that satisfy the requirements
-5. Separation of code and config
-6. Separation of computing code and business logic
-7. Review every story at Hairwash and Grooming with tech debt in mind
-8. Clearing define and document story definition, steps and acceptance criteria to ensure we do not build anymore than what is required and that we do not re-invent the wheel
-9. Identify relationships between stories (dependencies - block / blocked-by) to ensure we re-use code
+In a rural region of Kenya, a small agricultural cooperative faces challenges as they try to integrate mobile money services with a secure transaction monitoring system. The cooperative's members, lacking technical expertise, struggle with complex setup processes, leaving their financial transactions vulnerable. This scenario is all too common in areas where technology is essential but technical resources are limited.
 
-## Design for Large scale as well as Low budget infrastructure
+At Tazama, we understand that true inclusivity means making technology accessible, regardless of technical background. This belief is the foundation of our design principle: "Keep it Simple to Keep it Inclusive."
 
-This is an important design requirement for the Tazama system. We expect some users to have an extensive implementation whereas some others to have a minimal infrastructure. Here is how Tazama system is designed:
+#### Easy to Adopt <!-- omit in toc -->
+For technology to be inclusive, it must be easy to adopt, especially in regions with limited technical expertise. Tazama prioritizes user-friendly onboarding in its design. We aim to deliver clear, non-technical documentation and step-by-step guides to ensure that anyone can get started easily. We intend to lower barriers to entry, and make transaction monitoring accessible to all.
 
-1. Identify and POC tools and products with minimal footprint
-2. Identify and POC tools and products with minimal computation requirement
-3. Modularize system into many components / microservices that are atomic, to pick and choose for implementation. Microservices also enables implementation on a minimal infrastructure and at the same time use Containers / Kubernetes to scale up significantly for extensive infrastructure implementations
-4. Use caching in design to reduce consumption of computing resources
-5. Reduce inter-service communication (avoid any unnecessary communication between services) and use compressed messages for communication to increase overall efficiency as well as reduce network traffic within the Kubernetes cluster
-6. Highly configurable Rules, Typologies and Channels to support very small as well as very big implementations
+#### Easy Integration (Ingress and Egress) <!-- omit in toc -->
+Integration with other systems is sometimes the most complex and onerous technical task in any project. Our design decisions focus on interoperability and providing modular interface components that must minimize the nuts-and-bolts work of system integrations. Our APIs and connectors must be flexible, easy to use, and conform to well-known and universal standards. A user should be able to implement Tazama in diverse environments without overhauling existing systems.
 
-## Security-first / defence in depth
+#### Operational Configurability Over Development<!-- omit in toc -->
+In many regions, the expertise required for custom software development is scarce. Tazama addresses this by emphasizing operational configurability over the need for ongoing development. Users must be able to adjust rules, alerts, and reporting parameters through configuration, without needing expert coding skills. The focus on configurability over development will allow users to adapt the system to their needs, maintaining control over their transaction monitoring processes regardless of technical background.
 
-This design principle goes without saying, considering what Tazama system is supposed to do. Security has been thought-about before we adopted any tools/products as well as began writing code. Here is how we did it:
+#### Why It Matters<!-- omit in toc -->
+"Keep it Simple to Keep it Inclusive" is more than just a design principle—it's a commitment to making advanced financial technology truly accessible. We want to ensure that Tazama is easy to adopt, integrate, and configure, so that we can empower users in regions with limited technical resources to protect their financial transactions with confidence. This approach is essential for supporting financial inclusion, as it allows communities that are often left behind to participate fully in the digital economy.
 
-1. Chose Ambassador as the Cloud-native API Gateway
-2. Chose Keycloak for authentication and authorization as well as multi-tenant profile management
-3. Chose Linkerd that provides mTLS between all the containers in the Tazama system. Linkerd provides security without much compromise on performance of the services
-4. Design the system to have only one Ingress Point, which is the TMS API. Exceptions are Payment Platform Adapter Or Custom Data Transformation but if they are implemented then they replace TMS API as the Ingress point. Either ways, there will be only one Ingress Point.
+<div style="text-align: right"><a href="#top">Top</a></div>
 
-## Smart state management
+## 5. Design for Failure
 
-State management for Tazama is critical, as it is primarily Transaction Monitoring system. The transaction flows through many components / services (channels, typologies, rules, channel scoring processor etc) and the smart state management of the transaction through these services is critical to ensure transaction integrity:
+In the world of technology, failure isn't just a possibility—it's an inevitability. Systems crash, networks go down, and bugs find their way into even the most carefully crafted code. But what separates a robust platform from a fragile one is how it handles failure when it happens. At Tazama, we believe that designing for failure is so important that it's a fundamental design principle. We prioritize resilience, plan for failure conditions, and embrace eventual consistency, with the ultimate goal of responding to failure gracefully.
 
-1. that we process only those rules and typologies associated with at transaction
-2. we do not duplicate the processing of any of the rules or typologies associated with that transaction
-3. that we can query the state of transaction at any point in time (example: what channels is processing that transactions and how many Rules have completed execution etc)
+#### Consciously Consider Conditions for Failure <!-- omit in toc -->
+Failure is often unpredictable, but that doesn't mean we can't plan for it. With every new feature we design, we should consciously consider various conditions under which failure might occur, whether it's a sudden spike in transaction volume, invalid, incorrect or incomplete data, an infrastructure outage, or a software bug. We aim to identify and prioritize failure conditions and then build safeguards into the system to mitigate their impact. It is vital to do this work during the design phase, where we can proactively address them and minimize the cost of rework and fixes and impact on our users later.
 
-## Design for automation
+#### Prioritize Resilience Across the Platform<!-- omit in toc -->
+Resilience is the cornerstone of a system designed to handle failure. Our goal here is to ensure that critical services maintain functionality even when less critical components fail. This means identifying the most vital aspects of our system and implementing robust failover mechanisms to keep them running. For example, historical data persistence is guaranteed so that even if a down-stream evaluation processor fails, the system can recover the evaluation from that point onwards and still deliver a result when the processor is restored. Blessing each component with the same priority for resilience is not only extremely expensive, but also ultimately results in no priority at all, but if we prioritize resilience according to the importance of each service, we create a system that can withstand disruptions without compromising its core, essential functions.
 
-More automation means less Operational costs and less probability of errors. The Tazama system is designed for automation at the following levels:
+#### Fail Gracefully, and Recover<!-- omit in toc -->
+Tazama is a real-time transaction monitoring system - a crashed processor is as bad as an overturned truck on a busy highway during peak travel hours. When failure does occur, it's crucial that the system fails gracefully. This means that instead of crashing entirely, the platform should degrade in a controlled manner, allowing users to continue operating at a reduced level of functionality while the issue is resolved. Failures must be isolated, preventing them from cascading across the system. For example, if a particular service becomes unavailable, dependent services must still be able to function, albeit in a reduced capacity, to minimize the impact on users. The spice must flow. And just as important as failing gracefully is the ability to recover quickly. Tazama must incorporate automated recovery mechanisms that restore normal operations as soon as possible, ensuring that disruptions are short-lived.
 
-1. Automated scaling (up or down)
-2. Automated deployment (Kubernetes cluster deployment)
-3. Automated Linkerd injection (Inter-service mTLS / Security / Real-time observability)
-4. Automated Telemetry data points collection
-5. Automated Inter-service communication
-6. Automated Transaction Aggregation & Decisioning Processor
-7. Automated Transaction-Channel decision-making
-8. Automated Transaction-Rule/Typology association determination
-9. Automated Transaction interdiction
+#### Eventual Consistency Over Immediate Consistency<!-- omit in toc -->
+In a distributed system like Tazama, striving for immediate consistency across all components can lead to significant delays and increased susceptibility to failure. Instead, we embrace the principle of eventual consistency. This means that while the system may not be instantly synchronized across all nodes, it will eventually reach a consistent state. Eventual consistency allows Tazama to remain responsive and functional even when parts of the system are experiencing issues. For instance, during high traffic periods, data updates may be temporarily delayed, but the system continues to operate effectively, catching up as conditions stabilize - our pub/sub design reduces the pressure on the system and helps maintain its overall resilience.
 
-## Preserve Ambiguity
+#### Why It Matters<!-- omit in toc -->
+"Design for Failure" is not just about avoiding the inevitable—it's about embracing it and ensuring that when things go wrong, they don't go catastrophically wrong. Tazama intends to be a system that remains reliable and effective, even under challenging circumstances, so that the operational burden on the operator is reduced, and the system can continue to fulfill its ultimate purpose: building trust with new and vulnerable users in the emerging digital financial economy.
 
-This translates to make decisions later, or make only those decisions that need to be made. Not every choice needs to be made before the implementation begins. Tazama system development has adopted this design principle. Example: We are assuming that we will need ArangoDB as well as Druid. They both have different query languages but in theory ArangoDB can do what Druid does. But we have left both ArangoDB and Druid in the architecture and in the next PI we will decide via some measurement stories if we need to have both or can we just live happily with ArangoDB.
+<div style="text-align: right"><a href="#top">Top</a></div>
 
-Some say that if it is easy to be made later then it is not an architecturally significant decision.
+## 6. Appropriate Best Practices
+Let's preface this design principle by acknowledging just how loaded a term such as "best practices" is. It is, as it should be, a somewhat subjective term and greatly influenced by the unique context and capabilities of a particular project. "Best" practice in Tazama design is also a function of our maturity and we balance the burden of policies and standards with the pursuit of innovation expressed (quite often, still) in a "minimum viable product" and "iterative progress". That said, there are a few things that we generally strive for in our product design because by now we've worked out that these are "good" things, even if they're not yet the "best" of everything, and considering them early saves a lot of rework later.
 
-## Always be architecting / Never stop architecting
+#### Seamless Component Replacement<!-- omit in toc -->
+Imagine an F1 race-car having the same wheels your daily runabout does, and then needing to be hoisted for a mid-race replacement. The high-speed world of open source software brings with it quite a bit of unpredictable churn that forces the sudden replacement of a component. Just like an F1 team, we need to design for easy replacements through established practices such as:
+- Bounded Contexts: We define clear and firm boundaries within which components operate.
+- Abstraction: We abstract component interaction into services and libraries.
+- Encapsulation: We ensure that components function independently.
 
-With agile methodology thoroughly adopted, we cannot stop architecting or designing any product or system. The same applies to the Tazama system.
+#### Sound Dependency Management<!-- omit in toc -->
+Managing dependencies effectively is key to a stable platform. At Tazama, we minimize risks by carefully cataloging, selecting and managing external libraries and services, regularly reviewing and updating them to maintain security and compatibility.
 
-1. Adopted products / tools get updated frequently (newer versions ing newer features, some of which we will adopt)
-2. New architecture / design philosophies come up frequently and Tazama system will consider that
-3. Tazama system will continually strive to improve performance and reduce costs (achieving both at the same time is not easy but with proper architecting and adopting good design patterns it can be done)
-4. With increased adoption of the Tazama system, new Business requirements and NFRs will come up and they need to be architected, designed and implemented
+#### Separation of Concerns<!-- omit in toc -->
+Separation of concerns is fundamental to Tazama's design, especially considering the distributed processing nature of the system and its components. Different processors have specific and discrete jobs, and are supported by common functions that are centralized into fit-for-purposes libraries. We drive modularity very hard to make the system more flexible and easier to maintain.
+
+#### Code Maintainability and Readability<!-- omit in toc -->
+We maintain clear, well-documented code and enforce code quality through automated tools. An accessible Tazama is not just for end-users and implementers, but also for our contributors.
+
+#### Use of Known and Reliable Design Patterns<!-- omit in toc -->
+This is a bit of a catch-all principle, but leaves the door open to a flexible adaptive approach to design where we can "do what makes sense", but also with an implied constraint: don't reinvent the wheel.
+
+#### Why It Matters <!-- omit in toc -->
+"Appropriate Best Practices" isn't just a checklist for us - it's a philosophy that ensures Tazama remains easy to use, easy to implement, and easy to contribute to. These practices enable us to deliver a high-quality, maintainable platform that can easily outlive any of its individual parts. Tazama must be enduring, and accessible to everyone to be useful for everyone.
+
+<div style="text-align: right"><a href="#top">Top</a></div>

@@ -8,6 +8,8 @@
 
 ## ![(blue star)](https://frmscoe.atlassian.net/wiki/s/-219358440/6452/7919ffbc0b79a152d585d8c743c141e44b2bcdc3/_/images/icons/emoticons/72/1f1e6.png) A-D
 
+
+
 | **Name** | **Definition** | **Guidelines** | **Example** |     |
 | --- | --- | --- | --- | --- |
 | **Anonymisation** | A process by which personal data is irreversibly altered in such a way that a data subject can no longer be identified directly or indirectly, either by the data controller alone or in collaboration with any other party (ISO/TS 25237:2017). |     |     |     |

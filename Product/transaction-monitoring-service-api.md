@@ -34,7 +34,7 @@ The TMS API implements ISO 20022 message formats to facilitate Payment Initiatio
 
 ISO20022 is traditionally an XML-based standard, but Tazama has implemented an abridged JSON message format to minimize the message payload to increase the performance and reduce bandwidth requirements.
 
-For more information on Tazama’s ISO 20022 implemented, see the [ISO20022 and Tazama](../Knowledge-Articles/iso20022-and-tazama.md) page.
+For more information on Tazama's ISO 20022 implemented, see the [ISO20022 and Tazama](../Knowledge-Articles/iso20022-and-tazama.md) page.
 
 The TMS API ingests transaction messages in real-time through the TMS API. The intention is to evaluate each transaction as they are performed, before they are sent to their destinations, to give Tazama an opportunity to evaluate the transaction before completion and to allow a transaction to be blocked.
 

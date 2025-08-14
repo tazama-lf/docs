@@ -10,7 +10,7 @@
     - [Rule configuration metadata](#rule-configuration-metadata)
     - [The configuration object - parameters](#the-configuration-object---parameters)
     - [The configuration object - exit conditions](#the-configuration-object---exit-conditions)
-      - [The `.err` condition](#the-err-condition)
+      - [The `".err"` condition](#the-err-condition)
     - [The configuration object - rule results](#the-configuration-object---rule-results)
       - [Rule results - banded results](#rule-results---banded-results)
       - [Rule results - cased results](#rule-results---cased-results)
@@ -199,7 +199,7 @@ If a rule processor does not use any parameters, the parameters object may eithe
 
 A rule processor's exit conditions ensure that a rule processor is always able to produce a result, even if the rule processor is unable to reach a definitive, deterministic outcome. Exit conditions account for non-deterministic exceptions in the rule processor's behavior. The exit conditions are coded into the rule processor and each exit condition must be provided in the configuration for the rule processor to deliver a successful outcome. If any of the exit conditions are missing, the rule processor will still deliver a result, but it will be error outcome complaining about the missing exit condition related to the specific exit condition code.
 
-By convention, exit condition codes are prefaced with an 'x' to differentiate them from regular rule results that have no prefix.
+By convention, exit condition codes are prefaced with an "x" to differentiate them from regular rule results that have no prefix.
 
 From a configuration perspective, the only real purpose for including the exit conditions in the configuration file is to accommodate implementation-specific and user-defined descriptions for the exit conditions, and, in a future release, accommodate multi-language support.
 
@@ -240,14 +240,14 @@ Each exit condition contains the same attributes:
 
 | **Attribute** | **Description** |
 | --- | --- |
-| `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br> By convention, the exit condition sub-rule references are prefaced with an 'x'. |
+| `subRuleRef` | Every rule processor is capable of reporting a number of different outcomes, but only a single outcome from the complete set is ultimately delivered to the typology processor. Each outcome is defined by a unique sub-rule reference identifier to differentiate the delivered outcome from the others and also to allow the typology processor to apply a unique weighting to that specific outcome.<br><br> By convention, the exit condition sub-rule references are prefaced with an "x". |
 | `reason` | The reason provides a human-readable description of the result that accompanies the rule result to the eventual over-all evaluation result. Reason descriptions will be refined during future enhancements[^1] |
 
-#### The `.err` condition
+#### The `".err"` condition
 
 All rule processors are encoded with an error condition outcome that accounts for exceptions that do not fall into any of the exit conditions above, or the rule results below. These error conditions reflect a fatal error that occurred during the execution of the rule processor, such as, for example, if the database is inaccessible or if some expected data dependency had not been met due to an error during data ingestion or transformation.
 
-Rule processor error conditions are too numerous and diverse to explicitly define, and their definition is not required for the rule configuration anyway. The error conditions are handled exclusively in the rule code; however the error condition outcome will still be produced as a rule result to ensure continuity and end-to-end robustness in the system. If an error occurs, a rule processor will deliver a rule result with a very unique `.err` sub-rule reference and with a specific reason that describes the error. In rare instances, where an error condition was not anticipated during development, the reason might be a generic `Unhandled rule result outcome` message.
+Rule processor error conditions are too numerous and diverse to explicitly define, and their definition is not required for the rule configuration anyway. The error conditions are handled exclusively in the rule code; however the error condition outcome will still be produced as a rule result to ensure continuity and end-to-end robustness in the system. If an error occurs, a rule processor will deliver a rule result with a very unique `".err"` sub-rule reference and with a specific reason that describes the error. In rare instances, where an error condition was not anticipated during development, the reason might be a generic `Unhandled rule result outcome` message.
 
 ### The configuration object - rule results
 
@@ -263,7 +263,7 @@ While the parameters and exit conditions may be optional for a specific rule pro
 
 The rule processor's core purpose is to produce a definitive deterministic result based on its programmed behavioral analysis of historical data. The rule configuration defines the bands or values for which rule results can be provided.
 
-> [!WARNING] It is extremely important that the configuration of a rule processor does not leave any gaps in the results, whether banded or cased. Every possible outcome of a rule result must be accounted for, otherwise the rule processor may deliver a result that the typology processor cannot interpret. In the event that a rule processor result misses the configured results, the rule processor will issue an error (`.err`) result with a reason description of `Value provided undefined, so cannot determine rule outcome`.
+> [!WARNING] It is extremely important that the configuration of a rule processor does not leave any gaps in the results, whether banded or cased. Every possible outcome of a rule result must be accounted for, otherwise the rule processor may deliver a result that the typology processor cannot interpret. In the event that a rule processor result misses the configured results, the rule processor will issue an error (`".err"`) result with a reason description of `Value provided undefined, so cannot determine rule outcome`.
 
 #### Rule results - banded results
 
@@ -443,13 +443,13 @@ The `wghts` object is an array that contains the sub-rule references and the ass
 
 ***Every. Possible. Outcome.***
 
-All the possible outcomes from the rule processors are encapsulated in each rule's configuration, with the exception of the `.err` outcome that is not listed in the rule configuration because the conditions and descriptions are built into the rule processor itself. When composing the typology configuration, the user must remember to include the `.err` outcome, but the rest of the rule results (exit conditions and banded/cased results) can be directly reconciled with the elements in the `rules` object.
+All the possible outcomes from the rule processors are encapsulated in each rule's configuration, with the exception of the `".err"` outcome that is not listed in the rule configuration because the conditions and descriptions are built into the rule processor itself. When composing the typology configuration, the user must remember to include the `".err"` outcome, but the rest of the rule results (exit conditions and banded/cased results) can be directly reconciled with the elements in the `rules` object.
 
 **What does "every possible outcome" mean?**
 
 A rule processor must always produce a result, and only ever a single result from a number of possible results. The rule result will always fall into one of the following categories: error, exit or band/case. Results across all the categories are mutually exclusive and there can be only one result regardless of the category. Results are uniquely identified via the `subRuleRef` attribute:
 
-*   ".err" is reserved for the error condition, of which there will only ever be one;
+*   `".err"` is reserved for the error condition, of which there will only ever be one;
     
 *   exit conditions are prefaced with an ".x" and there may be many;
     
@@ -831,13 +831,7 @@ Given a version number **MAJOR.MINOR.PATCH (99.999.9999)**, increment the:
 
 Every rule processor, typology processor and transaction aggregation and decisioning processor (TADProc) is guided by its own configuration document. The specific version of a configuration document that is required to operate a processor is defined in the network map when the evaluation routing is specified. When a processor receives an instruction from its predecessor in the evaluation flow, the processor checks the network map to determine which configuration document and version to use to perform its tasks.
 
-When a new version of a configuration document is required, the updated version must be deployed to the appropriate configuration collection in the configuration database:
-
-| **Collection name** | **Processor Type** |
-| --- | --- |
-| `ruleConfiguration` | [Rule processor overview - rule config](/product/rule-processor-overview-rule-config.md) |
-| `typologyConfiguration` | [Typologies](/product/typology-processing.md) |
-
+When a new version of a configuration document is required, the updated version must be deployed to the appropriate configuration collection in the configuration database.
 
 Configuration documents can be posted to the appropriate collection via the ArangoDB API, either in bulk or one-by-one. When posting a new configuration for an existing processor, the database will not allow a user to submit a configuration for an "id" and "cfg" combination that already exists in the database: a new configuration must always be assigned a unique configuration version.
 

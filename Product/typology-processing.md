@@ -14,7 +14,6 @@
       - [5.5.1. The Typology Configuration](#551-the-typology-configuration)
   - [5.6. Calculate typology score](#56-calculate-typology-score)
   - [5.7. Submit typology results](#57-submit-typology-results)
-    - [Event flow processing](#event-flow-processing)
   - [5.8 A note on typology interdiction](#58-a-note-on-typology-interdiction)
 
 ## Introduction
@@ -43,7 +42,22 @@ Once each typology has been scored, the result of the typology will be passed to
 
 The rule processor passes its completed result to the Typology Processor.
 
-The rule result message includes the original transaction, the Network Sub-map and the rule execution result (Rule identifier, sub-rule identifier (for rule-sets), boolean rule result and result reason).
+The rule result message includes the original transaction, the Network Sub-map and the rule execution result 
+
+The rule result includes the rule identifier and the rule configuration, sub-rule identifier (`subruleref`), processing time for the rule and result score.
+
+**Rule result example**
+
+```JSON
+{
+    "id": "901@1.0.0",
+    "cfg": "1.0.0",
+    "subRuleRef": ".02",
+    "prcgTm": 17682366,
+    "wght": 200
+  }
+```
+**Note** The ERFuP rule does not generate a score and the `wght` will always be 0
 
 ### 5.1. Determine beneficiary typologies
 
@@ -69,43 +83,7 @@ If all of the rule results specified in the Network Sub-map for a specific typol
 
 If all of the rule results specified in the Network Sub-map for a specific typology have been received, the Typology Processor must retrieve the typology configuration for the beneficiary typology so that the rule results can be combined into a typology score.
 
-At present, the calculation of a typology score is a straight-forward logic expression:
-
-typology result = IF(rule_result_1.outcome THEN rule_result_1.score) + … IF(rule_result_n.outcome THEN rule_result_n.score)
-
-The individual rule result scores, as a mapped to a weighted number based on the rule's boolean outcome (TRUE or FALSE), is defined as part of the typology configuration. Once mapped to a numerical value, the typology score is calculated as the sum of all rule result values.
-
-typology score = rule_result_1.score + … + rule_result_n.score
-
-**For example**: In the following rule outcome table for rule 003:
-
-| **Sub-rule ref** | **Outcome** | **Typology Score Value** |
-| --- | --- | --- |
-| 003.00 | Payee account dormancy = FALSE | 0   |
-| 003.01 | Payee account dormancy 3 = TRUE | 33  |
-| 003.02 | Payee account dormancy 6 = TRUE | 67  |
-| 003.03 | Payee account dormancy 12 = TRUE | 100 |
-| 003.04 | Payee account dormancy = FALSE | 0   |
-
-In other words, if there had been no transfer requests from or to the account in 211 days (i.e. 003.02 = TRUE), the contribution of this rule (003) to the typology score would be 67 (can we call them rule points?)
-
-Only TRUE outcomes for a rule or sub-rule are expected to produce a score. FALSE outcomes are generally assumed to void a rule entirely and render a score of ZERO.
-
-The logic expression for typology 28 would be composed as follows:
-
-[IF(001.01 outcome THEN 001.01.score) + IF(001.02 outcome THEN 001.02.score) +
-
-IF(001.03 outcome THEN 001.03.score) + IF(001.04 outcome THEN 001.04.score) +
-
-IF(001.05 outcome THEN 001.05.score) + IF(001.06 outcome THEN 001.06.score)] +
-
-[IF(002.01 outcome THEN 002.01.score) + IF(002.02 outcome THEN 002.02.score) +
-
-IF(002.03 outcome THEN 002.03.score)] + … +
-
-IF(071.outcome THEN 071.score) +
-
-IF(078.outcome THEN 078.score)
+At present, the calculation of a typology score is a straight-forward logic expression: typology score = rule_result_1.score + … + rule_result_n.score
 
 <div style="text-align: right">
     <a href="#introduction">Top</a>
@@ -178,19 +156,15 @@ The event flow processor is a special processor that is defined differently in t
 
 For each beneficiary typology with a complete set of rule results, and using the typology expression and the associated score values, the Typology Processor must calculate the typology score for the typology.
 
+**Note** The ERFuP rule does not contribute to the typology score and the `wght` for EFRuP rule will always be 0.
+
 ### 5.7. Submit typology results
 
 Once the calculation of the typology score is complete, the Typology Processor must pass the typology result, including the transaction information, Network Sub-map, typology results and rule results to the Transaction Aggregation and Decisioning Processor.
 
-#### Event flow processing
-
-If a typology score is equal to or greater than the threshold value and there is an override in place, the Typology Processor will not trigger an interdiction workflow to instruct the client system to block the transaction event.
-
-If the normal typology processing results in an alert, then review will be true. If EFRuP results in a different outcome to normal typology processing, then `review` will be `true` and this will enable a fraud analyst to review the result of the evaluation.
-
 ### 5.8 A note on typology interdiction
 
-It makes sense for the typology processor to be able to interdict a transaction directly, if the threshold for interdiction has been met unless there is an override in place, in which case the Typology Processor will not trigger an interdiction.
+The typology processor will interdict a transaction directly if the threshold for interdiction has been met, unless there is an override in place in which case the typology processor will not trigger an interdiction.
 
 1. For a given typology, a specific threshold value must be linked to the typology for the following workflow outcomes:
     1. **Interdiction**: If a typology score is equal to or greater than this value, the Typology Processor will trigger an interdiction workflow to instruct the client system to block the transaction, unless there is an override in place, in which case the Typology Processor will not trigger an interdiction.
