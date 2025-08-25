@@ -166,7 +166,7 @@ sequenceDiagram
 
 ## Deployment
 ### Prerequisites
-The [event-sidecar] and [lumberjack] use [`frms-coe-lib`](https://github.com/tazama-lf/frms-coe-lib). You need to have a personal access token set up to access that library. Refer back to [microprocessor setup instructions](https://github.com/tazama-lf/docs/blob/05e5c292dcff908ec06825481cb99de2ecb31b74/Community/Tazama-Contribution-Guide.md#a-preparation) on how to get one.
+The [event-sidecar] and [lumberjack] use [`frms-coe-lib`](https://github.com/tazama-lf/frms-coe-lib). You need to have a personal access token set up to access that library. Refer back to [microprocessor setup instructions](https://github.com/tazama-lf/docs/blob/dev/Guides/dev-set-up-environment.md#311-step-1-setting-up-github-token-locally) on how to get one.
 ### NATS
 A server can be started with the following command:
 ```sh
