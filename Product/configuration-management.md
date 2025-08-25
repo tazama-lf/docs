@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-# Configuration management <!-- omit in toc -->
+# Configuration Management <!-- omit in toc -->
 
 - [TL;DR](#tldr)
 - [1. Overview of the detection methodology](#1-overview-of-the-detection-methodology)
@@ -36,6 +36,11 @@
   - [3.1. Introduction and Basics](#31-introduction-and-basics)
   - [3.2. Configuration version management of processors](#32-configuration-version-management-of-processors)
   - [3.3. The Network Map](#33-the-network-map)
+- [4. FAQ](#4-faq)
+  - [4.1. Can rules and typologies be configured through configuration files without coding changes?](#41-can-rules-and-typologies-be-configured-through-configuration-files-without-coding-changes)
+  - [4.2. How do I update the configuration files if I what we want is to create new rule?](#42-how-do-i-update-the-configuration-files-if-i-what-we-want-is-to-create-new-rule)
+  - [4.3. If I change rules, typologies and the network map through configuration, are these changes available in the Demo UI?](#43-if-i-change-rules-typologies-and-the-network-map-through-configuration-are-these-changes-available-in-the-demo-ui)
+  - [4.4. Coming soon: Configuration user interface to make this process easier for users](#44-coming-soon-configuration-user-interface-to-make-this-process-easier-for-users)
 
 # TL;DR
 
@@ -859,18 +864,191 @@ The unique "true" state of the active flag is expected to be enforced outside th
 
 The active network map ultimately defines the scope of a particular evaluation, right down to the specific processors and their versions that are going to be used, as well as the specific version of the processor configuration required. If any of the components in a network map changes, a new network map must be deployed and activated to replace the previous iteration of the network map.
 
-* * *
+# 4. FAQ
+
+## 4.1. Can rules and typologies be configured through configuration files without coding changes? 
+
+There are rule configuration files, typology configuration files and a network map which can all be updated without coding changes.  The configuration files in Tazama reside in the configuration database in the system. If you are accessing the system from the full-stack-docker-tazama deployment, you will be able to access the database on http://localhost:18529 and once you have accessed the ArangoDB web UI, you will be able to navigate to the configuration database. The configuration database contains three separate collections. I'll give a brief overview here, but the overall design is discussed above.
+
+**Network Configuration**: This collection may contain a number of different documents, but only one of these should have an active=true state to identify the network map that will be used to route an incoming transaction. The network map can contain a number of different "branches" with their own unique value of "TxTp". The TxTp, or transaction type, defines the routing for a specific transaction message format. In the default deployment, there is only one evaluation route defined, and it is for TxTp = pacs.002.001.12. If any other transactions arrive at the Event Director that handles the routing, the messages are not routed for review and their journey ends at the Event Director. The Network Configuration contains an array of typologies (scenarios) for the TxTp, and each typology contains its own array of rules that will be executed for the TxTp. If you want to change the rules in a typology, or the typologies in a TxTp, or you want to create an evaluation route new TxTp with its own rules and typologies, you would update the network configuration. It is generally expected that you create a completely new version of the network configuration, and when you are ready to deploy it, you set the old network configuration to active=false and the new one to active=true.
 
 <div style="text-align: right">
     <a href="#configuration-management">Top</a>
 </div>
 
+**Rule Configuration**: Rule Configurations contain the attributes that determines how a rule processor is expected to evaluate a transaction. For example, if we look at the rule configuration for Rule 006:
+
+```JSON
+{
+  "id": "006@1.0.0",
+  "cfg": "1.0.0",
+  "desc": "Outgoing transfer similarity - amounts",
+  "config": {
+    "parameters": {
+      "maxQueryLimit": 3,
+      "tolerance": 0.1
+    },
+    "exitConditions": [
+      {
+        "subRuleRef": ".x00",
+        "reason": "Incoming transaction is unsuccessful"
+      },
+      {
+        "subRuleRef": ".x01",
+        "reason": "Insufficient transaction history"
+      }
+    ],
+    "bands": [
+      {
+        "subRuleRef": ".01",
+        "upperLimit": 2,
+        "reason": "No similar amounts detected in the most recent transactions from the debtor"
+      },
+      {
+        "subRuleRef": ".02",
+        "lowerLimit": 2,
+        "upperLimit": 3,
+        "reason": "Two similar amounts detected in the most recent transactions from the debtor"
+      },
+      {
+        "subRuleRef": ".03",
+        "lowerLimit": 3,
+        "reason": "Three or more similar amounts detected in the most recent transactions from the debtor"
+      }
+    ]
+  }
+}
+```
+
+The different types of rule attributes can be summarised in this image:
+
+![Tazama rule configuration](../images/config-rule006.png)
+
+(This is from an overview presentation that we typically provide to our users when they are considering an implementation of Tazama.)
+
+<div style="text-align: right">
+    <a href="#configuration-management">Top</a>
+</div>
+
+There are generally two different kinds of attributes in the rule configuration.
+
+If we look at config.parameters and config.exitConditions, these reflect explicit and specific input parameters that are expected in the code of the rule processor itself. If any of these are missing, the rule processor will fail execution and throw an error. This also means that if you add any parameters and exit conditions here, they will have no impact on the rule processor at all. You can, however, update the values of some of the attributes. If you change the values of the parameter attributes, you will change the behaviour of the rule according to the purpose of the parameter. 
+
+For example, if you change maxQueryLimit, you will change the maximum number of transactions that the rule will retrieve from transaction history when it evaluates a transaction. If you change the tolerance value, you will change how closely the rule will match transaction amounts to determine if they are "similar" (currently it's within 10% of the trigger transaction amount). For the exit conditions, the only value to change is the description, and it is only used for reporting and presentation purposes. You should not change the value of the subRuleRef here, since it is referenced in the code and also mapped in the typology processor.
+
+The next attribute is the config.bands array. This array contains each of the categorization parameters for the rule's evaluation result. It is structured in such a way that when the rule performs its analysis of behaviour over the historical transactions, the final outcome of that analysis will be a number that can be mapped to one, and only one, of the categories (called bands). These are effectively category "buckets". The lowest bucket doesn't always have a lowerLimit value, and if it is omitted, the system will assume that any lookup value lower than the upperLimit will fall in this bucket. Similarly, the highest bucket does not always have an upperLimit and if a lookup value is higher than the lowerLimit, it will fall in this bucket. The remaining bucket in this example contains both a lowerLimit and an upperLimit and if a lookup value falls between these values, it will fall in this category bucket. Note that all buckets must be mutually exclusive. The bucket limits must never overlap, and must never leave any gaps. For this reason also, the system evaluates a value against bucket limits as follows:
+```
+lowerLimit <= lookup value < upperLimit
+```
+The lookup value must be greater or equal to the lowerLimit, but must only be less than the upperLimit. This is why the actual upperLimit value in one band is the same value as the lowerLimit value in the next band, so that there is no gap between bands.
+We expect that the categorization of the results will be where most operators will tweak the system to match their data and their customers' behavior. You can add and remove bands, and you can change the lowerLimit and upperLimit for the bands, provided you observe the rule of "no gaps, no overlaps".   
+
+We have been using a convention for the sequential arrangement of the rule bands through the subRuleRef attribute, but the actual naming of this attribute is somewhat arbitrary. We use .01, .02, etc. but you can use more descriptive terms here such as none, two, three or more if you want to. The only thing to remember is that these values are also mapped to the typology configuration, so any changes you make to the number of bands, or the identifiers for the bands, must also be followed through to the typology configuration where the rule is used. Similar to the reason in the exit conditions, the reason for each of the bands is merely a text description that can be used in reporting and presentation.
+
+<div style="text-align: right">
+    <a href="#configuration-management">Top</a>
+</div>
+
+**Typology Configuration**: The typology configuration defines the weighting of all of the rule results for a specific typology and also sets the thresholds according to which the typology processor will either alert (investigate) or interdict (block) for the typology. Different rules are composed into different typologies, and some typologies may share rule results, but assign different weightings to the results. Which rules belong in which typologies are firstly defined in the Network Configuration for a particular transaction, but the Typology Configuration must reflect the exact same composition, otherwise the typology processor will be unable to complete the evaluation for that particular typology.
+
+When you are deploying the system from the full-stack repository, the deployment will only give you a single typology. We don't publicly publish all of the typologies so that the detection approach for specific scenarios cannot be easily reverse engineered by scammers, but access can be requested to the complete configuration of all the typologies.
+
+As an example, let's look at typology 10 that contains rule 006 above. Typology 10 is a money laundering typology and does not interdict (only fraud typologies interdict, to avoid triggering a "tipping off" compliance exception), so the typology only contains an alertThreshold and not an interdictionThreshold. If the total (sum) of all the rule weightings in this typology is greater or equal to this value, then the system will alert on this transaction for an investigation. If there was an interdictionThreshold, and the sum was equal to or greater than this threshold, then the system would suggest an interdiction on the transaction to block it. 
+
+Inside the typology configuration there is also a rules array that contains the scoring configuration for each of the rules in the typology. There is some header information to synchronise the configurations, and then there is also an (arbitrary) termId that creates an identifier that is used later in the formula used to calculate the typology score. We have been formatting this termId as a verbose combination of the id and cfg values to ensure its uniqueness.
+
+Each rule object in the rules array contains a wghts array that provides a weighting mapping for each of the possible outcomes of that particular rule processor. These are all the outcomes that are defined in the Rule Configuration for this rule, and one additional outcome that is not in the Rule Configuration, but allows for the communication of a failed rule execution in the rule results. So, for rule 006:
+
+```JSON
+      "wghts": [
+        {
+          "ref": ".err",
+          "wght": 0
+        },
+        {
+          "ref": ".x00",
+          "wght": 0
+        },
+        {
+          "ref": ".x01",
+          "wght": 0
+        },
+        {
+          "ref": ".01",
+          "wght": 0
+        },
+        {
+          "ref": ".02",
+          "wght": 200
+        },
+        {
+          "ref": ".03",
+          "wght": 400
+        }
+      ]
+```
+The subRuleRef values from the Rule Configuration maps through the ruleResult object in the payload to the ref values in the typology configuration. Each of these ref values is then assigned a weighting. You can immediately see the subRuleRef values from the previous rule configuration: .x00 and .x01 for the exit conditions (with no weighting) and the .01, .02, and .03 values for the bands array with increasingly severe weightings. And then the wghts array must always include a .err element and weighting (usually zero).
+
+If you want to change the contribution of a particular rule to a particular typology, you can adjust its weighting to reflect the impact of that behaviour on the scenario according to the data and customer behaviour in the ecosystem.
+
+If you want to adjust the sensitivity of a particular typology, you can adjust the alertThreshold and interdictionThreshold values for that typology.
+
+Finally the typology configuration also contains an expression object that defines the formula according to which the typology score will be calculated. At the moment we only use a "sum" and it is specified in this format:
+
+```JSON
+ "expression": [
+    "Add",
+    "v006at100at100",
+    "v017at100at100",
+    "v048at100at100",
+    "v091at100at100"
+  ]
+```
+You will recognise the termId that we were speaking about earlier. Our formulas are specified according to a standardish parser here: https://mathlive.io/math-json/
+
+In theory you can specify any kind of mathematical formula you like, but so far we've only encountered a need for a straightforward sum.
+
+As a general rule, we do not recommend overwriting an existing configuration with any changes, but rather you should create a new version of that configuration and then link the version into your evaluation flow through the network map. If you make changes to an existing configuration version, then any previous evaluations that were made with that version will be invalidated and their original results will not be repeatable, which could cause issues for auditing and enforcement actions.
+
+Note: You will need to restart the Event Director, Typology Processor, and Transaction Aggregation and Decisioning Processor to absorb the updated configuration documents.
+
+<div style="text-align: right">
+    <a href="#configuration-management">Top</a>
+</div>
+
+## 4.2. How do I update the configuration files if I what we want is to create new rule?  
+
+If you want to create a new rule, then you will also need to create a new rule configuration for that new rule in the ruleConfiguration collection in the database. You will then also have to integrate the various ruleResult outcomes into the typology configurations for the typologies that will include that rule, and then you will finally have to update the network configuration with the updated typology array(s).
+
+At this point, you have created a new rule configuration, a new version of a typology configuration (or even a new typology configuration entirely) and you have created a new version of a network configuration, but no evaluates will yet follow this route.
+
+As your final step, you will then change the active=true flag in the existing networkConfiguration to false and then the active=false flag in the new networkConfiguration to true.
+Only then will your new route be deployed and active.
+
+You will need to restart the Event Director, Typology Processor, and Transaction Aggregation and Decisioning Processor to absorb the updated configuration documents 
+
+<div style="text-align: right">
+    <a href="#configuration-management">Top</a>
+</div>
+
+## 4.3. If I change rules, typologies and the network map through configuration, are these changes available in the Demo UI?
+
+The Demo UI loads the current active network map on start up, so if you change typologies by adding or removing rules, the rules and typologies displayed in the demo UI will change.
+
+## 4.4. Coming soon: Configuration user interface to make this process easier for users
+
+The Configuration UI will enforce and manage all the processes discussed above through a User Interface and will even handle the deployment of the configurations.
+
+<div style="text-align: right">
+    <a href="#configuration-management">Top</a>
+</div>
+
+* * *
+NOTES:
+
 [^1]: We have found during our performance testing that the text-based descriptions in our processor results undermines the performance gains we achieved with our ProtoBuff implementation. We will be removing the unabridged reason and processor descriptions from the configuration documents in favor of shorter look-up codes that will then also be used to introduce regionalized/language-specific descriptions.
    
-   
 [^2]: An explicit version reference has been planned for development to make it easier for an operator to link an evaluation result to the specific originating network map.
-    
-
     
 [^3]: In its default deployment, the system contains a single version of the "core" system processors (the typology processor and TADProc) at a time. Though it is possible to deploy and maintain multiple parallel versions of these processors and manage routing to these processors through the network map, this guide will only focus on singular core processors for now.
     
