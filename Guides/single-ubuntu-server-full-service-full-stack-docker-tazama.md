@@ -15,6 +15,7 @@
     - [3. Configure Tazama](#3-configure-tazama)
     - [4. Restart core processors](#4-restart-core-processors)
 - [Test the end-to-end deployment](#test-the-end-to-end-deployment)
+- [Demo UI](#demo-ui)
 
 ## Introduction
 
@@ -123,7 +124,7 @@ The pre-requisites that are essential to be able to follow this guide to the let
 
 - A GitHub personal access token with `packages:write` and `read:org` permissions
 - Ensure that your GitHub Personal Access Token is added as a Windows Environment Variable called "`GH_TOKEN`".
-- Instructions for creating the GH_TOKEN environment variable can be found in the [Tazama Contribution Guide (A. Preparation)](https://github.com/tazama-lf/.github/blob/main/CONTRIBUTING.md#a-preparation-)
+- Instructions for creating the GH_TOKEN environment variable can be found in the [instructions for setting up a GitHub token locally)](https://github.com/tazama-lf/docs/blob/dev/Guides/dev-set-up-environment.md#311-step-1-setting-up-github-token-locally)
 
 - Note that your token needs to be exported everytime you ssh to the server in a new session
 
