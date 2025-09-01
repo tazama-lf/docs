@@ -53,20 +53,19 @@ Each service in Tazama utilizes specific resources to accomplish its tasks, and 
 | MAX_CPU       | MAX_CPU        |               | MAX_CPU            | MAX_CPU       |
 
 
-
 ### Nats Variables
 
-| TMS             | event-director            | rule-executor             | typology-processor    | TADP         |  |
-|-----------------|---------------------------|---------------------------|-----------------------|--------------|--|
-| SERVER_URL      | SERVER_URL                | SERVER_URL                | SERVER_URL            | SERVER_URL   |  |
-| PRODUCER_STREAM | PRODUCER_STREAM           | PRODUCER_STREAM           | PRODUCER_STREAM       |              |  |
-| STARTUP_TYPE    | STARTUP_TYPE              | STARTUP_TYPE              | STARTUP_TYPE          | STARTUP_TYPE |  |
-|                 | CONSUMER_STREAM           | CONSUMER_STREAM           |                       |              |  |
-|                 | STREAM_SUBJECT            | STREAM_SUBJECT            |                       |              |  |
-|                 | ACK_POLICY                | ACK_POLICY                |                       |              |  |
-|                 | PRODUCER_STORAGE          | PRODUCER_STORAGE          |                       |              |  |
-|                 | PRODUCER_RETENTION_POLICY | PRODUCER_RETENTION_POLICY |                       |              |  |
-|                 |                           |                           | INTERDICTION_PRODUCER |              |  |
+| TMS             | event-director            | rule-executor             | typology-processor    | TADP         |
+|-----------------|---------------------------|---------------------------|-----------------------|--------------|
+| SERVER_URL      | SERVER_URL                | SERVER_URL                | SERVER_URL            | SERVER_URL   |
+| PRODUCER_STREAM | PRODUCER_STREAM           | PRODUCER_STREAM           | PRODUCER_STREAM       |              |
+| STARTUP_TYPE    | STARTUP_TYPE              | STARTUP_TYPE              | STARTUP_TYPE          | STARTUP_TYPE |
+|                 | CONSUMER_STREAM           | CONSUMER_STREAM           |                       |              |
+|                 | STREAM_SUBJECT            | STREAM_SUBJECT            |                       |              |
+|                 | ACK_POLICY                | ACK_POLICY                |                       |              |
+|                 | PRODUCER_STORAGE          | PRODUCER_STORAGE          |                       |              |
+|                 | PRODUCER_RETENTION_POLICY | PRODUCER_RETENTION_POLICY |                       |              |
+|                 |                           |                           | INTERDICTION_PRODUCER |              |
 
 
 ### Cache Variables (Redis or NodeCache)
@@ -83,7 +82,6 @@ Each service in Tazama utilizes specific resources to accomplish its tasks, and 
 | DISTRIBUTED_CACHE_ENABLED | DISTRIBUTED_CACHE_ENABLED |                     | DISTRIBUTED_CACHE_ENABLED | DISTRIBUTED_CACHE_ENABLED |
 
 
- 
 ### Database Variables (PostgreSQL)
 
 | TMS                              | event-director                   | rule-executer                    | typology-processor               | TADP                             |
