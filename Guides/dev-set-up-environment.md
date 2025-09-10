@@ -161,12 +161,12 @@ Follow these step-by-step instructions to get your local machine ready to work o
      - Start the Docker Desktop in Windows
      - In a Windows Command Prompt:
       ```
-      docker pull ghcr.io/tazama-lf/nats-utilities:latest
+      docker pull tazamaorg/nats-utilities:latest 
       ```
    - Start the NATS server in a Docker container:
      - In a Windows Command Prompt:
       ```
-      docker run -p 3000:3000 --network=tazama-net -e NODE_ENV=dev -e SERVER_URL=nats-server:4222 -d --name nats-utilities ghcr.io/tazama-lf/nats-utilities:latest
+      docker run -p 3000:3000 --network=tazama-net -e NODE_ENV=dev -e SERVER_URL=nats-server:4222 -d --name nats-utilities 
       ```
 <div style="text-align: right"><a href="#top">Top</a></div>
 
