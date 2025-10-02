@@ -61,14 +61,12 @@ Indexes are created during initialization of Tazama from all supported deploymen
 #### condition
 | Name | Field(s) | 
 | ------ | ------ | 
-| EndToEndId-TxTp | `[EndToEndId, TxTp]` |
-| CreDtTm | `CreDtTm` |
+
 
 #### entity
 | Name | Field(s) |
 | ------ | ------ | 
-| EndToEndId-TxTp | `[EndToEndId, TxTp]` |  
-| CreDtTm | `CreDtTm` | 
+
 
 #### governed_as_creditor_by
 | Name | Field(s) | 
