@@ -1,4 +1,5 @@
-Tazama Schema 
+Tazama Postgres database schema
+SoT: Source of Truth 
 
 ```
 -- Create databases
