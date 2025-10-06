@@ -32,7 +32,7 @@
 
 KeyCloak is the default open source identity and access management solution that works as part of the Tazama authentication architecture:
 
-![auth-architecture](../images/KeyCloak/tazama-auth-architecture.png)
+![auth-architecture](../images/keycloak/tazama-auth-architecture.png)
 
 1. **Client applications** (TMS API, other Tazama services) send authentication requests
 2. **Auth-service** validates these requests using this KeyCloak provider
