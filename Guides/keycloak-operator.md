@@ -1,8 +1,10 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
+<a id="top"></a>
+
 # KeyCloak Guide for Tazama <!-- omit in toc -->
 
-- [1. Keycloak Integration with Tazama Ecosystem](#1-keycloak-integration-with-tazama-ecosystem)
+- [1. KeyCloak Integration with Tazama Ecosystem](#1-keycloak-integration-with-tazama-ecosystem)
 - [2. Auth-Lib-Provider-Keycloak](#2-auth-lib-provider-keycloak)
   - [2.1. Overview](#21-overview)
   - [2.2. Installation of Auth-Lib-Provider-Keycloak](#22-installation-of-auth-lib-provider-keycloak)
@@ -10,36 +12,27 @@
     - [2.3.1. Environment variables](#231-environment-variables)
 - [3. KeyCloak Operator Guide for Tazama](#3-keycloak-operator-guide-for-tazama)
   - [3.1. Logging into Admin Console](#31-logging-into-admin-console)
-    - [3.1.1 Keycloak admin user and password](#311-keycloak-admin-user-and-password)
-  - [3.2. Keycloak Realm Management](#32-keycloak-realm-management)
+    - [3.1.1 KeyCloak Admin User and Password](#311-keycloak-admin-user-and-password)
+  - [3.2. KeyCloak Realm Management](#32-keycloak-realm-management)
     - [3.2.1. Creating a Realm](#321-creating-a-realm)
     - [3.2.2. Switching Realm](#322-switching-realm)
-  - [3.3. Keycloak Client Management](#33-keycloak-client-management)
+  - [3.3. KeyCloak Client Management](#33-keycloak-client-management)
     - [3.3.1. Creating a Client](#331-creating-a-client)
     - [3.3.2. Multi-Tenant Client Settings](#332-multi-tenant-client-settings)
-  - [](#)
   - [3.4. Creating Roles (Permissions)](#34-creating-roles-permissions)
   - [3.5. Creating Groups](#35-creating-groups)
     - [3.5.1. Create Tenants as Child Groups](#351-create-tenants-as-child-groups)
   - [3.6. Creating Users](#36-creating-users)
     - [3.6.1. Creating Tenant Users](#361-creating-tenant-users)
-  - [](#-1)
     - [3.6.2. Creating Operator Users](#362-creating-operator-users)
-    - [3.6.3. Deleting users](#363-deleting-users)
-  - [4. Local Deployment](#4-local-deployment)
+    - [3.6.3. Deleting Users](#363-deleting-users)
+- [4. Local Deployment](#4-local-deployment)
 
-
-# 1. Keycloak Integration with Tazama Ecosystem
+# 1. KeyCloak Integration with Tazama Ecosystem
 
 KeyCloak is the default open source identity and access management solution that works as part of the Tazama authentication architecture:
 
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Client App    │──▶│  Auth-Service   │───▶│    KeyCloak     │
-│                 │    │ (using Keycloak │    │   (Identity     │
-│                 │    │  provider)      │    │   Provider)     │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-```
+![auth-architecture](../images/KeyCloak/tazama-auth-architecture.png)
 
 1. **Client applications** (TMS API, other Tazama services) send authentication requests
 2. **Auth-service** validates these requests using this KeyCloak provider
@@ -48,7 +41,7 @@ KeyCloak is the default open source identity and access management solution that
 
 The auth-service container runs independently and is configured via the `.env` file. Other Tazama services then call the auth-service endpoint (typically `http://auth-service:3020`) to validate tokens and check permissions.
 
-Official Keycloak documentation found [here](https://www.keycloak.org/docs/23.0.6/server_admin/index.html)
+Official KeyCloak documentation found [here](https://www.KeyCloak.org/docs/23.0.6/server_admin/index.html)
 
 ---
 
@@ -56,11 +49,11 @@ Official Keycloak documentation found [here](https://www.keycloak.org/docs/23.0.
 
 ## 2.1. Overview
 
-An auth provider is required to bridge Tazama Authentication with the keycloak backend. The Keycloak auth provider is reliant on the [auth-lib](https://github.com/tazama-lf/auth-lib) package to function.
+An auth provider is required to bridge Tazama Authentication with the KeyCloak backend. The KeyCloak auth provider is reliant on the [auth-lib](https://github.com/tazama-lf/auth-lib) package to function.
 
 ## 2.2. Installation of Auth-Lib-Provider-Keycloak
 
-A personal access token is required to install Auth-Lib-Provider-Keycloak repository. For more information read the following.
+A personal access token is required to install Auth-Lib-Provider-Keycloak repository. For more information read the following:
 https://docs.github.com/en/packages/learn-github-packages/about-permissions-for-github-packages#about-scopes-and-permissions-for-package-registries
 
 Make sure you've got an .npmrc file in the root of your project, specifying where the @tazama-lf repo is. 
@@ -71,6 +64,8 @@ Make sure you've got an .npmrc file in the root of your project, specifying wher
 Thereafter you can run 
   > npm install @tazama-lf/auth-lib 
   > npm install @tazama-lf/auth-lib-provider-keycloak 
+
+<div style="text-align: right"><a href="#top">Top</a></div>
 
 ## 2.3. Usage of Auth-Lib-Provider-Keycloak
 
@@ -91,7 +86,7 @@ If you have installed a local deployment of Tazama using the `full-stack-docker-
 
 ![auth-service-env-file-location](../images/keycloak/auth-service-env.png)
 
-This example shows the complete `.env` file used to deploy the auth-service component in the Tazama ecosystem. The auth-service acts as the authentication gateway that integrates with KeyCloak using this provider.
+The example below shows the complete `.env` file used to deploy the auth-service component in the Tazama ecosystem. The auth-service acts as the authentication gateway that integrates with KeyCloak using this provider.
 
 ```bash
 # SPDX-License-Identifier: Apache-2.0
@@ -121,35 +116,37 @@ KEYCLOAK_CLIENT_SECRET=your-generated-client-secret-here
 **Deployment**
 This `.env` file is used when deploying the auth-service container, which serves as the authentication endpoint that other Tazama services call to validate tokens and permissions. The auth-service uses this provider to communicate with your KeyCloak instance configured following the steps in this guide.
 
+<div style="text-align: right"><a href="#top">Top</a></div>
+
 ---
 
 # 3. KeyCloak Operator Guide for Tazama
 
 ## 3.1. Logging into Admin Console
 
-An admin account would have been created with KeyCloak deployment and management console is reached at the following endpoint:
+An admin account would have been created with KeyCloak deployment and the management console is reached at the following endpoint:
 `{keycloak_url}/admin/master/console`
 
-### 3.1.1 Keycloak admin user and password
+### 3.1.1 KeyCloak Admin User and Password
 
 If you have installed a local deployment of Tazama using the `full-stack-docker-tazama` repo (https://github.com/tazama-lf/Full-Stack-Docker-Tazama), then the default Keycloak admin user and password can be found in the keycloak.env file:
 
 ![keycloak-env-file-location](../images/keycloak/keycloak-env.png)
 
-## 3.2. Keycloak Realm Management
+## 3.2. KeyCloak Realm Management
 
-By default Keycloak has a master realm.  All Tazama identity and access management must be set up and maintained in a `Tazama` realm.
+By default KeyCloak has a master realm.  All Tazama identity and access management must be set up and maintained in a `Tazama` realm.
 
 ### 3.2.1. Creating a Realm
 
-If the Tazama Realm does not already exist, create a Realm for Tazama to house the management of users and credentials. Realm creation is available at the KeyCloak web admin panel. Note a default master realm will exist but we want a realm for our custom entity.
+If the Tazama Realm does not already exist, create a Realm for Tazama to house the management of users and credentials. Realm creation is available at the KeyCloak web admin panel. Note a default master realm will exist but we want a realm for Tazama.
 
 <details open>
     <summary> 
       Navigate Realm
     </summary>
 
-![1-create-realm-nav](../images/keycloak/1-create-realm-nav.png)
+![create-realm-nav](../images/keycloak/1-create-realm-nav.png)
 
 </details>
 
@@ -167,11 +164,13 @@ If the Tazama Realm already exists, it will be available in the Realm list in th
 
 ![switch-realm](../images/keycloak/switch-realm.png)
 
+<div style="text-align: right"><a href="#top">Top</a></div>
+
 ---
 
-## 3.3. Keycloak Client Management
+## 3.3. KeyCloak Client Management
 
-Tazama requires an `auth-lib-client` Client to be able to authenticate and authorize using KeyCloak via `auth-lib`.
+Tazama requires an `auth-lib-client` client to be able to authenticate and authorize using KeyCloak via `auth-lib`.
 
 ### 3.3.1. Creating a Client
 We want to create a client to be able to authenticate and authorize using KeyCloak. In our scenario we are using the `auth lib` in Tazama. So we want to create a client for this purpose.
@@ -184,7 +183,7 @@ To create a client first ensure we are on the right realm on the dropdown top le
 
 ![3-create-client-nav](../images/keycloak/3-create-client-nav.png)
 
-Click on the `Create client` button
+Click on the `Create client` button.
 </details>
 
 <details open>
@@ -195,7 +194,7 @@ Click on the `Create client` button
 Capture the Client ID as `auth-lib-client`
 ![4-create-client](../images/keycloak/4-create-client.png)
 
-Click on the `next` button
+Click on the `next` button.
 
 </details>
 
@@ -208,18 +207,19 @@ Enable the options for `Client authentication` and `Authorisation`
 
 ![5-create-client-capability](../images/keycloak/5-create-client-capability.png)
 
-Click on the `next` button
+Click on the `next` button.
 
 <details open>
     <summary> 
       Create Client - Login Settings
     </summary>
 
-Click on the `save` button without adding any detail to the login settings page
+Click on the `save` button without adding any detail to the login settings page.
 
 ![create-client-save](../images/keycloak/create-client-login-settings.png)
 </details>
-After creating a client, navigate to the Credentials page as Client Id and Secret are needed by the auth-lib to function.
+
+After creating a client, navigate to the `Credentials` page as Client Id and Secret are needed by the auth-lib to function.
 
 <details open>
     <summary> 
@@ -237,6 +237,8 @@ We have now created the following variables for auth-lib:
 | **client_secret** | your-generated-client-secret-here    | 
 
 </details>
+
+<div style="text-align: right"><a href="#top">Top</a></div>
 
 ### 3.3.2. Multi-Tenant Client Settings
 
@@ -288,13 +290,12 @@ Click on the `user attribute` option in the list of available mappings
 
 </details>
 
-
 <details open>
     <summary> 
       Dedicated scopes - mapper details - user attribute configuration
     </summary>
 
-![client-scopes](../images/keycloak/client-scopes-mapper.png)
+![client-scopes-mapper](../images/keycloak/client-scopes-mapper.png)
 
 In the user attribute configuration capture the following:
 1. **Mapper type**: Defaults to "User Attribute" 
@@ -309,9 +310,12 @@ In the user attribute configuration capture the following:
 10. **Multivalued**: Toggle "Off" (since tenant_id should be a single value)
 11. **Aggregate attribute values**: Toggle "Off"
 
-Click the `save` button
+Click the `save` button.
 
 </details>
+
+<div style="text-align: right"><a href="#top">Top</a></div>
+
 ---
 
 ## 3.4. Creating Roles (Permissions)
@@ -340,6 +344,8 @@ Let's create a role for `POST_V1_EVALUATE_ISO20022_PAIN_001_001_11`
 We can repeat this process for `POST_V1_EVALUATE_ISO20022_PAIN_013_001_09`, `POST_V1_EVALUATE_ISO20022_PACS_008_001_10` and `POST_V1_EVALUATE_ISO20022_PACS_002_001_12`
 </details>
 
+<div style="text-align: right"><a href="#top">Top</a></div>
+
 ---
 
 ## 3.5. Creating Groups
@@ -352,7 +358,7 @@ Now that we have roles defined we can create a group with roles assigned to them
 
 ![9-groups-nav](../images/keycloak/9-groups-nav.png)
 
-Let's create a group called tazama-tms to assign the role(s) we previously created to the tazama-tms group.
+Let's create a group called `tazama-tms` to assign the role(s) we previously created to the tazama-tms group.
 </details>
 
 <details open>
@@ -362,7 +368,7 @@ Let's create a group called tazama-tms to assign the role(s) we previously creat
 
 ![10-groups-create](../images/keycloak/10-groups-create.png)
 
-Then click on the group and navigate to Role mappings to assign the role(s)
+Then click on the group and navigate to Role mappings to assign the role(s).
 
 </details>
 
@@ -390,7 +396,7 @@ Then click on the group and navigate to Role mappings to assign the role(s)
       Navigate Groups
     </summary>
 
-![9-groups-nav](../images/keycloak/10-groups-create.png)
+![groups-create](../images/keycloak/10-groups-create.png)
 
 Let's create a tenant called `tenant-001` within the tazama-tms group created above. Click on the `Group name` called `tazama-tms` 
 </details>
@@ -402,7 +408,7 @@ Let's create a tenant called `tenant-001` within the tazama-tms group created ab
 
 Within the group `tazama-tms` selected, click on the `Create group` button to create a child group within the tazama-tms group.
 
-![9-groups-nav](../images/keycloak/group-create.png)
+![group-create](../images/keycloak/group-create.png)
 
 </details>
 
@@ -413,7 +419,7 @@ Within the group `tazama-tms` selected, click on the `Create group` button to cr
     
 Create a tenant called `tenant-001` and click on the `create` button.
 
-![9-groups-nav](../images/keycloak/group-create-tenant.png)
+![group-create-tenant](../images/keycloak/group-create-tenant.png)
 
 </details>
 
@@ -424,7 +430,7 @@ Create a tenant called `tenant-001` and click on the `create` button.
     
 Click on `tenant-001` to be able to configure it
 
-![9-groups-nav](../images/keycloak/select-tenant-001.png)
+![select-tenant](../images/keycloak/select-tenant-001.png)
 
 </details>
 
@@ -435,7 +441,7 @@ Click on `tenant-001` to be able to configure it
     
 Click on `attributes` tab and click on `add an attribute` button.  
 
-![9-groups-nav](../images/keycloak/group-create-tenant-attribute.png)
+![group-create-tenant-attribute](../images/keycloak/group-create-tenant-attribute.png)
 Add a new attribute:
 1. **Key**: `TENANT_ID`
 2. **Value**: The actual tenant identifier (e.g., `tenant-001`)
@@ -447,6 +453,8 @@ This ensures that all users in this group will inherit this tenant ID, which wil
 - Users will inherit the TENANT_ID from their primary group
 - The Tazama auth library will use this TENANT_ID attribute for multi-tenant authorization
 - Make sure the TENANT_ID attribute name matches exactly what's configured in the user attribute mapper
+
+<div style="text-align: right"><a href="#top">Top</a></div>
 
 ---
 
@@ -489,9 +497,9 @@ Capture the usename and email, and then click on `Join Groups`
       Join groups
     </summary>
 
-![14-users-create-and-group-join](../images/keycloak/user-select-groups-tenant.png)
+![user-select-groups-tenant](../images/keycloak/user-select-groups-tenant.png)
 
-Select the group (e.g. tazama-tms) and the child group (e.g.tenant-001), and then click on `Join`
+Select the group (e.g. tazama-tms) and the child group (e.g.tenant-001), and then click on `Join`. Then click on the `Create` button to create the user.
 
 </details>
 
@@ -513,8 +521,10 @@ While the user is created a password was not yet set. So let's create a password
       Set User Password
     </summary>
 
+Navigate to the `Credentials` page to set the password.
+
 ![15-users-set-password](../images/keycloak/15-users-set-password.png)
----
+
 ![16-users-set-password-extra](../images/keycloak/16-users-set-password-extra.png)
 
 ### 3.6.2. Creating Operator Users
@@ -556,7 +566,9 @@ For operator-specific users who need cross-tenant access or system-wide manageme
    </details>
 </details>
 
-### 3.6.3. Deleting users
+<div style="text-align: right"><a href="#top">Top</a></div>
+
+### 3.6.3. Deleting Users
 Navigate to the Users section
 
 <details open>
@@ -579,8 +591,10 @@ Select the user(s) to be deleted and press the delete user button.
 The user is deleted.
 </details>
 
+<div style="text-align: right"><a href="#top">Top</a></div>
+
 ---
-## 4. Local Deployment
+# 4. Local Deployment
 <details>
     <summary>
         <strong>Docker Compose</strong>
