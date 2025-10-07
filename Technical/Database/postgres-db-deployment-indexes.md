@@ -28,70 +28,22 @@ Indexes are created during initialization of Tazama from all supported deploymen
 #### pain001
 | Name | Field(s) |
 | ------ | ------ | 
-| EndToEndId | `CstmrCdtTrfInitn.PmtInf.CdtTrfTxInf.PmtId.EndToEndId` |
-| DbtrAcct_ID-TxTp | `[CstmrCdtTrfInitn.PmtInf.DbtrAcct.Id.Othr.Id, TxTp]` |
-| CreDtTm | `CstmrCdtTrfInitn.GrpHdr.CreDtTm` |
-| CdtrAcctId | `CstmrCdtTrfInitn.PmtInf.CdtTrfTxInf.CdtrAcct.Id.Othr.Id` |
-| DbtrAcctId | `CstmrCdtTrfInitn.PmtInf.DbtrAcct.Id.Othr.Id` |
+| idx_pain001_msg_id | `messageid` |
+| idx_pain001_end_to_end_id | `endtoendid` |
+| idx_pain001_dbtr_acct_id | `debtoraccountid` |
+| idx_pain001_cdtr_acct_id | `creditoraccountid` |
+| idx_pain001_credttm | `credttm` |
 
 #### pain013
 | Name | Field(s) |
 | ------ | ------ | 
-| EndToEndId | `CdtrPmtActvtnReq.PmtInf.CdtTrfTxInf.PmtId.EndToEndId` | `true` | `false` | 
+| idx_pain013_msg_id | `messageid` |
+| idx_pain013_end_to_end_id | `endtoendid` |
+| idx_pain013_dbtr_acct_id | `debtoraccountid` |
+| idx_pain013_cdtr_acct_id | `creditoraccountid` |
+| idx_pain013_credttm | `credttm` |
 
 ## event_history
-#### transaction
-| Name | Field(s) |
-| ------ | ------ | 
-| EndToEndId-TxTp | `[EndToEndId, TxTp]` | `false` | `false`| 
-| CreDtTm | `CreDtTm` | `false` | `false`| 
-
-#### account
-| Name | Field(s) |
-| ------ | ------ | 
-| EndToEndId-TxTp | `[EndToEndId, TxTp]` | `false` | `false`| 
-| CreDtTm | `CreDtTm` | `false` | `false`| 
-
-#### account_holder
-| Name | Field(s) | 
-| ------ | ------ | 
-| EndToEndId-TxTp | `[EndToEndId, TxTp]` | 
-| CreDtTm | `CreDtTm` | 
-
-#### condition
-| Name | Field(s) | 
-| ------ | ------ | 
-
-
-#### entity
-| Name | Field(s) |
-| ------ | ------ | 
-
-
-#### governed_as_creditor_by
-| Name | Field(s) | 
-| ------ | ------ | 
-| EndToEndId-TxTp | `[EndToEndId, TxTp]` |
-| CreDtTm | `CreDtTm` |
-
-#### governed_as_debtor_by
-| Name | Field(s) |
-| ------ | ------ | 
-| EndToEndId-TxTp | `[EndToEndId, TxTp]` | 
-| CreDtTm | `CreDtTm` | 
-
-#### governed_as_debtor_account_by
-| Name | Field(s) | 
-| ------ | ------ | 
-| EndToEndId-TxTp | `[EndToEndId, TxTp]` |
-| CreDtTm | `CreDtTm` |
-
-
-#### governed_as_creditor_account_by
-| Name | Field(s) | 
-| ------ | ------ | 
-| EndToEndId-TxTp | `[endtoendid, txtp]` | 
-| CreDtTm | `credttm` |
 
 #### transaction
 | Name | Field(s) | 
@@ -103,22 +55,3 @@ Indexes are created during initialization of Tazama from all supported deploymen
 | idx_tr_endtoendid | `endtoendid` | 
 | idx_tr_pacs002_accc | `[endtoendid, credttm]` | 
 | idx_tr_dest_txtp_txsts_credttm | `[credttm, destination, txtp, txsts, credttm, source]` | 
-
-
-
-
-## configuration
-#### rule
-| Name | Field(s) | 
-| ------ | ------ | 
-| id-cfg | `[id, cfg]` | 
-
-#### typology
-| Name | Field(s) | 
-| ------ | ------ |
-| id-cfg | `[id, cfg]` |
-
-#### network_map
-| Name | Field(s) | 
-| ------ | ------ |
-
