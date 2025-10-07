@@ -1,6 +1,6 @@
 # Technical Architecture
 
-Technical Architecture contains the list of the important tools and technologies of the Tazama platform and Lextego Product
+Technical Architecture contains the list of the important tools and technologies of the Tazamaplatform and Lextego Product
 
 ![](../../../images/TechnicalArchitecture.png)
 
@@ -15,10 +15,9 @@ List of Technologies and Tools:
 7. Prometheus - Telmetry Metrics
 8. Grafana - Telemetry Visualization / Observability
 9. Elastic - Historic Telemetry Metrics
-10. Valkey - Cache
-11. Postgres - Open source object-relational database
+10. Redis - Cache
+11. ArangoDB - Graph DB
 12. Druid - OLAP / Data Lake
 13. Nifi - Data Pipeline
-14. Nats -  Message transportation 
 
 [Overall Architecture](Overall-Architecture.md)

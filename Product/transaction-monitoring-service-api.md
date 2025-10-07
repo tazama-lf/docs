@@ -67,27 +67,27 @@ When each message is received and processed by the TMS API, the following tasks 
 
 1. Store the message as received
 
-For audit purposes, incoming messages are stored unadulterated in separate data tables:
+For audit purposes, incoming messages are stored unadulterated in separate data collections:
 
- - `pain.001` messages are stashed in the `pain001` table in the `raw_history` database
- - `pain.013` messages are stashed in the `pain013` table in the `raw_history` database
- - `pacs.008` messages are stashed in the `pacs008` table in the `raw_history` database
- - `pacs.002` messages are stashed in the `pacs002` table in the `raw_history` database
+ - `pain.001` messages are stashed in the `TransactionHistoryPain001` collection in the `transactionHistory` database
+ - `pain.013` messages are stashed in the `TransactionHistoryPain013` collection in the `transactionHistory` database
+ - `pacs.008` messages are stashed in the `TransactionHistoryPacs008` collection in the `transactionHistory` database
+ - `pacs.002` messages are stashed in the `TransactionHistoryPacs002` collection in the `transactionHistory` database
 
-2. Load the message into the historical event database
+2. Load the message into the historical graph
 
-The bulk of the behavioral modelling is performed over data composed into the historical event database.
+The bulk of the behavioral modelling is performed over data composed into the historical graph database.
 
-With the notable exception of the `pacs.002` message, each ISO20022 message contains information related to the entities participating in the transaction, their accounts, and information about the transaction itself :
+With the notable exception of the `pacs.002` message, each ISO20022 message contains information related to the entities participating in the transaction, their accounts, and information about the transaction itself. This information is used to populate the components of the graph model:
 
- - The debtor and creditor entity data is stored in the `entities` table
- - The debtor and creditor account data is stored in the `accounts` table
- - The debtors and creditors are connected to their accounts via an `account_holder` joining table
- - The transaction itself is represented by a `transaction` joining table between the debtor and creditor accounts
+ - The debtor and creditor entity data is stored in the `entities` node collection
+ - The debtor and creditor account data is stored in the `accounts` node collection
+ - The debtors and creditors are connected to their accounts via an `account_holder` edge
+ - The transaction itself is represented by a `transactionRelationship` edge between the debtor and creditor accounts
 
 3. Create the `DataCache` object
 
-The chain of four messages that comprises a complete transaction from quote to transfer contain the same information for some basic components that are used to interact with the object relational database.
+The chain of four messages that comprises a complete transaction from quote to transfer contain the same information for some basic components that are used to interact with the graph database.
 
 When the first message is received, the Data Preparation service will collect and store this information in an object called the `DataCache` that will then accompany the transaction message payload to the rule processors.
 
