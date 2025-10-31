@@ -19,6 +19,7 @@ Holds reference/configuration data used by Tazama’s rule/typology engine and n
 | Column          | Type  | Details                                       |
 | --------------- | ----- | --------------------------------------------- |
 | `configuration` | JSONB | Required. Arbitrary network mapping document. |
+| `tenantId`      | TEXT (generated)| Tenant Identifier.`configuration ->> 'tenantId'`|
 
 **Constraints/Indexes:** none by default.
 
@@ -35,8 +36,9 @@ Holds reference/configuration data used by Tazama’s rule/typology engine and n
 | `configuration` | JSONB            | Full typology document. Must contain keys: `id`, `cfg`. |
 | `typologyId`    | TEXT (generated) | `configuration ->> 'id'`.                               |
 | `typologyCfg`   | TEXT (generated) | `configuration ->> 'cfg'`.                              |
+| `tenantId`      | TEXT (generated)| Tenant Identifier.`configuration ->> 'tenantId'`      |
 
-**Constraints:** `UNIQUE(typologyId, typologyCfg)` ensures versioned uniqueness per typology.
+**Constraints:** `UNIQUE(typologyId, typologyCfg, tenantId)` ensures versioned uniqueness per typology.
 
 **Notes:** Use `(id,cfg)` for safe updates; older configs remain addressable.
 
@@ -46,13 +48,14 @@ Holds reference/configuration data used by Tazama’s rule/typology engine and n
 
 **Role:** Versioned rule definitions consumed by the Tazama rules.
 
-| Column          | Type             | Details                                         |
-| --------------- | ---------------- | ----------------------------------------------- |
-| `configuration` | JSONB            | Full rule document. Keys required: `id`, `cfg`. |
-| `ruleId`        | TEXT (generated) | `configuration ->> 'id'`.                       |
-| `ruleCfg`       | TEXT (generated) | `configuration ->> 'cfg'`.                      |
+| Column          | Type               | Details                                         |
+| --------------- | ------------------ | ----------------------------------------------- |
+| `configuration` | JSONB              | Full rule document. Keys required: `id`, `cfg`. |
+| `ruleId`        | TEXT (generated)   | `configuration ->> 'id'`.                       |
+| `ruleCfg`       | TEXT (generated)   | `configuration ->> 'cfg'`.                      |
+| `tenantId`      | TEXT (generated)| Tenant Identifier.`configuration ->> 'tenantId'`   |
 
-**Constraints:** `UNIQUE(ruleId, ruleCfg)`
+**Constraints:** `UNIQUE(ruleId, ruleCfg, tenantId)`
 
 ---
 
@@ -68,10 +71,11 @@ Stores evaluation report when Tazama is done evaluating the message.
 
 **Role:** Holds raw evaluation documents (JSON) and extracts the message identifier from ISO 20022 `FIToFIPmtSts` payloads.
 
-| Column       | Type             | Details                                                                  |
-| ------------ | ---------------- | ------------------------------------------------------------------------ |
-| `evaluation` | JSONB            | Required. Full evaluation payload/document.                              |
-| `messageId`  | TEXT (generated) | `evaluation -> 'transaction' -> 'FIToFIPmtSts' -> 'GrpHdr' ->> 'MsgId'`. |
+| Column       | Type                | Details                                                                  |
+| ------------ | ------------------- | ------------------------------------------------------------------------ |
+| `evaluation` | JSONB               | Required. Full evaluation payload/document.                              |
+| `messageId`  | TEXT (generated)    | `evaluation -> 'transaction' -> 'FIToFIPmtSts' -> 'GrpHdr' ->> 'MsgId'`. |
+| `tenantId`   | TEXT (generated) | Tenant Identifier.  `evaluation -> 'transaction' ->> 'tenantId'`         |
 
 **Constraints/Indexes:** none defined by default.
 
@@ -89,9 +93,12 @@ Event‑sourced ledger of entities, accounts, governance/condition relationships
 
 **Role:** Canonical account registry.
 
-| Column | Type    | Details                                                                     |
-| ------ | ------- | --------------------------------------------------------------------------- |
-| `id`   | VARCHAR | Primary key. External account identifier (e.g., bank account number/alias). |
+| Column     | Type    | Details                                                                     |
+| ---------- | ------- | --------------------------------------------------------------------------- |
+| `id`       | VARCHAR | Primary key. External account identifier (e.g., bank account number/alias). |
+| `tenantId` | TEXT  | Tenant Identifier.    
+
+**PK** (`id`, `tenantId`)                                                     |
 
 ---
 
@@ -103,6 +110,7 @@ Event‑sourced ledger of entities, accounts, governance/condition relationships
 | --------- | ----------- | ---------------------------------------- |
 | `id`      | VARCHAR     | Primary key. External entity identifier. |
 | `creDtTm` | TIMESTAMPTZ | Creation timestamp.                      |
+| `tenantId`| TEXT     | Tenant Identifier.                       |
 
 ---
 
@@ -115,8 +123,9 @@ Event‑sourced ledger of entities, accounts, governance/condition relationships
 | `source`      | VARCHAR     | FK → `entity(id)`.  |
 | `destination` | VARCHAR     | FK → `account(id)`. |
 | `creDtTm`     | TIMESTAMPTZ | Link creation time. |
+| `tenantId`    | TEXT     | Tenant Identifier.  |
 
-**PK:** (`source`, `destination`).
+**PK:** (`source`, `destination`, `tenantId`).
 
 ---
 
@@ -128,6 +137,9 @@ Event‑sourced ledger of entities, accounts, governance/condition relationships
 | ----------- | ------------------- | --------------------------------------------------- |
 | `id`        | VARCHAR (generated) | Derived from `condition ->> 'condId'`. Primary key. |
 | `condition` | JSONB               | Required. Full condition object.                    |
+| `tenantId`  | TEXT             | Tenant Identifier.  `condition ->> 'tenantId'`         |
+
+**PK** (`id`, `tenantId`)
 
 **Notes:** Provides a reusable reference entity to avoid duplicating condition blobs.
 
@@ -144,8 +156,9 @@ Event‑sourced ledger of entities, accounts, governance/condition relationships
 | `evtTp`       | TEXT[]      | Event types this governance applies to.   |
 | `incptnDtTm`  | TIMESTAMPTZ | Start/activation time.                    |
 | `xprtnDtTm`   | TIMESTAMPTZ | Optional expiry.                          |
+| `tenantId`    | TEXT     | Tenant Identifier.                        |
 
-**PK:** (`source`, `destination`).
+**PK:** (`source`, `destination`, `tenantId`).
 
 ---
 
@@ -160,8 +173,9 @@ Event‑sourced ledger of entities, accounts, governance/condition relationships
 | `evtTp`       | TEXT[]      | Event types covered.                   |
 | `incptnDtTm`  | TIMESTAMPTZ | Start/activation time.                 |
 | `xprtnDtTm`   | TIMESTAMPTZ | Optional expiry.                       |
+| `tenantId`    | TEXT     | Tenant Identifier.                     |
 
-**PK:** (`source`, `destination`).
+**PK:** (`source`, `destination`, `tenantId`).
 
 ---
 
@@ -176,8 +190,9 @@ Event‑sourced ledger of entities, accounts, governance/condition relationships
 | `evtTp`       | TEXT[]      | Event types covered.   |
 | `incptnDtTm`  | TIMESTAMPTZ | Start/activation time. |
 | `xprtnDtTm`   | TIMESTAMPTZ | Optional expiry.       |
+| `tenantId`    | TEXT     | Tenant Identifier.     |
 
-**PK:** (`source`, `destination`).
+**PK:** (`source`, `destination`,  `tenantId`).
 
 ---
 
@@ -192,8 +207,9 @@ Event‑sourced ledger of entities, accounts, governance/condition relationships
 | `evtTp`       | TEXT[]      | Event types covered.   |
 | `incptnDtTm`  | TIMESTAMPTZ | Start/activation time. |
 | `xprtnDtTm`   | TIMESTAMPTZ | Optional expiry.       |
+| `tenantId`    | TEXT     | Tenant Identifier.     |
 
-**PK:** (`source`, `destination`).
+**PK:** (`source`, `destination`, `tenantId`).
 
 ---
 
@@ -213,6 +229,7 @@ Event‑sourced ledger of entities, accounts, governance/condition relationships
 | `creDtTm`     | TEXT (generated)          | Creation timestamp string. Consider casting when querying. |
 | `txTp`        | VARCHAR (generated)       | Message type (e.g., `pacs.008...`, `pacs.002...`).         |
 | `txSts`       | VARCHAR (generated)       | Status (e.g., `ACCC`).                                     |
+| `tenantId`    | TEXT (generated)       | `transaction->>'TenantId'` Tenant Identifier.              |
 
 **Primary key:** (`msgId`, `endToEndId`, `txTp`).
 
@@ -238,7 +255,7 @@ Immutable storage for raw ISO 20022 documents as received/produced by the system
 
 #### `pacs002`
 
-**Role:** Stores FIToFIPmtSts (payment status) messages.
+**Role:** Stores FIToFIPmtSts (Financial Institution to Financial Institution Payment Status) messages.
 
 | Column       | Type             | Details                                                              |
 | ------------ | ---------------- | -------------------------------------------------------------------- |
@@ -246,6 +263,7 @@ Immutable storage for raw ISO 20022 documents as received/produced by the system
 | `creDtTm`    | TEXT (generated) | `document -> 'FIToFIPmtSts' -> 'GrpHdr' ->> 'CreDtTm'`.              |
 | `messageId`  | TEXT (generated) | `document -> 'FIToFIPmtSts' -> 'GrpHdr' ->> 'MsgId'`.                |
 | `endToEndId` | TEXT (generated) | `document -> 'FIToFIPmtSts' -> 'TxInfAndSts' ->> 'OrgnlEndToEndId'`. |
+| `tenantId`   | TEXT (generated) | `document -> 'TenantId'`.                                         |
 
 **Constraints:**
 
@@ -259,7 +277,7 @@ Immutable storage for raw ISO 20022 documents as received/produced by the system
 
 #### `pacs008`
 
-**Role:** Stores FIToFICstmrCdtTrf (customer credit transfer) messages.
+**Role:** Stores FIToFICstmrCdtTrf (Financial Institution to Financial Institution Customer Credit Transfer) messages.
 
 | Column              | Type             | Details                                                                         |
 | ------------------- | ---------------- | ------------------------------------------------------------------------------- |
@@ -269,6 +287,7 @@ Immutable storage for raw ISO 20022 documents as received/produced by the system
 | `endToEndId`        | TEXT (generated) | `document -> 'FIToFICstmrCdtTrf' -> 'CdtTrfTxInf' -> 'PmtId' ->> 'EndToEndId'`. |
 | `debtorAccountId`   | TEXT (generated) | `... -> 'DbtrAcct' -> 'Id' -> 'Othr' -> 0 ->> 'Id'`.                            |
 | `creditorAccountId` | TEXT (generated) | `... -> 'CdtrAcct' -> 'Id' -> 'Othr' -> 0 ->> 'Id'`.                            |
+| `tenantId`          | TEXT (generated) | `document -> 'TenantId'`.                                                    |
 
 **Constraints:**
 
@@ -278,6 +297,52 @@ Immutable storage for raw ISO 20022 documents as received/produced by the system
 
 **Indexes:** `messageId`, `endToEndId`, `debtorAccountId`, `creditorAccountId`, `creDtTm`.
 
-**Notes:** Drives population of `event_history.transaction` and account/entity linkage.
+---
+
+#### `pain013`
+
+**Role:** Stores CdtrPmtActvtnReq (Creditor Payment Activation Request) messages.
+
+| Column              | Type             | Details                                                                         |
+| ------------------- | ---------------- | ------------------------------------------------------------------------------- |
+| `document`          | JSONB            | Full PAIN.013 document.                                                         |
+| `creDtTm`           | TEXT (generated) | `document -> 'CdtrPmtActvtnReq' -> 'GrpHdr' ->> 'CreDtTm'`.                    |
+| `messageId`         | TEXT (generated) | `document -> 'CdtrPmtActvtnReq' -> 'GrpHdr' ->> 'MsgId'`.                      |
+| `endToEndId`        | TEXT (generated) | `document -> 'CdtrPmtActvtnReq' -> 'CdtTrfTxInf' -> 'PmtId' ->> 'EndToEndId'`. |
+| `debtorAccountId`   | TEXT (generated) | `... -> 'DbtrAcct' -> 'Id' -> 'Othr' -> 0 ->> 'Id'`.                            |
+| `creditorAccountId` | TEXT (generated) | `... -> 'CdtrAcct' -> 'Id' -> 'Othr' -> 0 ->> 'Id'`.                            |
+| `tenantId`          | TEXT (generated) | `document -> 'TenantId'`.                                                    |
+
+**Constraints:**
+
+* `UNIQUE(messageId, endToEndId)`
+* `UNIQUE(endToEndId)`
+* CHECKs enforcing non‑null on generated keys
+
+**Indexes:** `messageId`, `endToEndId`, `debtorAccountId`, `creditorAccountId`, `creDtTm`.
+
+---
+
+#### `pain001`
+
+**Role:** Stores CstmrCdtTrfInitn (Customer Credit Transfer Initiation) messages.
+
+| Column              | Type             | Details                                                                         |
+| ------------------- | ---------------- | ------------------------------------------------------------------------------- |
+| `document`          | JSONB            | Full PAIN.001 document.                                                         |
+| `creDtTm`           | TEXT (generated) | `document -> 'CstmrCdtTrfInitn' -> 'GrpHdr' ->> 'CreDtTm'`.                    |
+| `messageId`         | TEXT (generated) | `document -> 'CstmrCdtTrfInitn' -> 'GrpHdr' ->> 'MsgId'`.                      |
+| `endToEndId`        | TEXT (generated) | `document -> 'CstmrCdtTrfInitn' -> 'CdtTrfTxInf' -> 'PmtId' ->> 'EndToEndId'`. |
+| `debtorAccountId`   | TEXT (generated) | `... -> 'DbtrAcct' -> 'Id' -> 'Othr' -> 0 ->> 'Id'`.                            |
+| `creditorAccountId` | TEXT (generated) | `... -> 'CdtrAcct' -> 'Id' -> 'Othr' -> 0 ->> 'Id'`.                            |
+| `tenantId`          | TEXT (generated) | `document -> 'TenantId'`.                                                    |
+
+**Constraints:**
+
+* `UNIQUE(messageId, endToEndId)`
+* `UNIQUE(endToEndId)`
+* CHECKs enforcing non‑null on generated keys
+
+**Indexes:** `messageId`, `endToEndId`, `debtorAccountId`, `creditorAccountId`, `creDtTm`.
 
 ---

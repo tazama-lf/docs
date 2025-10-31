@@ -1,186 +1,289 @@
-Tazama Postgres database schema
-SoT: Source of Truth 
-
+## Tazama Postgres database schema
+[Download file](https://raw.githubusercontent.com/tazama-lf/Full-Stack-Docker-Tazama/refs/heads/tazama/postgres-with-multitenancy/postgres/migration/base/00-CREATE.sql) 
 ```
--- Create databases
-CREATE DATABASE configuration;
-CREATE DATABASE event_history;
-CREATE DATABASE raw_history;
-CREATE DATABASE evaluation;
+create database configuration;
 
--- ========== CONFIGURATION DB ==========
+create database event_history;
+
+create database raw_history;
+
+create database evaluation;
+
 \connect configuration;
 
-CREATE TABLE network_map (
-    configuration JSONB NOT NULL
+create table network_map (
+    configuration jsonb not null,
+    tenantId text generated always as (configuration ->> 'tenantId') stored
 );
 
-CREATE TABLE typology (
-    configuration JSONB NOT NULL,
-    typologyId TEXT GENERATED ALWAYS AS (configuration ->> 'id') STORED,
-    typologyCfg TEXT GENERATED ALWAYS AS (configuration ->> 'cfg') STORED,
-    UNIQUE (typologyId, typologyCfg)
+create table typology (
+    configuration jsonb not null,
+    typologyId text generated always as (configuration ->> 'id') stored,
+    typologyCfg text generated always as (configuration ->> 'cfg') stored,
+    tenantId text generated always as (configuration ->> 'tenantId') stored,
+    primary key (typologyId, typologyCfg, tenantId)
 );
 
-CREATE TABLE rule (
-    configuration JSONB NOT NULL,
-    ruleId TEXT GENERATED ALWAYS AS (configuration ->> 'id') STORED,
-    ruleCfg TEXT GENERATED ALWAYS AS (configuration ->> 'cfg') STORED,
-    UNIQUE (ruleId, ruleCfg)
+create table rule (
+    configuration jsonb not null,
+    ruleId text generated always as (configuration ->> 'id') stored,
+    ruleCfg text generated always as (configuration ->> 'cfg') stored,
+    tenantId text generated always as (configuration ->> 'tenantId') stored,
+    primary key (ruleId, ruleCfg, tenantId)
 );
 
--- ========== EVALUATION DB ==========
 \connect evaluation;
 
-CREATE TABLE evaluation (
-    evaluation JSONB NOT NULL,
-    messageId TEXT GENERATED ALWAYS AS (
+create table evaluation (
+    evaluation jsonb not null,
+    messageId text generated always as (
         evaluation -> 'transaction' -> 'FIToFIPmtSts' -> 'GrpHdr' ->> 'MsgId'
-    ) STORED
+    ) stored,
+    tenantId text generated always as (evaluation -> 'transaction' ->> 'TenantId') stored
 );
 
--- ========== EVENT_HISTORY DB ==========
 \connect event_history;
 
-CREATE TABLE account (
-    id VARCHAR PRIMARY KEY
+create table account (
+    id varchar not null,
+    tenantId text not null,
+    primary key (id, tenantId)
 );
 
-CREATE TABLE entity (
-    id VARCHAR PRIMARY KEY,
-    creDtTm TIMESTAMPTZ NOT NULL
+create table entity (
+    id varchar not null,
+    tenantId text not null,
+    creDtTm timestamptz not null,
+    primary key (id, tenantId)
 );
 
-CREATE TABLE account_holder (
-    source VARCHAR REFERENCES entity(id),
-    destination VARCHAR REFERENCES account(id),
-    creDtTm TIMESTAMPTZ NOT NULL,
-    PRIMARY KEY (source, destination)
+create table account_holder (
+    source varchar not null,
+    destination varchar not null,
+    tenantId text not null,
+    creDtTm timestamptz not null,
+    foreign key (source, tenantId) references entity (id, tenantId),
+    foreign key (destination, tenantId) references account (id, tenantId),
+    primary key (source, destination, tenantId)
 );
 
-CREATE TABLE condition (
-    id VARCHAR PRIMARY KEY GENERATED ALWAYS AS (condition ->> 'condId') STORED,
-    condition JSONB NOT NULL
+create table condition (
+    id varchar generated always as (condition ->> 'condId') stored,
+    tenantId text generated always as (condition ->> 'tenantId') stored,
+    condition jsonb not null,
+    primary key (id, tenantId)
 );
 
-CREATE TABLE governed_as_creditor_account_by (
-    source VARCHAR REFERENCES account(id),
-    destination VARCHAR REFERENCES condition(id),
-    evtTp TEXT[] NOT NULL,
-    incptnDtTm TIMESTAMPTZ NOT NULL,
-    xprtnDtTm TIMESTAMPTZ,
-    PRIMARY KEY (source, destination)
+create table governed_as_creditor_account_by (
+    source varchar not null,
+    destination varchar not null,
+    evtTp text [] not null,
+    incptnDtTm timestamptz not null,
+    xprtnDtTm timestamptz,
+    tenantId text not null,
+    foreign key (source, tenantId) references account (id, tenantId),
+    foreign key (destination, tenantId) references condition (id, tenantId),
+    primary key (source, destination, tenantId)
 );
 
-CREATE TABLE governed_as_creditor_by (
-    source VARCHAR REFERENCES entity(id),
-    destination VARCHAR REFERENCES condition(id),
-    evtTp TEXT[] NOT NULL,
-    incptnDtTm TIMESTAMPTZ NOT NULL,
-    xprtnDtTm TIMESTAMPTZ,
-    PRIMARY KEY (source, destination)
+create table governed_as_creditor_by (
+    source varchar not null,
+    destination varchar not null,
+    evtTp TEXT [] not null,
+    incptnDtTm timestamptz not null,
+    xprtnDtTm timestamptz,
+    tenantId text not null,
+    foreign key (source, tenantId) references entity (id, tenantId),
+    foreign key (destination, tenantId) references condition (id, tenantId),
+    primary key (source, destination, tenantId)
 );
 
-CREATE TABLE governed_as_debtor_account_by (
-    source VARCHAR REFERENCES account(id),
-    destination VARCHAR REFERENCES condition(id),
-    evtTp TEXT[] NOT NULL,
-    incptnDtTm TIMESTAMPTZ NOT NULL,
-    xprtnDtTm TIMESTAMPTZ,
-    PRIMARY KEY (source, destination)
+create table governed_as_debtor_account_by (
+    source varchar not null,
+    destination varchar not null,
+    evtTp TEXT [] not null,
+    incptnDtTm timestamptz not null,
+    xprtnDtTm timestamptz,
+    tenantId text not null,
+    foreign key (source, tenantId) references account (id, tenantId),
+    foreign key (destination, tenantId) references condition (id, tenantId),
+    primary key (source, destination, tenantId)
 );
 
-CREATE TABLE governed_as_debtor_by (
-    source VARCHAR REFERENCES entity(id),
-    destination VARCHAR REFERENCES condition(id),
-    evtTp TEXT[] NOT NULL,
-    incptnDtTm TIMESTAMPTZ NOT NULL,
-    xprtnDtTm TIMESTAMPTZ,
-    PRIMARY KEY (source, destination)
+create table governed_as_debtor_by (
+    source varchar not null,
+    destination varchar not null,
+    evtTp TEXT [] not null,
+    incptnDtTm timestamptz not null,
+    xprtnDtTm timestamptz,
+    tenantId text not null,
+    foreign key (source, tenantId) references entity (id, tenantId),
+    foreign key (destination, tenantId) references condition (id, tenantId),
+    primary key (source, destination, tenantId)
+);
+/* transaction_relationship*/
+create table transaction (
+    source varchar not null,
+    destination varchar not null,
+    transaction jsonb not null,
+    endToEndId text generated always as (transaction->>'EndToEndId') stored,
+    amt numeric(18, 2) generated always as (
+        (transaction->>'Amt')::numeric(18, 2)
+    ) stored,
+    ccy varchar generated always as (transaction->>'Ccy') stored,
+    msgId varchar generated always as (transaction->>'MsgId') stored,
+    creDtTm text generated always as (transaction->>'CreDtTm') stored,
+    txTp varchar generated always as (transaction->>'TxTp') stored,
+    txSts varchar generated always as (transaction->>'TxSts') stored,
+    tenantId text generated always as (transaction->>'TenantId') stored,
+    constraint unique_msgid unique (msgId, tenantId),
+    foreign key (source, tenantId) references account (id, tenantId),
+    foreign key (destination, tenantId) references account (id, tenantId),
+    primary key (endToEndId, txTp, tenantId)
 );
 
--- Transactions
-CREATE TABLE transaction (
-    source VARCHAR REFERENCES account(id),
-    destination VARCHAR REFERENCES account(id),
-    transaction JSONB NOT NULL,
-    endToEndId TEXT GENERATED ALWAYS AS (transaction ->> 'EndToEndId') STORED,
-    amt NUMERIC(18, 2) GENERATED ALWAYS AS ((transaction ->> 'Amt')::NUMERIC(18, 2)) STORED,
-    ccy VARCHAR GENERATED ALWAYS AS (transaction ->> 'Ccy') STORED,
-    msgId VARCHAR GENERATED ALWAYS AS (transaction ->> 'MsgId') STORED,
-    creDtTm TEXT GENERATED ALWAYS AS (transaction ->> 'CreDtTm') STORED,
-    txTp VARCHAR GENERATED ALWAYS AS (transaction ->> 'TxTp') STORED,
-    txSts VARCHAR GENERATED ALWAYS AS (transaction ->> 'TxSts') STORED,
-    PRIMARY KEY (msgId, endToEndId, txTp)
-);
+create index idx_tr_cre_dt_tm on transaction (creDtTm, tenantId);
 
--- Indexes
-CREATE INDEX idx_tr_e2d_txtp ON transaction (endToEndId, txTp);
-CREATE INDEX idx_tr_cre_dt_tm ON transaction (creDtTm);
-CREATE INDEX idx_tr_source_txtp_credttm ON transaction (source, txTp, creDtTm);
-CREATE INDEX idx_tr_txsts ON transaction (txSts);
-CREATE INDEX idx_tr_endtoendid ON transaction (endToEndId);
-CREATE INDEX idx_tr_pacs002_accc ON transaction (endToEndId, creDtTm)
-  WHERE txTp = 'pacs.002.001.12' AND txSts = 'ACCC';
-CREATE INDEX idx_tr_dest_txtp_txsts_credttm ON transaction (destination, txTp, txSts, creDtTm DESC)
-  INCLUDE (source);
+create index idx_tr_source_txtp_credttm ON transaction (source, txtp, creDtTm, tenantId);
 
--- ========== RAW_HISTORY DB ==========
+
+create index idx_tr_pacs002_accc on transaction (endtoendid, creDtTm, tenantId)
+where
+    txtp = 'pacs.002.001.12'
+    and txsts = 'ACCC';
+
+create index idx_tr_dest_txtp_txsts_credttm on transaction (
+    destination,
+    txtp,
+    txsts,
+    creDtTm desc
+) include (source);
+
 \connect raw_history;
 
--- PACS.002
-CREATE TABLE pacs002 (
-    document JSONB NOT NULL,
-    creDtTm TEXT GENERATED ALWAYS AS (
+create table pacs002 (
+    document jsonb not null,
+    -- cast when querying
+    creDtTm text generated always as (
         document -> 'FIToFIPmtSts' -> 'GrpHdr' ->> 'CreDtTm'
-    ) STORED,
-    messageId TEXT GENERATED ALWAYS AS (
+    ) stored,
+    messageId text generated always as (
         document -> 'FIToFIPmtSts' -> 'GrpHdr' ->> 'MsgId'
-    ) STORED,
-    endToEndId TEXT GENERATED ALWAYS AS (
+    ) stored,
+    endToEndId text generated always as (
         document -> 'FIToFIPmtSts' -> 'TxInfAndSts' ->> 'OrgnlEndToEndId'
-    ) STORED,
-    CONSTRAINT unique_e2eid_pacs002 UNIQUE (endToEndId),
-    CONSTRAINT unique_msgid_pacs002 UNIQUE (messageId),
-    CONSTRAINT message_id_not_null CHECK (messageId IS NOT NULL),
-    CONSTRAINT cre_dt_tm CHECK (creDtTm IS NOT NULL),
-    CONSTRAINT end_to_end_id_not_null CHECK (endToEndId IS NOT NULL)
+    ) stored,
+    tenantId text generated always as (
+        document ->> 'TenantId' ) stored,
+    constraint unique_msgid_pacs002 unique (messageId, tenantId),
+    constraint message_id_not_null check (messageId is not null),
+    constraint cre_dt_tm check (creDtTm is not null),
+    primary key (endToEndId, tenantId)
 );
 
-CREATE INDEX idx_pacs002_msg_id ON pacs002 (messageId);
-CREATE INDEX idx_pacs002_end_to_end_id ON pacs002 (endToEndId);
 
--- PACS.008
-CREATE TABLE pacs008 (
-    document JSONB NOT NULL,
-    creDtTm TEXT GENERATED ALWAYS AS (
+create table pacs008 (
+    document jsonb not null,
+    -- cast when querying
+    creDtTm text generated always as (
         document -> 'FIToFICstmrCdtTrf' -> 'GrpHdr' ->> 'CreDtTm'
-    ) STORED,
-    messageId TEXT GENERATED ALWAYS AS (
+    ) stored,
+    messageId text generated always as (
         document -> 'FIToFICstmrCdtTrf' -> 'GrpHdr' ->> 'MsgId'
-    ) STORED,
-    endToEndId TEXT GENERATED ALWAYS AS (
+    ) stored,
+    endToEndId text generated always as (
         document -> 'FIToFICstmrCdtTrf' -> 'CdtTrfTxInf' -> 'PmtId' ->> 'EndToEndId'
-    ) STORED,
-    debtorAccountId TEXT GENERATED ALWAYS AS (
+    ) stored,
+    debtorAccountId text generated always as (
         document -> 'FIToFICstmrCdtTrf' -> 'CdtTrfTxInf' -> 'DbtrAcct' -> 'Id' -> 'Othr' -> 0 ->> 'Id'
-    ) STORED,
-    creditorAccountId TEXT GENERATED ALWAYS AS (
+    ) stored,
+    creditorAccountId text generated always as (
         document -> 'FIToFICstmrCdtTrf' -> 'CdtTrfTxInf' -> 'CdtrAcct' -> 'Id' -> 'Othr' -> 0 ->> 'Id'
-    ) STORED,
-    CONSTRAINT unique_msgid_e2eid_pacs008 UNIQUE (messageId, endToEndId),
-    CONSTRAINT unique_e2eid_pacs008 UNIQUE (endToEndId),
-    CONSTRAINT message_id_not_null CHECK (messageId IS NOT NULL),
-    CONSTRAINT cre_dt_tm CHECK (creDtTm IS NOT NULL),
-    CONSTRAINT dbtr_acct_id_not_null CHECK (debtorAccountId IS NOT NULL),
-    CONSTRAINT cdtr_acct_id_not_null CHECK (creditorAccountId IS NOT NULL),
-    CONSTRAINT end_to_end_id_not_null CHECK (endToEndId IS NOT NULL)
+    ) stored,
+    tenantId text generated always as (
+        document ->> 'TenantId' ) stored,
+    constraint unique_msgid_e2eid_pacs008 unique (messageId, tenantId),
+    constraint message_id_not_null check (messageId is not null),
+    constraint cre_dt_tm check (creDtTm is not null),
+    constraint dbtr_acct_id_not_null check (debtorAccountId is not null),
+    constraint cdtr_acct_id_not_null check (creditorAccountId is not null),
+    primary key (endToEndId, tenantId)
 );
 
-CREATE INDEX idx_pacs008_msg_id ON pacs008 (messageId);
-CREATE INDEX idx_pacs008_end_to_end_id ON pacs008 (endToEndId);
-CREATE INDEX idx_pacs008_dbtr_acct_id ON pacs008 (debtorAccountId);
-CREATE INDEX idx_pacs008_cdtr_acct_id ON pacs008 (creditorAccountId);
-CREATE INDEX idx_pacs008_credttm ON pacs008 (creDtTm);
 
+create index idx_pacs008_dbtr_acct_id on pacs008 (debtorAccountId, tenantId);
+
+create index idx_pacs008_cdtr_acct_id on pacs008 (creditorAccountId, tenantId);
+
+create index idx_pacs008_credttm on pacs008 (creDtTm, tenantId);
+
+create table pain001 (
+    document jsonb not null,
+    -- cast when querying
+    creDtTm text generated always as (
+        document -> 'CstmrCdtTrfInitn' -> 'GrpHdr' ->> 'CreDtTm'
+    ) stored,
+    messageId text generated always as (
+        document -> 'CstmrCdtTrfInitn' -> 'GrpHdr' ->> 'MsgId'
+    ) stored,
+    endToEndId text generated always as (
+        document -> 'CstmrCdtTrfInitn' -> 'PmtInf' -> 'CdtTrfTxInf' -> 'PmtId' ->> 'EndToEndId'
+    ) stored,
+    debtorAccountId text generated always as (
+        document -> 'CstmrCdtTrfInitn' -> 'PmtInf' -> 'DbtrAcct' -> 'Id' -> 'Othr' -> 0 ->> 'Id'
+    ) stored,
+    creditorAccountId text generated always as (
+        document -> 'CstmrCdtTrfInitn' -> 'PmtInf' -> 'CdtTrfTxInf' -> 'CdtrAcct' -> 'Id' -> 'Othr' -> 0 ->> 'Id'
+    ) stored,
+    tenantId text generated always as (
+        document ->> 'TenantId' ) stored,
+    constraint unique_msgid_e2eid_pain001 unique (messageId, tenantId),
+    constraint message_id_not_null check (messageId is not null),
+    constraint cre_dt_tm check (creDtTm is not null),
+    constraint dbtr_acct_id_not_null check (debtorAccountId is not null),
+    constraint cdtr_acct_id_not_null check (creditorAccountId is not null),
+    primary key (endToEndId, tenantId)
+);
+
+
+create index idx_pain001_dbtr_acct_id on pain001 (debtorAccountId, tenantId);
+
+create index idx_pain001_cdtr_acct_id on pain001 (creditorAccountId, tenantId);
+
+create index idx_pain001_credttm on pain001 (creDtTm, tenantId);
+
+create table pain013 (
+    document jsonb not null,
+    -- cast when querying
+    creDtTm text generated always as (
+        document -> 'CdtrPmtActvtnReq' -> 'GrpHdr' ->> 'CreDtTm'
+    ) stored,
+    messageId text generated always as (
+        document -> 'CdtrPmtActvtnReq' -> 'GrpHdr' ->> 'MsgId'
+    ) stored,
+    endToEndId text generated always as (
+        document -> 'CdtrPmtActvtnReq' -> 'PmtInf' -> 'CdtTrfTxInf' -> 'PmtId' ->> 'EndToEndId'
+    ) stored,
+    debtorAccountId text generated always as (
+        document -> 'CdtrPmtActvtnReq' -> 'PmtInf' -> 'DbtrAcct' -> 'Id' -> 'Othr' -> 0 ->> 'Id'
+    ) stored,
+    creditorAccountId text generated always as (
+        document -> 'CdtrPmtActvtnReq' -> 'PmtInf' -> 'CdtTrfTxInf' -> 'CdtrAcct' -> 'Id' -> 'Othr' -> 0 ->> 'Id'
+    ) stored,
+    tenantId text generated always as (
+        document ->> 'TenantId' ) stored,
+    constraint unique_msgid_e2eid_pain013 unique (messageId, tenantId),
+    constraint message_id_not_null check (messageId is not null),
+    constraint cre_dt_tm check (creDtTm is not null),
+    constraint dbtr_acct_id_not_null check (debtorAccountId is not null),
+    constraint cdtr_acct_id_not_null check (creditorAccountId is not null),
+    primary key (endToEndId, tenantId)
+);
+
+
+create index idx_pain013_dbtr_acct_id on pain013 (debtorAccountId, tenantId);
+
+create index idx_pain013_cdtr_acct_id on pain013 (creditorAccountId, tenantId);
+
+create index idx_pain013_credttm on pain013 (creDtTm, tenantId);
 ```
