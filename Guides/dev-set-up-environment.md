@@ -442,7 +442,7 @@ You have successfully set up a Tazama microservice processor on your local machi
 
 <div style="text-align: right"><a href="#top">Top</a></div>
 
-## 4. Further reading
+## 6. Further reading
 
 Read the [CONTRIBUTING guide](https://github.com/tazama-lf/.github/blob/main/CONTRIBUTING.md) for more details on the contribution process.
 
