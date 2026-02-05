@@ -100,7 +100,7 @@ We prefer (and recommend) using a PAT for interacting with Tazama repositories o
 
 Note that Tazama currently spans two GitHub organizations:
  - [Tazama-LF](https://github.com/tazama-lf) contains all foundational components and is public.
- - [FRMSCoE](https:github.com/frmscoe) contains private rule repositories.
+ - [FRMSCoE](https://github.com/frmscoe) contains private rule repositories.
 
 If you want to view the source code for the rule processors, you would need to request member access to our FRMSCoE organization via our [Tazama-LF Slack](https://slack.tazama.org) channel.
 
