@@ -315,7 +315,7 @@ For this reason, we now need to update the dependency in our rule-executer's `pa
 
     Obviously, there will have to be some changes. The server's instance of the rule processor runs _over there_ and you want your instance of the rule processor to run _over here_.
 
-    Let's shortcut a few steps. We don't want to divert from our task here to walk through the process to clone the server's .env file in excruciating detail, so let's just copy the contents of the deployed `.env` file [here](https://github.com/tazama-lf/Full-Stack-Docker-Tazama/blob/dev/env/rule-901.env), and paste it into your new `.env` file in VS Code.
+    Let's shortcut a few steps. We don't want to divert from our task here to walk through the process to clone the server's .env file in excruciating detail, so let's just copy the contents of the deployed [`rule-901.env`](https://github.com/tazama-lf/Full-Stack-Docker-Tazama/blob/dev/env/rule-901.env), and paste it into your new `.env` file in VS Code.
 
     In Docker, the services are able to communicate with each other through their container names. For example, the postgres database container can be addressed by other services simply with `postgres`. But because we are trying to connect to the `postgres` container on a completely different computer, and not from within the same Docker network, we need to explicitly talk to the container through the IP address and outward-facing port. The first thing you're going to have to do is find out what the IP address is of your server. We're going to leave that up to you. And if you installed the Tazama full-stack with the default ports, the ports for the services we need here are:
 
@@ -338,7 +338,7 @@ For this reason, we now need to update the dependency in our rule-executer's `pa
     SERVER_URL=your-IP-address:14222
     ```
 
-    You may have noticed that we didn't have to create a `.env` file for the rule module, and in fact the rule module doesn't even have a `.env.template` file. This is because the rule module runs inside the rule-executer and is controlled by the configuration of the rule-executer when it combones with the rule module to become the rule processor.
+    You may have noticed that we didn't have to create a `.env` file for the rule module, and in fact the rule module doesn't even have a `.env.template` file. This is because the rule module runs inside the rule-executer and is controlled by the configuration of the rule-executer when it combines with the rule module to become the rule processor.
 
 5. Build the rule processor
 
