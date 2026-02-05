@@ -11,9 +11,9 @@
 - [3. Development environment setup](#3-development-environment-setup)
 - [4. Microprocessor setup instructions](#4-microprocessor-setup-instructions)
   - [4.1. Preparation](#41-preparation)
-    - [4.1.1 Step 1: Setting up GitHub Token Locally](#411-step-1-setting-up-github-token-locally)
-    - [4.1.2 Step 2: Set up core services](#412-step-2-set-up-core-services)
-    - [4.1.3 Step 3: Set up optional services](#413-step-3-set-up-optional-services)
+    - [4.1.1 Setting up GitHub Token Locally](#411-setting-up-github-token-locally)
+    - [4.1.2 Set up core services](#412-set-up-core-services)
+    - [4.1.3 Set up optional services](#413-set-up-optional-services)
   - [4.2. Setting Up a Tazama Processor to Work On](#42-setting-up-a-tazama-processor-to-work-on)
     - [4.2.1 Setting up the rule module](#421-setting-up-the-rule-module)
     - [4.2.2 Setting up the rule executer](#422-setting-up-the-rule-executer)
@@ -220,7 +220,7 @@ Follow the steps below to get the `Rule 901` on your operating table.
       ```
     This new build folder won't be included in a future code commit - it has been excluded via the `.gitignore` file.
 
-#### 4.2.1 Setting up the rule executer
+#### 4.2.2 Setting up the rule executer
 
 We're now about halfway through the process. We've set up the rule module on our local computer, but now we also need to set up the rule executer to bundle the rule module into a rule executer.
 
