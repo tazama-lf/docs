@@ -31,24 +31,35 @@ Hello and welcome! If you are reading this, we hope it's because you'd like to h
 
 Before you begin working on an existing or new Tazama microservice or processor, ensure that the following requirements are met on your system:
 
+ - **Code Editor**:
+    - Install a code editor of your preference (e.g. [Visual Studio Code](https://code.visualstudio.com/), [Eclipse](https://www.eclipse.org/), [Sublime Text](https://www.sublimetext.com/), [Vim](https://www.vim.org/)/[Neovim](https://neovim.io/) (RIP [Atom](https://github.blog/2022-06-08-sunsetting-atom/))).
+    - For our guide, we're using VS Code. We install VS Code first because both the Node.js implementation and the git implementation have some installation options that rely on an existing installation of VS Code.
+    - To keep things simple, our VS Code is deployed with default installation options and no other plugins.
+
  - **Node.js and npm**:
     - Install Node.js and npm by visiting the official [Node.js website](https://nodejs.org).
     - Follow the installation instructions for your operating system.
+    - In our deployment Node.js is mostly installed with default options, but we also selected to automatically install the additional tools such as Chocolatey, Python, VS Code tools, and a bunch of required Windows KB patches.
 
  - **Git**:
     - Install Git by visiting the official [Git website](https://git-scm.com/).
     - Follow the installation instructions for your operating system.
     - Also install [GitHub Desktop](https://desktop.github.com/) or [GitHub CLI](https://cli.github.com/), though this guide is written specifically for Git.
-
- - **Code Editor**:
-    - Install a code editor of your preference (e.g. [Visual Studio Code](https://code.visualstudio.com/), [Eclipse](https://www.eclipse.org/), [Sublime Text](https://www.sublimetext.com/), [Vim](https://www.vim.org/)/[Neovim](https://neovim.io/) (RIP [Atom](https://github.blog/2022-06-08-sunsetting-atom/))).
-
- - **Docker**:
-    - Docker is useful if you do not have access to a persistent development environment that hosts the core system microservices that you need to test your integrations. With Docker, you can deploy containerized microservices on your local machine. Follow the instructions on the official Docker website to [install Docker Desktop on Windows](https://docs.docker.com/desktop/install/windows-install/). Remember that Docker Desktop on Windows also requires Linux on Windows that you can [install with WSL](https://docs.docker.com/desktop/install/windows-install/).
+    - In our deployment, Git is mostly installed with default options, with the following specific exceptions:
+      - Select VS Code as the default editor
+      - Check-out as-is, commit as-is
+      - Use Windows's default console window
 
   - **Postman / Newman**
     - Install the Postman application by visiting the official [Postman website](https://www.postman.com/downloads/) - we use Postman collections to test our microservices, but also to update the configuration files for the system. 
     - (Optional) If you prefer a command-line alternative to the Postman application, you can also use Newman or the Postman CLI tool. Instructions for installing both are also on the official [Postman website](https://www.postman.com/downloads/).
+    - When using Postman, you would need to unfortunately create a Postman account to be able to import the Tazama Postman scripts through any method other than `curl`.
+    - In our deployment Postman is installed with default options, and we created an account.
+
+ - **Docker**:
+    - Docker is useful if you do not have access to a persistent development environment that hosts the core system microservices that you need to test your integrations. With Docker, you can deploy containerized microservices on your local machine. Follow the instructions on the official Docker website to [install Docker Desktop on Windows](https://docs.docker.com/desktop/install/windows-install/). Remember that Docker Desktop on Windows also requires Linux on Windows that you can [install with WSL](https://docs.docker.com/desktop/install/windows-install/).
+    - Follow the instructions in the [tazama-lf/full-stack-docker-tazama](https://github.com/tazama-lf/full-stack-docker-tazama) repository to install the Tazama services on your local machine.
+    - In our deployment, we are running Tazama on a separate server.
 
 <div style="text-align: right"><a href="#top">Top</a></div>
 
@@ -67,7 +78,7 @@ Follow these step-by-step instructions to get your local machine ready to work o
 
 ### 4.1. Preparation  
 
-#### 4.1.1 Step 1: Setting up GitHub Token Locally
+#### 4.1.1 Setting up GitHub Token Locally
 For more information on GitHub Personal Access Tokens (PATs), follow this link to the related [GitHub documentation page](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#about-personal-access-tokens).
 
 We prefer (and recommend) using a PAT for interacting with Tazama repositories on GitHub. If you have a PAT set up and you have applied the correct permissions, you can interact with GitHub seamlessly without a lot of authentication back-and-forth.
@@ -84,6 +95,9 @@ We prefer (and recommend) using a PAT for interacting with Tazama repositories o
    - [Apple MAC OS](https://www.youtube.com/watch?v=dl_jgYr0rxU)
    - [Linux](https://www.youtube.com/watch?v=yM8v5i2Qjgg)
 
+> [!NOTE]
+> Make sure the name of your environment variable is `GH_TOKEN` to match the name that the Tazama scripts are looking for.
+
 Note that Tazama currently spans two GitHub organizations:
  - [Tazama-LF](https://github.com/tazama-lf) contains all foundational components and is public.
  - [FRMSCoE](https:github.com/frmscoe) contains private rule repositories.
@@ -92,7 +106,7 @@ If you want to view the source code for the rule processors, you would need to r
 
 <div style="text-align: right"><a href="#top">Top</a></div>
 
-#### 4.1.2 Step 2: Set up core services
+#### 4.1.2 Set up core services
 
 The core Tazama services are best deployed via the [Tazama Docker Full-Stack Deployment](https://github.com/tazama-lf/full-stack-docker-tazama).
 
@@ -102,7 +116,7 @@ We recommend that you deploy option 2. Public (DockerHub) deployment if you are 
 
 <div style="text-align: right"><a href="#top">Top</a></div>
 
-#### 4.1.3 Step 3: Set up optional services
+#### 4.1.3 Set up optional services
 
 Depending on your specific needs, you could then deploy some additional optional components into your full-stack deployment:
  - Authentication Services via KeyCloak and the Tazama Authentication Services API.
@@ -174,7 +188,7 @@ Follow the steps below to get the `Rule 901` on your operating table.
 
     Using `git`, you can create a new branch for your repository to contain your changes:
     ```
-    C:\Your-Folder-Here\Rule-901>git checkout -b "your-branch-name-here"
+    C:\Your-Folder-Here\rule-901>git checkout -b "your-branch-name-here"
     ```
 
     Maybe a couple of notes on branch naming:
@@ -188,6 +202,8 @@ Follow the steps below to get the `Rule 901` on your operating table.
     ```
     C:\Your-Folder-Here\rule-901>npm run clean
     ```
+
+    `npm` may prompt you to install `rimraf` here. `rimraf` is required to interact with your file-system to clean up the build artefacts. We suggest you say yes.
 
 5. Install Dependencies
 
@@ -223,6 +239,12 @@ C:\Your-Folder-Here>git clone https://github.com/tazama-lf/rule-executer
 Change to the repository folder:
 ```
 C:\Your-Folder-Here>cd rule-executer
+```
+
+Create a new branch to host your changes:
+```
+C:\Your-Folder-Here\rule-executer>git checkout -b "your-branch-name-here"
+
 ```
 
 Clean your build files:
