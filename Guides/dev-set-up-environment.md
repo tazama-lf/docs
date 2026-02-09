@@ -168,18 +168,9 @@ Follow the steps below to get the `Rule 901` on your operating table.
 
     The following `git` command will clone Rule 901's code to your local machine:
 
-<table style="border: none;">
-<tr>
-<td style="border: none;">
-`C:\Your-Folder-Here>`
-</td>
-<td style="border: none;">
-```
-git clone https://github.com/tazama-lf/rule-901
-```
-</td>
-</tr>
-</table>
+    ```
+    git clone https://github.com/tazama-lf/rule-901
+    ```
 
     As you can probably guess, this command will also let you clone any of the repositories in the `tazama-lf` GitHub organization that you have access to by specifying their specific URL after the `git clone` command.
 
@@ -187,7 +178,7 @@ git clone https://github.com/tazama-lf/rule-901
 
     Using the Windows `cd` or `chgdir` command, navigate to the newly cloned repository folder:
     ```
-    C:\Your-Folder-Here>cd rule-901
+    cd rule-901
     ```
 
 3. Create a new branch
@@ -197,7 +188,7 @@ git clone https://github.com/tazama-lf/rule-901
 
     Using `git`, you can create a new branch for your repository to contain your changes:
     ```
-    C:\Your-Folder-Here\rule-901>git checkout -b "your-branch-name-here"
+    git checkout -b "your-branch-name-here"
     ```
 
     Maybe a couple of notes on branch naming:
@@ -209,7 +200,7 @@ git clone https://github.com/tazama-lf/rule-901
 
     This step isn't always necessary, but it's generally good practice.Using `npm`, you can clean up your local repository to make sure there are no lingering build artefacts:
     ```
-    C:\Your-Folder-Here\rule-901>npm run clean
+    npm run clean
     ```
 
     `npm` may prompt you to install `rimraf` here. `rimraf` is required to interact with your file-system to clean up the build artefacts. We suggest you say yes.
@@ -218,14 +209,14 @@ git clone https://github.com/tazama-lf/rule-901
 
     Using `npm`, you can install all the dependencies for the processor as specified in the `package.json` file in the repository folder:
     ```
-    C:\Your-Folder-Here\rule-901>npm install
+    npm install
     ```
 
 6. Build the Node.js Application
 
     Use the following `npm` command to build the application which will add a folder called lib or build to the local repository folder. 
       ```
-      C:\Your-Folder-Here\rule-901>npm run build
+      npm run build
       ```
     This new build folder won't be included in a future code commit - it has been excluded via the `.gitignore` file.
 
@@ -237,28 +228,28 @@ We'll breeze through the same steps above, but now for the rule-executer reposit
 
 Go back one step to `Your-Folder`:
 ```
-C:\Your-Folder-Here\rule-901>cd..
+cd..
 ```
 
 Clone the repository:
 ```
-C:\Your-Folder-Here>git clone https://github.com/tazama-lf/rule-executer
+git clone https://github.com/tazama-lf/rule-executer
 ```
 
 Change to the repository folder:
 ```
-C:\Your-Folder-Here>cd rule-executer
+cd rule-executer
 ```
 
 Create a new branch to host your changes:
 ```
-C:\Your-Folder-Here\rule-executer>git checkout -b "your-branch-name-here"
+git checkout -b "your-branch-name-here"
 
 ```
 
 Clean your build files:
 ```
-C:\Your-Folder-Here\rule-executer>npm run clean
+npm run clean
 ```
 
 Now we depart slightly from the same process above for the rule module. Typically, the rule modules are published to the Tazama GitHub package registry as an [`npm` package](https://docs.npmjs.com/about-packages-and-modules#about-packages). This allows us to then easily import the rule module into the rule executer to create the rule processor. The way we do this is to reference the rule module npm package in our rule-executer's `package.json` file.
@@ -271,7 +262,7 @@ For this reason, we now need to update the dependency in our rule-executer's `pa
 
     From within the rule-executer folder, run VS Code with:
       ```
-      C:\Your-Folder-Here\rule-executer>code .
+      code .
       ```
 
 2. Open and update the `package.json` file
@@ -293,13 +284,13 @@ For this reason, we now need to update the dependency in our rule-executer's `pa
 3. Install dependencies
 
     ```
-    C:\Your-Folder-Here\rule-executer>npm install
+    npm install
     ```
 
     This may take a moment. To confirm that the rule module has been installed, you can run:
 
     ```
-    C:\Your-Folder-Here\rule-executer>npm list rule
+    npm list rule
     ```
 
     And you should then see something like:
@@ -314,7 +305,7 @@ For this reason, we now need to update the dependency in our rule-executer's `pa
     
     You can copy this file from your Windows Command Prompt:
     ```
-    C:\Your-Folder-Here\rule-executer>copy .env.template .env
+    copy .env.template .env
     ```
 
     > [!NOTE]
@@ -352,7 +343,7 @@ For this reason, we now need to update the dependency in our rule-executer's `pa
 5. Build the rule processor
 
     ```
-    C:\Your-Folder-Here\rule-executer>npm run build
+    npm run build
     ```
 
 6. Run the rule processor!
@@ -360,12 +351,12 @@ For this reason, we now need to update the dependency in our rule-executer's `pa
     We don't want two versions of the rule processor running at the same time in two different places, so before you start the rule processor on your local computer, you should stop the rule-901 container on your server. You can do this from Docker Desktop (if it installed) or from the command-line on the server with
 
     ```
-    >docker container stop tazama-rule-901-1
+    docker container stop tazama-rule-901-1
     ```
     
     With the container stopped, and back on your local computer, run the rule processor application in your Windows Command Prompt with the following command:
     ```
-    C:\Your-Folder-Here\rule-executer>npm run start
+    npm run start
     ```
 
     This command starts the Rule Executer application, with Rule 901 inside it, from the built code. Once the processor is up and running, you can start sending requests to the processor via the NATS Utilities, or include your locally running rule processor in an end-to-end test. For our testing, we use Postman to send messages to the TMS API or the NATS Utilities API.
@@ -374,7 +365,15 @@ For this reason, we now need to update the dependency in our rule-executer's `pa
 
 7. Sending messages to the rule processor directly via NATS Utilities and Postman
 
-    Let's try to send a test message to our locally running Rule Processor via the NATS Utilities using a pre-fabricated Postman test. If you haven't cloned the [Postman repository](https://github.com/tazama-lf/postman) yet, do so now. Find and import the test collection `2.2. Rule Functionality Testing - Public DockerHub` from the Postman repository folder into Postman.
+    Let's try to send a test message to our locally running Rule Processor via the NATS Utilities using a pre-fabricated Postman test. If you haven't cloned the [Postman repository](https://github.com/tazama-lf/postman) yet, do so now.
+
+    From your development root folder, type: 
+    
+    ```
+    git clone https://github.com/tazama-lf/postman
+    ```
+    
+    In the cloned folder, find and import the test collection `2.2. Rule Functionality Testing - Public DockerHub` from the Postman repository folder into Postman.
 
     You will also need to import the `Tazama-Docker-Compose` Postman environment file from the environments folder in your Postman repository, and modify this file to connect to your server by replacing all the instances of `localhost` with `your-IP-address`.
 
