@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lexicon version="1.0"
+      xmlns="http://www.w3.org/2005/01/pronunciation-lexicon"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.w3.org/2005/01/pronunciation-lexicon
+        http://www.w3.org/TR/2007/CR-pronunciation-lexicon-20071212/pls.xsd"
+      alphabet="ipa" xml:lang="en-US">
+  <!-- Project and Product Names -->
+  <lexeme>
+    <grapheme>Tazama</grapheme>
+    <phoneme>/təˈzɑːmə/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>Git</grapheme>
+    <phoneme>/ɡɪt/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>GitHub</grapheme>
+    <phoneme>/ˈɡɪtˌhʌb/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>Postman</grapheme>
+    <phoneme>/ˈpoʊstmən/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>Docker</grapheme>
+    <phoneme>/ˈdɑːkər/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>DockerHub</grapheme>
+    <phoneme>/ˈdɑːkərˌhʌb/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>NATS</grapheme>
+    <phoneme>/næts/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>KeyCloak</grapheme>
+    <phoneme>/ˈkiːˌkloʊk/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>Chocolatey</grapheme>
+    <phoneme>/ˈtʃɑːkələti/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>rimraf</grapheme>
+    <phoneme>/ˈrɪmˌræf/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>npm</grapheme>
+    <phoneme>/ˌɛnˌpiːˈɛm/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>Jest</grapheme>
+    <phoneme>/dʒɛst/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>WSL</grapheme>
+    <phoneme>/ˌdʌbəljuːˌɛsˈɛl/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>Newman</grapheme>
+    <phoneme>/ˈnuːmən/</phoneme>
+  </lexeme>
+
+  <!-- Repository and File Names -->
+  <lexeme>
+    <grapheme>FRMSCoE</grapheme>
+    <phoneme>/ˌɛfˌɑːrˌɛmˌɛsˈsiːˌoʊˌiː/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>rule-901</grapheme>
+    <phoneme>/ruːl naɪn ˈoʊ wʌn/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>rule-executer</grapheme>
+    <phoneme>/ruːl ˈɛksɪˌkjuːtər/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>package.json</grapheme>
+    <phoneme>/ˈpækɪdʒ ˌdɑːt ˈdʒeɪsən/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>.env</grapheme>
+    <phoneme>/dɑːt ɛnˈvaɪ/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>.gitignore</grapheme>
+    <phoneme>/dɑːt ˈɡɪt ɪɡˈnɔːr/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>launch.json</grapheme>
+    <phoneme>/lɔːntʃ ˌdɑːt ˈdʒeɪsən/</phoneme>
+  </lexeme>
+
+  <!-- Technical Terms -->
+  <lexeme>
+    <grapheme>microservice</grapheme>
+    <phoneme>/ˈmaɪkroʊˌsɜːrvɪs/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>microprocessor</grapheme>
+    <phoneme>/ˈmaɪkroʊˌprɑːsɛsər/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>artefacts</grapheme>
+    <phoneme>/ˈɑːrtɪfækts/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>TypeScript</grapheme>
+    <phoneme>/ˈtaɪpˌskrɪpt/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>JavaScript</grapheme>
+    <phoneme>/ˈdʒɑːvəˌskrɪpt/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>API</grapheme>
+    <phoneme>/ˌeɪˌpiːˈaɪ/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>REST API</grapheme>
+    <phoneme>/rɛst ˌeɪˌpiːˈaɪ/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>GUI</grapheme>
+    <phoneme>/ˈɡuːi/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>CLI</grapheme>
+    <phoneme>/ˌsiːˌɛlˈaɪ/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>PAT</grapheme>
+    <phoneme>/pæt/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>UI</grapheme>
+    <phoneme>/ˌjuːˈaɪ/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>IP</grapheme>
+    <phoneme>/ˌaɪˈpiː/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>URL</grapheme>
+    <phoneme>/ˌjuːˌɑːrˈɛl/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>localhost</grapheme>
+    <phoneme>/ˈloʊkəlˌhoʊst/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>PostgreSQL</grapheme>
+    <phoneme>/ˈpoʊstɡrɛsˌkjuːˈɛl/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>postgres</grapheme>
+    <phoneme>/ˈpoʊstɡrɛs/</phoneme>
+  </lexeme>
+
+  <!-- Git Commands -->
+  <lexeme>
+    <grapheme>git clone</grapheme>
+    <phoneme>/ɡɪt kloʊn/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>git checkout</grapheme>
+    <phoneme>/ɡɪt ˈtʃɛkˌaʊt/</phoneme>
+  </lexeme>
+
+  <!-- Additional Terms -->
+  <lexeme>
+    <grapheme>Node.js</grapheme>
+    <phoneme>/noʊd ˌdɑːt ˌdʒeɪˈɛs/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>VS Code</grapheme>
+    <phoneme>/ˌviːˈɛs koʊd/</phoneme>
+  </lexeme>
+  <lexeme>
+    <grapheme>Ctrl-C</grapheme>
+    <phoneme>/kənˈtroʊl siː/</phoneme>
+  </lexeme>
+</lexicon>

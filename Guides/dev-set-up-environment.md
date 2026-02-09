@@ -168,9 +168,18 @@ Follow the steps below to get the `Rule 901` on your operating table.
 
     The following `git` command will clone Rule 901's code to your local machine:
 
-    ```
-    C:\Your-Folder-Here>git clone https://github.com/tazama-lf/rule-901
-    ```
+<table style="border-collapse: collapse; border: none;">
+<tr>
+<td style="border: none; padding-right: 10px;">C:\Your-Folder-Here></td>
+<td style="border: none;">
+
+```
+git clone https://github.com/tazama-lf/rule-901
+```
+
+</td>
+</tr>
+</table>
 
     As you can probably guess, this command will also let you clone any of the repositories in the `tazama-lf` GitHub organization that you have access to by specifying their specific URL after the `git clone` command.
 

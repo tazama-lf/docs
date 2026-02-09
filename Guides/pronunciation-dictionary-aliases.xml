@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lexicon version="1.0"
+      xmlns="http://www.w3.org/2005/01/pronunciation-lexicon"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.w3.org/2005/01/pronunciation-lexicon
+        http://www.w3.org/TR/2007/CR-pronunciation-lexicon-20071212/pls.xsd"
+      alphabet="x-sampa" xml:lang="en-US">
+  <!-- Project and Product Names -->
+  <lexeme>
+    <grapheme>Tazama</grapheme>
+    <alias>tuh-ZAH-muh</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>Git</grapheme>
+    <alias>git</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>GitHub</grapheme>
+    <alias>GIT-hub</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>Postman</grapheme>
+    <alias>POST-man</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>Docker</grapheme>
+    <alias>DOCK-er</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>DockerHub</grapheme>
+    <alias>DOCK-er hub</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>NATS</grapheme>
+    <alias>nats</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>KeyCloak</grapheme>
+    <alias>KEY-cloak</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>Chocolatey</grapheme>
+    <alias>CHOCK-oh-lah-tee</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>rimraf</grapheme>
+    <alias>RIM-raf</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>npm</grapheme>
+    <alias>N. P. M.</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>Jest</grapheme>
+    <alias>jest</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>WSL</grapheme>
+    <alias>W. S. L.</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>Newman</grapheme>
+    <alias>NEW-man</alias>
+  </lexeme>
+
+  <!-- Repository and File Names -->
+  <lexeme>
+    <grapheme>FRMSCoE</grapheme>
+    <alias>F. R. M. S. C. O. E.</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>rule-901</grapheme>
+    <alias>rule nine oh one</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>rule-executer</grapheme>
+    <alias>rule EX-ih-kew-ter</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>package.json</grapheme>
+    <alias>package dot jay-sawn</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>.env</grapheme>
+    <alias>dot env</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>.gitignore</grapheme>
+    <alias>dot git ignore</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>launch.json</grapheme>
+    <alias>launch dot jay-sawn</alias>
+  </lexeme>
+
+  <!-- Technical Terms -->
+  <lexeme>
+    <grapheme>microservice</grapheme>
+    <alias>MY-crow-service</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>microprocessor</grapheme>
+    <alias>MY-crow-processor</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>artefacts</grapheme>
+    <alias>ART-ih-facts</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>TypeScript</grapheme>
+    <alias>TYPE-script</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>JavaScript</grapheme>
+    <alias>JAH-vuh-script</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>API</grapheme>
+    <alias>A. P. I.</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>REST API</grapheme>
+    <alias>rest A. P. I.</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>GUI</grapheme>
+    <alias>gooey</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>CLI</grapheme>
+    <alias>C. L. I.</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>PAT</grapheme>
+    <alias>pat</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>UI</grapheme>
+    <alias>U. I.</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>IP</grapheme>
+    <alias>I. P.</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>URL</grapheme>
+    <alias>U. R. L.</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>localhost</grapheme>
+    <alias>LOCAL-host</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>PostgreSQL</grapheme>
+    <alias>POST-gres Q. L.</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>postgres</grapheme>
+    <alias>POST-gres</alias>
+  </lexeme>
+
+  <!-- Git Commands -->
+  <lexeme>
+    <grapheme>git clone</grapheme>
+    <alias>git clone</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>git checkout</grapheme>
+    <alias>git CHECK-out</alias>
+  </lexeme>
+
+  <!-- Additional Terms -->
+  <lexeme>
+    <grapheme>Node.js</grapheme>
+    <alias>node dot J. S.</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>VS Code</grapheme>
+    <alias>V. S. code</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>Ctrl-C</grapheme>
+    <alias>control C</alias>
+  </lexeme>
+</lexicon>
