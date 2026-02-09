@@ -168,15 +168,17 @@ Follow the steps below to get the `Rule 901` on your operating table.
 
     The following `git` command will clone Rule 901's code to your local machine:
 
-<table style="border-collapse: collapse; border: none;">
+<table style="border: none;">
 <tr>
-<td style="border: none; padding-right: 10px;">C:\Your-Folder-Here></td>
 <td style="border: none;">
-
+```
+    C:\Your-Folder-Here>
+```
+</td>
+<td style="border: none;">
 ```
 git clone https://github.com/tazama-lf/rule-901
 ```
-
 </td>
 </tr>
 </table>
