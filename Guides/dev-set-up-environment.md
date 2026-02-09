@@ -171,9 +171,7 @@ Follow the steps below to get the `Rule 901` on your operating table.
 <table style="border: none;">
 <tr>
 <td style="border: none;">
-```
-    C:\Your-Folder-Here>
-```
+`C:\Your-Folder-Here>`
 </td>
 <td style="border: none;">
 ```
