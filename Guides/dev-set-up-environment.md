@@ -23,6 +23,11 @@
   - [5.3. Getting Help](#53-getting-help)
 - [6. Further reading](#6-further-reading)
 
+<br>
+
+> [!NOTE]
+> This guide is now available as a [hands-on tutorial video](https://youtu.be/rBwDE4Ihnwo) on the [TazamaOrg YouTube channel](https://www.youtube.com/@Tazama-org)!
+
 ## 1. Introduction
 
 Hello and welcome! If you are reading this, we hope it's because you'd like to help.  This guide is to help set up the development environment.
@@ -50,7 +55,7 @@ Before you begin working on an existing or new Tazama microservice or processor,
       - Check-out as-is, commit as-is
       - Use Windows's default console window
 
-  - **Postman / Newman**
+ - **Postman / Newman**
     - Install the Postman application by visiting the official [Postman website](https://www.postman.com/downloads/) - we use Postman collections to test our microservices, but also to update the configuration files for the system. 
     - (Optional) If you prefer a command-line alternative to the Postman application, you can also use Newman or the Postman CLI tool. Instructions for installing both are also on the official [Postman website](https://www.postman.com/downloads/).
     - When using Postman, you would need to unfortunately create a Postman account to be able to import the Tazama Postman scripts through any method other than `curl`.
@@ -86,13 +91,13 @@ We prefer (and recommend) using a PAT for interacting with Tazama repositories o
  - Generate a GitHub Personal Access Token to access the GitHub API:
    - Visit the GitHub Tokens page while logged into your GitHub account (Click your profile picture in the top right corner, then `Settings`, then `Developer settings`, then `Personal access tokens`, then `Tokens (classic)`)
    - Click on the `Generate new token` button and select `Generate new token (classic)`.
-   - Provide a name for your token and select the scopes or permissions required. For this case, you will need at least the`workflow`,  `write:packages` and `read:org` scope.
+   - Provide a name for your token and select the scopes or permissions required. For this case, you will need at least the `workflow`,  `write:packages` and `read:org` scope.
    - Scroll down and click on the `Generate token` button at the bottom.
    - Copy the generated token immediately (this token won't be visible again).
 
  - To set up the GitHub PAT as a persistent environment variable on your local machine, follow the specific instructions for setting environment variables for your operating system:
    - [Microsoft Windows](https://www.youtube.com/watch?v=5BTnfpIq5mI)
-   - [Apple MAC OS](https://www.youtube.com/watch?v=dl_jgYr0rxU)
+   - [Apple macOS](https://www.youtube.com/watch?v=dl_jgYr0rxU)
    - [Linux](https://www.youtube.com/watch?v=yM8v5i2Qjgg)
 
 > [!NOTE]
@@ -110,7 +115,7 @@ If you want to view the source code for the rule processors, you would need to r
 
 The core Tazama services are best deployed via the [Tazama Docker Full-Stack Deployment](https://github.com/tazama-lf/full-stack-docker-tazama).
 
-The deployment script (tazama.bat for Windows or tazama.sh for Mac OS/Linux) will guide you through the steps to either deploy the components from GitHub repositories or precompiled DockerHub images.
+The deployment script (tazama.bat for Windows or tazama.sh for macOS/Linux) will guide you through the steps to either deploy the components from GitHub repositories or precompiled DockerHub images.
 
 We recommend that you deploy option 2. Public (DockerHub) deployment if you are just starting out. This deployment will deploy the core services, and two sample rule processors that are hosted in our public GitHub organization.
 
@@ -128,7 +133,7 @@ Of particular note, and recommended for development and individual container tes
 
  - **Tazama NATS Utilities**:
     
-    Tazama is composed out of a number of different processors that are chained together using a pub/sub framework facilitated by [NATS](https://nats.io). Only the front-most processors: the Transaction Monitoring Service (TMS) API, Authentication Services API, and Admin Services API, is accessible directly via a traditional REST API: the remaining (down-stream) processors are only accessible via their respective NATS subscription subjects.
+    Tazama is composed out of a number of different processors that are chained together using a pub/sub framework facilitated by [NATS](https://nats.io). Only the front-most processors: the Transaction Monitoring Service (TMS) API, Authentication Services API, and Admin Services API, are accessible directly via a traditional REST API: the remaining (down-stream) processors are only accessible via their respective NATS subscription subjects.
     
     The Tazama NATS Utilities provides a REST API proxy that enabled access directly into the down-stream processors to assist in the development and testing process.
 
@@ -153,7 +158,7 @@ When we deploy a rule processor, we bake the rule module code as a published npm
 
 ![Rule Executer](https://github.com/tazama-lf/docs/raw/dev/images/tazama-rule-executer.png)
 
-The rule modules run inside the `Rule Executer` wrapper function, which is itself configured to contain a specific rule module. While we can work on the rule module separately, if we wanted to run, for example rule `Rule 901`, we need to run the a `Rule Executer` that is set up to contain it.
+The rule modules run inside the `Rule Executer` wrapper function, which is itself configured to contain a specific rule module. While we can work on the rule module separately, if we wanted to run, for example rule `Rule 901`, we need to run a `Rule Executer` that is set up to contain it.
 
 #### 4.2.1 Setting up the rule module
 
@@ -279,7 +284,7 @@ For this reason, we now need to update the dependency in our rule-executer's `pa
 
     Save the `package.json` file.
 
-(![VS Code - package.json](../images/dev-setup-guide-update-dependencies.png))
+![VS Code - package.json](../images/dev-setup-guide-update-dependencies.png)
 
 3. Install dependencies
 
