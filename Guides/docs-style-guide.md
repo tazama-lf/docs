@@ -50,7 +50,7 @@ This style guide ensures that Tazama documentation is consistent, clear, and pro
 
 **Consistency:** Maintain a consistent structure in the text, using bullet points or numbered lists for step-by-step instructions. This helps in readability and easy navigation. We recommend [The Ultimate Markdown Cheat Sheet/ numbered lists and bullets](https://github.com/lifeparticle/Markdown-Cheatsheet?tab=readme-ov-file#lists).
 
-**Headings and Structure:** Use multiple levels of numbered headings; see the [Tazama Contribution Guide](https://github.com/tazama-lf/docs/blob/main/Community/Tazama-Contribution-Guide.md) for an example. This helps in organizing content logically and makes it easier to navigate. Use sentence case for all headings — capitalize only the first word and proper nouns, e.g., `## Code formatting` not `## Code Formatting`. We recommend [The Ultimate Markdown Cheat Sheet/ headings](https://github.com/lifeparticle/Markdown-Cheatsheet?tab=readme-ov-file#headings).
+**Headings and Structure:** Use multiple levels of numbered headings; see the [Tazama Contribution Guide](https://github.com/tazama-lf/docs/blob/main/Community/Tazama-Contribution-Guide.md) for an example. This helps in organizing content logically and makes it easier to navigate. Use Capitlize each word for all headings e.g., `## Code Formatting` not `## Code formatting`. We recommend [The Ultimate Markdown Cheat Sheet/ headings](https://github.com/lifeparticle/Markdown-Cheatsheet?tab=readme-ov-file#headings).
 
 **Table of Contents:** Include a table of contents at the top of the page and link to the top of the page at intervals throughout the document.
 
@@ -73,7 +73,7 @@ This style guide ensures that Tazama documentation is consistent, clear, and pro
 
 **Links and References:** Link text should describe the destination, not the action. Never use `click here`, `here`, or `this link` as link text. For example, use "see the [Glossary](link)" not "click [here](link) for the Glossary". We recommend [The Ultimate Markdown Cheat Sheet /links and references](https://github.com/lifeparticle/Markdown-Cheatsheet?tab=readme-ov-file#links).
 
-**Images:** Images should be editable `.svg` or `.png` files. See  [guide for draw.io](https://github.com/tazama-lf/docs/blob/main/Guides/drawio-guide.md). All images should be saved in the docs/images folder.  
+**Images:** Images should be editable `.svg` or `.png` files. See [guide for draw.io](https://github.com/tazama-lf/docs/blob/main/Guides/drawio-guide.md). All images should be saved in the docs/images folder.  
 
 ![docs/images folder](/images/contribution-guide-style-images-folder.png)
 
