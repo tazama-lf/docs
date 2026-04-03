@@ -58,7 +58,7 @@ docker compose -f docker-compose-cms.yaml up -d
 1. Use the Full Stack Docker Tazama environment variables in the `.env` file of the CMS service:
 
 ```env
-CONFIGURATION_DATABASE_URL=postgresql://postgres:unused@tazama-postgres-1:5432/encrichment
+CONFIGURATION_DATABASE_URL=postgresql://postgres:unused@tazama-postgres-1:5432/enrichment
 REDIS_HOST=tazama-valkey-1
 SERVER_URL=nats://tazama-nats-1:4222
 ```
