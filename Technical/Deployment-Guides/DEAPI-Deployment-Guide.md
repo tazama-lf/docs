@@ -61,4 +61,4 @@ AUTH_URL=tazama-auth-1
 
 Debug Commands
 
-docker logs -f data-enrichment-service
+docker logs -f tazama-deapi

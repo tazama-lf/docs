@@ -54,7 +54,7 @@ TAZAMA_AUTH_URL=http://tazama-auth-1:3020/v1/auth
 
 For Backend run:
 
-cd /backend
+cd backend
 
 docker build -t trs-backend:latest .
 
@@ -62,7 +62,7 @@ docker run -d -p 3005:3005 --env-file /backend/.env --name trs-backend --network
 
 For Frontend run:
 
-cd /frontend
+cd ../frontend
 
 docker build -t trs-frontend:latest .
 
