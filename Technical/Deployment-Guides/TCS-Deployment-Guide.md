@@ -1,20 +1,14 @@
 # Tazama Connection Studio(TCS) - Deployment Guide
 
-Tazama Connection Studio(TCS) - Deployment Guide
-
-
 ## Part 1 – Setting up:
-
 
 1.  Clone the repository: git clone https://github.com/tazama-lf/connection-studio.git
 
-2. cd /backend & cd /frontend
+2.  cd backend & cd frontend
 
-3. Add GH_TOKEN of the backend .npmrc
-
+3.  Add GH_TOKEN to the backend .npmrc
 
 ## Part 2 - Running TCS through Docker Compose:
-
 
 1. While being in the backend directory, create .env file through editing the .env.example file by renaming to .env or use command:
 
@@ -42,14 +36,12 @@ docker compose -f docker-compose-infra.yaml up -d
 
 docker compose -f docker-compose-tcs.yaml up -d
 
-
 ## Part 3 - Running with Full Stack Docker Tazama:
-
 
 1. Use Full Stack Docker Tazama environment variables in the .env file of the tcs service.
 
 ```env
-CONFIGURATION_DATABASE_URL=postgresql://postgres:unused@tazama-postgres-1:5432/encrichment
+CONFIGURATION_DATABASE_URL=postgresql://postgres:unused@tazama-postgres-1:5432/enrichment
 ```
 
 ```env

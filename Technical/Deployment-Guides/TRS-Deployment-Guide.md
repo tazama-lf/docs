@@ -1,20 +1,14 @@
 # Tazama Rule Studio (TRS) - Deployment Guide
 
-Tazama Rule Studio (TRS) - Deployment Guide
-
-
 ## Part 1 – Setting up:
-
 
 1.  Clone the repository: git clone https://github.com/tazama-lf/rule-studio.git
 
-2. cd /backend & cd /frontend
+2.  cd backend & cd frontend
 
-3. Add GH_TOKEN of the backend .npmrc
-
+3.  Add GH_TOKEN to the backend .npmrc
 
 ## Part 2 - Running TRS through Docker Compose:
-
 
 1. While being in the backend directory, create .env file through editing the .env.example file by renaming to .env or use command:
 
@@ -46,9 +40,7 @@ VITE_SIMULATION_ENDPOINT=tms-url
 
 docker compose up -d
 
-
 ## Part 3 - Running with Full Stack Docker Tazama:
-
 
 1. Use Full Stack Docker Tazama environment variables in the .env file of the trs service.
 
