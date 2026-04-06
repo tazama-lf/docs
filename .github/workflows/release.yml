@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
+# Please do not attempt to edit this flow without the direct consent from the DevOps team. This file is managed centrally.
+
 name: Release Workflow
 
 on:
@@ -11,6 +13,7 @@ on:
 
 jobs:
   release:
+    if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
     runs-on: ubuntu-latest
     steps:
       # Checkout the main branch with all history
@@ -210,7 +213,7 @@ jobs:
       
       # Attach changelog as an artifact
       - name: Attach Changelog to Release
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Changelog
           path: /home/runner/work/changelog.txt
@@ -228,30 +231,37 @@ jobs:
           draft: false
           prerelease: false
 
-      # Update the CHANGELOG.md file in the repository
-      - name: Update CHANGELOG.md
+      - name: Get Latest Release
         run: |
-          NEW_VERSION=${{ steps.bump_version.outputs.new_version }}
-          CHANGELOG_CONTENTS=$(cat /home/runner/work/changelog.txt)
-          # Prepend the new changelog content to the existing CHANGELOG.md below SPDX-License-Identifier section
-          echo -e "$(head -n 2 CHANGELOG.md)\n\n## $NEW_VERSION\n\n$CHANGELOG_CONTENTS\n\n$(tail -n +3 CHANGELOG.md)" > CHANGELOG.md
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add CHANGELOG.md
-          git commit -m "chore: Update CHANGELOG.md for $NEW_VERSION"
-          git push origin HEAD:main
+          echo "LATEST_RELEASE=$(gh release list --limit 1 | awk '{print $1}')" >> $GITHUB_ENV
+          echo "The latest release tag is $LATEST_RELEASE"
+
+      - name: Send Slack Notification
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
-      # Update the VERSION file
-      - name: Update VERSION file
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          NEW_VERSION=${{ steps.bump_version.outputs.new_version }}
-          echo -e "# SPDX-License-Identifier: Apache-2.0\n\n$NEW_VERSION" > VERSION
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add VERSION
-          git commit -m "chore: Update VERSION to $NEW_VERSION"
-          git push origin HEAD:main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          curl -X POST -H 'Content-type: application/json' --data '{
+            "blocks": [
+              {
+                "type": "header",
+                "text": {
+                  "type": "plain_text",
+                  "text": "New Release Alert :tazama:",
+                  "emoji": true
+                }
+              },
+              {
+                "type": "section",
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Github Repository:*\nhttps://github.com/${{ github.repository }}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Release:*\n<https://github.com/${{ github.repository }}/releases/tag/${{ env.LATEST_RELEASE }}|Release notes>"
+                  }
+                ]
+              }
+            ]
+          }' ${{ secrets.SLACK_WEBHOOK_URL }}

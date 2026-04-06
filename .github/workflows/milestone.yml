@@ -1,7 +1,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
+# This GitHub Actions workflow is designed to close a milestone and trigger a release workflow.
+
+# Please do not attempt to edit this flow without the direct consent from the DevOps team. This file is managed centrally.
+
 name: Milestone Workflow
 
+# This workflow can be manually triggered with a specified milestone ID.
 on:
   workflow_dispatch:
     inputs:
@@ -12,24 +17,39 @@ on:
 
 jobs:
   close_milestone:
+    if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
     runs-on: ubuntu-latest
 
     steps:
+      # Step to check out the repository code.
       - name: Checkout Repository
         uses: actions/checkout@v2
         
+      # Step to set up environment variables required for the script.
+      - name: Set up environment variables
+        run: |
+          # Set the GitHub token for authentication.
+          echo "ACCESS_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
+          # Set the milestone number based on the workflow input.
+          echo "MILESTONE_NUMBER=${{ github.event.inputs.milestoneId }}" >> $GITHUB_ENV
+          # Set the base API URL for GitHub.
+          echo "API_URL=https://api.github.com" >> $GITHUB_ENV
+
+      # Step to close the specified milestone using GitHub API.
       - name: Close Milestone
         run: |
-          ACCESS_TOKEN="${{ secrets.GITHUB_TOKEN }}"
-          MILESTONE_NUMBER=${{ github.event.inputs.milestoneId }}
-          API_URL="https://api.github.com"
-          
+          # Use the environment variables set up earlier to make the API call.
           curl -X PATCH \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: Bearer $ACCESS_TOKEN" \
             -d '{"state": "closed"}' \
             $API_URL/repos/${{ github.repository }}/milestones/$MILESTONE_NUMBER
+        env:
+          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MILESTONE_NUMBER: ${{ github.event.inputs.milestoneId }}
+          API_URL: "https://api.github.com"
             
+      # Step to trigger another workflow for releasing, passing the milestone number.
       - name: Trigger Release Workflow
         uses: peter-evans/repository-dispatch@v1
         with:
