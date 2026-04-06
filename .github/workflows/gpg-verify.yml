@@ -1,0 +1,53 @@
+# SPDX-License-Identifier: Apache-2.0
+
+# This GitHub Actions workflow checks that all commits in a pull request (PR) have been verified with GPG signatures.
+
+# Please do not attempt to edit this flow without the direct consent from the DevOps team. This file is managed centrally.
+
+name: GPG Verify
+
+on: [pull_request]  # Trigger this workflow on pull request events
+
+jobs:
+  gpg-verify:
+    if: |
+      github.actor != 'dependabot[bot]' &&
+      github.actor != 'dependabot-preview[bot]' &&
+      github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner for the job
+    steps:
+    - uses: actions/checkout@v4  # Checkout the repository code using the actions/checkout action
+      with:
+        fetch-depth: 0  # Fetch all history for all branches to ensure we have the full commit history
+
+    - name: Set up environment variables
+      run: |
+        echo "PR_HEAD_REF=${{ github.event.pull_request.head.ref }}" >> $GITHUB_ENV
+        echo "PR_BASE_REF=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
+        echo "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
+        echo "GITHUB_REPOSITORY=${{ github.repository }}" >> $GITHUB_ENV
+
+    - name: Check GPG verification status  # Step to check each commit for GPG signature verification
+      run: |
+        # Get the list of commits in the pull request (head commits not yet in base)
+        commits=$(git log --pretty=format:%H origin/${PR_BASE_REF}..origin/${PR_HEAD_REF})
+
+        if [[ -z "$commits" ]]; then
+          echo "No commits to verify."
+          exit 0
+        fi
+
+        # Check the GPG verification status of each commit via the GitHub commit API
+        for commit in $commits; do
+          verified=$(curl -s \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$commit \
+            | jq -r '.commit.verification.verified')
+
+          # If the commit is not verified, list it and exit with a non-zero status
+          if [[ "$verified" != "true" ]]; then
+            echo "GPG signature verification failed for commit $commit."
+            exit 1
+          fi
+        done

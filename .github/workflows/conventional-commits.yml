@@ -1,0 +1,36 @@
+# SPDX-License-Identifier: Apache-2.0
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# This GitHub Actions workflow validates the title of pull requests (PRs) to ensure they follow conventional commit standards.
+
+# Please do not attempt to edit this flow without the direct consent from the DevOps team. This file is managed centrally.
+
+name: PR Conventional Commit Validation
+
+on:
+  # Trigger this workflow on specific events related to pull requests
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+jobs:
+  validate-pr-title:
+    if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner for the job
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4  # Checkout the repository code using the actions/checkout action
+
+      - name: PR Conventional Commit Validation
+        uses: ytanikin/PRConventionalCommits@1.1.0  # Use the PRConventionalCommits action to validate PR titles
+        with:
+          # Define the task types that are valid for conventional commits
+          task_types: '["build","ci","docs","feat","fix","perf","refactor","style","test","feat!"]'
+          # Map the conventional commit types to corresponding GitHub labels
+          custom_labels: '{"build": "build", "ci": "CI/CD", "docs": "documentation", "feat": "enhancement", "fix": "bug", "perf": "performance", "refactor": "refactor", "style": "style", "test": "test", "feat!": "enhancement breaking change"}'
+          # Use a personal access token (GITHUB_TOKEN) stored in GitHub secrets for authentication
+          token: ${{ secrets.GITHUB_TOKEN }}
+          add_label: 'true'
