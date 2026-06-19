@@ -44,6 +44,15 @@ Add TAZAMA_AUTH_URL, ADMIN_SERVICE_URL, SIMULATION_SANDBOX_URL and OPENSEARCH en
 
 For Simulation Studio specifically, also add TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE, TESTCONTAINERS_HOST_OVERRIDE, and TESTCONTAINERS_RYUK_DISABLED envs. Optionally add DEBUG=testcontainers* to surface testcontainers debug logs in the Rule Studio logs, which is useful when troubleshooting testcontainers issues.
 
+Simulation Studio pulls rule images (and currently the nats-utilities container) from a DockerHub registry, so the backend needs DockerHub credentials and access to a Docker socket:
+
+```env
+DOCKERHUB_USERNAME=<dockerhub-username>
+DOCKERHUB_NAMESPACE=<dockerhub-namespace>
+DOCKERHUB_TOKEN=<dockerhub-access-token>
+DOCKER_HOST=unix:///var/run/docker.sock
+```
+
 Frontend:
 
 mv .env.template .env
