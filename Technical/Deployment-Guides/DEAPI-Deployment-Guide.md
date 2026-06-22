@@ -2,7 +2,7 @@
 
 ## Part 1 – Setting up:
 
-1.  Clone the repository: git clone https://github.com/tazama-lf/data-enrichment-service
+1.  Clone the repository: git clone https://github.com/tazama-lf/data-enrichment-service.git
 
 2.  Add GH_TOKEN in .npmrc
 
