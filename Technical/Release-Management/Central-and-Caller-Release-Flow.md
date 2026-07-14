@@ -14,7 +14,7 @@ The new model works like this:
 
 1. **One central place** holds the full release instructions (`workflows` repo).
 2. Each product repository gets a **thin caller workflow** that invokes that shared instruction.
-3. Release helpers open **pull requests** for humans to review.
+3. Release helpers open **pull requests** for team members to review.
 4. After those PRs are merged, packages, Docker images, and GitHub releases are created automatically where needed.
 
 **Important:** Putting new workflows into the central `workflows` repo does **not** release products by itself. It only installs the shared instructions. The actual release wave comes later.
@@ -205,7 +205,7 @@ Release workflows stay central. Rule repos receive thin callers for Docker build
 
 Use this as a quick map.
 
-| Step | What starts it | What you see | Human action needed? |
+| Step | What starts it | What you see | Team action needed? |
 |------|----------------|--------------|----------------------|
 | Prepare package release | Release automation / manual "run release train" from `dev` | PR `release: vX.Y.Z` | Yes - review and approve |
 | Prepare non-code release | Release automation / manual "run dev-to-main" from `dev` | PR to merge `dev` -> `main` | Yes - review and approve |
@@ -270,7 +270,7 @@ For the release wave:
 2. Start **release train** for package repositories.
 3. Start **dev-to-main** for non-code repositories.
 
-**Result:** open pull requests ready for human review.
+**Result:** open pull requests ready for team review.
 
 Dependency tip:
 
@@ -279,9 +279,9 @@ Dependency tip:
 
 ---
 
-### Phase 4 - Humans review and merge
+### Phase 4 - Team members review and merge
 
-Reviewers check:
+Team members check:
 
 - version and dependency changes look correct
 - release notes / PR description make sense
@@ -369,9 +369,9 @@ Because docs do not have package versions to bump. They only need a clean merge 
 
 No. Sync continues for day-to-day CI and Docker caller stubs. Full release callers are installed only where the release list says they are needed.
 
-### Is human approval still required?
+### Is team approval still required?
 
-Yes for release PRs (unless a team later enables auto-merge policies). Automation prepares and publishes; people still approve the content going onto `main`.
+Yes for release PRs (unless a team later enables auto-merge policies). Automation prepares and publishes; team members still approve the content going onto `main`.
 
 ### What if a release PR already exists and we run the step again?
 
@@ -411,6 +411,6 @@ Older historical release notes for GitHub/Jenkins still live in this folder (`Gi
 
 1. Central workflows = shared reusable workflows.  
 2. Caller workflows = thin per-repo entry points.  
-3. Prepare steps open PRs for humans.  
+3. Prepare steps open PRs for team members.  
 4. Merge unlocks publish / Docker / release tagging.  
 5. Setup is separate from the actual release wave - and that separation is intentional.
