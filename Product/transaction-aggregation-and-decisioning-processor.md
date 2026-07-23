@@ -68,6 +68,8 @@ The outgoing alert message contains:
 - The complete and unabridged results from each of the rules and typologies
 
 - An alert status
+  
+- Data cache
 
 Sample output message:
 
@@ -123,6 +125,21 @@ Sample output message:
       ],
       "prcgTm": 6509701
     }
+  },
+  "dataCache": {
+    "dbtrId": "9884a6ef00ed40b8823d7ea8c05180faTAZAMA_EID",
+    "cdtrId": "302aea41b6d543d9b7e7553d24f3331dTAZAMA_EID",
+    "cdtrAcctId": "93e955bf86c8447aacf84daa5aecbd30MSISDNfsp001",
+    "dbtrAcctId": "c64f443acfde45c6a751d25e6b9e257aMSISDNfsp001",
+    "instdAmt": {
+      "amt": 940,
+      "ccy": "USD"
+    },
+    "intrBkSttlmAmt": {
+      "amt": 940,
+      "ccy": "USD"
+    },
+    "creDtTm": "2025-08-25T08:33:09.960Z"
   }
 }
 ```

@@ -1,0 +1,48 @@
+# SPDX-License-Identifier: Apache-2.0
+
+# Enforces the feature-branch → dev → main development workflow.
+#
+# When `main` is the default branch, GitHub pre-selects it as the PR base in the
+# UI and in `gh pr create`. This check fails immediately with a clear, actionable
+# message if a PR targets main from any branch other than `dev` or `release/v<N>.*`,
+# saving developers from a confusing "branch is locked" error or a misleading
+# "prerelease version detected" message from version-check.yml.
+#
+# Allowed sources for PRs to main:
+#   dev          — the normal integration branch
+#   release/v<N>.* — release-train branches created by release-train.yml (must start with a digit)
+#
+# Please do not attempt to edit this flow without the direct consent from the DevOps team.
+# This file is managed centrally.
+
+name: Branch target check
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-source-branch:
+    if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify PR source branch is dev or release/v<N>.*
+        env:
+          SOURCE: ${{ github.head_ref }}
+        run: |
+          if [[ "$SOURCE" == "dev" || "$SOURCE" == release/v[0-9]* ]]; then
+            echo "✅ Source branch '$SOURCE' is a valid base for a PR to main."
+          else
+            echo "❌ PRs to main must come from 'dev' or a 'release/v<N>.*' branch (e.g. release/v1.2)."
+            echo "   This PR is from '$SOURCE'."
+            echo ""
+            echo "   If you are working on a feature or fix, please retarget this PR to 'dev':"
+            echo "     gh pr edit --base dev"
+            echo ""
+            echo "   Only 'dev' → main (via release-train.yml) and 'release/v<N>.*' → main merges are permitted."
+            exit 1
+          fi

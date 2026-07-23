@@ -15,6 +15,7 @@
     - [3. Configure Tazama](#3-configure-tazama)
     - [4. Restart core processors](#4-restart-core-processors)
 - [Test the end-to-end deployment](#test-the-end-to-end-deployment)
+- [Demo UI](#demo-ui)
 
 ## Introduction
 
@@ -123,7 +124,7 @@ The pre-requisites that are essential to be able to follow this guide to the let
 
 - A GitHub personal access token with `packages:write` and `read:org` permissions
 - Ensure that your GitHub Personal Access Token is added as a Windows Environment Variable called "`GH_TOKEN`".
-- Instructions for creating the GH_TOKEN environment variable can be found in the [Tazama Contribution Guide (A. Preparation)](https://github.com/tazama-lf/.github/blob/main/CONTRIBUTING.md#a-preparation-)
+- Instructions for creating the GH_TOKEN environment variable can be found in the [instructions for setting up a GitHub token locally)](https://github.com/tazama-lf/docs/blob/dev/Guides/dev-set-up-environment.md#311-step-1-setting-up-github-token-locally)
 
 - Note that your token needs to be exported everytime you ssh to the server in a new session
 
@@ -163,7 +164,7 @@ Any terminal: `./start.sh`
 The one docker-compose command that is equivalent to running the start.sh script without any prompts is;
 
 ```
-docker compose -p tazama -f docker-compose.yaml -f docker-compose.override.yaml -f docker-compose.db.yaml -f docker-compose.full.yaml -f docker-compose.relay.yaml -f docker-compose.dev.ui.yaml up -d
+docker-compose -p tazama -f docker-compose.yaml -f docker-compose.override.yaml -f docker-compose.db.yaml -f docker-compose.full.yaml -f docker-compose.relay.yaml -f docker-compose.dev.ui.yaml -f docker-compose.dev.nats-utils.yaml up -d
 ```
 
 **Output:**
@@ -213,6 +214,8 @@ Now that these two repositories are cloned, we can perform the following Newman 
 newman run collection-file -e environment-file --timeout-request 10200
 ```
 
+The command will be in most cases `newman run tms-configuration/default/tms-config.postman_collection.json -e postman/environments/Tazama-Docker-Compose-LOCAL.postman_environment.json --timeout-request 10200`
+
  - The `collection-file` is the full path to the location on your local machine where the `tms-configuration/default/tms-config.postman_collection.json` file is located.
  - The `environment-file` is the full path to the location on your local machine where the `postman/environments/Tazama-Docker-Compose-LOCAL.postman_environment.json` file is located.
  - If the path contains spaces, wrap the string in double-quotes.
@@ -251,6 +254,8 @@ You should be able to submit a test transaction to the Transaction Monitoring Se
 ```
 newman run collection-file -e environment-file --timeout-request 10200 --delay-request 500
 ```
+
+The command will be in most cases `newman run tms-configuration/default/tms-config-test.postman_collection.json -e postman/environments/Tazama-Docker-Compose-LOCAL.postman_environment.json --timeout-request 10200 --delay-request 500`
 
  - The `collection-file` is the full path to the location on your local machine where the `tms-configuration/default/tms-config-test.postman_collection.json` file is located.
  - The `environment-file` is the full path to the location on your local machine where the `postman/environments/Tazama-Docker-Compose-LOCAL.postman_environment.json` file is located.

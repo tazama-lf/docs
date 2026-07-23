@@ -33,98 +33,100 @@ Each service in Tazama utilizes specific resources to accomplish its tasks, and 
 
 
 ### Additional Variables
-| TMS    | event-director | rule-executor | typology-processor | TADP |
-| -------- | ------- | ------- | ------- | ------- |
-| PORT  | REST_PORT | | |
-| CACHE_TTL | CACHETTL | CACHE_TTL | CACHE_TTL | |
-| QUOTING | | | | |
-| | | RULE_NAME | | |
-| | | RULE_VERSION | | |
-| | | | SUPPRESS_ALERTS | SUPPRESS_ALERTS |
-| | | | | NODE_TLS_REJECT_UNAUTHORIZED |
+| TMS       | event-director | rule-executor | typology-processor | TADP                         |
+|-----------|----------------|---------------|--------------------|------------------------------|
+| PORT      | REST_PORT      |               |                    |                              |
+| CACHE_TTL | CACHETTL       | CACHE_TTL     | CACHE_TTL          |                              |
+| QUOTING   |                |               |                    |                              |
+|           |                | RULE_NAME     |                    |                              |
+|           |                | RULE_VERSION  |                    |                              |
+|           |                |               | SUPPRESS_ALERTS    | SUPPRESS_ALERTS              |
+|           |                |               |                    | NODE_TLS_REJECT_UNAUTHORIZED |
+
 
 ### General Variables
 
-| TMS    | event-director | rule-executor | typology-processor | TADP |
-| -------- | ------- | ------- | ------- | ------- |
-| FUNCTION_NAME  | FUNCTION_NAME | FUNCTION_NAME | FUNCTION_NAME | FUNCTION_NAME |
-| NODE_ENV | NODE_ENV | NODE_ENV | NODE_ENV | NODE_ENV |
-| MAX_CPU | MAX_CPU | | MAX_CPU | MAX_CPU |
+| TMS           | event-director | rule-executor | typology-processor | TADP          |
+|---------------|----------------|---------------|--------------------|---------------|
+| FUNCTION_NAME | FUNCTION_NAME  | FUNCTION_NAME | FUNCTION_NAME      | FUNCTION_NAME |
+| NODE_ENV      | NODE_ENV       | NODE_ENV      | NODE_ENV           | NODE_ENV      |
+| MAX_CPU       | MAX_CPU        |               | MAX_CPU            | MAX_CPU       |
 
 
 ### Nats Variables
 
-| TMS | event-director | rule-executor | typology-processor | TADP |
-| -------- | ------- | ------- | ------- | ------- |
-| SERVER_URL | SERVER_URL | SERVER_URL | SERVER_URL| SERVER_URL | |
-| PRODUCER_STREAM | PRODUCER_STREAM | PRODUCER_STREAM | PRODUCER_STREAM |
-| STARTUP_TYPE | STARTUP_TYPE | STARTUP_TYPE | STARTUP_TYPE | STARTUP_TYPE |
-| | CONSUMER_STREAM | CONSUMER_STREAM | |
-| | STREAM_SUBJECT | STREAM_SUBJECT | |
-| | ACK_POLICY | ACK_POLICY | |
-| | PRODUCER_STORAGE | PRODUCER_STORAGE | |
-| | PRODUCER_RETENTION_POLICY | PRODUCER_RETENTION_POLICY | |
-| | | | INTERDICTION_PRODUCER | |
+| TMS             | event-director            | rule-executor             | typology-processor    | TADP         |
+|-----------------|---------------------------|---------------------------|-----------------------|--------------|
+| SERVER_URL      | SERVER_URL                | SERVER_URL                | SERVER_URL            | SERVER_URL   |
+| PRODUCER_STREAM | PRODUCER_STREAM           | PRODUCER_STREAM           | PRODUCER_STREAM       |              |
+| STARTUP_TYPE    | STARTUP_TYPE              | STARTUP_TYPE              | STARTUP_TYPE          | STARTUP_TYPE |
+|                 | CONSUMER_STREAM           | CONSUMER_STREAM           |                       |              |
+|                 | STREAM_SUBJECT            | STREAM_SUBJECT            |                       |              |
+|                 | ACK_POLICY                | ACK_POLICY                |                       |              |
+|                 | PRODUCER_STORAGE          | PRODUCER_STORAGE          |                       |              |
+|                 | PRODUCER_RETENTION_POLICY | PRODUCER_RETENTION_POLICY |                       |              |
+|                 |                           |                           | INTERDICTION_PRODUCER |              |
+
 
 ### Cache Variables (Redis or NodeCache)
 
-| TMS | event-director | rule-executer | typology-processor | TADP |
-| -------- | ------- | ------- | ------- | ------- |
-| REDIS_DB | REDIS_DB | | REDIS_DB | REDIS_DB |
-| REDIS_AUTH | REDIS_AUTH | | REDIS_AUTH | REDIS_AUTH |
-| REDIS_SERVERS | REDIS_SERVERS |  | REDIS_SERVERS | REDIS_SERVERS |
-| REDIS_IS_CLUSTER | REDIS_IS_CLUSTER | | REDIS_IS_CLUSTER | REDIS_IS_CLUSTER |
-|  | LOCAL_CACHE_ENABLED | LOCAL_CACHE_ENABLED | LOCAL_CACHE_ENABLED | LOCAL_CACHETTL |
-|  | LOCAL_CACHETTL | LOCAL_CACHETTL | LOCAL_CACHETTL | LOCAL_CACHETTL |
-| DISTRIBUTED_CACHETTL | DISTRIBUTED_CACHETTL | | DISTRIBUTED_CACHETTL | DISTRIBUTED_CACHETTL |
-| DISTRIBUTED_CACHE_ENABLED | DISTRIBUTED_CACHE_ENABLED | | DISTRIBUTED_CACHE_ENABLED | DISTRIBUTED_CACHE_ENABLED |
+| TMS                       | event-director            | rule-executer       | typology-processor        | TADP                      |
+|---------------------------|---------------------------|---------------------|---------------------------|---------------------------|
+| REDIS_DB                  | REDIS_DB                  |                     | REDIS_DB                  | REDIS_DB                  |
+| REDIS_AUTH                | REDIS_AUTH                |                     | REDIS_AUTH                | REDIS_AUTH                |
+| REDIS_SERVERS             | REDIS_SERVERS             |                     | REDIS_SERVERS             | REDIS_SERVERS             |
+| REDIS_IS_CLUSTER          | REDIS_IS_CLUSTER          |                     | REDIS_IS_CLUSTER          | REDIS_IS_CLUSTER          |
+|                           | LOCAL_CACHE_ENABLED       | LOCAL_CACHE_ENABLED | LOCAL_CACHE_ENABLED       | LOCAL_CACHETTL            |
+|                           | LOCAL_CACHETTL            | LOCAL_CACHETTL      | LOCAL_CACHETTL            | LOCAL_CACHETTL            |
+| DISTRIBUTED_CACHETTL      | DISTRIBUTED_CACHETTL      |                     | DISTRIBUTED_CACHETTL      | DISTRIBUTED_CACHETTL      |
+| DISTRIBUTED_CACHE_ENABLED | DISTRIBUTED_CACHE_ENABLED |                     | DISTRIBUTED_CACHE_ENABLED | DISTRIBUTED_CACHE_ENABLED |
 
- 
-### Database Variables (Arango)
 
-| TMS | event-director | rule-executer | typology-processor | TADP | 
-| -------- | ------- | ------- | ------- | ------- |
-| PSEUDONYMS_DATABASE | |  | | |
-| TRANSACTION_HISTORY_DATABASE | | TRANSACTION_HISTORY_DATABASE | | TRANSACTION_HISTORY_DATABASE |
-| TRANSACTION_HISTORY_DATABASE_URL | | TRANSACTION_HISTORY_DATABASE_URL | | TRANSACTION_HISTORY_DATABASE_URL |
-| TRANSACTION_HISTORY_DATABASE_USER | | TRANSACTION_HISTORY_DATABASE_USER | | TRANSACTION_HISTORY_DATABASE_USER |
-| TRANSACTION_HISTORY_DATABASE_PASSWORD | | TRANSACTION_HISTORY_DATABASE_PASSWORD | | TRANSACTION_HISTORY_DATABASE_PASSWORD |
-| TRANSACTION_HISTORY_DATABASE_CERT_PATH | | | | TRANSACTION_HISTORY_DATABASE_CERT_PATH |
-| TRANSACTION_HISTORY_PAIN001_COLLECTION | | | | |
-| TRANSACTION_HISTORY_PAIN013_COLLECTION | | | | |
-| TRANSACTION_HISTORY_PACS008_COLLECTION | | | | |
-| TRANSACTION_HISTORY_PACS002_COLLECTION | | | | |
-| PSEUDONYMS_DATABASE_URL | DATABASE_URL | PSEUDONYMS_DATABASE_URL | | |
-| PSEUDONYMS_DATABASE_USER | DATABASE_USER | PSEUDONYMS_DATABASE_USER | | |
-| PSEUDONYMS_DATABASE_PASSWORD | DATABASE_PASSWORD | PSEUDONYMS_DATABASE_PASSWORD  | | |
-| PSEUDONYMS_DATABASE_CERT_PATH | DATABASE_CERT_PATH | PSEUDONYMS_DATABASE_CERT_PATH | | | 
-| | | TRANSACTION_HISTORY_DATABASE_CERT_PATH | | |
-| | DATABASE_NAME | PSEUDONYMS_DATABASE | | |
-| | | CONFIG_DATABASE_CERT_PATH | DATABASE_CERT_PATH | CONFIG_DATABASE_CERT_PATH |
-| | | CONFIG_DATABASE | DATABASE_NAME | CONFIG_DATABASE |
-| | | CONFIG_DATABASE_USER | DATABASE_USER | CONFIG_DATABASE_USER |
-| | | CONFIG_DATABASE_URL | DATABASE_URL | CONFIG_DATABASE_URL | 
-| | | CONFIG_DATABASE_PASSWORD | DATABASE_PASSWORD | CONFIG_DATABASE_PASSWORD |
-| | | | | TRANSACTION_DATABASE_CERT_PATH |
-| | | | | TRANSACTION_DATABASE_URL |
-| | | | | TRANSACTION_DATABASE_USER |
-| | | | | TRANSACTION_DATABASE_PASSWORD |
-| | | | | TRANSACTION_DATABASE |
+### Database Variables (PostgreSQL)
+
+| TMS                              | event-director                   | rule-executer                    | typology-processor               | TADP                             |
+|----------------------------------|----------------------------------|----------------------------------|----------------------------------|----------------------------------|
+| RAW_HISTORY_DATABASE             |                                  | RAW_HISTORY_DATABASE             |                                  |                                  |
+| RAW_HISTORY_DATABASE_HOST        |                                  | RAW_HISTORY_DATABASE_HOST        |                                  |                                  |
+| RAW_HISTORY_DATABASE_PORT        |                                  | RAW_HISTORY_DATABASE_PORT        |                                  |                                  |
+| RAW_HISTORY_DATABASE_USER        |                                  | RAW_HISTORY_DATABASE_USER        |                                  |                                  |
+| RAW_HISTORY_DATABASE_PASSWORD    |                                  | RAW_HISTORY_DATABASE_PASSWORD    |                                  |                                  |
+| RAW_HISTORY_DATABASE_CERT_PATH   |                                  | RAW_HISTORY_DATABASE_CERT_PATH   |                                  |                                  |
+| EVENT_HISTORY_DATABASE           |                                  | EVENT_HISTORY_DATABASE           |                                  |                                  |
+| EVENT_HISTORY_DATABASE_HOST      |                                  | EVENT_HISTORY_DATABASE_HOST      |                                  |                                  |
+| EVENT_HISTORY_DATABASE_PORT      |                                  | EVENT_HISTORY_DATABASE_PORT      |                                  |                                  |
+| EVENT_HISTORY_DATABASE_USER      |                                  | EVENT_HISTORY_DATABASE_USER      |                                  |                                  |
+| EVENT_HISTORY_DATABASE_PASSWORD  |                                  | EVENT_HISTORY_DATABASE_PASSWORD  |                                  |                                  |
+| EVENT_HISTORY_DATABASE_CERT_PATH |                                  | EVENT_HISTORY_DATABASE_CERT_PATH |                                  |                                  |
+|                                  | CONFIGURATION_DATABASE           | CONFIGURATION_DATABASE           | CONFIGURATION_DATABASE           | CONFIGURATION_DATABASE           |
+|                                  | CONFIGURATION_DATABASE_HOST      | CONFIGURATION_DATABASE_HOST      | CONFIGURATION_DATABASE_HOST      | CONFIGURATION_DATABASE_HOST      |
+|                                  | CONFIGURATION_DATABASE_PORT      | CONFIGURATION_DATABASE_PORT      | CONFIGURATION_DATABASE_PORT      | CONFIGURATION_DATABASE_PORT      |
+|                                  | CONFIGURATION_DATABASE_USER      | CONFIGURATION_DATABASE_USER      | CONFIGURATION_DATABASE_USER      | CONFIGURATION_DATABASE_USER      |
+|                                  | CONFIGURATION_DATABASE_PASSWORD  | CONFIGURATION_DATABASE_PASSWORD  | CONFIGURATION_DATABASE_PASSWORD  | CONFIGURATION_DATABASE_PASSWORD  |
+|                                  | CONFIGURATION_DATABASE_CERT_PATH | CONFIGURATION_DATABASE_CERT_PATH | CONFIGURATION_DATABASE_CERT_PATH | CONFIGURATION_DATABASE_CERT_PATH |
+|                                  |                                  |                                  |                                  | EVALUATION_DATABASE              |
+|                                  |                                  |                                  |                                  | EVALUATION_DATABASE_HOST         |
+|                                  |                                  |                                  |                                  | EVALUATION_DATABASE_PORT         |
+|                                  |                                  |                                  |                                  | EVALUATION_DATABASE_USER         |
+|                                  |                                  |                                  |                                  | EVALUATION_DATABASE_PASSWORD     |
+|                                  |                                  |                                  |                                  | EVALUATION_DATABASE_CERT_PATH    |
+
 
 ### Elastic Variables
 
-| TMS | event-director | rule-executer | typology-processor
-| -------- | ------- | ------- | ------- |
-| APM_ACTIVE | APM_ACTIVE | APM_ACTIVE | APM_ACTIVE | APM_ACTIVE |
-| APM_SERVICE_NAME | |  | APM_SERVICE_NAME | |
-| APM_URL | APM_URL | APM_URL  | APM_URL  | APM_URL | 
-| APM_SECRET_TOKEN | APM_SECRET_TOKEN | APM_SECRET_TOKEN | APM_SECRET_TOKEN | APM_SECRET |
+| TMS              | event-director   | rule-executer    | typology-processor |            |
+|------------------|------------------|------------------|--------------------|------------|
+| APM_ACTIVE       | APM_ACTIVE       | APM_ACTIVE       | APM_ACTIVE         | APM_ACTIVE |
+| APM_SERVICE_NAME |                  |                  | APM_SERVICE_NAME   |            |
+| APM_URL          | APM_URL          | APM_URL          | APM_URL            | APM_URL    |
+| APM_SECRET_TOKEN | APM_SECRET_TOKEN | APM_SECRET_TOKEN | APM_SECRET_TOKEN   | APM_SECRET |
+
 
 ### Logging Variables
 
-| TMS | event-director | rule-executer | typology-processor | TADP |
-| -------- | ------- | ------- | ------- | ------- |
-| LOGSTASH_HOST | LOGSTASH_HOST | LOGSTASH_HOST | LOGSTASH_HOST | LOGSTASH_HOST |
-| LOGSTASH_PORT | LOGSTASH_PORT | LOGSTASH_PORT | LOGSTASH_PORT | LOGSTASH_PORT |
-| LOGSTASH_LEVEL | LOGSTASH_LEVEL | LOGSTASH_LEVEL | LOGSTASH_LEVEL | LOGSTASH_LEVEL |
-| SIDECAR_HOST | SIDECAR_HOST | | SIDECAR_HOST | SIDECAR_HOST |
+| TMS           | event-director | rule-executer | typology-processor | TADP          |
+|---------------|----------------|---------------|--------------------|---------------|
+| LOGSTASH_HOST | LOGSTASH_HOST  | LOGSTASH_HOST | LOGSTASH_HOST      | LOGSTASH_HOST |
+| LOGSTASH_PORT | LOGSTASH_PORT  | LOGSTASH_PORT | LOGSTASH_PORT      | LOGSTASH_PORT |
+| LOG_LEVEL     | LOG_LEVEL      | LOG_LEVEL     | LOG_LEVEL          | LOG_LEVEL     |
+| SIDECAR_HOST  | SIDECAR_HOST   |               | SIDECAR_HOST       | SIDECAR_HOST  |

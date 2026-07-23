@@ -2,6 +2,13 @@
 
 # Committing Your Changes
 
+
+### **NOTE**: All commmits in Tazama should be verified
+
+See [guide for setting up verified commits](https://github.com/tazama-lf/docs/blob/dev/Knowledge-Articles/Setup-Verified-Commits-On-Github.md)
+
+### Commit message standard
+
 When committing changes to your development branch you would be required to submit a commit message to describe the change. Depending on the mechanism that you are using to commit your changes, you may have access to a commit message as well as an extended description of your changes, but it is expected that you should complete at least the commit message.
 
 Tazama aims to comply with the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification for adding human and machine-readable meaning to commit messages (subject to the commit types recommended below).

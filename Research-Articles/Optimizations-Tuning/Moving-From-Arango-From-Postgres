@@ -1,0 +1,153 @@
+# **Tazama Database Requirements Specification**
+
+## **1. Overview**
+
+This document defines the **baseline functional and non-functional requirements** for selecting and evaluating a database solution to power **Tazama**.
+It reflects both architectural and developer-centric priorities to ensure the database aligns with performance, scalability, and operational needs for migration (Arango to Postgres).
+
+---
+
+## **2. Licensing**
+
+* The database must be **permissively licensed** (e.g., MIT, Apache 2.0, BSD) and **open-source**.
+* **No commercial license fees** or restrictive terms that could affect long-term use or redistribution.
+* The licensing model should support deployment in both **cloud** and **on-premises** environments.
+
+---
+
+## **3. Data Model and Format**
+
+* Must support storage of **complex and nested data structures**, not limited to primitive data types.
+* Should allow **schema flexibility** — useful for evolving typologies and rule configurations.
+* The underlying **storage format** (e.g., binary, JSON, document-based, relational) is not critical, provided it supports:
+
+  * Deeply nested document storage
+  * Efficient read/write operations
+  * Strong indexing and querying capabilities
+
+---
+
+## **4. Language Support**
+
+* Must provide **first-class support for Node.js** applications.
+* Preference for **official SDKs** or **actively maintained community libraries**.
+* The library should support connection pooling, query streaming, and secure authentication mechanisms.
+
+---
+
+## **5. Documentation**
+
+* **Developer documentation** should cover not only API usage but also **best practices** and **performance tuning**.
+* **Deployment documentation** should detail:
+
+  * Setup and configuration steps
+  * Security and hardening options
+  * High-availability and scaling recommendations
+
+---
+
+## **6. Deployment and Operations**
+
+* Must be **container-friendly** and deployable in **Kubernetes** or similar orchestration platforms.
+* Should include **official Helm charts**, manifests, or deployment scripts for automated setup.
+* Must support **persistent storage**, **rolling upgrades**, and **configuration as code**.
+
+---
+
+## **7. Community and Ecosystem Activity**
+
+* A large, active **developer and user community** is strongly preferred.
+* Frequent releases and responsive maintainers (open GitHub issues, forums, etc.) are indicators of a healthy ecosystem.
+* Availability of **learning resources**, tutorials, and troubleshooting guides is important for long-term sustainability.
+
+---
+
+## **8. Client and Integration Interfaces**
+
+* Must provide a **client interface** that can handle **high-volume, concurrent requests**.
+* Should support multiple access methods for configuration and administrative operations, such as:
+
+  * **HTTP/REST API** (preferred, similar to the current ArangoDB setup)
+  * **CLI tools** for scripting and automation
+* These clients are used for configuration operations like updating routing data in `NetworkMap`.
+
+---
+
+## **9. Querying Complex Data Models**
+
+* If the database is **NoSQL**, it must support **targeted queries** into **deeply nested elements** of stored documents.
+* Should allow:
+
+  * Selective retrieval of nested keys
+  * Filtering and projections on nested attributes
+  * Complex joins/aggregations or equivalent constructs (as applicable)
+
+---
+
+## **10. Nice-to-Have Features**
+
+### **10.1. Data Indexing**
+
+* Ability to create **indexes on nested or computed fields** to optimize query performance.
+* Support for **compound indexes** and **partial indexes** (e.g., on filtered conditions).
+
+### **10.2. Profiling and Performance Monitoring**
+
+* Must expose **query metrics** such as latency, IOPS, cache hits, and connection usage.
+* Should integrate with **Prometheus**, **Grafana**, or equivalent APM tools.
+
+### **10.3. GUI Clients**
+
+* Availability of **desktop or web-based management tools** for:
+
+  * Query execution
+  * Schema visualization
+  * User management and monitoring
+
+### **10.4. Integrations**
+
+* Ability to integrate with **analytics**, **logging**, and **metrics pipelines** (Prometheus, ELK, OpenTelemetry).
+
+---
+
+## **11. Scalability Considerations**
+
+* The database must support **scaling strategies** appropriate to Tazama’s growth model:
+
+  * **Vertical scaling**: ability to leverage multi-core and large-memory nodes
+  * **Horizontal scaling**: support for **sharding** or **distributed clustering**
+* For horizontally scaled setups:
+
+  * Data redistribution or **auto-sharding** should be automatic or easily managed
+  * Must maintain **data consistency guarantees** (strong or eventual) configurable per use case
+
+---
+
+## **12. Data Integrity and Backup**
+
+* Must provide robust **backup and restore** capabilities, including:
+
+  * **Point-in-time recovery (PITR)**
+  * **Incremental backups**
+  * Integration with **cloud object storage** (S3, Azure Blob, GCS)
+* Backup/restore should be **non-disruptive** to running operations.
+* Clear guidance should exist for **data integrity checks**, **replication**, and **failover** scenarios.
+
+---
+
+## **13. Evaluation Criteria Summary**
+
+| Category        | Requirement                | Priority | Notes                            |
+| --------------- | -------------------------- | -------- | -------------------------------- |
+| Licensing       | Open-source, permissive    | High     | Must be cost-free                |
+| Data Model      | Nested & flexible          | High     | JSON/document support            |
+| Node.js Support | Official/Active SDK        | High     | Critical for TMS stack           |
+| Documentation   | Developer + Deployment     | High     | Ease of onboarding               |
+| Deployment      | Kubernetes compatible      | High     | Prefer Helm or manifests         |
+| Community       | Active, responsive         | Medium   | Longevity indicator              |
+| Interfaces      | HTTP/CLI available         | High     | Required for configuration       |
+| Indexing        | Nested field indexing      | Medium   | Boosts performance               |
+| Monitoring      | Prometheus/Grafana support | Medium   | Aids observability               |
+| Scaling         | Vertical + Horizontal      | High     | Support for sharding/replication |
+| Backup          | PITR, Incremental          | High     | Business continuity              |
+
