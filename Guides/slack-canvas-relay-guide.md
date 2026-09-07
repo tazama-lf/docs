@@ -33,7 +33,7 @@ Slack channel canvases cannot be updated by the official GitHub Slack integratio
 - A **GitHub organization webhook** delivers `projects_v2_item` events (item added, field changed, archived, restored, removed, converted) to a Lambda Function URL.
 - The **Lambda function** verifies the webhook signature, filters events down to one configured project board, resolves the affected issue or pull request title via the GitHub GraphQL API, and appends a timestamped markdown line to the Slack canvas using the `canvases.edit` API.
 
-The relay is stateless: the webhook payload carries the old and new values of every change, so no snapshot, database, or polling schedule is required. Latency from board change to canvas entry is one to two seconds.
+The relay is stateless: field-edit events carry the old and new values in the payload, and all other actions (created, archived, restored, deleted, converted) are self-describing, so no snapshot, database, or polling schedule is required. Latency from board change to canvas entry is one to two seconds.
 
 ## 2. Architecture
 
@@ -61,7 +61,7 @@ Non-identifying stack facts:
 | Item | Value |
 | --- | --- |
 | CloudFormation stack | `slack-canvas-relay` |
-| Lambda function | `slack-canvas-relay` (Node.js 20, arm64) |
+| Lambda function | `slack-canvas-relay` (Node.js 22, arm64) |
 | Packaging S3 bucket | `slack-canvas-relay-sam-<ACCOUNT_ID>` |
 | CloudWatch alarm | `slack-canvas-relay-errors` |
 | Log retention | 30 days (`/aws/lambda/slack-canvas-relay`) |
@@ -70,7 +70,7 @@ The Lambda handler source (`src/index.mjs`) and SAM template (`template.yaml`) a
 
 ## 4. Setup from Scratch
 
-Follow this section only when recreating the relay in a new environment. Prerequisites: AWS CLI v2 with credentials for the target account, GitHub CLI authenticated as a `tazama-lf` organization admin, Node.js, and a paid Slack workspace plan (the canvas APIs are not available on the free tier).
+Follow this section only when recreating the relay in a new environment. Prerequisites: AWS CLI v2 with credentials for the target account, GitHub CLI authenticated as a `tazama-lf` organization owner, and Node.js. Channel canvases are available on all Slack plans; a paid plan is only required if you opt for a standalone canvas instead.
 
 ### 4.1 Create the Slack App
 
@@ -106,7 +106,7 @@ Record the returned canvas ID (`F...`).
 
 ### 4.3 Create the GitHub Personal Access Token
 
-Create a classic PAT with the `read:project` scope only. The Lambda uses it for a single GraphQL lookup per event, to resolve the issue or pull request title and URL (the webhook payload carries only the node ID). Resolve the project node ID while you are at it:
+Create a classic PAT with the `read:project` scope only. The Lambda uses it for a single GraphQL lookup per event, to resolve the issue or pull request title and URL (the webhook payload carries only the node ID). If the board contains items from private repositories, the PAT also needs read access to those repositories (classic `repo` scope, or a fine-grained token with read-only Issues and Pull requests permissions); without it the lookup returns no content and the canvas shows the fallback node identifier described in [section 7](#7-monitoring-and-troubleshooting). Resolve the project node ID while you are at it:
 
 ```powershell
 gh api graphql -f query='query { organization(login: "tazama-lf") { projectV2(number: <N>) { id title } } }'
@@ -149,7 +149,7 @@ aws cloudformation describe-stacks --stack-name slack-canvas-relay --region <REG
 
 ### 4.5 Create the Organization Webhook
 
-Requires organization admin rights and the `admin:org_hook` scope on the GitHub CLI token:
+Requires organization owner access and the `admin:org_hook` scope on the GitHub CLI token:
 
 ```powershell
 gh api orgs/tazama-lf/hooks -X POST -f name=web -F active=true `
@@ -181,7 +181,9 @@ CloudFormation parameters (all consumed as Lambda environment variables):
 | `SlackBotToken` | `SLACK_BOT_TOKEN` | Slack bot token with `canvases:write` |
 | `SlackCanvasId` | `SLACK_CANVAS_ID` | Target canvas file ID (`F...`) |
 | `GitHubToken` | `GITHUB_TOKEN` | PAT with `read:project`, used for title/URL lookup |
-| `ProjectNodeId` | `PROJECT_NODE_ID` | Projects v2 node ID filter; empty relays all projects |
+| `ProjectNodeId` | `PROJECT_NODE_ID` | Projects v2 node ID filter; empty relays all projects in the organization |
+
+> **WARNING:** Always set `ProjectNodeId` for a production deployment. Leaving it empty relays every project board in the organization onto the canvas and should only be done deliberately.
 
 Event handling behaviour:
 
@@ -201,8 +203,8 @@ Event handling behaviour:
 All secrets are stack parameters, so rotation is a redeploy with new values:
 
 1. Issue the replacement credential (Slack bot token via app reinstall, GitHub PAT via token settings, webhook secret via the `node -e` one-liner above).
-2. Rerun the `aws cloudformation deploy` command from [section 4.4](#44-deploy-the-aws-stack) with all five `--parameter-overrides` values (unchanged values must be re-supplied; there is no partial override for `NoEcho` parameters).
-3. When rotating the webhook secret, also update the webhook: `gh api orgs/tazama-lf/hooks/<HOOK_ID>/config -X PATCH -f "secret=$env:GH_WEBHOOK_SECRET"`. Update the stack first, then the webhook, to avoid a window where deliveries fail verification.
+2. Rerun the `aws cloudformation deploy` command from [section 4.4](#44-deploy-the-aws-stack), overriding only the rotated parameter. Parameters omitted from `--parameter-overrides` retain their previous values, including `NoEcho` parameters.
+3. When rotating the webhook secret, also update the webhook: `gh api orgs/tazama-lf/hooks/<HOOK_ID>/config -X PATCH -f "secret=$env:GH_WEBHOOK_SECRET"`. GitHub applies the new secret immediately and supports only one active secret, so a short verification-failure window is unavoidable regardless of update order. Update the stack first, then the webhook immediately after, and redeliver any deliveries that failed in between from the webhook's **Recent Deliveries** page.
 
 Rotate immediately if a token is exposed. The Slack token is invalidated by reinstalling the Slack app; the PAT is revoked from GitHub token settings.
 
@@ -231,7 +233,7 @@ The relay is append-only, so the canvas grows indefinitely. Slack canvases degra
 | Item shows as `Issue \`PVT...\`` instead of a title | GraphQL lookup failed - usually an expired or under-scoped `GITHUB_TOKEN`. The relay degrades gracefully rather than dropping the event. |
 | Alarm `slack-canvas-relay-errors` firing | `aws logs tail /aws/lambda/slack-canvas-relay --region <REGION> --since 1h` for the stack trace. |
 
-Failed deliveries can be replayed from the GitHub webhook **Recent Deliveries** page (**Redeliver**). GitHub retries failed deliveries only briefly on its own, so redelivery is the recovery path after an outage.
+Failed deliveries can be replayed from the GitHub webhook **Recent Deliveries** page (**Redeliver**) or via the REST API. GitHub does not automatically redeliver failed deliveries, so manual or API-triggered redelivery is the only recovery path after an outage.
 
 Costs are negligible at board-event volumes: the Lambda free tier covers millions of invocations per month, and the only standing costs are CloudWatch log storage and the alarm.
 
