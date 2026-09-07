@@ -30,8 +30,8 @@ This guide describes the GitHub-to-Slack relay that mirrors changes on a GitHub 
 
 Slack channel canvases cannot be updated by the official GitHub Slack integration, and GitHub Projects v2 boards do not emit repository-level webhook events. The relay bridges both gaps with a single AWS Lambda function:
 
-- A **GitHub organization webhook** delivers `projects_v2_item` events (item added, field changed, archived, restored, removed, converted) to a Lambda Function URL.
-- The **Lambda function** verifies the webhook signature, filters events down to one configured project board, resolves the affected issue or pull request title via the GitHub GraphQL API, and appends a timestamped markdown line to the Slack canvas using the `canvases.edit` API.
+- A **GitHub organization webhook** delivers `projects_v2_item` events (item added, field changed, archived, restored, removed, converted), plus `issues` and `issue_comment` events for issue lifecycle changes and new comments, to a Lambda Function URL.
+- The **Lambda function** verifies the webhook signature, filters events down to one configured project board, resolves item details via the GitHub GraphQL API where needed, and appends a timestamped markdown line to the Slack canvas using the `canvases.edit` API.
 
 The relay is stateless: field-edit events carry the old and new values in the payload, and all other actions (created, archived, restored, deleted, converted) are self-describing, so no snapshot, database, or polling schedule is required. Latency from board change to canvas entry is one to two seconds.
 
@@ -39,7 +39,7 @@ The relay is stateless: field-edit events carry the old and new values in the pa
 
 ```mermaid
 flowchart LR
-    A[GitHub org webhook<br/>projects_v2_item events] -->|HTTPS POST| B[Lambda Function URL]
+    A[GitHub org webhook<br/>projects_v2_item, issues,<br/>issue_comment events] -->|HTTPS POST| B[Lambda Function URL]
     B --> C[Verify HMAC signature]
     C --> D[Filter to configured project]
     D --> E[Resolve title/URL via GraphQL]
@@ -49,7 +49,7 @@ flowchart LR
 Security model:
 
 - The Lambda Function URL is public (`AuthType: NONE`), but every request must carry a valid `X-Hub-Signature-256` HMAC computed with the shared webhook secret. Requests that fail verification are rejected with `401` before any processing.
-- The organization webhook fires for items on **all** projects in the organization. The Lambda drops events for any project other than the configured one (returned as `202` so GitHub records a successful delivery).
+- The organization webhook fires for items on **all** projects and for issues/comments in **all** repositories in the organization. The Lambda drops events unrelated to the configured project: `projects_v2_item` events carry the project node ID directly, while `issues`/`issue_comment` events trigger a GraphQL board-membership lookup (dropped events are returned as `202` so GitHub records a successful delivery).
 - Secrets (webhook secret, Slack bot token, GitHub PAT) are passed as `NoEcho` CloudFormation parameters into Lambda environment variables. They are encrypted at rest but visible to anyone with Lambda read access in the AWS account.
 
 ## 3. Current Deployment
@@ -154,6 +154,8 @@ Requires organization owner access and the `admin:org_hook` scope on the GitHub 
 ```powershell
 gh api orgs/tazama-lf/hooks -X POST -f name=web -F active=true `
   -f "events[]=projects_v2_item" `
+  -f "events[]=issues" `
+  -f "events[]=issue_comment" `
   -f "config[url]=<FUNCTION_URL>" `
   -f "config[content_type]=json" `
   -f "config[secret]=$env:GH_WEBHOOK_SECRET"
@@ -187,14 +189,22 @@ CloudFormation parameters (all consumed as Lambda environment variables):
 
 Event handling behaviour:
 
-| Webhook action | Canvas entry |
-| --- | --- |
-| `created` | "was added to the board" |
-| `edited` | Field change, for example "moved *Status* **Todo → In Progress**" |
-| `archived` / `restored` | "was archived" / "was restored" |
-| `deleted` | "was removed from the board" |
-| `converted` | "was converted from a draft to an issue" |
-| `reordered` | Ignored (drag-sorting within a column is noise) |
+| Event | Action | Canvas entry |
+| --- | --- | --- |
+| `projects_v2_item` | `created` | "was added to the board" |
+| `projects_v2_item` | `edited` | Field change, for example "moved *Status* **Todo → In Progress**" |
+| `projects_v2_item` | `archived` / `restored` | "was archived" / "was restored" |
+| `projects_v2_item` | `deleted` | "was removed from the board" |
+| `projects_v2_item` | `converted` | "was converted from a draft to an issue" |
+| `projects_v2_item` | `reordered` | Ignored (drag-sorting within a column is noise) |
+| `issues` | `opened` / `closed` / `reopened` | Issue lifecycle change |
+| `issues` | `edited` | "was edited (title, body)" listing the changed fields |
+| `issues` | `assigned` / `unassigned` | Assignment change with the assignee login |
+| `issues` | other actions | Ignored (labels, milestones, pins, transfers) |
+| `issue_comment` | `created` | "received a new comment" with a link and a 120-character snippet |
+| `issue_comment` | `edited` / `deleted` | Ignored |
+
+`issues` and `issue_comment` events are only relayed for issues that are items on the configured board (checked per event via GraphQL). Draft items never produce these events; board events are their only signal. Note that closing an issue that a board automation also moves produces two entries (issue closed + status change) - this is expected.
 
 ## 6. Maintenance
 
