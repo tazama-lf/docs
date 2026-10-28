@@ -1,78 +1,123 @@
 # Tazama Case Management System (CMS) - Deployment Guide
 
+## Prerequisites
+
+- Docker and Docker Compose
+- A running Tazama core (NATS, auth-service, Keycloak) and the auth-service public key (`public.pem`)
+- An OpenSearch instance (not included in the CMS compose files)
+
+---
+
 ## Part 1 – Setting up
 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/tazama-lf/case-management-system.git
+git clone -b dev https://github.com/tazama-lf/case-management-system.git
+cd case-management-system
 ```
 
-2. Move into the backend directory:
+2. Add `GH_TOKEN` to `backend/.npmrc`.
 
-```bash
-cd backend
-```
-
-3. Add `GH_TOKEN` to the backend `.npmrc`.
+3. Copy the auth-service public key to `backend/public.pem`.
 
 ---
 
 ## Part 2 - Running CMS through Docker Compose
 
-1. While in the backend directory, create the `.env` file by renaming `.env.example` to `.env`:
+1. Create the environment files:
 
 ```bash
-mv .env.example .env
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
+cp docker/couchdb/local.ini.example docker/couchdb/local.ini
 ```
 
-For the frontend:
-
-```bash
-mv .env.template .env
-```
-
-Set the following frontend environment variables:
+2. Add these variables to `backend/.env`. They are required but missing from `.env.example`:
 
 ```env
-VITE_API_BASE_URL=http://localhost:3000
-VITE_VOILA_BASE_URL=http://localhost:8866
+PRIORITY_FIRST_HALF=0.33
+PRIORITY_SECOND_HALF=0.66
+PRIORITY_THIRD_HALF=1.0
+DEFAULT_SLA_HOURS=72
+VOILA_URL=http://voila:8866
+VOILA_BASE_URL=http://voila:8866
+CASE_MGMT_BACKEND_URL=http://backend:3090
+CMS_FRONTEND_ORIGIN=http://localhost:5175
 ```
 
-2. Run `docker-compose-infra.yaml` to set up the database, Valkey, and NATS microservices:
+3. Set the following values in `backend/.env`:
+
+```env
+TAZAMA_AUTH_URL=http://<auth-service-host>:3020/v1/auth
+SERVER_URL=nats://<nats-host>:4222
+COUCHDB_USERNAME=<couchdb-admin>
+COUCHDB_PASSWORD=<couchdb-password>
+CORS_ALLOWED_ORIGINS=http://localhost:5175
+SESSION_COOKIE_SECURE=false
+SESSION_COOKIE_SAMESITE=lax
+OPENSEARCH_NODE=http://<opensearch-host>:9200
+GOLD_LAKEHOUSE_API_URL=http://<biar-host>:8282
+GOLD_LAKEHOUSE_TIMEOUT=120000
+TRIAGE_TYPE=MANUAL
+```
+
+4. In `docker/couchdb/local.ini`, set the `[admins]` entry to the same username and password as `COUCHDB_USERNAME` / `COUCHDB_PASSWORD`, and set `uuid` and `[chttpd_auth] secret`.
+
+5. In `docker-compose-cms.yml`, change the frontend port mapping to `5175:5175`. The frontend listens on 5175 inside the container.
+
+6. Start the database, Valkey and NATS:
 
 ```bash
-docker compose -f docker-compose-infra.yaml up -d
+docker compose -f docker-compose-infra.yml up -d
 ```
 
-3. Once the infrastructure is ready and running, run CMS:
+7. Start CMS:
 
 ```bash
-docker compose -f docker-compose-cms.yaml up -d
+docker compose -f docker-compose-cms.yml up -d --build
 ```
+
+CMS UI: `http://localhost:5175`. API docs: `http://localhost:3090/api/docs`.
 
 ---
 
 ## Part 3 - Running with Full Stack Docker Tazama
 
-1. Use the Full Stack Docker Tazama environment variables in the `.env` file of the CMS service:
+1. Start the Full Stack Docker Tazama core stack with the authentication services.
 
-```env
-CONFIGURATION_DATABASE_URL=postgresql://postgres:unused@tazama-postgres-1:5432/enrichment
-REDIS_HOST=tazama-valkey-1
-SERVER_URL=nats://tazama-nats-1:4222
-```
-
-2. Run CMS assuming Full Stack Docker Tazama is already running. CMS will use the `tazama_default` network because the compose file uses `external: true`.
+2. In `Full-Stack-Docker-Tazama/extensions/`, create the secrets file and fill in every `[required]` key:
 
 ```bash
-docker compose -f docker-compose-cms.yaml up -d
+cp secrets.env.template secrets.env
 ```
+
+3. In `extensions/.env`, set `SERVER_A_HOST` (core), `SERVER_B_HOST` (this machine) and `SERVER_C_HOST` (BIAR).
+
+4. Check these values in `extensions/env/case-management-system.env`:
+
+```env
+TRIAGE_TYPE=MANUAL
+GOLD_LAKEHOUSE_API_URL=http://${SERVER_C_HOST}:8282
+CORS_ALLOWED_ORIGINS=http://localhost:5175
+```
+
+5. In the core stack's `env/event-adjudicator.env`, set `SUPPRESS_ALERTS=false`. Otherwise no alerts are sent to CMS.
+
+6. Run the launcher and choose the extensions deployment:
+
+```bash
+./tazama-extensions.sh      # Linux / macOS
+tazama-extensions.bat       # Windows
+```
+
+CMS UI: `http://<server-b>:5175`. API docs: `http://<server-b>:3090/api/docs`.
 
 ---
 
 ## Debug Commands
 
 ```bash
-docker logs -f cms-backend
+docker logs -f tazama-cms-backend               # Part 2
+docker logs -f case-management-system-backend   # Part 3
 ```
