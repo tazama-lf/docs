@@ -77,9 +77,9 @@ VITE_SIMULATION_ENDPOINT=tms-url
 
 docker compose up -d
 
-## Part 3 - Running with Full Stack Docker Tazama:
+## Part 3 - Running with Tazama Stack:
 
-1. Use Full Stack Docker Tazama environment variables in the .env file of the rule-studio service.
+1. Use Tazama Stack environment variables in the .env file of the rule-studio service.
 
 ```env
 ADMIN_SERVICE_URL=http://tazama-admin-service-1:3100
