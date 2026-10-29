@@ -76,6 +76,8 @@ TRIAGE_TYPE=MANUAL
 SMTP_NOTIFICATIONS=false
 ```
 
+If you use an existing OpenSearch instance, replace `OPENSEARCH_NODE` with its URL. Keep `http://opensearch:9200` when you use the OpenSearch container from step 7 or the Full Stack Docker Tazama service.
+
 `SMTP_NOTIFICATIONS` is required. Set it to `true` only with a working SMTP account (`SMTP_HOST`, `SMTP_USER`, `SMTP_PASS` and `MAIL_FROM` all set).
 
 4. In `docker/couchdb/local.ini`, set the `[admins]` entry to the same username and password as `COUCHDB_USERNAME` / `COUCHDB_PASSWORD`, and set `uuid` and `[chttpd_auth] secret`.
@@ -117,11 +119,13 @@ docker compose -f docker-compose-infra.yml up -d
 
 ```bash
 sudo sysctl -w vm.max_map_count=262144      # Linux only
-docker run -d --name opensearch --network tazama_default -p 9200:9200 \
+docker run -d --name opensearch --network tazama_default -p 127.0.0.1:9200:9200 \
   -e discovery.type=single-node -e DISABLE_SECURITY_PLUGIN=true \
   -v opensearch_data:/usr/share/opensearch/data \
   opensearchproject/opensearch:2.13.0
 ```
+
+This instance has the security plugin disabled, so the port is bound to `127.0.0.1` only. CMS reaches it over the Docker network. Do not publish port 9200 on other interfaces.
 
 The `sysctl` setting is lost on reboot. To keep it, add `vm.max_map_count=262144` to `/etc/sysctl.conf`. The named volume keeps the audit data when the container is recreated.
 
