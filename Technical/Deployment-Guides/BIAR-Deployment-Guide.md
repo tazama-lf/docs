@@ -23,12 +23,23 @@ cd biar
 cp .env.example .env
 ```
 
-3. Create the warehouse folder and copy the public key:
+3. Create the warehouse folder and copy the public key.
+
+Linux / macOS:
 
 ```bash
 sudo mkdir -p /opt/Tazama_Warehouse /opt/biar/secrets
 sudo cp public.pem /opt/biar/secrets/tazama-public-key.pem
 ```
+
+Windows PowerShell:
+
+```powershell
+New-Item -ItemType Directory -Force C:\Tazama_Warehouse, C:\biar\secrets
+Copy-Item public.pem C:\biar\secrets\tazama-public-key.pem
+```
+
+The warehouse folder can start empty. The Automation Orchestrator creates the `bronze`, `silver`, `gold` and `views` folders in it.
 
 ---
 
@@ -50,7 +61,9 @@ JUPYTERHUB_AUTH=native
 JUPYTERHUB_ADMIN=admin
 ```
 
-To log in to JupyterHub with Keycloak instead, set `JUPYTERHUB_AUTH=keycloak` together with `KEYCLOAK_ISSUER_URL`, `JUPYTERHUB_PUBLIC_URL`, `KEYCLOAK_CLIENT_SECRET` and `JUPYTERHUB_CRYPT_KEY`.
+On Windows, use `TAZAMA_WAREHOUSE_HOST_PATH=C:\Tazama_Warehouse` and `TAZAMA_AUTH_PUBLIC_KEY_HOST_PATH=C:\biar\secrets\tazama-public-key.pem`.
+
+To log in to JupyterHub with Keycloak instead, set `JUPYTERHUB_AUTH=keycloak` together with `KEYCLOAK_ISSUER_URL`, `JUPYTERHUB_PUBLIC_URL`, `KEYCLOAK_CLIENT_SECRET` and `JUPYTERHUB_CRYPT_KEY`. `JUPYTERHUB_CRYPT_KEY` can be generated with `openssl rand -hex 32`.
 
 2. Start BIAR:
 
@@ -98,10 +111,12 @@ tazama-biar.bat       # Windows
 
 | Interface | URL |
 | --- | --- |
-| NiFi | `http://localhost:8088/nifi` |
+| NiFi | `http://localhost:8088/nifi` (browser on Server C) or `https://<server-c>:8443/nifi` (`NIFI_AUTH=keycloak`) |
 | Automation Orchestrator | `http://<server-c>:7619/docs` |
 | Datalakehouse API | `http://<server-c>:8282/docs` |
 | JupyterHub | `http://<server-c>:8000` |
+
+With the default `NIFI_AUTH=none`, NiFi's HTTP port is bound to `127.0.0.1` (`NIFI_BIND_ADDRESS`), so it opens only from a browser on Server C. To open NiFi from another machine, use `NIFI_AUTH=keycloak`. On a single-host run, `localhost` can replace `<server-c>` in every URL.
 
 ---
 
