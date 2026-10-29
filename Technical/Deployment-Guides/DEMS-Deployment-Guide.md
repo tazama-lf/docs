@@ -33,9 +33,9 @@ SERVER_URL=nats://localhost:4222
 
 - docker run -d -p 3002:3002 --name tazama-dems –-env-file .env tazama-dems:latest
 
-## Part 3 - Running with Full Stack Docker Tazama:
+## Part 3 - Running with Tazama Stack:
 
-1. Use Full Stack Docker Tazama environment variables in the .env file of the dynamic event monitoring service.
+1. Use Tazama Stack environment variables in the .env file of the dynamic event monitoring service.
 
 ```env
 CONFIGURATION_DATABASE_URL=postgresql://postgres:unused@tazama-postgres-1:5432/enrichment

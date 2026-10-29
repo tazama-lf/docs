@@ -76,7 +76,7 @@ TRIAGE_TYPE=MANUAL
 SMTP_NOTIFICATIONS=false
 ```
 
-If you use an existing OpenSearch instance, replace `OPENSEARCH_NODE` with its URL. Keep `http://opensearch:9200` when you use the OpenSearch container from step 7 or the Full Stack Docker Tazama service.
+If you use an existing OpenSearch instance, replace `OPENSEARCH_NODE` with its URL. Keep `http://opensearch:9200` when you use the OpenSearch container from step 7 or the Tazama Stack service.
 
 `SMTP_NOTIFICATIONS` is required. Set it to `true` only with a working SMTP account (`SMTP_HOST`, `SMTP_USER`, `SMTP_PASS` and `MAIL_FROM` all set).
 
@@ -129,7 +129,7 @@ This instance has the security plugin disabled, so the port is bound to `127.0.0
 
 The `sysctl` setting is lost on reboot. To keep it, add `vm.max_map_count=262144` to `/etc/sysctl.conf`. The named volume keeps the audit data when the container is recreated.
 
-Alternatively, use the `opensearch` service from Full Stack Docker Tazama (`extensions/docker-compose.extensions.infrastructure.yaml`).
+Alternatively, use the `opensearch` service from Tazama Stack (`extensions/docker-compose.extensions.infrastructure.yaml`).
 
 8. Start CMS, with `GH_TOKEN` exported in the same shell:
 
@@ -141,11 +141,11 @@ CMS UI: `http://localhost:5175`. API docs: `http://localhost:3090/api/docs`.
 
 ---
 
-## Part 3 - Running with Full Stack Docker Tazama
+## Part 3 - Running with Tazama Stack
 
-1. Start the Full Stack Docker Tazama core stack with the authentication services.
+1. Start the Tazama Stack core with the authentication services.
 
-2. In `Full-Stack-Docker-Tazama/extensions/`, create the secrets file and fill in every `[required]` key:
+2. In `tazama-stack/extensions/`, create the secrets file and fill in every `[required]` key:
 
 ```bash
 cp secrets.env.template secrets.env

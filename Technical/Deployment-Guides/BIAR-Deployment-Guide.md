@@ -84,11 +84,11 @@ The first start takes 2–3 minutes.
 
 ---
 
-## Part 3 - Running with Full Stack Docker Tazama
+## Part 3 - Running with Tazama Stack
 
-1. Start the Full Stack Docker Tazama core and extensions stacks.
+1. Start the Tazama Stack core and extensions stacks.
 
-2. In `Full-Stack-Docker-Tazama/biar/`, create the secrets file and fill in every `[required]` key:
+2. In `tazama-stack/biar/`, create the secrets file and fill in every `[required]` key:
 
 ```bash
 cp secrets.env.template secrets.env
