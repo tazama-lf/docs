@@ -113,13 +113,17 @@ secrets:
 docker compose -f docker-compose-infra.yml up -d
 ```
 
-7. If you do not have an OpenSearch instance, start one on the same network:
+7. If you do not have an OpenSearch instance, start one on the same network. On Linux, first raise `vm.max_map_count` to at least `262144`, otherwise OpenSearch exits during startup:
 
 ```bash
+sudo sysctl -w vm.max_map_count=262144      # Linux only
 docker run -d --name opensearch --network tazama_default -p 9200:9200 \
   -e discovery.type=single-node -e DISABLE_SECURITY_PLUGIN=true \
+  -v opensearch_data:/usr/share/opensearch/data \
   opensearchproject/opensearch:2.13.0
 ```
+
+The `sysctl` setting is lost on reboot. To keep it, add `vm.max_map_count=262144` to `/etc/sysctl.conf`. The named volume keeps the audit data when the container is recreated.
 
 Alternatively, use the `opensearch` service from Full Stack Docker Tazama (`extensions/docker-compose.extensions.infrastructure.yaml`).
 
@@ -150,9 +154,12 @@ cp secrets.env.template secrets.env
 ```env
 TRIAGE_TYPE=MANUAL
 GOLD_LAKEHOUSE_API_URL=http://${SERVER_C_HOST}:8282
-CORS_ALLOWED_ORIGINS=http://localhost:5175
+CORS_ALLOWED_ORIGINS=http://${SERVER_B_HOST}:5175
+CMS_FRONTEND_ORIGIN=http://${SERVER_B_HOST}:5175
 SMTP_NOTIFICATIONS=false
 ```
+
+`CORS_ALLOWED_ORIGINS` and `CMS_FRONTEND_ORIGIN` must both be the origin users type in the browser. The defaults (`http://localhost:5175`) work only when the browser runs on Server B. If users reach CMS through a different address or domain, use that origin instead.
 
 5. In the core stack's `env/event-adjudicator.env`, set `SUPPRESS_ALERTS=false`. Otherwise no alerts are sent to CMS.
 
