@@ -221,7 +221,7 @@ pause
 
 cd %1
 
-cd Full-Stack-Docker-Tazama
+cd tazama-stack
 
 docker compose up -d rule-001
 docker compose up -d rule-002

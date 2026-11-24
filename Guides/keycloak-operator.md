@@ -82,7 +82,7 @@ Ensure whichever application consumes this auth provider alongside auth-lib set 
 
 **Complete .env configuration example for Tazama auth-service**
 
-If you have installed a local deployment of Tazama using the `full-stack-docker-tazama` repo (https://github.com/tazama-lf/Full-Stack-Docker-Tazama), then the auth-services `env` file can be found in the env sub-folder in the FULL-STACK-DOCKER-TAZAMA folder.
+If you have installed a local deployment of Tazama using the `tazama-stack` repo (https://github.com/tazama-lf/tazama-stack), then the auth-services `env` file can be found in the env sub-folder in the `tazama-stack` folder.
 
 ![auth-service-env-file-location](../images/keycloak/auth-service-env.png)
 
@@ -129,7 +129,7 @@ An admin account would have been created with KeyCloak deployment and the manage
 
 ### 3.1.1 KeyCloak Admin User and Password
 
-If you have installed a local deployment of Tazama using the `full-stack-docker-tazama` repo (https://github.com/tazama-lf/Full-Stack-Docker-Tazama), then the default Keycloak admin user and password can be found in the keycloak.env file:
+If you have installed a local deployment of Tazama using the `tazama-stack` repo (https://github.com/tazama-lf/tazama-stack), then the default Keycloak admin user and password can be found in the keycloak.env file:
 
 ![keycloak-env-file-location](../images/keycloak/keycloak-env.png)
 

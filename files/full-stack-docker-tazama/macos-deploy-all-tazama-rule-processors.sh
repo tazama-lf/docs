@@ -213,7 +213,7 @@ echo "Press any key to continue..."
 read -n 1
 
 echo "Deploying rule processors into Docker..."
-cd ../Full-Stack-Docker-Tazama
+cd ../tazama-stack
 docker compose up -d rule-001
 docker compose up -d rule-002
 docker compose up -d rule-003

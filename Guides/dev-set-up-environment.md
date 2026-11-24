@@ -63,7 +63,7 @@ Before you begin working on an existing or new Tazama microservice or processor,
 
  - **Docker**:
     - Docker is useful if you do not have access to a persistent development environment that hosts the core system microservices that you need to test your integrations. With Docker, you can deploy containerized microservices on your local machine. Follow the instructions on the official Docker website to [install Docker Desktop on Windows](https://docs.docker.com/desktop/install/windows-install/). Remember that Docker Desktop on Windows also requires Linux on Windows that you can [install with WSL](https://docs.docker.com/desktop/install/windows-install/).
-    - Follow the instructions in the [tazama-lf/full-stack-docker-tazama](https://github.com/tazama-lf/full-stack-docker-tazama) repository to install the Tazama services on your local machine.
+    - Follow the instructions in the [tazama-lf/tazama-stack](https://github.com/tazama-lf/tazama-stack) repository to install the Tazama services on your local machine.
     - In our deployment, we are running Tazama on a separate server.
 
 <div style="text-align: right"><a href="#top">Top</a></div>
@@ -72,7 +72,7 @@ Before you begin working on an existing or new Tazama microservice or processor,
 
 Tazama is deployed as a number of discrete containers that account for all the outward-facing and interior components that make up the entire system. If you want to work on any individual component, or perhaps a cluster of components that are interdependent, you are likely also going to need to host the rest of Tazama's components somewhere accessible.
 
-To make this a little easier, we provide a Docker Compose deployment of the platform for exploration and development purposes. You can find the instructions and components here: [Tazama Full-Stack Docker deployment](https://github.com/tazama-lf/Full-Stack-Docker-Tazama).
+To make this a little easier, we provide a Docker Compose deployment of the platform for exploration and development purposes. You can find the instructions and components here: [Tazama Full-Stack Docker deployment](https://github.com/tazama-lf/tazama-stack).
 
 While the deployment from this repository is a lighter weight than a full production deployment, it does still consume quite a bit of system resources and if you are running Tazama will all the containers simultaneously, you might want to consider running this on a separate machine than your primary development machine. This guide will assume that the developer is working on their own (local) computer and that Tazama is running on a separate computer (a server).
 
@@ -113,7 +113,7 @@ If you want to view the source code for the rule processors, you would need to r
 
 #### 4.1.2 Set up core services
 
-The core Tazama services are best deployed via the [Tazama Docker Full-Stack Deployment](https://github.com/tazama-lf/full-stack-docker-tazama).
+The core Tazama services are best deployed via the [Tazama Docker Full-Stack Deployment](https://github.com/tazama-lf/tazama-stack).
 
 The deployment script (tazama.bat for Windows or tazama.sh for macOS/Linux) will guide you through the steps to either deploy the components from GitHub repositories or precompiled DockerHub images.
 
@@ -320,7 +320,7 @@ For this reason, we now need to update the dependency in our rule-executer's `pa
 
     Obviously, there will have to be some changes. The server's instance of the rule processor runs _over there_ and you want your instance of the rule processor to run _over here_.
 
-    Let's shortcut a few steps. We don't want to divert from our task here to walk through the process to clone the server's .env file in excruciating detail, so let's just copy the contents of the deployed [`rule-901.env`](https://github.com/tazama-lf/Full-Stack-Docker-Tazama/blob/dev/env/rule-901.env), and paste it into your new `.env` file in VS Code.
+    Let's shortcut a few steps. We don't want to divert from our task here to walk through the process to clone the server's .env file in excruciating detail, so let's just copy the contents of the deployed [`rule-901.env`](https://github.com/tazama-lf/tazama-stack/blob/dev/env/rule-901.env), and paste it into your new `.env` file in VS Code.
 
     In Docker, the services are able to communicate with each other through their container names. For example, the postgres database container can be addressed by other services simply with `postgres`. But because we are trying to connect to the `postgres` container on a completely different computer, and not from within the same Docker network, we need to explicitly talk to the container through the IP address and outward-facing port. The first thing you're going to have to do is find out what the IP address is of your server. We're going to leave that up to you. And if you installed the Tazama full-stack with the default ports, the ports for the services we need here are:
 
