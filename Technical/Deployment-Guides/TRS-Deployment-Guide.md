@@ -82,9 +82,9 @@ VITE_CRYPTO_KEY must match the backend's CRYPTO_SECRET_KEY / ENCRYPTION_KEY valu
 
 docker compose up -d
 
-## Part 3 - Running with Full Stack Docker Tazama:
+## Part 3 - Running with Tazama Stack:
 
-1. Use Full Stack Docker Tazama environment variables in the .env file of the trs service.
+1. Use Tazama Stack environment variables in the .env file of the trs service.
 
 ```env
 ADMIN_SERVICE_URL=http://tazama-admin-service-1:3100

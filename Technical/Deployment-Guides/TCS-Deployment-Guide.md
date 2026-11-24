@@ -36,9 +36,9 @@ docker compose -f docker-compose-infra.yaml up -d
 
 docker compose -f docker-compose-tcs.yaml up -d
 
-## Part 3 - Running with Full Stack Docker Tazama:
+## Part 3 - Running with Tazama Stack:
 
-1. Use Full Stack Docker Tazama environment variables in the .env file of the tcs service.
+1. Use Tazama Stack environment variables in the .env file of the tcs service.
 
 ```env
 CONFIGURATION_DATABASE_URL=postgresql://postgres:unused@tazama-postgres-1:5432/enrichment
@@ -52,7 +52,7 @@ REDIS_HOST=tazama-valkey-1
 SERVER_URL=nats://tazama-nats-1:4222
 ```
 
-2. Run docker compose command to run TCS assuming Full Stack Docker Tazama already running. TCS will be using the tazama_default network as the compose file consists of external: true
+2. Run docker compose command to run TCS assuming Tazama Stack already running. TCS will be using the tazama_default network as the compose file consists of external: true
 
 docker compose -f docker-compose-tcs.yaml up -d
 
