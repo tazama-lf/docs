@@ -11,7 +11,7 @@ This guide is specific to the Windows 10 operating system.
 
 Set up your development environment as recommended in the [Tazama Contribution Guide](../Community/Tazama-Contribution-Guide.md#32-setting-up-the-development-environment).
 
-Set up the full-service, full-stack deployment of Tazama via Docker Compose as recommended in the [Full Service Full Stack Docker Tazama](./full-service-full-stack-docker-tazama.mdfull-service) guide.
+Set up the full-service, full-stack deployment of Tazama via Docker Compose as recommended in the [Full Service Tazama Stack](./full-service-full-stack-docker-tazama.mdfull-service) guide.
 
 If you followed these guides to their conclusion, you should have a fully functional implementation of Tazama running in Docker on your local machine.
 
@@ -148,9 +148,9 @@ You should now have a new `.tgz` file in your rule processor root folder. The na
 
 Similar to how we created a rule executer wrapper for our rule processors during the deployment of a full-service, full-stack Docker Tazama, we want to make a copy of our rule-executer folder that we had previously prepared.
 
-(See the [Full Service Full Stack Docker Tazama](./full-service-full-stack-docker-tazama.mdfull-service#clone-the-rule-executer-repository) guide for a reminder of the steps to clone and prepare the rule executer.)
+(See the [Full Service Tazama Stack](./full-service-full-stack-docker-tazama.mdfull-service#clone-the-rule-executer-repository) guide for a reminder of the steps to clone and prepare the rule executer.)
 
-With the default rule executer set up, you can now make a copy of the rule executer to host your specific rule processor, as we did before in the [Full Service Full Stack Docker Tazama](./full-service-full-stack-docker-tazama.md#1-copy-the-rule-executer-folder) guide with the following command from your GitHub source folder:
+With the default rule executer set up, you can now make a copy of the rule executer to host your specific rule processor, as we did before in the [Full Service Tazama Stack](./full-service-full-stack-docker-tazama.md#1-copy-the-rule-executer-folder) guide with the following command from your GitHub source folder:
 
 ```
 xcopy rule-executer rule-executer-xxx /E /I /H
@@ -228,7 +228,7 @@ Output:
 
 #### 6. Deploy the processor
 
-And, finally, we can deploy the processor into Docker! Navigate back to the `Full-Stack-Docker-Tazama` folder, and run the command:
+And, finally, we can deploy the processor into Docker! Navigate back to the `tazama-stack` folder, and run the command:
 
 ```
 docker compose up -d rule-xxx

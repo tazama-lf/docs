@@ -8,7 +8,7 @@
 - [Introduction](#introduction)
 - [Pre-requisites:](#pre-requisites)
 - [Installation steps](#installation-steps)
-    - [1. Clone the Full-Stack-Docker-Tazama Repository to Your Local Machine](#1-clone-the-full-stack-docker-tazama-repository-to-your-local-machine)
+    - [1. Clone the `tazama-stack` repository to Your Local Machine](#1-clone-the-tazama-stack-repository-to-your-local-machine)
     - [2. Deploy the Core Services via script](#2-deploy-the-core-services-via-script)
     - [3. Configure Tazama](#3-configure-tazama)
     - [4. Restart core processors](#4-restart-core-processors)
@@ -20,7 +20,7 @@ This guide will take you through the steps to deploy Tazama in a Docker containe
 
 Tazama is composed of a number of third party and custom-built open source components. While all our Tazama components are open source software, the rules and specific Tazama typology configurations that we have built to detect fraud and money laundering behaviour are hidden from public (and nefarious) view in private repositories on GitHub.
 
-The guide in the [Full-Stack-Docker-Tazama repository](https://github.com/tazama-lf/Full-Stack-Docker-Tazama) will show you how to install the system using only the publicly available open source software components. This guide will show you how to install the private rule and typology configurations, if you have access to them.
+The guide in the [`tazama-stack` repository](https://github.com/tazama-lf/tazama-stack) will show you how to install the system using only the publicly available open source software components. This guide will show you how to install the private rule and typology configurations, if you have access to them.
 
 ## Pre-requisites:
 
@@ -46,25 +46,25 @@ The pre-requisites that are essential to be able to follow this guide to the let
 
 ## Installation steps
 
-#### 1. Clone the Full-Stack-Docker-Tazama Repository to Your Local Machine
+#### 1. Clone the `tazama-stack` repository to Your Local Machine
 
 In a Windows Command Prompt, navigate to the folder where you want to store a copy of the source code. For example, the source code root folder path I have been using to compile this guide is C:\Tazama\GitHub. Once in your source code root folder, clone (copy) the repository with the following command:
 
 ```
-git clone https://github.com/tazama-lf/Full-Stack-Docker-Tazama -b main
+git clone https://github.com/tazama-lf/tazama-stack -b main
 ```
 
 If you would like to deploy the system from the `dev` branch, replace `main` above with `dev`. The `main` branch is the most recent official release of the system, while `dev` will include new features not yet released to the main branch.
 
 **Output:**
 
-![clone-the-repo](../images/full-stack-docker-tazama-clone-repo.png)
+![clone-the-repo](../images/tazama-stack-clone-repo.png)
 
 #### 2. Deploy the Core Services via script
 
 First, start the Docker Desktop for Windows application.
 
-With Docker Desktop running: from your Windows Command Prompt and from inside the `Full-Stack-Docker-Tazama` folder, execute the following command and follow the prompts:
+With Docker Desktop running: from your Windows Command Prompt and from inside the `tazama-stack` folder, execute the following command and follow the prompts:
 
 **Windows**  
 Command Prompt: `start.bat` 
@@ -78,15 +78,15 @@ Any terminal: `./start.sh`
 
 **Output:**
 
-![start-services-1](/images/full-stack-docker-tazama-start-bat-1.png)
+![start-services-1](/images/tazama-stack-start-bat-1.png)
 
 Select `2` from the start.bat docker deployment menu option
 
-![start-services-4](/images/full-stack-docker-tazama-start-bat-4.png)
+![start-services-4](/images/tazama-stack-start-bat-4.png)
 
 For option 2 (Full service DockerHub deployment) the output will be as follows:
 
-![full-service-deployed](/images/full-stack-docker-tazama-full-service-option.png)
+![full-service-deployed](/images/tazama-stack-full-service-option.png)
 
 
 <div style="text-align: right"><a href="#top">Top</a></div>
@@ -114,7 +114,7 @@ git clone https://github.com/tazama-lf/postman -b main
 
 **Output:**
 
-![clone-config](../images/full-stack-docker-tazama-clone-config.png)
+![clone-config](../images/tazama-stack-clone-config.png)
 
 Now that these two repositories are cloned, we can perform the following Newman command to load the configuration into the ArangoDB databases and collections:
 
@@ -128,7 +128,7 @@ newman run collection-file -e environment-file --timeout-request 10200
 
 **Output:**
 
-![execute-config](../images/full-stack-docker-tazama-execute-config.png)
+![execute-config](../images/tazama-stack-execute-config.png)
 
 <div style="text-align: right"><a href="#top">Top</a></div>
 
@@ -136,9 +136,9 @@ newman run collection-file -e environment-file --timeout-request 10200
 
 Now that the system is configured with the private rules and configuration, we need to restart our core processors in order to load the updated configuration. The main reason the configuration needs to preceed the deployment of the processors is that the processors read the network map at startup to set up the NATS pub/sub routes for the evaluation flow.  
 
-Navigate back to the `full-stack-docker-tazama` folder:
+Navigate back to the `tazama-stack` folder:
 ```
-cd Full-Stack-Docker-Tazama
+cd tazama-stack
 ```
 
 Execute the following command to restart the core processors:
@@ -168,6 +168,6 @@ newman run collection-file -e environment-file --timeout-request 10200 --delay-r
 
 **Output:**
 
-![to be fixed great-success](../images/full-stack-docker-tazama-great-success.png)
+![to be fixed great-success](../images/tazama-stack-great-success.png)
 
 <div style="text-align: right"><a href="#top">Top</a></div>

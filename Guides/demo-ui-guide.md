@@ -46,11 +46,11 @@ The Tazama Demo UI is desgined to be browser-based and presented in a single-pag
 
 ## 2. Demo deployment instructions
 
-The demo UI can be deployed as an optional addon for a public deployment in which case it will include Rule-901 and Typology-999. The demo UI is deployed by default with the full service deployment option. Follow the guide in the [Full-Stack-Docker-Tazama repository](https://github.com/tazama-lf/Full-Stack-Docker-Tazama) 
+The demo UI can be deployed as an optional addon for a public deployment in which case it will include Rule-901 and Typology-999. The demo UI is deployed by default with the full service deployment option. Follow the guide in the [`tazama-stack` repository](https://github.com/tazama-lf/tazama-stack) 
 
 ## 3. Access the Demo UI 
 
-Once the Demo UI has been deployed as part of the Full Stack Docker deployment, the Demo UI can be accessed via browser via localhost
+Once the Demo UI has been deployed as part of the Tazama Stack deployment, the Demo UI can be accessed via browser via localhost
 
 ```
 localhost:3001
@@ -437,9 +437,9 @@ See below for `clear all` result
 
 There are known issues with date picker fields in Safari and Firefox browsers which may cause an error when selecting an expiry date for a condition. Check that the date and time is captured (manually type if necessary) before selecting the [expire button](#expire-date)
 
-#### Setup dependencies (pre-full stack docker) <!-- omit in toc -->
+#### Setup dependencies (pre-Tazama Stack) <!-- omit in toc -->
 
-The `ui.env` and `docker-compose.dev.ui.yaml` must be created or updated in the full stack docker folder before the start.bat file is run from full-stack-docker. The demo will not deploy successfully without them. The full instructions are in the guide [Full-Stack-Docker-Tazama repository readme.md](https://github.com/tazama-lf/Full-Stack-Docker-Tazama) 
+The `ui.env` and `docker-compose.dev.ui.yaml` must be created or updated in the Tazama Stack folder before the start.bat file is run from full-stack-docker. The demo will not deploy successfully without them. The full instructions are in the guide [`tazama-stack` repository readme.md](https://github.com/tazama-lf/tazama-stack) 
 
 
 ##### FILE 1: ui.env  <!-- omit in toc -->

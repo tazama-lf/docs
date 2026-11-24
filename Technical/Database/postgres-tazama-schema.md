@@ -1,5 +1,5 @@
 ## Tazama Postgres database schema
-[Download file](https://raw.githubusercontent.com/tazama-lf/Full-Stack-Docker-Tazama/refs/heads/tazama/postgres-with-multitenancy/postgres/migration/base/00-CREATE.sql) 
+[Download file](https://raw.githubusercontent.com/tazama-lf/tazama-stack/refs/heads/tazama/postgres-with-multitenancy/postgres/migration/base/00-CREATE.sql) 
 ```
 create database configuration;
 
